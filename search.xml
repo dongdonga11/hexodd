@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+    
+    <entry>
+      <title><![CDATA[test]]></title>
+      <url>/project/2023/05/31/test/</url>
+      <content type="html"></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[搭建一个Hexo博客并用vercel部署]]></title>
+      <url>/project/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/</url>
+      <content type="html"><![CDATA[<p>Hexo 是一款基于Node.js的静态博客生成器，具有简单易用、快速高效、丰富主题、插件支持等特点，适合用于个人博客、技术文档、个人网站等场景。而且基于 markdown 编写起来非常顺畅，个人非常喜欢这个博客。这次下定决心搭建一个 Hexo 博客来实现我日常分享的一个小博客网站。</p>
+<h5 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h5><ol>
+<li>一台 windows 笔记本电脑，当然 mac 电脑也是没问题的，即使 Linux 电脑也是可以的。</li>
+<li>Git工具: Git (git-scm.com)</li>
+<li>Node+ Npm工具：Node.js (nodejs.org)</li>
+<li>准备好 Hexo 博客程序： <a href="https://hexo.io/">https://hexo.io/</a></li>
+<li>创建一个 Git 仓库</li>
+<li>注册一个 vercel 账号(如果有自己的服务器或者不适用 vercel 可以不用管这一步)：<a href="https://vercel.com/">https://vercel.com/</a></li>
+<li>准备一个域名(如果不需要独立域名可以略过这一步)</li>
+<li>hexo 本地图片部署</li>
+</ol>
+<h5 id="正式开始"><a href="#正式开始" class="headerlink" title="正式开始"></a>正式开始</h5><h6 id="安装-Hexo-工具"><a href="#安装-Hexo-工具" class="headerlink" title="安装 Hexo 工具"></a>安装 Hexo 工具</h6><p>上面的 GIT和 Node在百度或者谷歌上已经有很多相关专业的教程，这里就不详细讲解这块的知识了。一般来说到官网上下载完毕直接下一步下一步即可。我们先来全局安装一个 Hexo 工具</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+
+
+<h6 id="创建-hexo-本地博客程序"><a href="#创建-hexo-本地博客程序" class="headerlink" title="创建 hexo 本地博客程序"></a>创建 hexo 本地博客程序</h6><p>安装完成之后我们就可以使用 hexo 的工具来创建博客了。在电脑上创建一个目录并进入该目录，我起名叫做 javier-blog，刚才我们安装过 Git 工具这时候就派上用场了。在该目录内右键找到 Git Bash Here 点击打开一个 Git的命令行窗口或者你可以使用其他的命令行工具。执行以下命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hexo init </span><br><span class="line"></span><br><span class="line"># 下面是在执行上面的命令之后的结果</span><br><span class="line"></span><br><span class="line">INFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.git</span><br><span class="line">INFO  Install dependencies</span><br><span class="line">INFO  Start blogging with Hexo!</span><br></pre></td></tr></table></figure>
+
+
+<h6 id="启动-hexo-本地服务"><a href="#启动-hexo-本地服务" class="headerlink" title="启动 hexo 本地服务"></a>启动 hexo 本地服务</h6><p>安装完成 hexo程序直接执行 hexo s 命令就可以打开 hexo 的本地服务。在命令行上会显示启动后的服务地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">INFO  Validating config</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000/ . Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="/project/%5Cimg%5Cimage-20230530180853849.png" alt="image-20230530180853849"></p>
+<p>以上就正式搭建完成 hexo 的博客程序了。</p>
+<h5 id="修改博客的基本信息"><a href="#修改博客的基本信息" class="headerlink" title="修改博客的基本信息"></a>修改博客的基本信息</h5><p>修改 博客的标题，副标题，描述，语言时区等信息</p>
+<figure class="image-box">
+                <img src="\img\cf60858892fa440482540f548322cbfc.png" alt="在这里插入图片描述" title="" class="">
+                <p>在这里插入图片描述</p>
+            </figure>
+
+<p>修改博客地址</p>
+<figure class="image-box">
+                <img src="\img\5dce8878e1fd42228974ee532b328a31.png" alt="在这里插入图片描述" title="" class="">
+                <p>在这里插入图片描述</p>
+            </figure>
+
+<p>创建 github 仓库<br>打开 <a href="https://github.com/">https://github.com/</a> 创建一个仓库用来存储我们的部署程序,创建后是这个样子的。</p>
+<figure class="image-box">
+                <img src="\img\87e34403497b4e8092b8e234b7d154aa.png" alt="在这里插入图片描述" title="" class="">
+                <p>在这里插入图片描述</p>
+            </figure>
+
+<figure class="image-box">
+                <img src="\img\2dce5d421d4a45ae8b2628b405f00c85.png" alt="在这里插入图片描述" title="" class="">
+                <p>在这里插入图片描述</p>
+            </figure>
+
+<h5 id="同步本地-Hexo-部署页面到-github-中"><a href="#同步本地-Hexo-部署页面到-github-中" class="headerlink" title="同步本地 Hexo 部署页面到 github 中"></a>同步本地 Hexo 部署页面到 github 中</h5><h5 id="初始化-git-项目"><a href="#初始化-git-项目" class="headerlink" title="初始化 git 项目"></a>初始化 git 项目</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git remote add origin https://github.com/runbrick/javier-blog.git</span><br></pre></td></tr></table></figure>
+
+
+<p>打开本地 **hexo **项目目录并执行下面的命令,用来安装 git 的部署组件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p>安装之后在项目目录中找到<code>**_config.yml **</code>修改 deploy 参数</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy<span class="punctuation">:</span></span><br><span class="line">  type<span class="punctuation">:</span> &#x27;git&#x27;</span><br><span class="line">  repo<span class="punctuation">:</span> &#x27;https<span class="punctuation">:</span><span class="comment">//github.com/runbrick/javier-blog.git&#x27;</span></span><br><span class="line">  branch<span class="punctuation">:</span> &#x27;master&#x27;</span><br></pre></td></tr></table></figure>
+
+
+<p>执行 <code>hexo g</code> 然后执行 <code>hexo d </code>将静态页面部署到 <strong>github</strong> 上，是这个样子的。</p>
+<figure class="image-box">
+                <img src="\img\1ee6f73b701249a483c8022e90aa6d6d-1685510451300-24.png" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-1l70CeCZ-1684911538549)(images/IOcwTUiphjTqmWR1El8GuUpiJZt88ZpACMDzbcDsuEk.png)]" title="" class="">
+                <p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-1l70CeCZ-1684911538549)(images/IOcwTUiphjTqmWR1El8GuUpiJZt88ZpACMDzbcDsuEk.png)]</p>
+            </figure>
+
+<h5 id="将项目部署到-vercel-上"><a href="#将项目部署到-vercel-上" class="headerlink" title="将项目部署到 vercel 上"></a>将项目部署到 vercel 上</h5><p>如果不需要部署到 vercel 上此步可以略过</p>
+<p>在 **dashboard **上 选择 <strong>Create a New Project</strong></p>
+<figure class="image-box">
+                <img src="\img\54ae8c862963400ea1c2b86c0bec2e79.png" alt="在这里插入图片描述" title="" class="">
+                <p>在这里插入图片描述</p>
+            </figure>
+
+<p>在关联的 **github **账户中，找到刚才的博客仓库，选择 import</p>
+<figure class="image-box">
+                <img src="\img\6a5b756f46bb4e3fb46a5d93bb32c5ca.png" alt="在这里插入图片描述" title="" class="">
+                <p>在这里插入图片描述</p>
+            </figure>
+
+<p>进入部署页面选择 deploy</p>
+<figure class="image-box">
+                <img src="\img\d3f01706b7e84ac19d017b12b45cf23b.png" alt="在这里插入图片描述" title="" class="">
+                <p>在这里插入图片描述</p>
+            </figure>
+
+<p>生成之后点击 Continue to Dashboard</p>
+<figure class="image-box">
+                <img src="D:\gitee\hexo\source\img\83a40d63337d4c02a6ac9d7d8a336ca6.png" alt="在这里插入图片描述" title="" class="">
+                <p>在这里插入图片描述</p>
+            </figure>
+
+<p>点击 Visit 就可以看到刚刚生成的博客程序了</p>
+<figure class="image-box">
+                <img src="\img\73fea79fe1634cf897df435520360cc0.png" alt="在这里插入图片描述" title="" class="">
+                <p>在这里插入图片描述</p>
+            </figure>
+
+<p>将项目资源文件放入同一个仓库中<br>在命令行创建一个新的分支并切换过去</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b source</span><br></pre></td></tr></table></figure>
+
+
+<p>提交代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;first commit&quot;</span><br><span class="line">git push origin source</span><br></pre></td></tr></table></figure>
+
+<p>常用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;name&quot;       # 新建文章</span><br><span class="line">hexo new page &quot;name&quot;  # 新建页面</span><br><span class="line">hexo g                # 生成页面</span><br><span class="line">hexo d                # 部署</span><br><span class="line">hexo g -d             # 生成页面并部署</span><br><span class="line">hexo s                # 本地预览</span><br><span class="line">hexo clean            # 清除缓存和已生成的静态文件</span><br><span class="line">hexo help             # 帮助</span><br></pre></td></tr></table></figure>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Hello World]]></title>
+      <url>/project/2023/05/30/hello-world/</url>
+      <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      
+        
+    </entry>
+    
+  
+  
+</search>
