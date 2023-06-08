@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  
+  
+  <title>vuepress/vue动态更换配色方案 | 栋栋的个人博客</title>
+  
+  <meta name="author" content="John DD" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="vuepress, 插件" />
+  
+  <meta name="description" content="TODO 上一直挂着调色盘，原想可以去网上白嫖一个插件该是分分钟的事儿，没想怎么也没找到心仪的，只好自己动手改造了一个。思路：   延续 vuepress 的 css 预处理器，为样式配置好各种颜色变量，接着在使用该颜色时，使用变量进行替代，以实现便捷地颜色大面积更换。但很可惜的是， stylus 本身是无法使用脚本对其进行操作的。所以，我们只能折衷采用 css 的变量作为桥梁。以 vuepre">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vuepress&#x2F;vue动态更换配色方案">
+<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/03/23/sicker/color%20theme%20for%20vuepress/index.html">
+<meta property="og:site_name" content="栋栋的个人博客">
+<meta property="og:description" content="TODO 上一直挂着调色盘，原想可以去网上白嫖一个插件该是分分钟的事儿，没想怎么也没找到心仪的，只好自己动手改造了一个。思路：   延续 vuepress 的 css 预处理器，为样式配置好各种颜色变量，接着在使用该颜色时，使用变量进行替代，以实现便捷地颜色大面积更换。但很可惜的是， stylus 本身是无法使用脚本对其进行操作的。所以，我们只能折衷采用 css 的变量作为桥梁。以 vuepre">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-21T12:56:24.855Z">
+<meta property="article:author" content="John DD">
+<meta property="article:tag" content="vuepress">
+<meta property="article:tag" content="插件">
+<meta name="twitter:card" content="summary">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" media="all"></script>
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-color-dark.min.css" media="(prefers-color-scheme: dark)"></script>
+    <script src="/js/kr-dark.min.js"></script>
+  
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" media="all"></script>
+  
+  <link rel="stylesheet" id="fontawe-css" href="/vendors/font-awesome@4.7.0/css/font-awesome.min.css" media="all"></script>
+  <link rel="stylesheet" id="nprogress-css" href="/vendors/nprogress@0.2.0/nprogress.css" media="all"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/aplayer@1.10.1/dist/APlayer.min.css"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"></script>
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="/vendors/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="/vendors/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+  
+  <style>
+    
+    
+      @media(min-width:768px) {
+        body.custom-background {
+          background-image: url('/images/bg.webp');
+        }
+      }
+    
+  </style>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                    
+                                        
+                                            <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/friends/"><i class="fa fa-paw"></i>好伙伴</a></li>
+                                        
+                                    
+                                        
+                                            <li>
+                                                <a><i class="fa fa-link"></i>链接</a>
+                                                <ul class="sub-menu">
+                                                    
+                                                        
+                                                    
+                                                </ul>
+                                            </li>
+                                        
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">栋栋的个人博客</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>栋栋的个人博客</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article itemscope itemtype="https://schema.org/Article">
+    
+    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/03/23/sicker/color%20theme%20for%20vuepress/">
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center" itemprop="name headline">vuepress/vue动态更换配色方案</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><time datetime="2021-03-22T16:00:00.000Z" itemprop="datePublished"><i class="fa fa-calendar"></i> 2021-03-23</time></li>
+                <li itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <i class="fa fa-user"></i> 作者 <span itemprop="name">sicker</span>
+                </li>
+                
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            ~14.67K
+                        
+                        字
+                    </li>
+                
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                <div class="icon"><i class="fa fa-warning"></i></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1684673784855"></time> 前，其中的内容可能需要更新。</p></div>
+            </div>
+            
+            
+            
+            <hr />
+            <div itemprop="articleBody"><blockquote>
+<p>TODO 上一直挂着调色盘，原想可以去网上白嫖一个插件该是分分钟的事儿，没想怎么也没找到心仪的，只好自己动手改造了一个。<br>思路：</p>
+</blockquote>
+<ol>
+<li><p>延续 <code>vuepress</code> 的 <code>css</code> 预处理器，为样式配置好各种颜色变量，接着在使用该颜色时，使用变量进行替代，以实现便捷地颜色大面积更换。<br>但很可惜的是， <code>stylus</code> 本身是无法使用脚本对其进行操作的。所以，我们只能折衷采用 <code>css</code> 的变量作为桥梁。<br>以 <code>vuepress</code> 默认博客主题为例，将入口文件 <code>docs\.vuepress\theme\styles\index.styl</code> 进行简单处理。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span></span><br><span class="line">  <span class="attr">--main-color</span> <span class="variable">$accentColor</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检索主题下的所有文件，将所有采用 <code>$accentColor</code> 处（除配色版本身的变量配置与上述入口文件处），用 <code>var(--main-color)</code> 替代，因编译器限制，这里无法使用<code>stylus</code>的内置方法 <code>darken</code> 或 <code>lighten</code>，经测试，也无法采用原生的 <code>color</code> 函数[^f] ，只能妥协采用相同配色。</p>
+</li>
+<li><p>接着，参考 <code>vcolorpicker </code>[^s] 提取 <code>ColorPicker.vue</code><br>源码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br></pre></td><td class="code"><pre><span class="line">&lt;template lang=&quot;html&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;m-colorPicker&quot;  ref=&quot;colorPicker&quot; v-clickoutside=&quot;closePanel&quot; v-on:click=&quot;event =&gt; &#123; event.stopPropagation() &#125;&quot;&gt;</span><br><span class="line">    &lt;!-- 颜色显示小方块 --&gt;</span><br><span class="line">    &lt;div class=&quot;colorBtn&quot;</span><br><span class="line">      v-bind:style=&quot;`background-color: $&#123;showColor&#125;`&quot;</span><br><span class="line">      v-on:click=&quot;openPanel&quot;</span><br><span class="line">      v-bind:class=&quot;&#123; disabled: disabled &#125;&quot;</span><br><span class="line">    &gt;主&lt;/div&gt;</span><br><span class="line">    &lt;!-- 颜色色盘 --&gt;</span><br><span class="line">    &lt;div class=&quot;box&quot; v-bind:class=&quot;&#123; open: openStatus &#125;&quot; &gt;</span><br><span class="line">      &lt;div class=&quot;hd&quot;&gt;</span><br><span class="line">        &lt;div class=&quot;colorView&quot; v-bind:style=&quot;`background-color: $&#123;showPanelColor&#125;`&quot;&gt;&lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;defaultColor&quot;</span><br><span class="line">          v-on:click=&quot;handleDefaultColor&quot;</span><br><span class="line">          v-on:mouseover=&quot;hoveColor = defaultColor&quot;</span><br><span class="line">          v-on:mouseout=&quot;hoveColor = null&quot;</span><br><span class="line">        &gt;默认颜色&lt;/div&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">      &lt;div class=&quot;bd&quot;&gt;</span><br><span class="line">        &lt;h3&gt;主题颜色&lt;/h3&gt;</span><br><span class="line">        &lt;ul class=&quot;tColor&quot;&gt;</span><br><span class="line">          &lt;li</span><br><span class="line">            v-for=&quot;(color, index) of tColor&quot;</span><br><span class="line">            :key=&quot;index&quot;</span><br><span class="line">            v-bind:style=&quot;&#123; backgroundColor: color &#125;&quot;</span><br><span class="line">            v-on:mouseover=&quot;hoveColor = color&quot;</span><br><span class="line">            v-on:mouseout=&quot;hoveColor = null&quot;</span><br><span class="line">            v-on:click=&quot;updataValue(color)&quot;</span><br><span class="line">          &gt;&lt;/li&gt;</span><br><span class="line">        &lt;/ul&gt;</span><br><span class="line">        &lt;ul class=&quot;bColor&quot;&gt;</span><br><span class="line">          &lt;li v-for=&quot;(item, index) of colorPanel&quot; :key=&quot;index&quot;&gt;</span><br><span class="line">            &lt;ul&gt;</span><br><span class="line">              &lt;li</span><br><span class="line">                v-for=&quot;(color, cindex) of item&quot;</span><br><span class="line">                :key=&quot;cindex&quot;</span><br><span class="line">                v-bind:style=&quot;&#123; backgroundColor: color &#125;&quot;</span><br><span class="line">                v-on:mouseover=&quot;hoveColor = color&quot;</span><br><span class="line">                v-on:mouseout=&quot;hoveColor = null&quot;</span><br><span class="line">                v-on:click=&quot;updataValue(color)&quot;</span><br><span class="line">              &gt;&lt;/li&gt;</span><br><span class="line">            &lt;/ul&gt;</span><br><span class="line">          &lt;/li&gt;</span><br><span class="line">        &lt;/ul&gt;</span><br><span class="line">        &lt;h3&gt;标准颜色&lt;/h3&gt;</span><br><span class="line">        &lt;ul class=&quot;tColor&quot;&gt;</span><br><span class="line">          &lt;li</span><br><span class="line">            v-for=&quot;(color, index) of bColor&quot;</span><br><span class="line">            :key=&quot;index&quot;</span><br><span class="line">            v-bind:style=&quot;&#123; backgroundColor: color &#125;&quot;</span><br><span class="line">            v-on:mouseover=&quot;hoveColor = color&quot;</span><br><span class="line">            v-on:mouseout=&quot;hoveColor = null&quot;</span><br><span class="line">            v-on:click=&quot;updataValue(color)&quot;</span><br><span class="line">          &gt;&lt;/li&gt;</span><br><span class="line">        &lt;/ul&gt;</span><br><span class="line">        &lt;h3 v-on:click=&quot;triggerHtml5Color&quot;&gt;更多颜色...&lt;/h3&gt;</span><br><span class="line">        &lt;!-- 用以激活HTML5颜色面板 --&gt;</span><br><span class="line">        &lt;input type=&quot;color&quot;</span><br><span class="line">          ref=&quot;html5Color&quot;</span><br><span class="line">          v-model=&quot;html5Color&quot;</span><br><span class="line">          v-on:change=&quot;updataValue(html5Color)&quot;&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;colorPicker&quot;,</span><br><span class="line">  directives: &#123;</span><br><span class="line">    clickoutside,</span><br><span class="line">  &#125;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    // 当前颜色值</span><br><span class="line">    value: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      required: true,</span><br><span class="line">    &#125;,</span><br><span class="line">    // 默认颜色</span><br><span class="line">    defaultColor: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      default: &quot;#000000&quot;,</span><br><span class="line">    &#125;,</span><br><span class="line">    // 禁用状态</span><br><span class="line">    disabled: &#123;</span><br><span class="line">      type: Boolean,</span><br><span class="line">      default: false,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      // 面板打开状态</span><br><span class="line">      openStatus: false,</span><br><span class="line">      // 鼠标经过的颜色块</span><br><span class="line">      hoveColor: null,</span><br><span class="line">      // 主题颜色</span><br><span class="line">      tColor: [</span><br><span class="line">        &quot;#000000&quot;,</span><br><span class="line">        &quot;#ffffff&quot;,</span><br><span class="line">        &quot;#eeece1&quot;,</span><br><span class="line">        &quot;#1e497b&quot;,</span><br><span class="line">        &quot;#4e81bb&quot;,</span><br><span class="line">        &quot;#e2534d&quot;,</span><br><span class="line">        &quot;#9aba60&quot;,</span><br><span class="line">        &quot;#8165a0&quot;,</span><br><span class="line">        &quot;#47acc5&quot;,</span><br><span class="line">        &quot;#f9974c&quot;,</span><br><span class="line">      ],</span><br><span class="line">      // 颜色面板</span><br><span class="line">      colorConfig: [</span><br><span class="line">        [&quot;#7f7f7f&quot;, &quot;#f2f2f2&quot;],</span><br><span class="line">        [&quot;#0d0d0d&quot;, &quot;#808080&quot;],</span><br><span class="line">        [&quot;#1c1a10&quot;, &quot;#ddd8c3&quot;],</span><br><span class="line">        [&quot;#0e243d&quot;, &quot;#c6d9f0&quot;],</span><br><span class="line">        [&quot;#233f5e&quot;, &quot;#dae5f0&quot;],</span><br><span class="line">        [&quot;#632623&quot;, &quot;#f2dbdb&quot;],</span><br><span class="line">        [&quot;#4d602c&quot;, &quot;#eaf1de&quot;],</span><br><span class="line">        [&quot;#3f3150&quot;, &quot;#e6e0ec&quot;],</span><br><span class="line">        [&quot;#1e5867&quot;, &quot;#d9eef3&quot;],</span><br><span class="line">        [&quot;#99490f&quot;, &quot;#fee9da&quot;],</span><br><span class="line">      ],</span><br><span class="line">      // 标准颜色</span><br><span class="line">      bColor: [</span><br><span class="line">        &quot;#c21401&quot;,</span><br><span class="line">        &quot;#ff1e02&quot;,</span><br><span class="line">        &quot;#ffc12a&quot;,</span><br><span class="line">        &quot;#ffff3a&quot;,</span><br><span class="line">        &quot;#90cf5b&quot;,</span><br><span class="line">        &quot;#00af57&quot;,</span><br><span class="line">        &quot;#00afee&quot;,</span><br><span class="line">        &quot;#0071be&quot;,</span><br><span class="line">        &quot;#00215f&quot;,</span><br><span class="line">        &quot;#72349d&quot;,</span><br><span class="line">      ],</span><br><span class="line">      html5Color: this.value,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    // 显示面板颜色</span><br><span class="line">    showPanelColor() &#123;</span><br><span class="line">      if (this.hoveColor) &#123;</span><br><span class="line">        return this.hoveColor;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        return this.showColor;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    // 显示颜色</span><br><span class="line">    showColor() &#123;</span><br><span class="line">      if (this.value) &#123;</span><br><span class="line">        return this.value;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        return this.defaultColor;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    // 颜色面板</span><br><span class="line">    colorPanel() &#123;</span><br><span class="line">      let colorArr = [];</span><br><span class="line">      for (let color of this.colorConfig) &#123;</span><br><span class="line">        colorArr.push(this.gradient(color[1], color[0], 5));</span><br><span class="line">      &#125;</span><br><span class="line">      return colorArr;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    openPanel() &#123;</span><br><span class="line">      this.openStatus = !this.disabled;</span><br><span class="line">    &#125;,</span><br><span class="line">    closePanel() &#123;</span><br><span class="line">      this.openStatus = false;</span><br><span class="line">    &#125;,</span><br><span class="line">    triggerHtml5Color() &#123;</span><br><span class="line">      this.$refs.html5Color.click();</span><br><span class="line">    &#125;,</span><br><span class="line">    // 更新组件的值 value</span><br><span class="line">    updataValue(value) &#123;</span><br><span class="line">      this.$emit(&quot;input&quot;, value);</span><br><span class="line">      this.$emit(&quot;change&quot;, value);</span><br><span class="line">      this.openStatus = false;</span><br><span class="line">    &#125;,</span><br><span class="line">    // 设置默认颜色</span><br><span class="line">    handleDefaultColor() &#123;</span><br><span class="line">      this.updataValue(this.defaultColor);</span><br><span class="line">    &#125;,</span><br><span class="line">    // 格式化 hex 颜色值</span><br><span class="line">    parseColor(hexStr) &#123;</span><br><span class="line">      if (hexStr.length === 4) &#123;</span><br><span class="line">        hexStr =</span><br><span class="line">          &quot;#&quot; +</span><br><span class="line">          hexStr[1] +</span><br><span class="line">          hexStr[1] +</span><br><span class="line">          hexStr[2] +</span><br><span class="line">          hexStr[2] +</span><br><span class="line">          hexStr[3] +</span><br><span class="line">          hexStr[3];</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        return hexStr;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    // RGB 颜色 转 HEX 颜色</span><br><span class="line">    rgbToHex(r, g, b) &#123;</span><br><span class="line">      let hex = ((r &lt;&lt; 16) | (g &lt;&lt; 8) | b).toString(16);</span><br><span class="line">      return &quot;#&quot; + new Array(Math.abs(hex.length - 7)).join(&quot;0&quot;) + hex;</span><br><span class="line">    &#125;,</span><br><span class="line">    // HEX 转 RGB 颜色</span><br><span class="line">    hexToRgb(hex) &#123;</span><br><span class="line">      hex = this.parseColor(hex);</span><br><span class="line">      let rgb = [];</span><br><span class="line">      for (let i = 1; i &lt; 7; i += 2) &#123;</span><br><span class="line">        rgb.push(parseInt(&quot;0x&quot; + hex.slice(i, i + 2)));</span><br><span class="line">      &#125;</span><br><span class="line">      return rgb;</span><br><span class="line">    &#125;,</span><br><span class="line">    // 计算渐变过渡颜色</span><br><span class="line">    gradient(startColor, endColor, step) &#123;</span><br><span class="line">      // 讲 hex 转换为 rgb</span><br><span class="line">      let sColor = this.hexToRgb(startColor);</span><br><span class="line">      let eColor = this.hexToRgb(endColor);</span><br><span class="line">      // 计算R\G\B每一步的差值</span><br><span class="line">      let rStep = (eColor[0] - sColor[0]) / step;</span><br><span class="line">      let gStep = (eColor[1] - sColor[1]) / step;</span><br><span class="line">      let bStep = (eColor[2] - sColor[2]) / step;</span><br><span class="line">      let gradientColorArr = [];</span><br><span class="line">      // 计算每一步的hex值</span><br><span class="line">      for (let i = 0; i &lt; step; i++) &#123;</span><br><span class="line">        gradientColorArr.push(</span><br><span class="line">          this.rgbToHex(</span><br><span class="line">            parseInt(rStep * i + sColor[0]),</span><br><span class="line">            parseInt(gStep * i + sColor[1]),</span><br><span class="line">            parseInt(bStep * i + sColor[2])</span><br><span class="line">          )</span><br><span class="line">        );</span><br><span class="line">      &#125;</span><br><span class="line">      return gradientColorArr;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;css&quot; scoped&gt;</span><br><span class="line">.m-colorPicker &#123;</span><br><span class="line">  font-size: 14px;</span><br><span class="line">  display: inline-block;</span><br><span class="line">  outline: none;</span><br><span class="line">&#125;</span><br><span class="line">.m-colorPicker ul,</span><br><span class="line">li,</span><br><span class="line">ol &#123;</span><br><span class="line">  list-style: none;</span><br><span class="line">  margin: 0;</span><br><span class="line">  padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">.m-colorPicker .colorBtn &#123;</span><br><span class="line">  width: 20px;</span><br><span class="line">  height: 20px;</span><br><span class="line">  font-size: 12px;</span><br><span class="line">  line-height: 20px;</span><br><span class="line">  color:#fff;</span><br><span class="line">&#125;</span><br><span class="line">.m-colorPicker .colorBtn.disabled &#123;</span><br><span class="line">  cursor: no-drop;</span><br><span class="line">&#125;</span><br><span class="line">.m-colorPicker .box &#123;</span><br><span class="line">  position: absolute;</span><br><span class="line">  width: 190px;</span><br><span class="line">  left:-195px;</span><br><span class="line">  background: #fff;</span><br><span class="line">  border: 1px solid #ddd;</span><br><span class="line">  visibility: hidden;</span><br><span class="line">  border-radius: 2px;</span><br><span class="line">  margin-top: 2px;</span><br><span class="line">  padding: 10px;</span><br><span class="line">  padding-bottom: 5px;</span><br><span class="line">  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);</span><br><span class="line">  opacity: 0;</span><br><span class="line">  transition: all 0.3s ease;</span><br><span class="line">  box-sizing: content-box;</span><br><span class="line">&#125;</span><br><span class="line">.m-colorPicker .box h3 &#123;</span><br><span class="line">  margin: 0;</span><br><span class="line">  font-size: 14px;</span><br><span class="line">  font-weight: normal;</span><br><span class="line">  margin-top: 10px;</span><br><span class="line">  margin-bottom: 5px;</span><br><span class="line">  line-height: 1;</span><br><span class="line">  color: #333;</span><br><span class="line">&#125;</span><br><span class="line">.m-colorPicker .box input &#123;</span><br><span class="line">  visibility: hidden;</span><br><span class="line">  position: absolute;</span><br><span class="line">  left: 0;</span><br><span class="line">  bottom: 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.m-colorPicker .box.open &#123;</span><br><span class="line">  visibility: visible;</span><br><span class="line">  opacity: 1;</span><br><span class="line">  z-index: 1;</span><br><span class="line">&#125;</span><br><span class="line">.m-colorPicker .hd &#123;</span><br><span class="line">  overflow: hidden;</span><br><span class="line">  line-height: 29px;</span><br><span class="line">&#125;</span><br><span class="line">.m-colorPicker .hd .colorView &#123;</span><br><span class="line">  width: 100px;</span><br><span class="line">  height: 30px;</span><br><span class="line">  float: left;</span><br><span class="line">  transition: background-color 0.3s ease;</span><br><span class="line">&#125;</span><br><span class="line">.m-colorPicker .hd .defaultColor &#123;</span><br><span class="line">  width: 80px;</span><br><span class="line">  float: right;</span><br><span class="line">  text-align: center;</span><br><span class="line">  border: 1px solid #ddd;</span><br><span class="line">  cursor: pointer;</span><br><span class="line">  color: #333;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.m-colorPicker .tColor li &#123;</span><br><span class="line">  width: 15px;</span><br><span class="line">  height: 15px;</span><br><span class="line">  display: inline-block;</span><br><span class="line">  margin: 0 2px;</span><br><span class="line">  transition: all 0.3s ease;</span><br><span class="line">&#125;</span><br><span class="line">.m-colorPicker .tColor li:hover &#123;</span><br><span class="line">  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);</span><br><span class="line">  transform: scale(1.3);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.m-colorPicker .bColor li &#123;</span><br><span class="line">  width: 15px;</span><br><span class="line">  display: inline-block;</span><br><span class="line">  margin: 0 2px;</span><br><span class="line">&#125;</span><br><span class="line">.m-colorPicker .bColor li li &#123;</span><br><span class="line">  display: block;</span><br><span class="line">  width: 15px;</span><br><span class="line">  height: 15px;</span><br><span class="line">  transition: all 0.3s ease;</span><br><span class="line">  margin: 0;</span><br><span class="line">&#125;</span><br><span class="line">.m-colorPicker .bColor li li:hover &#123;</span><br><span class="line">  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);</span><br><span class="line">  transform: scale(1.3);</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p><code>clickoutside.js</code>[^t]</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">validate</span>(<span class="params">binding</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> binding.<span class="property">value</span> !== <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">warn</span>(<span class="string">&#x27;[Vue-click-outside:] provided expression&#x27;</span>, binding.<span class="property">expression</span>, <span class="string">&#x27;is not a function.&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">isPopup</span>(<span class="params">popupItem, elements</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (!popupItem || !elements)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = elements.<span class="property">length</span>; i &lt; len; i++) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (popupItem.<span class="title function_">contains</span>(elements[i])) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (elements[i].<span class="title function_">contains</span>(popupItem)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span>(e) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">isServer</span>(<span class="params">vNode</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">typeof</span> vNode.<span class="property">componentInstance</span> !== <span class="string">&#x27;undefined&#x27;</span> &amp;&amp; vNode.<span class="property">componentInstance</span>.<span class="property">$isServer</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">exports</span> = <span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">bind</span>: <span class="keyword">function</span> (<span class="params">el, binding, vNode</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="title function_">validate</span>(binding)) <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Define Handler and cache it on the element</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">handler</span>(<span class="params">e</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!vNode.<span class="property">context</span>) <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// some components may have related popup item, on which we shall prevent the click outside event handler.</span></span><br><span class="line">      <span class="keyword">var</span> elements = e.<span class="property">path</span> || (e.<span class="property">composedPath</span> &amp;&amp; e.<span class="title function_">composedPath</span>())</span><br><span class="line">      elements &amp;&amp; elements.<span class="property">length</span> &gt; <span class="number">0</span> &amp;&amp; elements.<span class="title function_">unshift</span>(e.<span class="property">target</span>)</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (el.<span class="title function_">contains</span>(e.<span class="property">target</span>) || <span class="title function_">isPopup</span>(vNode.<span class="property">context</span>.<span class="property">popupItem</span>, elements)) <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">      el.<span class="property">__vueClickOutside__</span>.<span class="title function_">callback</span>(e)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// add Event Listeners</span></span><br><span class="line">    el.<span class="property">__vueClickOutside__</span> = &#123;</span><br><span class="line">      <span class="attr">handler</span>: handler,</span><br><span class="line">      <span class="attr">callback</span>: binding.<span class="property">value</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> clickHandler = <span class="string">&#x27;ontouchstart&#x27;</span> <span class="keyword">in</span> <span class="variable language_">document</span>.<span class="property">documentElement</span> ? <span class="string">&#x27;touchstart&#x27;</span> : <span class="string">&#x27;click&#x27;</span>;</span><br><span class="line">    !<span class="title function_">isServer</span>(vNode) &amp;&amp; <span class="variable language_">document</span>.<span class="title function_">addEventListener</span>(clickHandler, handler)</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="attr">update</span>: <span class="keyword">function</span> (<span class="params">el, binding</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_">validate</span>(binding)) el.<span class="property">__vueClickOutside__</span>.<span class="property">callback</span> = binding.<span class="property">value</span></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="attr">unbind</span>: <span class="keyword">function</span> (<span class="params">el, binding, vNode</span>) &#123;</span><br><span class="line">    <span class="comment">// Remove Event Listeners</span></span><br><span class="line">    <span class="keyword">const</span> clickHandler = <span class="string">&#x27;ontouchstart&#x27;</span> <span class="keyword">in</span> <span class="variable language_">document</span>.<span class="property">documentElement</span> ? <span class="string">&#x27;touchstart&#x27;</span> : <span class="string">&#x27;click&#x27;</span>;</span><br><span class="line">    !<span class="title function_">isServer</span>(vNode) &amp;&amp; el.<span class="property">__vueClickOutside__</span> &amp;&amp; <span class="variable language_">document</span>.<span class="title function_">removeEventListener</span>(clickHandler, el.<span class="property">__vueClickOutside__</span>.<span class="property">handler</span>)</span><br><span class="line">    <span class="keyword">delete</span> el.<span class="property">__vueClickOutside__</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在想要使用的地方引入组件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;ColorPicker</span><br><span class="line">    v-model=&quot;color&quot; // 绑定的属性</span><br><span class="line">    defaultColor=&quot;#ef7c1e&quot; // 默认颜色</span><br><span class="line">    v-on:change=&quot;headleChangeColor&quot; // 绑定的 change 事件</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+<p>接着处理 <code>headleChangeColor</code> 事件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> themeColor = <span class="variable language_">localStorage</span>.<span class="title function_">getItem</span>(<span class="string">&quot;themeColor&quot;</span>) || <span class="string">&quot;#ef7c1e&quot;</span>;</span><br><span class="line">  <span class="keyword">if</span> (themeColor) <span class="variable language_">this</span>.<span class="title function_">headleChangeColor</span>(themeColor);</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">color</span> = themeColor;</span><br><span class="line">&#125;,</span><br><span class="line"><span class="attr">methods</span>: &#123;</span><br><span class="line">  <span class="title function_">headleChangeColor</span>(<span class="params">e</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> style = <span class="variable language_">document</span>.<span class="property">body</span>.<span class="property">style</span>;</span><br><span class="line">    style.<span class="title function_">setProperty</span>(<span class="string">&quot;--main-color&quot;</span>, e);</span><br><span class="line">    <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&quot;themeColor&quot;</span>, e);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;,    </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对插件的样式进行适配调整<br>例，在 <code>index.stylus</code> 最下新增，覆盖默认样式：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.go-to-top</span></span><br><span class="line">  <span class="attribute">color</span> <span class="built_in">var</span>(--main-color)<span class="meta">!important</span></span><br><span class="line"><span class="selector-class">.pagination</span></span><br><span class="line">  <span class="selector-class">.active</span> &gt; <span class="selector-tag">a</span>, &gt; <span class="selector-class">.active</span> &gt; <span class="selector-tag">span</span>, &gt; <span class="selector-class">.active</span> &gt; <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>, &gt; <span class="selector-class">.active</span> &gt; <span class="selector-tag">span</span><span class="selector-pseudo">:hover</span>,&gt; <span class="selector-class">.active</span> &gt; <span class="selector-tag">a</span><span class="selector-pseudo">:focus</span>, &gt; <span class="selector-class">.active</span> &gt; <span class="selector-tag">span</span><span class="selector-pseudo">:focus</span></span><br><span class="line">    <span class="attribute">background-color</span>: <span class="built_in">var</span>(--main-color)<span class="meta">!important</span></span><br><span class="line">    <span class="attribute">border-color</span>: <span class="built_in">var</span>(--main-color)<span class="meta">!important</span></span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span><span class="meta">!important</span></span><br><span class="line">  &gt; <span class="selector-tag">li</span> &gt; <span class="selector-tag">a</span>, <span class="selector-class">.pagination</span> &gt; <span class="selector-tag">li</span> &gt; <span class="selector-tag">span</span></span><br><span class="line">    <span class="attribute">color</span>:  <span class="built_in">var</span>(--main-color)<span class="meta">!important</span></span><br><span class="line">  &gt; <span class="selector-class">.disabled</span> &gt; <span class="selector-tag">span</span>, <span class="selector-class">.disabled</span> &gt; <span class="selector-tag">span</span><span class="selector-pseudo">:hover</span>, <span class="selector-class">.disabled</span> &gt; <span class="selector-tag">span</span><span class="selector-pseudo">:focus</span>, <span class="selector-class">.disabled</span> &gt; <span class="selector-tag">a</span>,  <span class="selector-class">.disabled</span> &gt; <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>, <span class="selector-class">.disabled</span> &gt; <span class="selector-tag">a</span><span class="selector-pseudo">:focus</span></span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#ddd</span><span class="meta">!important</span></span><br><span class="line"><span class="selector-id">#nprogress</span> <span class="selector-class">.bar</span></span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">var</span>(--main-color)<span class="meta">!important</span>;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>最后去查看下效果吧。</p>
+<p>当然，因为这边的需求较为简单，请依据个人需求自行再调试。</p>
+<p>另外，经测试IE11下无效</p>
+<p>[^f]: 例：<code>color(#efb4ea alpha(58%) hue(360) saturation(78%) shade(18%))</code> <a target="_blank" rel="noopener" href="https://colorme.io/">参考</a><br>[^s]: <a target="_blank" rel="noopener" href="https://github.com/zuley/vue-color-picker">vue-color-picker</a><br>[^t]: <a target="_blank" rel="noopener" href="https://github.com/vue-bulma/click-outside">click-outside</a></p>
+</div>
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5 itemprop="copyrightNotice">本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/03/23/sicker/color%20theme%20for%20vuepress/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/03/23/sicker/color%20theme%20for%20vuepress/";
+            const title         = "「vuepress/vue动态更换配色方案」";
+            const excerpt       = `
+TODO 上一直挂着调色盘，原想可以去网上白嫖一个插件该是分分钟的事儿，没想怎么也没找到心仪的，只好自己动手改造了一个。思路：
+
+
+延续 vuepress 的 css 预处理器，为样式配置好各种颜色变量，接着在使用该颜色时，使用变量...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/vuepress/" rel="tag">vuepress</a>, <a class="tag-none-link" href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag">插件</a>
+                </div>
+                <div class="pull-date">
+                    <time datetime="2023-05-21T12:56:24.855Z" itemprop="dateModified">最后编辑：2023-05-21</time>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" 如何优雅的采用vercel托管vuepress静态网站" href="/2021/03/23/sicker/how to use vercel/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" Vue路由传参" href="/2021/03/26/sunyifang/vue-router-param/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" loading="lazy" decoding="auto" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">分享学习的文章分享基地</p>
+    </div>
+    <div class="site-meta">
+        <a class="meta-item" href="/archives/">
+            <span class="title">
+                文章
+            </span>
+            <span class="count">
+                71
+            </span>
+        </a>
+        <a class="meta-item" href="/categories/">
+            <span class="title">
+                分类
+            </span>
+            <span class="count">
+                0
+            </span>
+        </a>
+        <a class="meta-item" href="/tags/">
+            <span class="title">
+                标签
+            </span>
+            <span class="count">
+                44
+            </span>
+        </a>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/CSS/" style="font-size: 0.65em;">CSS</a> <a href="/tags/Docker/" style="font-size: 0.7em;">Docker</a> <a href="/tags/ElementUI/" style="font-size: 0.6em;">ElementUI</a> <a href="/tags/Fiddler/" style="font-size: 0.6em;">Fiddler</a> <a href="/tags/HTML/" style="font-size: 0.7em;">HTML</a> <a href="/tags/JMeter/" style="font-size: 0.6em;">JMeter</a> <a href="/tags/Java/" style="font-size: 0.75em;">Java</a> <a href="/tags/JavaScript/" style="font-size: 0.8em;">JavaScript</a> <a href="/tags/Jira/" style="font-size: 0.6em;">Jira</a> <a href="/tags/Koa/" style="font-size: 0.6em;">Koa</a> <a href="/tags/NPM/" style="font-size: 0.6em;">NPM</a> <a href="/tags/Performance-Test/" style="font-size: 0.6em;">Performance Test</a> <a href="/tags/SEO/" style="font-size: 0.6em;">SEO</a> <a href="/tags/Synology/" style="font-size: 0.65em;">Synology</a> <a href="/tags/VScode/" style="font-size: 0.6em;">VScode</a> <a href="/tags/Vant/" style="font-size: 0.6em;">Vant</a> <a href="/tags/Vue/" style="font-size: 0.8em;">Vue</a> <a href="/tags/ZenTao/" style="font-size: 0.6em;">ZenTao</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/we/"><i class="fa  fa-book"></i> 我们</a>
+            
+          
+        
+          
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/exp/"><i class="fa  fa-book"></i> Markdown 书写示例</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/611118/"><i class="fa  fa-book"></i> 我的双11、618</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/"><i class="fa  fa-book"></i> 搭建一个Hexo博客并用vercel部署</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/05/30/hello-world/"><i class="fa  fa-book"></i> Hello World</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        <!-- Keep for compatibility -->
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <!-- New links -->
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2023 栋栋的个人博客 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by John DD.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="/vendors/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="/vendors/nprogress@0.2.0/nprogress.js"></script>
+<script>
+    if (!window.kr) {
+        window.kr = {};
+    }
+    window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
+    window.kr.siteRoot = "/";
+</script>
+
+
+    <script async src="/js/candy.min.js"></script>
+
+
+
+    <script defer src="/vendors/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="/vendors/meting@2.0.1/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>

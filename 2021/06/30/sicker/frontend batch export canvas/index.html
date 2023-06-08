@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  
+  
+  <title>前端批量导出canvas方案 | 栋栋的个人博客</title>
+  
+  <meta name="author" content="John DD" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="Vue" />
+  
+  <meta name="description" content="在后台的时候，经常学会遇到批量导出的场景；通常我们可以交由后端去处理，然而最近在开发中遇到了需要绘制 canvas 后再导出的场景；  方案面对这样的需求，提出了以下几个方案： 方案一：后端绘制 canvas ，前端获取后端返回文件地址数组，然后遍历下载； 方案二：后端绘制 canvas ，接着对文件进行打包压缩处理，然后前端下载一个压缩文件； 方案三：后端绘制 canvas ，前端获取后端返回">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端批量导出canvas方案">
+<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/06/30/sicker/frontend%20batch%20export%20canvas/index.html">
+<meta property="og:site_name" content="栋栋的个人博客">
+<meta property="og:description" content="在后台的时候，经常学会遇到批量导出的场景；通常我们可以交由后端去处理，然而最近在开发中遇到了需要绘制 canvas 后再导出的场景；  方案面对这样的需求，提出了以下几个方案： 方案一：后端绘制 canvas ，前端获取后端返回文件地址数组，然后遍历下载； 方案二：后端绘制 canvas ，接着对文件进行打包压缩处理，然后前端下载一个压缩文件； 方案三：后端绘制 canvas ，前端获取后端返回">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/images/94b408a976b3d6440ab6686bf397590940a1e719264d1fb18098fc9324aa1d30.gif">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/images/f569d0f44fe57724f272bcb5fc2b8dadd0f36432e2e00f54ee06569586529e19.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/images/2.gif">
+<meta property="article:published_time" content="2021-06-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-21T12:56:24.857Z">
+<meta property="article:author" content="John DD">
+<meta property="article:tag" content="Vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/images/94b408a976b3d6440ab6686bf397590940a1e719264d1fb18098fc9324aa1d30.gif">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" media="all"></script>
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-color-dark.min.css" media="(prefers-color-scheme: dark)"></script>
+    <script src="/js/kr-dark.min.js"></script>
+  
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" media="all"></script>
+  
+  <link rel="stylesheet" id="fontawe-css" href="/vendors/font-awesome@4.7.0/css/font-awesome.min.css" media="all"></script>
+  <link rel="stylesheet" id="nprogress-css" href="/vendors/nprogress@0.2.0/nprogress.css" media="all"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/aplayer@1.10.1/dist/APlayer.min.css"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"></script>
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="/vendors/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="/vendors/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+  
+  <style>
+    
+    
+      @media(min-width:768px) {
+        body.custom-background {
+          background-image: url('/images/bg.webp');
+        }
+      }
+    
+  </style>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                    
+                                        
+                                            <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/friends/"><i class="fa fa-paw"></i>好伙伴</a></li>
+                                        
+                                    
+                                        
+                                            <li>
+                                                <a><i class="fa fa-link"></i>链接</a>
+                                                <ul class="sub-menu">
+                                                    
+                                                        
+                                                    
+                                                </ul>
+                                            </li>
+                                        
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">栋栋的个人博客</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>栋栋的个人博客</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article itemscope itemtype="https://schema.org/Article">
+    
+    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/06/30/sicker/frontend%20batch%20export%20canvas/">
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center" itemprop="name headline">前端批量导出canvas方案</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><time datetime="2021-06-29T16:00:00.000Z" itemprop="datePublished"><i class="fa fa-calendar"></i> 2021-06-30</time></li>
+                <li itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <i class="fa fa-user"></i> 作者 <span itemprop="name">sicker</span>
+                </li>
+                
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            ~5.25K
+                        
+                        字
+                    </li>
+                
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                <div class="icon"><i class="fa fa-warning"></i></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1684673784857"></time> 前，其中的内容可能需要更新。</p></div>
+            </div>
+            
+            
+            
+            <hr />
+            <div itemprop="articleBody"><blockquote>
+<p>在后台的时候，经常学会遇到批量导出的场景；通常我们可以交由后端去处理，然而最近在开发中遇到了需要绘制 canvas 后再导出的场景；</p>
+</blockquote>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>面对这样的需求，提出了以下几个方案：</p>
+<p><strong>方案一</strong>：后端绘制 canvas ，前端获取后端返回文件地址数组，然后遍历下载；</p>
+<p><strong>方案二</strong>：后端绘制 canvas ，接着对文件进行打包压缩处理，然后前端下载一个压缩文件；</p>
+<p><strong>方案三</strong>：后端绘制 canvas ，前端获取后端返回文件地址数组，然后遍历下载，接着前端来进行打包压缩处理。</p>
+<p><strong>方案四</strong>：前端绘制 canvas ，然后遍历下载。</p>
+<p><strong>方案五</strong>：前端绘制 canvas ，接着前端来进行打包压缩处理。</p>
+<h2 id="方案简单分析"><a href="#方案简单分析" class="headerlink" title="方案简单分析"></a>方案简单分析</h2><p><img src="/../../../images/94b408a976b3d6440ab6686bf397590940a1e719264d1fb18098fc9324aa1d30.gif" alt="图 1">  </p>
+<p>从图片可以看出，直接进行批量下载，非常的难看；所以，未经打包压缩直接下载，显然不够优雅，方案一、方案四 out。</p>
+<p>而后端绘制 canvas ，又不够灵活，方案二、方案三也宣布 out。</p>
+<p>剩下的便是方案五了；下面就让我们一起看看如何实现吧。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>这就要请出本期的嘉宾 <code>JSZip</code> 和 <code>FileSaver.js</code> 了。</p>
+<p>JSZip： 大家好，我是 JSZip， 是一个 javascript 库，用于创建、读取和编辑 .zip 文件，带有一个可爱而简单的API。这是我的<a target="_blank" rel="noopener" href="https://stuk.github.io/jszip/">简历</a>。请大家多多喜欢我。</p>
+<p>FileSaver.js：好啊，我是 FileSaver，是一个在客户端保存文件的解决方案,适用 web 应用程序在客户端生成文件哦~ <a target="_blank" rel="noopener" href="https://github.com/eligrey/FileSaver.js">康康我</a></p>
+<p>最后，还有我们的特殊嘉宾 <code>qrcode</code> ！</p>
+<p>qrcode：很高兴见到大家，我是 qrcode ，我的本领是生成二维码并保存成各种格式，可以在服务器和客户端运行呢。<a target="_blank" rel="noopener" href="https://github.com/soldair/node-qrcode">我在这</a></p>
+<hr>
+<p>接下去，就让我们步入正题吧！让各位嘉宾与选手拿出他们的真本事。</p>
+<p>只见， <code>canvas</code> 第一个站了出来，随着她的出现，编辑器上慢慢浮现出；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> canvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;CANVAS&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&quot;2d&quot;</span>);</span><br><span class="line">canvas.<span class="property">height</span> = <span class="number">120</span>;</span><br><span class="line">canvas.<span class="property">width</span> = <span class="number">300</span>;</span><br><span class="line">ctx.<span class="property">fillStyle</span> = <span class="string">&quot;white&quot;</span>;</span><br><span class="line">ctx.<span class="title function_">fillRect</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">300</span>, <span class="number">120</span>);</span><br><span class="line">ctx.<span class="property">font</span> = <span class="string">&quot;16px 微软雅黑&quot;</span>;</span><br><span class="line">ctx.<span class="property">fillStyle</span> = <span class="string">&quot;red&quot;</span>;</span><br><span class="line">ctx.<span class="title function_">fillText</span>(<span class="string">`name ：sicker`</span>, <span class="number">130</span>, <span class="number">20</span>);</span><br><span class="line">ctx.<span class="title function_">fillText</span>(<span class="string">`number ：1024`</span>, <span class="number">130</span>, <span class="number">45</span>);</span><br><span class="line">ctx.<span class="title function_">fillText</span>(<span class="string">`fen ：200`</span>, <span class="number">130</span>, <span class="number">70</span>);</span><br><span class="line">ctx.<span class="property">fillStyle</span> = <span class="string">&quot;black&quot;</span>;</span><br><span class="line">ctx.<span class="title function_">fillText</span>(<span class="string">`一个没啥用的demo`</span>, <span class="number">130</span>, <span class="number">110</span>);</span><br><span class="line"><span class="keyword">let</span> base64 = canvas.<span class="title function_">toDataURL</span>(<span class="string">&quot;image/png&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="/../../../images/f569d0f44fe57724f272bcb5fc2b8dadd0f36432e2e00f54ee06569586529e19.png" alt="图 2">  </p>
+<p>漂亮，我们的 <code>canvas</code> 选手，兔起鹘落间，已经在浏览器上画上了一个绝美的图卷；</p>
+<p>然后，一旁的数据一看，就不满的叫嚷起来，「哼，没有我，终究是个死物」。</p>
+<p><code>data</code> 选手，手一挥，编辑器上就留下了一排数据；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">data</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">imgData</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;sicker&quot;</span>,</span><br><span class="line">        <span class="attr">number</span>: <span class="number">1024</span>,</span><br><span class="line">        <span class="attr">fen</span>: <span class="number">200</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;linvkey&quot;</span>,</span><br><span class="line">        <span class="attr">number</span>: <span class="number">123</span>,</span><br><span class="line">        <span class="attr">fen</span>: <span class="number">123</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;XBlack&quot;</span>,</span><br><span class="line">        <span class="attr">number</span>: <span class="number">520</span>,</span><br><span class="line">        <span class="attr">fen</span>: -<span class="number">52</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p><code>forEach</code> 见自己心水的 <code>canvas</code> 面露难色，忙站了出来，他说：「遍历的事情就交给我吧」。</p>
+<p>说话间，只见编辑器上刷刷出现了数行代码。不一会儿与 <code>canvas</code> 相得益彰。真不愧是老牌的选手了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> canvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;CANVAS&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&quot;2d&quot;</span>);</span><br><span class="line"><span class="variable language_">this</span>.<span class="property">imgData</span>.<span class="title function_">forEach</span>(<span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">  canvas.<span class="property">height</span> = <span class="number">120</span>;</span><br><span class="line">  canvas.<span class="property">width</span> = <span class="number">300</span>;</span><br><span class="line">  ctx.<span class="property">fillStyle</span> = <span class="string">&quot;white&quot;</span>;</span><br><span class="line">  ctx.<span class="title function_">fillRect</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">300</span>, <span class="number">120</span>);</span><br><span class="line">  ctx.<span class="property">font</span> = <span class="string">&quot;16px 微软雅黑&quot;</span>;</span><br><span class="line">  ctx.<span class="property">fillStyle</span> = <span class="string">&quot;red&quot;</span>;</span><br><span class="line">  ctx.<span class="title function_">fillText</span>(<span class="string">`name ：<span class="subst">$&#123;e.name&#125;</span>`</span>, <span class="number">130</span>, <span class="number">20</span>);</span><br><span class="line">  ctx.<span class="title function_">fillText</span>(<span class="string">`number ：<span class="subst">$&#123;e.number&#125;</span>`</span>, <span class="number">130</span>, <span class="number">45</span>);</span><br><span class="line">  ctx.<span class="title function_">fillText</span>(<span class="string">`fen ：<span class="subst">$&#123;e.fen&#125;</span>`</span>, <span class="number">130</span>, <span class="number">70</span>);</span><br><span class="line">  ctx.<span class="property">fillStyle</span> = <span class="string">&quot;black&quot;</span>;</span><br><span class="line">  ctx.<span class="title function_">fillText</span>(<span class="string">`一个没啥用的demo`</span>, <span class="number">130</span>, <span class="number">110</span>);</span><br><span class="line">  <span class="keyword">let</span> base64 = canvas.<span class="title function_">toDataURL</span>(<span class="string">&quot;image/png&quot;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>果然， <code>data</code> 一看，竟是如此和谐，一时无话可说。只得退下；</p>
+<p>然而文无第一，武无第二。这一对狗男女的配合虽然紧密无间，但是，终究无法折服所有人。</p>
+<p>早已站在一侧的老牌强旅 <code>image</code> 悠悠然走上一步，道：「妙则妙矣，然任你多么精妙，还不是要依赖于我 image」。她指着 <code>let base64 = canvas.toDataURL(&quot;image/png&quot;);</code> ,缓缓将狗男女的弱点道了出来，紧接着，娇手一挥。编辑器也随着改变。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> canvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;CANVAS&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&quot;2d&quot;</span>);</span><br><span class="line"><span class="variable language_">this</span>.<span class="property">imgData</span>.<span class="title function_">forEach</span>(<span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">  canvas.<span class="property">height</span> = <span class="number">120</span>;</span><br><span class="line">  canvas.<span class="property">width</span> = <span class="number">300</span>;</span><br><span class="line">  ctx.<span class="property">fillStyle</span> = <span class="string">&quot;white&quot;</span>;</span><br><span class="line">  ctx.<span class="title function_">fillRect</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">300</span>, <span class="number">120</span>);</span><br><span class="line">  ctx.<span class="property">font</span> = <span class="string">&quot;16px 微软雅黑&quot;</span>;</span><br><span class="line">  ctx.<span class="property">fillStyle</span> = <span class="string">&quot;red&quot;</span>;</span><br><span class="line">  ctx.<span class="title function_">fillText</span>(<span class="string">`name ：<span class="subst">$&#123;e.name&#125;</span>`</span>, <span class="number">130</span>, <span class="number">20</span>);</span><br><span class="line">  ctx.<span class="title function_">fillText</span>(<span class="string">`number ：<span class="subst">$&#123;e.number&#125;</span>`</span>, <span class="number">130</span>, <span class="number">45</span>);</span><br><span class="line">  ctx.<span class="title function_">fillText</span>(<span class="string">`fen ：<span class="subst">$&#123;e.fen&#125;</span>`</span>, <span class="number">130</span>, <span class="number">70</span>);</span><br><span class="line">  ctx.<span class="property">fillStyle</span> = <span class="string">&quot;black&quot;</span>;</span><br><span class="line">  ctx.<span class="title function_">fillText</span>(<span class="string">`一个没啥用的demo`</span>, <span class="number">130</span>, <span class="number">110</span>);</span><br><span class="line">  <span class="keyword">let</span> base64 = canvas.<span class="title function_">toDataURL</span>(<span class="string">&quot;image/png&quot;</span>);</span><br><span class="line">  <span class="keyword">let</span> image = <span class="keyword">new</span> <span class="title class_">Image</span>();</span><br><span class="line">  image.<span class="property">src</span> = base64;</span><br><span class="line">  <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(image);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>「好好好」，却没想到，这次出来的竟是我们的嘉宾 3 人组。编辑器又是刷的一变。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> zip = <span class="keyword">new</span> <span class="title class_">JSZip</span>();</span><br><span class="line"><span class="keyword">let</span> canvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;CANVAS&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> qrcodeCanvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;CANVAS&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&quot;2d&quot;</span>);</span><br><span class="line"><span class="variable language_">this</span>.<span class="property">imgData</span>.<span class="title function_">forEach</span>(<span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">  canvas.<span class="property">height</span> = <span class="number">120</span>;</span><br><span class="line">  canvas.<span class="property">width</span> = <span class="number">300</span>;</span><br><span class="line">  ctx.<span class="property">fillStyle</span> = <span class="string">&quot;white&quot;</span>;</span><br><span class="line">  ctx.<span class="title function_">fillRect</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">300</span>, <span class="number">120</span>);</span><br><span class="line">  <span class="comment">// 绘制二维码</span></span><br><span class="line">  <span class="title class_">QRCode</span>.<span class="title function_">toCanvas</span>(</span><br><span class="line">    qrcodeCanvas,</span><br><span class="line">    <span class="string">`&#123;&quot;name&quot;:&quot;<span class="subst">$&#123;e.name&#125;</span>&quot;&#125;`</span>,</span><br><span class="line">    &#123; <span class="attr">width</span>: <span class="number">100</span>, <span class="attr">margin</span>: <span class="number">0</span> &#125;,</span><br><span class="line">    <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">    &#125;</span><br><span class="line">  );</span><br><span class="line">  <span class="comment">// 将二维码 canvas 画布 绘入新的画布</span></span><br><span class="line">  ctx.<span class="title function_">drawImage</span>(qrcodeCanvas, <span class="number">10</span>, <span class="number">10</span>, <span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">  ctx.<span class="property">font</span> = <span class="string">&quot;16px 微软雅黑&quot;</span>;</span><br><span class="line">  ctx.<span class="property">fillStyle</span> = <span class="string">&quot;red&quot;</span>;</span><br><span class="line">  ctx.<span class="title function_">fillText</span>(<span class="string">`name ：<span class="subst">$&#123;e.name&#125;</span>`</span>, <span class="number">130</span>, <span class="number">20</span>);</span><br><span class="line">  ctx.<span class="title function_">fillText</span>(<span class="string">`number ：<span class="subst">$&#123;e.number&#125;</span>`</span>, <span class="number">130</span>, <span class="number">45</span>);</span><br><span class="line">  ctx.<span class="title function_">fillText</span>(<span class="string">`fen ：<span class="subst">$&#123;e.fen&#125;</span>`</span>, <span class="number">130</span>, <span class="number">70</span>);</span><br><span class="line">  ctx.<span class="property">fillStyle</span> = <span class="string">&quot;black&quot;</span>;</span><br><span class="line">  ctx.<span class="title function_">fillText</span>(<span class="string">`一个没啥用的demo`</span>, <span class="number">130</span>, <span class="number">110</span>);</span><br><span class="line">  <span class="keyword">let</span> base64 = canvas.<span class="title function_">toDataURL</span>(<span class="string">&quot;image/png&quot;</span>);</span><br><span class="line">  <span class="keyword">let</span> image = <span class="keyword">new</span> <span class="title class_">Image</span>();</span><br><span class="line">  image.<span class="property">src</span> = base64;</span><br><span class="line">  base64 = base64.<span class="title function_">replace</span>(<span class="regexp">/^data:image\/(png|jpg);base64,/</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">  <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(image);</span><br><span class="line">  <span class="comment">// 将生成的 base64 对象置入 zip 对象中</span></span><br><span class="line">  zip.<span class="title function_">file</span>(<span class="string">`<span class="subst">$&#123;e.name&#125;</span>.png`</span>, base64, &#123; <span class="attr">base64</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 生成 zip 并打包为 example.zip</span></span><br><span class="line">zip.<span class="title function_">generateAsync</span>(&#123; <span class="attr">type</span>: <span class="string">&quot;blob&quot;</span> &#125;).<span class="title function_">then</span>(<span class="keyword">function</span> (<span class="params">content</span>) &#123;</span><br><span class="line">  <span class="title function_">saveAs</span>(content, <span class="string">&quot;example.zip&quot;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>「一时技痒，献丑献丑！」</p>
+<p>这一下，众人再也没有下场显圣之心，本场大赛风头最盛的竟是嘉宾三人组。众人悻悻然对冠军失去了兴趣；</p>
+<p>最后由塞卡，订下这次赛事的主基调</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">batchDownload()</span><br></pre></td></tr></table></figure>
+
+<p>嘉宾们也兴致很高的留下了签名</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">JSZip</span> <span class="keyword">from</span> <span class="string">&quot;jszip&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">QRCode</span> <span class="keyword">from</span> <span class="string">&quot;qrcode&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; saveAs &#125; <span class="keyword">from</span> <span class="string">&quot;file-saver&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../../../images/2.gif" alt="图 3"></p>
+</div>
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5 itemprop="copyrightNotice">本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/06/30/sicker/frontend%20batch%20export%20canvas/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/06/30/sicker/frontend%20batch%20export%20canvas/";
+            const title         = "「前端批量导出canvas方案」";
+            const excerpt       = `
+在后台的时候，经常学会遇到批量导出的场景；通常我们可以交由后端去处理，然而最近在开发中遇到了需要绘制 canvas 后再导出的场景；
+
+方案面对这样的需求，提出了以下几个方案：
+方案一：后端绘制 canvas ，前端获取后端返回文件...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/Vue/" rel="tag">Vue</a>
+                </div>
+                <div class="pull-date">
+                    <time datetime="2023-05-21T12:56:24.857Z" itemprop="dateModified">最后编辑：2023-05-21</time>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" 在 centos 上安装 docker 和 docker-compose" href="/2021/06/16/sicker/how to install docker & docker-compose on centos/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" 在 ubuntu 上安装 docker 和 docker-compose" href="/2021/08/25/sicker/how to install docker & docker-compose on ubuntu/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" loading="lazy" decoding="auto" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">分享学习的文章分享基地</p>
+    </div>
+    <div class="site-meta">
+        <a class="meta-item" href="/archives/">
+            <span class="title">
+                文章
+            </span>
+            <span class="count">
+                71
+            </span>
+        </a>
+        <a class="meta-item" href="/categories/">
+            <span class="title">
+                分类
+            </span>
+            <span class="count">
+                0
+            </span>
+        </a>
+        <a class="meta-item" href="/tags/">
+            <span class="title">
+                标签
+            </span>
+            <span class="count">
+                44
+            </span>
+        </a>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/CSS/" style="font-size: 0.65em;">CSS</a> <a href="/tags/Docker/" style="font-size: 0.7em;">Docker</a> <a href="/tags/ElementUI/" style="font-size: 0.6em;">ElementUI</a> <a href="/tags/Fiddler/" style="font-size: 0.6em;">Fiddler</a> <a href="/tags/HTML/" style="font-size: 0.7em;">HTML</a> <a href="/tags/JMeter/" style="font-size: 0.6em;">JMeter</a> <a href="/tags/Java/" style="font-size: 0.75em;">Java</a> <a href="/tags/JavaScript/" style="font-size: 0.8em;">JavaScript</a> <a href="/tags/Jira/" style="font-size: 0.6em;">Jira</a> <a href="/tags/Koa/" style="font-size: 0.6em;">Koa</a> <a href="/tags/NPM/" style="font-size: 0.6em;">NPM</a> <a href="/tags/Performance-Test/" style="font-size: 0.6em;">Performance Test</a> <a href="/tags/SEO/" style="font-size: 0.6em;">SEO</a> <a href="/tags/Synology/" style="font-size: 0.65em;">Synology</a> <a href="/tags/VScode/" style="font-size: 0.6em;">VScode</a> <a href="/tags/Vant/" style="font-size: 0.6em;">Vant</a> <a href="/tags/Vue/" style="font-size: 0.8em;">Vue</a> <a href="/tags/ZenTao/" style="font-size: 0.6em;">ZenTao</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/we/"><i class="fa  fa-book"></i> 我们</a>
+            
+          
+        
+          
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/exp/"><i class="fa  fa-book"></i> Markdown 书写示例</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/611118/"><i class="fa  fa-book"></i> 我的双11、618</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/"><i class="fa  fa-book"></i> 搭建一个Hexo博客并用vercel部署</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/05/30/hello-world/"><i class="fa  fa-book"></i> Hello World</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        <!-- Keep for compatibility -->
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <!-- New links -->
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2023 栋栋的个人博客 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by John DD.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="/vendors/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="/vendors/nprogress@0.2.0/nprogress.js"></script>
+<script>
+    if (!window.kr) {
+        window.kr = {};
+    }
+    window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
+    window.kr.siteRoot = "/";
+</script>
+
+
+    <script async src="/js/candy.min.js"></script>
+
+
+
+    <script defer src="/vendors/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="/vendors/meting@2.0.1/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>

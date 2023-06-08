@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  
+  
+  <title>我是如何初始化一个 vue 的项目的 | 栋栋的个人博客</title>
+  
+  <meta name="author" content="John DD" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="Vue" />
+  
+  <meta name="description" content="风格指南 组件名应尽量使用多单词组合，避免撞车关键词如班级学生组件，我将采用 klass-student  而避免使用 class 或者 student  prop 使用参数校验  只应该拥有单个活跃实例的组件应该以 The 前缀命名，以示其唯一性。  和父组件紧密耦合的子组件应该以父组件名作为前缀命名。  模板中的组件名大小写使用小写+横线连接的形式如 my-component  JS 、 VU">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我是如何初始化一个 vue 的项目的">
+<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/11/22/sicker/how%20do%20I%20initialize%20the%20VUE%20project/index.html">
+<meta property="og:site_name" content="栋栋的个人博客">
+<meta property="og:description" content="风格指南 组件名应尽量使用多单词组合，避免撞车关键词如班级学生组件，我将采用 klass-student  而避免使用 class 或者 student  prop 使用参数校验  只应该拥有单个活跃实例的组件应该以 The 前缀命名，以示其唯一性。  和父组件紧密耦合的子组件应该以父组件名作为前缀命名。  模板中的组件名大小写使用小写+横线连接的形式如 my-component  JS 、 VU">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/images/fd4ffce6d3a2760f704c1863925ceed413b21c715c5eb455418062abda8cbfc7.png">
+<meta property="article:published_time" content="2021-11-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-21T12:56:24.859Z">
+<meta property="article:author" content="John DD">
+<meta property="article:tag" content="Vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/images/fd4ffce6d3a2760f704c1863925ceed413b21c715c5eb455418062abda8cbfc7.png">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" media="all"></script>
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-color-dark.min.css" media="(prefers-color-scheme: dark)"></script>
+    <script src="/js/kr-dark.min.js"></script>
+  
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" media="all"></script>
+  
+  <link rel="stylesheet" id="fontawe-css" href="/vendors/font-awesome@4.7.0/css/font-awesome.min.css" media="all"></script>
+  <link rel="stylesheet" id="nprogress-css" href="/vendors/nprogress@0.2.0/nprogress.css" media="all"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/aplayer@1.10.1/dist/APlayer.min.css"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"></script>
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="/vendors/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="/vendors/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+  
+  <style>
+    
+    
+      @media(min-width:768px) {
+        body.custom-background {
+          background-image: url('/images/bg.webp');
+        }
+      }
+    
+  </style>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                    
+                                        
+                                            <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/friends/"><i class="fa fa-paw"></i>好伙伴</a></li>
+                                        
+                                    
+                                        
+                                            <li>
+                                                <a><i class="fa fa-link"></i>链接</a>
+                                                <ul class="sub-menu">
+                                                    
+                                                        
+                                                    
+                                                </ul>
+                                            </li>
+                                        
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">栋栋的个人博客</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>栋栋的个人博客</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article itemscope itemtype="https://schema.org/Article">
+    
+    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/11/22/sicker/how%20do%20I%20initialize%20the%20VUE%20project/">
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center" itemprop="name headline">我是如何初始化一个 vue 的项目的</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><time datetime="2021-11-21T16:00:00.000Z" itemprop="datePublished"><i class="fa fa-calendar"></i> 2021-11-22</time></li>
+                <li itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <i class="fa fa-user"></i> 作者 <span itemprop="name">sicker</span>
+                </li>
+                
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            ~11.96K
+                        
+                        字
+                    </li>
+                
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                <div class="icon"><i class="fa fa-warning"></i></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1684673784859"></time> 前，其中的内容可能需要更新。</p></div>
+            </div>
+            
+            
+            
+            <hr />
+            <div itemprop="articleBody"><h2 id="风格指南"><a href="#风格指南" class="headerlink" title="风格指南"></a>风格指南</h2><ol>
+<li><p>组件名应尽量使用多单词组合，避免撞车关键词<br>如班级学生组件，我将采用 <code>klass-student </code> 而避免使用 <code>class</code> 或者 <code>student</code></p>
+</li>
+<li><p>prop 使用参数校验</p>
+</li>
+<li><p>只应该拥有单个活跃实例的组件应该以 The 前缀命名，以示其唯一性。</p>
+</li>
+<li><p>和父组件紧密耦合的子组件应该以父组件名作为前缀命名。</p>
+</li>
+<li><p>模板中的组件名大小写<br>使用小写+横线连接的形式如 my-component</p>
+</li>
+<li><p>JS 、 VUE 文件命名遵循横线连接</p>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/style-guide/index.html">官方风格</a></p>
+<p><a target="_blank" rel="noopener" href="https://panjiachen.github.io/vue-element-admin-site/zh/guide/advanced/style-guide.html">vue-element-admin</a></p>
+<h2 id="使用-vue-cli"><a href="#使用-vue-cli" class="headerlink" title="使用 vue-cli"></a>使用 vue-cli</h2><ol>
+<li>全局安装组件<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g @vue/cli</span><br></pre></td></tr></table></figure></li>
+<li>创建项目<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue create hello-world</span><br></pre></td></tr></table></figure></li>
+<li>安装组件（自定义，需要逐个安装）<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue add eslint [router vuex]</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="初始化项目"><a href="#初始化项目" class="headerlink" title="初始化项目"></a>初始化项目</h2><ol>
+<li><p>继续通过 npm 安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -D sass@1.26.2 sass-loader@8.0.2</span><br></pre></td></tr></table></figure></li>
+<li><p>建设 scss 公共路径</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> src/assets/scss &amp;&amp; <span class="built_in">touch</span> src/assets/scss/index.scss</span><br></pre></td></tr></table></figure></li>
+<li><p>新建 vue.config.js 配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> vue.config.js</span><br></pre></td></tr></table></figure></li>
+<li><p>键入简单 webpack 初始化配置</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> port = process.<span class="property">env</span>.<span class="property">port</span> || process.<span class="property">env</span>.<span class="property">npm_config_port</span> || <span class="number">8888</span> <span class="comment">// dev port</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">css</span>: &#123;</span><br><span class="line">    <span class="attr">loaderOptions</span>: &#123;</span><br><span class="line">      <span class="attr">scss</span>: &#123;</span><br><span class="line">        <span class="attr">prependData</span>: <span class="string">`@import &quot;@/assets/scss/index.scss&quot;;`</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">devServer</span>: &#123;</span><br><span class="line">    <span class="attr">port</span>: port,</span><br><span class="line">    <span class="attr">open</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">overlay</span>: &#123;</span><br><span class="line">      <span class="attr">warnings</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">errors</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// before: require(&#x27;./mock/mock-server.js&#x27;)</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">publicPath</span>: <span class="string">&#x27;./&#x27;</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置代码格式</p>
+</li>
+</ol>
+<ul>
+<li>配置 vscode</li>
+</ul>
+<p>安装 vscode 组件 <code>vetur</code> <code>EditorConfig for VS Code</code> <code>ESLint</code> <code>Prettier - Code formatter</code><br><img src="/../../../images/fd4ffce6d3a2760f704c1863925ceed413b21c715c5eb455418062abda8cbfc7.png" alt="图 1"><br>修改 VSCode setting.json</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关闭自动保存</span></span><br><span class="line"><span class="string">&quot;files.autoSave&quot;</span>: <span class="string">&quot;off&quot;</span>,</span><br><span class="line"><span class="comment"># 保存时美化文件</span></span><br><span class="line"><span class="string">&quot;editor.formatOnSave&quot;</span>: <span class="literal">true</span>,</span><br><span class="line"><span class="comment"># 窗口缩放等级</span></span><br><span class="line"><span class="string">&quot;window.zoomLevel&quot;</span>: 1,</span><br><span class="line"><span class="comment"># eslint 配置</span></span><br><span class="line"><span class="string">&quot;eslint.validate&quot;</span>: [</span><br><span class="line">    <span class="string">&quot;javascript&quot;</span>,</span><br><span class="line">    <span class="string">&quot;javascriptreact&quot;</span>,</span><br><span class="line">    <span class="string">&quot;html&quot;</span>,</span><br><span class="line">    <span class="string">&quot;vue&quot;</span>,</span><br><span class="line">],</span><br><span class="line"><span class="comment"># 保存时运行</span></span><br><span class="line"><span class="string">&quot;eslint.run&quot;</span>: <span class="string">&quot;onSave&quot;</span>,</span><br><span class="line"><span class="comment"># 保存时自动尝试修复</span></span><br><span class="line"><span class="string">&quot;editor.codeActionsOnSave&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;source.fixAll.eslint&quot;</span>: <span class="literal">true</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="comment"># eslint 包管理</span></span><br><span class="line"><span class="string">&quot;eslint.packageManager&quot;</span>: <span class="string">&quot;yarn&quot;</span>,</span><br><span class="line"><span class="comment"># vetur format 使用单引号、错误级别；</span></span><br><span class="line"><span class="string">&quot;vetur.format.defaultFormatterOptions&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;prettier&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;singleQuote&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">&quot;semi&quot;</span>: <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line"><span class="string">&quot;files.associations&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;*.cjson&quot;</span>: <span class="string">&quot;jsonc&quot;</span>,</span><br><span class="line">    <span class="string">&quot;*.wxss&quot;</span>: <span class="string">&quot;css&quot;</span>,</span><br><span class="line">    <span class="string">&quot;*.wxs&quot;</span>: <span class="string">&quot;javascript&quot;</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="string">&quot;emmet.includeLanguages&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;wxml&quot;</span>: <span class="string">&quot;html&quot;</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="comment"># VSCode 默认终端</span></span><br><span class="line"><span class="string">&quot;terminal.integrated.profiles.windows&quot;</span>:&#123;</span><br><span class="line">    <span class="string">&quot;Git-Bash&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;path&quot;</span>: <span class="string">&quot;C:\\Program Files\\Git\\bin\\bash.exe&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line"><span class="string">&quot;terminal.integrated.defaultProfile.windows&quot;</span>: <span class="string">&quot;Git-Bash&quot;</span>,</span><br><span class="line"><span class="comment"># 树形菜单缩进</span></span><br><span class="line"><span class="string">&quot;workbench.tree.indent&quot;</span>: 20</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>配置 .editorconfig</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> .editorconfig</span><br></pre></td></tr></table></figure>
+<p>键入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># https://editorconfig.org</span></span><br><span class="line">root = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">[*]</span><br><span class="line">charset = utf-8</span><br><span class="line"><span class="comment"># 缩进方式</span></span><br><span class="line">indent_style = space</span><br><span class="line"><span class="comment"># 缩进空格数</span></span><br><span class="line">indent_size = 2</span><br><span class="line"><span class="comment"># 定义换行符</span></span><br><span class="line">end_of_line = lf</span><br><span class="line"><span class="comment"># 文件是否以空白行结尾</span></span><br><span class="line">insert_final_newline = <span class="literal">true</span></span><br><span class="line"><span class="comment"># 是否去处行首行尾的空白字符</span></span><br><span class="line">trim_trailing_whitespace = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">[*.md]</span><br><span class="line"><span class="comment"># 保存文件时是否在结尾添加一个新行</span></span><br><span class="line">insert_final_newline = <span class="literal">false</span></span><br><span class="line"><span class="comment"># 在新行之前是否移除所有的空格字符</span></span><br><span class="line">trim_trailing_whitespace = <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置 elsint</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> .eslintrc.js</span><br></pre></td></tr></table></figure>
+<p>键入</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">    root: <span class="literal">true</span>,</span><br><span class="line">    parserOptions: &#123;</span><br><span class="line">        parser: <span class="string">&#x27;babel-eslint&#x27;</span>,</span><br><span class="line">        sourceType: <span class="string">&#x27;module&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="built_in">env</span>: &#123;</span><br><span class="line">        browser: <span class="literal">true</span>,</span><br><span class="line">        node: <span class="literal">true</span>,</span><br><span class="line">        es6: <span class="literal">true</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    extends: [<span class="string">&#x27;plugin:vue/recommended&#x27;</span>, <span class="string">&#x27;eslint:recommended&#x27;</span>],</span><br><span class="line"></span><br><span class="line">    // add your custom rules here</span><br><span class="line">    //it is base on https://github.com/vuejs/eslint-config-vue</span><br><span class="line">    rules: &#123;</span><br><span class="line">        <span class="string">&quot;vue/max-attributes-per-line&quot;</span>: [2, &#123;</span><br><span class="line">            <span class="string">&quot;singleline&quot;</span>: 10,</span><br><span class="line">            <span class="string">&quot;multiline&quot;</span>: &#123;</span><br><span class="line">                <span class="string">&quot;max&quot;</span>: 1,</span><br><span class="line">                <span class="string">&quot;allowFirstLine&quot;</span>: <span class="literal">false</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&quot;vue/singleline-html-element-content-newline&quot;</span>: <span class="string">&quot;off&quot;</span>,</span><br><span class="line">        <span class="string">&quot;vue/multiline-html-element-content-newline&quot;</span>: <span class="string">&quot;off&quot;</span>,</span><br><span class="line">        <span class="string">&quot;vue/name-property-casing&quot;</span>: [<span class="string">&quot;error&quot;</span>, <span class="string">&quot;PascalCase&quot;</span>],</span><br><span class="line">        <span class="string">&quot;vue/no-v-html&quot;</span>: <span class="string">&quot;off&quot;</span>,</span><br><span class="line">        <span class="string">&#x27;accessor-pairs&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;arrow-spacing&#x27;</span>: [2, &#123;</span><br><span class="line">            <span class="string">&#x27;before&#x27;</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">&#x27;after&#x27;</span>: <span class="literal">true</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;block-spacing&#x27;</span>: [2, <span class="string">&#x27;always&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;brace-style&#x27;</span>: [2, <span class="string">&#x27;1tbs&#x27;</span>, &#123;</span><br><span class="line">            <span class="string">&#x27;allowSingleLine&#x27;</span>: <span class="literal">true</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;camelcase&#x27;</span>: [0, &#123;</span><br><span class="line">            <span class="string">&#x27;properties&#x27;</span>: <span class="string">&#x27;always&#x27;</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;comma-dangle&#x27;</span>: [2, <span class="string">&#x27;never&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;comma-spacing&#x27;</span>: [2, &#123;</span><br><span class="line">            <span class="string">&#x27;before&#x27;</span>: <span class="literal">false</span>,</span><br><span class="line">            <span class="string">&#x27;after&#x27;</span>: <span class="literal">true</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;comma-style&#x27;</span>: [2, <span class="string">&#x27;last&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;constructor-super&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;curly&#x27;</span>: [2, <span class="string">&#x27;multi-line&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;dot-location&#x27;</span>: [2, <span class="string">&#x27;property&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;eol-last&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;eqeqeq&#x27;</span>: [<span class="string">&quot;error&quot;</span>, <span class="string">&quot;always&quot;</span>, &#123; <span class="string">&quot;null&quot;</span>: <span class="string">&quot;ignore&quot;</span> &#125;],</span><br><span class="line">        <span class="string">&#x27;generator-star-spacing&#x27;</span>: [2, &#123;</span><br><span class="line">            <span class="string">&#x27;before&#x27;</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">&#x27;after&#x27;</span>: <span class="literal">true</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;handle-callback-err&#x27;</span>: [2, <span class="string">&#x27;^(err|error)$&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;indent&#x27;</span>: [2, 2, &#123;</span><br><span class="line">            <span class="string">&#x27;SwitchCase&#x27;</span>: 1</span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;jsx-quotes&#x27;</span>: [2, <span class="string">&#x27;prefer-single&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;key-spacing&#x27;</span>: [2, &#123;</span><br><span class="line">            <span class="string">&#x27;beforeColon&#x27;</span>: <span class="literal">false</span>,</span><br><span class="line">            <span class="string">&#x27;afterColon&#x27;</span>: <span class="literal">true</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;keyword-spacing&#x27;</span>: [2, &#123;</span><br><span class="line">            <span class="string">&#x27;before&#x27;</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">&#x27;after&#x27;</span>: <span class="literal">true</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;new-cap&#x27;</span>: [2, &#123;</span><br><span class="line">            <span class="string">&#x27;newIsCap&#x27;</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">&#x27;capIsNew&#x27;</span>: <span class="literal">false</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;new-parens&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-array-constructor&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-caller&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-console&#x27;</span>: <span class="string">&#x27;off&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;no-class-assign&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-cond-assign&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-const-assign&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-control-regex&#x27;</span>: 0,</span><br><span class="line">        <span class="string">&#x27;no-delete-var&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-dupe-args&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-dupe-class-members&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-dupe-keys&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-duplicate-case&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-empty-character-class&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-empty-pattern&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-eval&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-ex-assign&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-extend-native&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-extra-bind&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-extra-boolean-cast&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-extra-parens&#x27;</span>: [2, <span class="string">&#x27;functions&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;no-fallthrough&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-floating-decimal&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-func-assign&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-implied-eval&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-inner-declarations&#x27;</span>: [2, <span class="string">&#x27;functions&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;no-invalid-regexp&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-irregular-whitespace&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-iterator&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-label-var&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-labels&#x27;</span>: [2, &#123;</span><br><span class="line">            <span class="string">&#x27;allowLoop&#x27;</span>: <span class="literal">false</span>,</span><br><span class="line">            <span class="string">&#x27;allowSwitch&#x27;</span>: <span class="literal">false</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;no-lone-blocks&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-mixed-spaces-and-tabs&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-multi-spaces&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-multi-str&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-multiple-empty-lines&#x27;</span>: [2, &#123;</span><br><span class="line">            <span class="string">&#x27;max&#x27;</span>: 1</span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;no-native-reassign&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-negated-in-lhs&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-new-object&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-new-require&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-new-symbol&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-new-wrappers&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-obj-calls&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-octal&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-octal-escape&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-path-concat&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-proto&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-redeclare&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-regex-spaces&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-return-assign&#x27;</span>: [2, <span class="string">&#x27;except-parens&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;no-self-assign&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-self-compare&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-sequences&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-shadow-restricted-names&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-spaced-func&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-sparse-arrays&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-this-before-super&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-throw-literal&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-trailing-spaces&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-undef&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-undef-init&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-unexpected-multiline&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-unmodified-loop-condition&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-unneeded-ternary&#x27;</span>: [2, &#123;</span><br><span class="line">            <span class="string">&#x27;defaultAssignment&#x27;</span>: <span class="literal">false</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;no-unreachable&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-unsafe-finally&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-unused-vars&#x27;</span>: [2, &#123;</span><br><span class="line">            <span class="string">&#x27;vars&#x27;</span>: <span class="string">&#x27;all&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;args&#x27;</span>: <span class="string">&#x27;none&#x27;</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;no-useless-call&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-useless-computed-key&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-useless-constructor&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-useless-escape&#x27;</span>: 0,</span><br><span class="line">        <span class="string">&#x27;no-whitespace-before-property&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-with&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;one-var&#x27;</span>: [2, &#123;</span><br><span class="line">            <span class="string">&#x27;initialized&#x27;</span>: <span class="string">&#x27;never&#x27;</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;operator-linebreak&#x27;</span>: [2, <span class="string">&#x27;after&#x27;</span>, &#123;</span><br><span class="line">            <span class="string">&#x27;overrides&#x27;</span>: &#123;</span><br><span class="line">                <span class="string">&#x27;?&#x27;</span>: <span class="string">&#x27;before&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;:&#x27;</span>: <span class="string">&#x27;before&#x27;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;padded-blocks&#x27;</span>: [2, <span class="string">&#x27;never&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;quotes&#x27;</span>: [2, <span class="string">&#x27;single&#x27;</span>, &#123;</span><br><span class="line">            <span class="string">&#x27;avoidEscape&#x27;</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">&#x27;allowTemplateLiterals&#x27;</span>: <span class="literal">true</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;semi&#x27;</span>: [2, <span class="string">&#x27;never&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;semi-spacing&#x27;</span>: [2, &#123;</span><br><span class="line">            <span class="string">&#x27;before&#x27;</span>: <span class="literal">false</span>,</span><br><span class="line">            <span class="string">&#x27;after&#x27;</span>: <span class="literal">true</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;space-before-blocks&#x27;</span>: [2, <span class="string">&#x27;always&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;space-before-function-paren&#x27;</span>: [2, <span class="string">&#x27;never&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;space-in-parens&#x27;</span>: [2, <span class="string">&#x27;never&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;space-infix-ops&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;space-unary-ops&#x27;</span>: [2, &#123;</span><br><span class="line">            <span class="string">&#x27;words&#x27;</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">&#x27;nonwords&#x27;</span>: <span class="literal">false</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;spaced-comment&#x27;</span>: [2, <span class="string">&#x27;always&#x27;</span>, &#123;</span><br><span class="line">            <span class="string">&#x27;markers&#x27;</span>: [<span class="string">&#x27;global&#x27;</span>, <span class="string">&#x27;globals&#x27;</span>, <span class="string">&#x27;eslint&#x27;</span>, <span class="string">&#x27;eslint-disable&#x27;</span>, <span class="string">&#x27;*package&#x27;</span>, <span class="string">&#x27;!&#x27;</span>, <span class="string">&#x27;,&#x27;</span>]</span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;template-curly-spacing&#x27;</span>: [2, <span class="string">&#x27;never&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;use-isnan&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;valid-typeof&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;wrap-iife&#x27;</span>: [2, <span class="string">&#x27;any&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;yield-star-spacing&#x27;</span>: [2, <span class="string">&#x27;both&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;yoda&#x27;</span>: [2, <span class="string">&#x27;never&#x27;</span>],</span><br><span class="line">        <span class="string">&#x27;prefer-const&#x27;</span>: 2,</span><br><span class="line">        <span class="string">&#x27;no-debugger&#x27;</span>: process.env.NODE_ENV === <span class="string">&#x27;production&#x27;</span> ? 2 : 0,</span><br><span class="line">        <span class="string">&#x27;object-curly-spacing&#x27;</span>: [2, <span class="string">&#x27;always&#x27;</span>, &#123;</span><br><span class="line">            objectsInObjects: <span class="literal">false</span></span><br><span class="line">        &#125;],</span><br><span class="line">        <span class="string">&#x27;array-bracket-spacing&#x27;</span>: [2, <span class="string">&#x27;never&#x27;</span>]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> .eslintignore</span><br></pre></td></tr></table></figure>
+<p>键入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">build/*.js</span><br><span class="line">src/assets</span><br><span class="line">public</span><br><span class="line">dist</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置 git 代码忽略<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> .gitignore</span><br></pre></td></tr></table></figure>
+键入</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">.DS_Store</span><br><span class="line">node_modules/</span><br><span class="line">dist/</span><br><span class="line">npm-debug.log*</span><br><span class="line">yarn-debug.log*</span><br><span class="line">yarn-error.log*</span><br><span class="line">**/*.<span class="built_in">log</span></span><br><span class="line"></span><br><span class="line">tests/**/coverage/</span><br><span class="line">tests/e2e/reports</span><br><span class="line">selenium-debug.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># Editor directories and files</span></span><br><span class="line">.idea</span><br><span class="line">.vscode</span><br><span class="line">*.suo</span><br><span class="line">*.ntvs*</span><br><span class="line">*.njsproj</span><br><span class="line">*.sln</span><br><span class="line">*.<span class="built_in">local</span></span><br><span class="line"></span><br><span class="line">package-lock.json</span><br><span class="line">yarn.lock</span><br></pre></td></tr></table></figure></div>
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5 itemprop="copyrightNotice">本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/11/22/sicker/how%20do%20I%20initialize%20the%20VUE%20project/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/11/22/sicker/how%20do%20I%20initialize%20the%20VUE%20project/";
+            const title         = "「我是如何初始化一个 vue 的项目的」";
+            const excerpt       = `风格指南
+组件名应尽量使用多单词组合，避免撞车关键词如班级学生组件，我将采用 klass-student  而避免使用 class 或者 student
+
+prop 使用参数校验
+
+只应该拥有单个活跃实例的组件应该以 The 前缀命名...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/Vue/" rel="tag">Vue</a>
+                </div>
+                <div class="pull-date">
+                    <time datetime="2023-05-21T12:56:24.859Z" itemprop="dateModified">最后编辑：2023-05-21</time>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" 在 ubuntu 上安装 docker 和 docker-compose" href="/2021/08/25/sicker/how to install docker & docker-compose on ubuntu/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" vue 2.6 微网站授权登录方案" href="/2021/12/06/sicker/vue authentication upon wechat official account/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" loading="lazy" decoding="auto" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">分享学习的文章分享基地</p>
+    </div>
+    <div class="site-meta">
+        <a class="meta-item" href="/archives/">
+            <span class="title">
+                文章
+            </span>
+            <span class="count">
+                71
+            </span>
+        </a>
+        <a class="meta-item" href="/categories/">
+            <span class="title">
+                分类
+            </span>
+            <span class="count">
+                0
+            </span>
+        </a>
+        <a class="meta-item" href="/tags/">
+            <span class="title">
+                标签
+            </span>
+            <span class="count">
+                44
+            </span>
+        </a>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/CSS/" style="font-size: 0.65em;">CSS</a> <a href="/tags/Docker/" style="font-size: 0.7em;">Docker</a> <a href="/tags/ElementUI/" style="font-size: 0.6em;">ElementUI</a> <a href="/tags/Fiddler/" style="font-size: 0.6em;">Fiddler</a> <a href="/tags/HTML/" style="font-size: 0.7em;">HTML</a> <a href="/tags/JMeter/" style="font-size: 0.6em;">JMeter</a> <a href="/tags/Java/" style="font-size: 0.75em;">Java</a> <a href="/tags/JavaScript/" style="font-size: 0.8em;">JavaScript</a> <a href="/tags/Jira/" style="font-size: 0.6em;">Jira</a> <a href="/tags/Koa/" style="font-size: 0.6em;">Koa</a> <a href="/tags/NPM/" style="font-size: 0.6em;">NPM</a> <a href="/tags/Performance-Test/" style="font-size: 0.6em;">Performance Test</a> <a href="/tags/SEO/" style="font-size: 0.6em;">SEO</a> <a href="/tags/Synology/" style="font-size: 0.65em;">Synology</a> <a href="/tags/VScode/" style="font-size: 0.6em;">VScode</a> <a href="/tags/Vant/" style="font-size: 0.6em;">Vant</a> <a href="/tags/Vue/" style="font-size: 0.8em;">Vue</a> <a href="/tags/ZenTao/" style="font-size: 0.6em;">ZenTao</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/we/"><i class="fa  fa-book"></i> 我们</a>
+            
+          
+        
+          
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/exp/"><i class="fa  fa-book"></i> Markdown 书写示例</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/611118/"><i class="fa  fa-book"></i> 我的双11、618</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/"><i class="fa  fa-book"></i> 搭建一个Hexo博客并用vercel部署</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/05/30/hello-world/"><i class="fa  fa-book"></i> Hello World</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        <!-- Keep for compatibility -->
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <!-- New links -->
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2023 栋栋的个人博客 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by John DD.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="/vendors/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="/vendors/nprogress@0.2.0/nprogress.js"></script>
+<script>
+    if (!window.kr) {
+        window.kr = {};
+    }
+    window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
+    window.kr.siteRoot = "/";
+</script>
+
+
+    <script async src="/js/candy.min.js"></script>
+
+
+
+    <script defer src="/vendors/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="/vendors/meting@2.0.1/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>

@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  
+  
+  <title>vue-element-admin的使用总结 | 栋栋的个人博客</title>
+  
+  <meta name="author" content="John DD" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="JavaScript, Vue" />
+  
+  <meta name="description" content="关于后台系统这一块，一直用的都是vue-element-admin，这一套模板是基于 vue 和 element-ui实现的，动态路由，权限验证，提炼了典型的业务模型，提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。    文件1-user.js 登录登出在src目录下的api文件夹中会用到user.js user.js中有三个方法，分别是 login登录方法， getInfo获">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue-element-admin的使用总结">
+<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/04/29/linvkey/vue-element-admin/index.html">
+<meta property="og:site_name" content="栋栋的个人博客">
+<meta property="og:description" content="关于后台系统这一块，一直用的都是vue-element-admin，这一套模板是基于 vue 和 element-ui实现的，动态路由，权限验证，提炼了典型的业务模型，提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。    文件1-user.js 登录登出在src目录下的api文件夹中会用到user.js user.js中有三个方法，分别是 login登录方法， getInfo获">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619662923651.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619662936726.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619662946024.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619662954053.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619662963801.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619662971664.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619662982576.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619662990738.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619662998245.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619663048668.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619663057347.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619663066209.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619663073523.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619663081036.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619663089294.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619663108953.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619663147879.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619663155422.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619663164642.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619663177298.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619663186524.png">
+<meta property="article:published_time" content="2021-04-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-06-08T09:53:35.940Z">
+<meta property="article:author" content="John DD">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/1619662923651.png">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" media="all"></script>
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-color-dark.min.css" media="(prefers-color-scheme: dark)"></script>
+    <script src="/js/kr-dark.min.js"></script>
+  
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" media="all"></script>
+  
+  <link rel="stylesheet" id="fontawe-css" href="/vendors/font-awesome@4.7.0/css/font-awesome.min.css" media="all"></script>
+  <link rel="stylesheet" id="nprogress-css" href="/vendors/nprogress@0.2.0/nprogress.css" media="all"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/aplayer@1.10.1/dist/APlayer.min.css"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"></script>
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="/vendors/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="/vendors/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+  
+  <style>
+    
+    
+      @media(min-width:768px) {
+        body.custom-background {
+          background-image: url('/images/bg.webp');
+        }
+      }
+    
+  </style>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                    
+                                        
+                                            <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/friends/"><i class="fa fa-paw"></i>好伙伴</a></li>
+                                        
+                                    
+                                        
+                                            <li>
+                                                <a><i class="fa fa-link"></i>链接</a>
+                                                <ul class="sub-menu">
+                                                    
+                                                        
+                                                    
+                                                </ul>
+                                            </li>
+                                        
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">栋栋的个人博客</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>栋栋的个人博客</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article itemscope itemtype="https://schema.org/Article">
+    
+    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/04/29/linvkey/vue-element-admin/">
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center" itemprop="name headline">vue-element-admin的使用总结</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><time datetime="2021-04-28T16:00:00.000Z" itemprop="datePublished"><i class="fa fa-calendar"></i> 2021-04-29</time></li>
+                <li itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <i class="fa fa-user"></i> 作者 <span itemprop="name">LinvKey</span>
+                </li>
+                
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            ~3.35K
+                        
+                        字
+                    </li>
+                
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                <div class="icon"><i class="fa fa-warning"></i></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1686218015940"></time> 前，其中的内容可能需要更新。</p></div>
+            </div>
+            
+            
+            
+            <hr />
+            <div itemprop="articleBody"><blockquote>
+<p>关于后台系统这一块，一直用的都是vue-element-admin，这一套模板是基于 vue 和 element-ui实现的，动态路由，权限验证，提炼了典型的业务模型，提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。</p>
+</blockquote>
+<p><img src="/./../../img/1619662923651.png" alt="1619662923651"></p>
+<p><img src="/./../../img/1619662936726.png" alt="1619662936726"></p>
+<h3 id="文件1-user-js-登录登出"><a href="#文件1-user-js-登录登出" class="headerlink" title="文件1-user.js 登录登出"></a><strong>文件1-user.js 登录登出</strong></h3><p>在src目录下的api文件夹中会用到user.js</p>
+<p>user.js中有三个方法，分别是</p>
+<p>login登录方法，</p>
+<p>getInfo获取登录信息的方法，</p>
+<p>以及logout登出的方法</p>
+<p>它们是基于utils&#x2F;request.js文件的</p>
+<h3 id="文件2-request-js设置baseURL"><a href="#文件2-request-js设置baseURL" class="headerlink" title="文件2-request.js设置baseURL"></a><strong>文件2-request.js设置baseURL</strong></h3><p>在utils&#x2F;request.js这个文件中需要注意</p>
+<p><img src="/./../../img/1619662946024.png" alt="1619662946024"></p>
+<p><strong>2.1</strong></p>
+<p>第一个红框对应的文件是baseURL</p>
+<p>env.development和.env.production</p>
+<p>它对应的文件是项目根目录下的</p>
+<p><img src="/./../../img/1619662954053.png" alt="1619662954053"></p>
+<p>.env.development和.env.production</p>
+<p>这两个文件中</p>
+<p>唯一的区别就是</p>
+<p><img src="/./../../img/1619662963801.png" alt="1619662963801"></p>
+<p>一个对应上线，一个对应开发</p>
+<p>而VUE_APP_BASE_API熟不熟悉？</p>
+<p>是的，就是文件2-utils&#x2F;request.js文件中的第一个红框</p>
+<p>用于配置baseURL的</p>
+<p>VUE_APP_BASE_API &#x3D; “路径值”</p>
+<p>路径值就是后端给的baseURL</p>
+<p><strong>2.2</strong></p>
+<p>第二个红框 是在请求拦截器中</p>
+<p>给请求投添加token</p>
+<p>注意这个 “X-Token” 是可以和后端商量配合前端来命名的</p>
+<p><strong>2.3</strong></p>
+<p><img src="/./../../img/1619662971664.png" alt="1619662971664"></p>
+<p>这个状态码，框架里给的是20000   而后端返回的大都是200所以要自己改一下</p>
+<h3 id="文件3-auth-js设置token"><a href="#文件3-auth-js设置token" class="headerlink" title="文件3-auth.js设置token"></a><strong>文件3-auth.js设置token</strong></h3><p>在utils&#x2F;auth.js这个文件中需要注意</p>
+<p><img src="/./../../img/1619662982576.png" alt="1619662982576"></p>
+<p>这个项目用的是cookie来存储token</p>
+<p>我在做项目的过程中使用同一个名字 TokenKey（当时都叫token）</p>
+<p>结果出现一个项目登录之后，另一个项目无法登录的情况</p>
+<p>所以在utils&#x2F;auth.js这个文件中最好还是改一下 TokenKey 比较好</p>
+<h3 id="文件4-get-page-title-js设置标题"><a href="#文件4-get-page-title-js设置标题" class="headerlink" title="文件4-get-page-title.js设置标题"></a><strong>文件4-get-page-title.js设置标题</strong></h3><p>在utils&#x2F;get-page-title.js这个文件中需要注意</p>
+<p>这个文件是设置网页标题的</p>
+<p>而具体设置是在红框处，按住ctrl键</p>
+<p><img src="/./../../img/1619662990738.png" alt="1619662990738"></p>
+<p>点进去</p>
+<p><img src="/./../../img/1619662998245.png" alt="1619662998245"></p>
+<p>就可以修改网页标题了</p>
+<p><img src="/./../../img/1619663048668.png" alt="1619663048668"></p>
+<h3 id="文件5-在layout中的components中的Sidebar中的Logo-vue文件"><a href="#文件5-在layout中的components中的Sidebar中的Logo-vue文件" class="headerlink" title="文件5-在layout中的components中的Sidebar中的Logo.vue文件"></a><strong>文件5-在layout中的components中的Sidebar中的Logo.vue文件</strong></h3><p>把data中的数据改掉，以防日后出现</p>
+<h3 id="文件6-在layout中的components中AppMain-vue"><a href="#文件6-在layout中的components中AppMain-vue" class="headerlink" title="文件6-在layout中的components中AppMain.vue"></a><strong>文件6-在layout中的components中AppMain.vue</strong></h3><p>transition标签的name属性，默认提供了fade和fade-transform两个转场动画</p>
+<p>但是没啥区别</p>
+<h3 id="文件7-在layout中的components中Navbar-vue"><a href="#文件7-在layout中的components中Navbar-vue" class="headerlink" title="文件7-在layout中的components中Navbar.vue"></a><strong>文件7-在layout中的components中Navbar.vue</strong></h3><p>可以设置下拉</p>
+<p><img src="/./../../img/1619663057347.png" alt="1619663057347"></p>
+<p>这里注释掉还剩最后一个退出按钮</p>
+<p><img src="/./../../img/1619663066209.png" alt="1619663066209"></p>
+<h3 id="文件8-router"><a href="#文件8-router" class="headerlink" title="文件8-router"></a><strong>文件8-router</strong></h3><p>在src的router文件夹的index.js中</p>
+<p>有两种路由，</p>
+<p>一种是不需要权限，所有人都能访问的页面constantRoutes</p>
+<p>一种是需要权限，必须是指定的角色才能访问的页面asyncRoutes</p>
+<p><img src="/./../../img/1619663073523.png" alt="1619663073523"></p>
+<p>constantRoutes无需权限的路由配置</p>
+<p><img src="/./../../img/1619663081036.png" alt="1619663081036"></p>
+<p>asyncRoutes需要权限的路由配置</p>
+<p><img src="/./../../img/1619663089294.png" alt="1619663089294"></p>
+<h3 id="文件9-store"><a href="#文件9-store" class="headerlink" title="文件9-store"></a><strong>文件9-store</strong></h3><p>在store&#x2F;modules&#x2F;user.js这个文件中需要注意</p>
+<p>在定义的actions里有三个方法分别对应api&#x2F;user.js下的</p>
+<p>login登录方法，</p>
+<p>getInfo获取登录信息的方法，</p>
+<p>以及logout登出的方法。</p>
+<p>1.login登录方法：</p>
+<p><img src="/./../../img/1619663108953.png" alt="1619663108953"></p>
+<p>这里需要修改红框处，由后端返回的账号密码两个字段，（有的时候，第二行结构赋值出的username和password也需要改成后端返回的账号密码字段）</p>
+<p>2.getInfo获取登录信息的方法：</p>
+<p><img src="/./../../img/1619663147879.png" alt="1619663147879"></p>
+<p>在登录时后端一般会返回三个常用的值，分别是昵称，头像和token</p>
+<p>token在login登录方法已经保存了</p>
+<p>这里保存的是昵称和头像</p>
+<p>3.登出方法</p>
+<p>4.消除token方法 </p>
+<p>这里不需要修改</p>
+<h3 id="文件10-view"><a href="#文件10-view" class="headerlink" title="文件10-view"></a><strong>文件10-view</strong></h3><p>这个文件夹是存放页面的</p>
+<p>要注意的有404页面和login页面</p>
+<p>404页面只要注意到模板框架会有广告性的文字，改掉即可</p>
+<p>在login页面</p>
+<p>有</p>
+<p>1.标题要修改</p>
+<p><img src="/./../../img/1619663155422.png" alt="1619663155422"></p>
+<p>2.登录表单的校验规则</p>
+<p>还要留意handleLogin登录事件</p>
+<h3 id="文件11-axios"><a href="#文件11-axios" class="headerlink" title="文件11-axios"></a><strong>文件11-axios</strong></h3><p>只需要保证请求头中的X-Token和后端一致就行了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&quot;axios&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; getToken &#125; <span class="keyword">from</span> <span class="string">&#x27;@/utils/auth&#x27;</span></span><br><span class="line"><span class="comment">// 创建axios实例 </span></span><br><span class="line"><span class="keyword">const</span> service = axios.<span class="title function_">create</span>(&#123;&#125;);</span><br><span class="line"><span class="comment">// request拦截器 </span></span><br><span class="line">service.<span class="property">interceptors</span>.<span class="property">request</span>.<span class="title function_">use</span>(</span><br><span class="line">    <span class="function"><span class="params">config</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// config.headers[&quot;tokenid&quot;] = &quot;435065970&quot;; </span></span><br><span class="line">        <span class="comment">// 请求头中添加tokenid     </span></span><br><span class="line">        config.<span class="property">headers</span>[<span class="string">&quot;X-Token&quot;</span>] = <span class="title function_">getToken</span>();</span><br><span class="line">        <span class="comment">// 请求头中添加X-Token     </span></span><br><span class="line">        <span class="keyword">return</span> config;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="params">error</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="title class_">Promise</span>.<span class="title function_">reject</span>(error);</span><br><span class="line">    &#125;</span><br><span class="line">);</span><br><span class="line"><span class="comment">// response拦截器 </span></span><br><span class="line">service.<span class="property">interceptors</span>.<span class="property">response</span>.<span class="title function_">use</span>(</span><br><span class="line">    <span class="function"><span class="params">response</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (response) &#123;</span><br><span class="line">            <span class="keyword">return</span> response.<span class="property">data</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="title class_">Promise</span>.<span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&quot;error&quot;</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="function"><span class="params">error</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(error).<span class="title function_">includes</span>(<span class="string">&quot;401&quot;</span>)) &#123;</span><br><span class="line">            <span class="title function_">alert</span>(<span class="string">&quot;登录已过期，请重新登录！&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="title function_">alert</span>(error);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="title class_">Promise</span>.<span class="title function_">reject</span>(error);</span><br><span class="line">    &#125;</span><br><span class="line">);</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> service;</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件12-main-js"><a href="#文件12-main-js" class="headerlink" title="文件12-main.js"></a><strong>文件12-main.js</strong></h3><p>在main.js中</p>
+<p><img src="/./../../img/1619663164642.png" alt="1619663164642"></p>
+<p><img src="/./../../img/1619663177298.png" alt="1619663177298"></p>
+<p>1.配置axios</p>
+<p>2.设置全局样式类</p>
+<p>3.定义自定义的过滤器用于更改字符格式</p>
+<h3 id="封装方法"><a href="#封装方法" class="headerlink" title="封装方法"></a><strong>封装方法</strong></h3><p>1.统一在项目的src的api文件夹下 创建JS文件</p>
+<p>第一步就要引入</p>
+<p><code>import request from &#39;@/utils/request&#39; </code></p>
+<p>然后导出方法</p>
+<p>我这里封装的方法需要三个参数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//指令列表/&#123;pageNo&#125;/&#123;pageSize&#125;/&#123;did&#125;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">requst_instructions</span>(<span class="params">uri</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">request</span>(&#123;</span><br><span class="line">        <span class="attr">url</span>: <span class="string">&#x27;/manage/command-list&#x27;</span>+uri,</span><br><span class="line">        <span class="attr">method</span>: <span class="string">&#x27;get&#x27;</span>,</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.使用</p>
+<p><img src="/./../../img/1619663186524.png" alt="1619663186524"></p>
+<p>亲测有效，奔走相告！</p>
+</div>
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5 itemprop="copyrightNotice">本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/04/29/linvkey/vue-element-admin/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/04/29/linvkey/vue-element-admin/";
+            const title         = "「vue-element-admin的使用总结」";
+            const excerpt       = `
+关于后台系统这一块，一直用的都是vue-element-admin，这一套模板是基于 vue 和 element-ui实现的，动态路由，权限验证，提炼了典型的业务模型，提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>, <a class="tag-none-link" href="/tags/Vue/" rel="tag">Vue</a>
+                </div>
+                <div class="pull-date">
+                    <time datetime="2023-06-08T09:53:35.940Z" itemprop="dateModified">最后编辑：2023-06-08</time>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" vuepress 动态更换壁纸方案" href="/2021/04/29/sicker/random wallpaper for vuepress/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" Vue绑定键盘按键并触发事件" href="/2021/04/29/linvkey/vue binds keyboard event/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" loading="lazy" decoding="auto" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">分享学习的文章分享基地</p>
+    </div>
+    <div class="site-meta">
+        <a class="meta-item" href="/archives/">
+            <span class="title">
+                文章
+            </span>
+            <span class="count">
+                71
+            </span>
+        </a>
+        <a class="meta-item" href="/categories/">
+            <span class="title">
+                分类
+            </span>
+            <span class="count">
+                0
+            </span>
+        </a>
+        <a class="meta-item" href="/tags/">
+            <span class="title">
+                标签
+            </span>
+            <span class="count">
+                44
+            </span>
+        </a>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/CSS/" style="font-size: 0.65em;">CSS</a> <a href="/tags/Docker/" style="font-size: 0.7em;">Docker</a> <a href="/tags/ElementUI/" style="font-size: 0.6em;">ElementUI</a> <a href="/tags/Fiddler/" style="font-size: 0.6em;">Fiddler</a> <a href="/tags/HTML/" style="font-size: 0.7em;">HTML</a> <a href="/tags/JMeter/" style="font-size: 0.6em;">JMeter</a> <a href="/tags/Java/" style="font-size: 0.75em;">Java</a> <a href="/tags/JavaScript/" style="font-size: 0.8em;">JavaScript</a> <a href="/tags/Jira/" style="font-size: 0.6em;">Jira</a> <a href="/tags/Koa/" style="font-size: 0.6em;">Koa</a> <a href="/tags/NPM/" style="font-size: 0.6em;">NPM</a> <a href="/tags/Performance-Test/" style="font-size: 0.6em;">Performance Test</a> <a href="/tags/SEO/" style="font-size: 0.6em;">SEO</a> <a href="/tags/Synology/" style="font-size: 0.65em;">Synology</a> <a href="/tags/VScode/" style="font-size: 0.6em;">VScode</a> <a href="/tags/Vant/" style="font-size: 0.6em;">Vant</a> <a href="/tags/Vue/" style="font-size: 0.8em;">Vue</a> <a href="/tags/ZenTao/" style="font-size: 0.6em;">ZenTao</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/we/"><i class="fa  fa-book"></i> 我们</a>
+            
+          
+        
+          
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/exp/"><i class="fa  fa-book"></i> Markdown 书写示例</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/611118/"><i class="fa  fa-book"></i> 我的双11、618</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/"><i class="fa  fa-book"></i> 搭建一个Hexo博客并用vercel部署</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/05/30/hello-world/"><i class="fa  fa-book"></i> Hello World</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        <!-- Keep for compatibility -->
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <!-- New links -->
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2023 栋栋的个人博客 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by John DD.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="/vendors/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="/vendors/nprogress@0.2.0/nprogress.js"></script>
+<script>
+    if (!window.kr) {
+        window.kr = {};
+    }
+    window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
+    window.kr.siteRoot = "/";
+</script>
+
+
+    <script async src="/js/candy.min.js"></script>
+
+
+
+    <script defer src="/vendors/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="/vendors/meting@2.0.1/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>

@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  
+  
+  <title>Docker部署教程-Linux | 栋栋的个人博客</title>
+  
+  <meta name="author" content="John DD" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="Docker" />
+  
+  <meta name="description" content="1.安装VM虚拟机1.1下载VM虚拟机进入VM官网，根据不同系统的点击不同的下载方式（本人是安装在Windows系统上安装）  1.2安装VM虚拟机双击VMware，跳出弹窗点击“是”，进入安装模式（如图所示）  先勾选，在点击“下一步”  先勾选，在点击“下一步”  安装位置根据自己意愿选择安装位置（可以选择默认），默认勾选，点击“下一步”  默认勾选，在点击“下一步”  默认勾选，在点击“下一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker部署教程-Linux">
+<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/04/20/XBlack/docker%20deploy/index.html">
+<meta property="og:site_name" content="栋栋的个人博客">
+<meta property="og:description" content="1.安装VM虚拟机1.1下载VM虚拟机进入VM官网，根据不同系统的点击不同的下载方式（本人是安装在Windows系统上安装）  1.2安装VM虚拟机双击VMware，跳出弹窗点击“是”，进入安装模式（如图所示）  先勾选，在点击“下一步”  先勾选，在点击“下一步”  安装位置根据自己意愿选择安装位置（可以选择默认），默认勾选，点击“下一步”  默认勾选，在点击“下一步”  默认勾选，在点击“下一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210420114738530.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/docker/image-20210414134449915.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/docker/image-20210414134519517.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414134607285.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414134704346.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414134750676.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414134826070.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414134851965.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414134912550.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414135048162.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414135315935.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414135926085.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414141104980.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414140537345.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414140841175.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414141205666.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414141338086.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414142738052.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414143104132.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414143311371.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414143706453.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414143742857.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414144123252.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414144409361.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414144509587.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414144955090.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414145053804.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414145350518.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414145851394.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414150012144.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414150058808.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414153327866.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414160054178.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414164141923.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414170503948.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414170708537.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414171128549.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414171250228.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414171537446.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414172009527.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414172659479.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210414173549291.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210415104537374.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210415105125369.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210415110908286.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210415133715439.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210415134831436.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210415135023235.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210415140200965.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210415141205278.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210416165521295.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210416171133393.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210418083541373.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210418084217000.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210418085545595.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210418090135076.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210418092034837.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210418092401547.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210418105803791.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210420111900824.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210420112159377.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210420110214520.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210420112353506.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/427d8d5f8483052a47429293093e118.png">
+<meta property="article:published_time" content="2021-04-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-06-08T09:44:03.440Z">
+<meta property="article:author" content="John DD">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/docker/image-20210420114738530.png">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" media="all"></script>
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-color-dark.min.css" media="(prefers-color-scheme: dark)"></script>
+    <script src="/js/kr-dark.min.js"></script>
+  
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" media="all"></script>
+  
+  <link rel="stylesheet" id="fontawe-css" href="/vendors/font-awesome@4.7.0/css/font-awesome.min.css" media="all"></script>
+  <link rel="stylesheet" id="nprogress-css" href="/vendors/nprogress@0.2.0/nprogress.css" media="all"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/aplayer@1.10.1/dist/APlayer.min.css"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"></script>
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="/vendors/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="/vendors/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+  
+  <style>
+    
+    
+      @media(min-width:768px) {
+        body.custom-background {
+          background-image: url('/images/bg.webp');
+        }
+      }
+    
+  </style>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                    
+                                        
+                                            <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/friends/"><i class="fa fa-paw"></i>好伙伴</a></li>
+                                        
+                                    
+                                        
+                                            <li>
+                                                <a><i class="fa fa-link"></i>链接</a>
+                                                <ul class="sub-menu">
+                                                    
+                                                        
+                                                    
+                                                </ul>
+                                            </li>
+                                        
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">栋栋的个人博客</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>栋栋的个人博客</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article itemscope itemtype="https://schema.org/Article">
+    
+    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/04/20/XBlack/docker%20deploy/">
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center" itemprop="name headline">Docker部署教程-Linux</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><time datetime="2021-04-19T16:00:00.000Z" itemprop="datePublished"><i class="fa fa-calendar"></i> 2021-04-20</time></li>
+                <li itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <i class="fa fa-user"></i> 作者 <span itemprop="name">XBlack</span>
+                </li>
+                
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            ~2.86K
+                        
+                        字
+                    </li>
+                
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                <div class="icon"><i class="fa fa-warning"></i></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1686217443440"></time> 前，其中的内容可能需要更新。</p></div>
+            </div>
+            
+            
+            
+            <hr />
+            <div itemprop="articleBody"><h2 id="1-安装VM虚拟机"><a href="#1-安装VM虚拟机" class="headerlink" title="1.安装VM虚拟机"></a>1.安装VM虚拟机</h2><h3 id="1-1下载VM虚拟机"><a href="#1-1下载VM虚拟机" class="headerlink" title="1.1下载VM虚拟机"></a>1.1下载VM虚拟机</h3><p>进入<a target="_blank" rel="noopener" href="https://www.vmware.com/cn/products/workstation-pro/workstation-pro-evaluation.html">VM官网</a>，根据不同系统的点击不同的下载方式（本人是安装在Windows系统上安装）</p>
+<p><img src="/./../../img/docker/image-20210420114738530.png" alt="image-20210414131101787"></p>
+<h3 id="1-2安装VM虚拟机"><a href="#1-2安装VM虚拟机" class="headerlink" title="1.2安装VM虚拟机"></a>1.2安装VM虚拟机</h3><p>双击VMware，跳出弹窗点击“是”，进入安装模式（如图所示）</p>
+<p><img src="/./../../img/img/docker/image-20210414134449915.png" alt="image-20210414134449915"></p>
+<p>先勾选，在点击“下一步”</p>
+<p><img src="/./../../img/img/docker/image-20210414134519517.png" alt="image-20210414134519517"></p>
+<p>先勾选，在点击“下一步”</p>
+<p><img src="/./../../img/docker/image-20210414134607285.png" alt="image-20210414134607285"></p>
+<p>安装位置根据自己意愿选择安装位置（可以选择默认），默认勾选，点击“下一步”</p>
+<p><img src="/./../../img/docker/image-20210414134704346.png" alt="image-20210414134704346"></p>
+<p>默认勾选，在点击“下一步”</p>
+<p><img src="/./../../img/docker/image-20210414134750676.png" alt="image-20210414134750676"></p>
+<p>默认勾选，在点击“下一步”</p>
+<p><img src="/./../../img/docker/image-20210414134826070.png" alt="image-20210414134826070"></p>
+<p>点击“安装”</p>
+<p><img src="/./../../img/docker/image-20210414134851965.png" alt="image-20210414134851965"></p>
+<p>进入安装步骤</p>
+<p><img src="/./../../img/docker/image-20210414134912550.png" alt="image-20210414134912550"></p>
+<p>点击”许可证”，</p>
+<p><img src="/./../../img/docker/image-20210414135048162.png" alt="image-20210414135048162"></p>
+<p>输入<font color=red>YF390-0HF8P-M81RQ-2DXQE-M2UT6</font>，点击“输入”</p>
+<p><img src="/./../../img/docker/image-20210414135315935.png" alt="image-20210414135315935"></p>
+<p>点击“完成”，安装安装步骤完成</p>
+<p><img src="/./../../img/docker/image-20210414135926085.png" alt="image-20210414135926085"></p>
+<h3 id="1-3部署虚拟机环境"><a href="#1-3部署虚拟机环境" class="headerlink" title="1.3部署虚拟机环境"></a>1.3部署虚拟机环境</h3><p>​	登录<a target="_blank" rel="noopener" href="https://cn.ubuntu.com/download">ubuntu</a>，点击“下载”，选择下载的路径（本人路径选择桌面），完成linux系统下载</p>
+<p><img src="/./../../img/docker/image-20210414141104980.png" alt="image-20210414141104980"></p>
+<p>​	VMware 虚拟机安装完成后，双击“图标“</p>
+<p><img src="/./../../img/docker/image-20210414140537345.png" alt="image-20210414140537345"></p>
+<p>​	VMware软件打开，点击“创建新的虚拟机“</p>
+<p><img src="/./../../img/docker/image-20210414140841175.png" alt="image-20210414140841175"></p>
+<p>默认选项，点击“下一步”</p>
+<p><img src="/./../../img/docker/image-20210414141205666.png" alt="image-20210414141205666"></p>
+<p>​	如果刚刚liunx系统下载完成后，<font color=red>安装程序光盘将自动显示该系统</font>、然后点击“<font color=red>安装程序光盘映像文件</font>”选择刚才下载完成的Linux，再次选择“<font color=red>创建空白的硬盘</font>”,最后选择“下一步”。</p>
+<p><img src="/./../../img/docker/image-20210414141338086.png" alt="image-20210414141338086"></p>
+<p>选择Linux，点击版本并选择Ubuntu 64位，最后“下一步”</p>
+<p><img src="/./../../img/docker/image-20210414142738052.png" alt="image-20210414142738052"></p>
+<p>虚拟机名称可以默认，也可以自己编写，位置选择，（本人选择默认），最后点击下一步</p>
+<p><img src="/./../../img/docker/image-20210414143104132.png" alt="image-20210414143104132"></p>
+<p>磁盘大小按照自己意愿，虚拟磁盘选项为默认选项，最后点击“下一步”</p>
+<p><img src="/./../../img/docker/image-20210414143311371.png" alt="image-20210414143311371"></p>
+<p>点击“完成”，虚拟机部署完成</p>
+<p><img src="/./../../img/docker/image-20210414143706453.png" alt="image-20210414143706453"></p>
+<p>首先选择虚拟机，再点击“编辑虚拟机设置”，</p>
+<p><img src="/./../../img/docker/image-20210414143742857.png" alt="image-20210414143742857">打开设置界面后，选择“CD&#x2F;DVD”选项，再点击“使用ISO映像文件”，最后点击“确定”，设置完成后，返回到首页</p>
+<p><img src="/./../../img/docker/image-20210414144123252.png" alt="image-20210414144123252"></p>
+<p>选择虚拟机后，再点击“开启次虚拟机”</p>
+<p><img src="/./../../img/docker/image-20210414144409361.png" alt="image-20210414144409361"></p>
+<h3 id="1-4Liunx安装"><a href="#1-4Liunx安装" class="headerlink" title="1.4Liunx安装"></a>1.4Liunx安装</h3><p>点击“确定”，开始Liunx的系统安装</p>
+<p><img src="/./../../img/docker/image-20210414144509587.png" alt="image-20210414144509587"></p>
+<p>选择语言，选择自己喜欢的语言，在点击“安装”</p>
+<p><img src="/./../../img/docker/image-20210414144955090.png" alt="image-20210414144955090"></p>
+<p>点击“继续”</p>
+<p><img src="/./../../img/docker/image-20210414145053804.png" alt="image-20210414145053804"></p>
+<p>所有选项为默认，在点击“继续”</p>
+<p><img src="/./../../img/docker/image-20210414145350518.png" alt="image-20210414145350518"></p>
+<p>所有选项为默认选项，点击“现在安装”，弹出界面点击“继续”</p>
+<p><img src="/./../../img/docker/image-20210414145851394.png" alt="image-20210414145851394"></p>
+<p>默认点击“继续”</p>
+<p><img src="/./../../img/docker/image-20210414150012144.png" alt="image-20210414150012144"></p>
+<p>输入信息后，点击“继续”后，等待一段较长时间，安装成功之后，再点击重启</p>
+<p><img src="/./../../img/docker/image-20210414150058808.png" alt="image-20210414150058808"></p>
+<p>重启完成后，系统安装成功.</p>
+<p><img src="/./../../img/docker/image-20210414153327866.png" alt="image-20210414153327866"></p>
+<h2 id="2-在Ubuntu环境下Docker部署"><a href="#2-在Ubuntu环境下Docker部署" class="headerlink" title="2.在Ubuntu环境下Docker部署"></a>2.在Ubuntu环境下Docker部署</h2><h3 id="2-1获取管理员权限"><a href="#2-1获取管理员权限" class="headerlink" title="2.1获取管理员权限"></a>2.1获取管理员权限</h3><p>进入终端：点击“在终端中打开”</p>
+<p><img src="/./../../img/docker/image-20210414160054178.png" alt="image-20210414160054178"></p>
+<p>获取管理员权限：</p>
+<p>先输入命令：<font color=red>sudo passwd root</font></p>
+<p>先输入电脑开机密码：</p>
+<p>在输入新的密码：</p>
+<p>重新输入新的密码：</p>
+<p>提示更改密码成功</p>
+<p>输入命令：su</p>
+<p>输入新的登录密码</p>
+<p>获取到管理员权限</p>
+<p><img src="/./../../img/docker/image-20210414164141923.png" alt="image-20210414164141923"></p>
+<p>部署docker</p>
+<p>首先，更新现有的包列表命令：<font color=red>sudo apt update</font></p>
+<p><img src="/./../../img/docker/image-20210414170503948.png" alt="image-20210414170503948"></p>
+<p>安装一些允许通过HTTPS才能使用的软件包命令：<font color=red>sudo apt install apt-transport-https ca-certificates curl software-properties-common</font></p>
+<p><img src="/./../../img/docker/image-20210414170708537.png" alt="image-20210414170708537"></p>
+<p>Docker存储库的GPG密钥添加到您的系统命令: <font color=red>curl -fsSL <a target="_blank" rel="noopener" href="https://download.docker.com/linux/ubuntu/gpg">https://download.docker.com/linux/ubuntu/gpg</a> | sudo apt-key add -</font></p>
+<p><img src="/./../../img/docker/image-20210414171128549.png" alt="image-20210414171128549"></p>
+<p>Docker存储库添加到APT源命令：<font color=red>sudo add-apt-repository “deb [arch&#x3D;amd64] <a target="_blank" rel="noopener" href="https://download.docker.com/linux/ubuntu">https://download.docker.com/linux/ubuntu</a> bionic stable”</font></p>
+<p><img src="/./../../img/docker/image-20210414171250228.png" alt="image-20210414171250228"></p>
+<p>使用新添加的repo源中的Docker包更新包数据库命令：<font color=red>sudo apt update</font></p>
+<p><img src="/./../../img/docker/image-20210414171537446.png" alt="image-20210414171537446"></p>
+<p>确保您要从Docker repo安装而不是默认的Ubuntu repo命令：<font color=red>apt-cache policy docker-ce</font></p>
+<p><img src="/./../../img/docker/image-20210414172009527.png" alt="image-20210414172009527"></p>
+<p>安装Docker命令：<font color=red>sudo apt install docker-ce</font></p>
+<p><img src="/./../../img/docker/image-20210414172659479.png" alt="image-20210414172659479"></p>
+<p>检查Docker是否正在运行命令：<font color=red>sudo systemctl status docker</font></p>
+<p><img src="/./../../img/docker/image-20210414173549291.png" alt="image-20210414173549291"></p>
+<h3 id="2-2-使用Docker命令"><a href="#2-2-使用Docker命令" class="headerlink" title="2.2 使用Docker命令"></a>2.2 使用Docker命令</h3><p>查看所有子命令：<font color=red>docker</font></p>
+<p><img src="/./../../img/docker/image-20210415104537374.png" alt="image-20210415104537374"></p>
+<p>查看有关Docker的系统信息命令：<font color=red>docker info</font></p>
+<p><img src="/./../../img/docker/image-20210415105125369.png" alt="image-20210415105125369"></p>
+<h3 id="2-3-使用Docker镜像"><a href="#2-3-使用Docker镜像" class="headerlink" title="2.3 使用Docker镜像"></a>2.3 使用Docker镜像</h3><p>检查Docker Hub访问和下载镜像命令：<font color=red>docker run hello-world</font><img src="/./../../img/docker/image-20210415110908286.png" alt="image-20210415110908286"></p>
+<p>可以使用docker带子命令的search命令搜索Docker Hub上可用的镜像。例如，要搜索Ubuntu映像，请输入：</p>
+<p><font color=red>docker search ubuntu</font>,在OFFICIAL列中，带OK标记的表明这个镜像由公司构建和支持。其他镜像则由个人创建。确定要使用的映像后，可以使用命令pull将其下载到计算机。</p>
+<p><img src="/./../../img/docker/image-20210415133715439.png" alt="image-20210415133715439"></p>
+<p>执行以下ubuntu命令将官方映像下载到您的计算机：<font color=red>docker pull ubuntu</font></p>
+<p><img src="/./../../img/docker/image-20210415134831436.png" alt="image-20210415134831436"></p>
+<p>查看已下载到计算机的镜像命令：<font color=red>docker images</font></p>
+<p><img src="/./../../img/docker/image-20210415135023235.png" alt="image-20210415135023235"></p>
+<h3 id="2-4运行Docker容器"><a href="#2-4运行Docker容器" class="headerlink" title="2.4运行Docker容器"></a>2.4运行Docker容器</h3><p>使用Ubuntu的最新镜像运行一个容器命令：<font color=red>docker run -it ubuntu</font>,执行后我们进入docker内部</p>
+<p><img src="/./../../img/docker/image-20210415140200965.png" alt="image-20210415140200965"></p>
+<p>更新容器内的包数据库命令：<font color=red>apt update</font></p>
+<p><img src="/./../../img/docker/image-20210415141205278.png" alt="image-20210415141205278"></p>
+<p>安装Node.js命令:<font color=red>apt install nodejs</font>，如果遇到下列问题，根据提示先选择地区：<font color=red>6</font></p>
+<p><img src="/./../../img/docker/image-20210416165521295.png" alt="image-20210416165521295"></p>
+<p>选择城市：<font color=red>70</font></p>
+<p><img src="/./../../img/docker/image-20210416171133393.png" alt="image-20210416171133393"></p>
+<p>​	Ubuntu存储库中安装容器中的Node.js. 安装完成后，验证Node.js是否安装成功命令：<font color=red>node -v</font>，显示版本号后说明该容器Node.js已安装成功。在输入命令<font color="red">exit</font>，退出该容器</p>
+<p><img src="/./../../img/docker/image-20210418083541373.png" alt="image-20210418083541373"></p>
+<h3 id="2-5管理Docker容器"><a href="#2-5管理Docker容器" class="headerlink" title="2.5管理Docker容器"></a>2.5管理Docker容器</h3><p>使用一段时间docker后，计算机中应该部署了很多的Docker容器，输入<font color = red>docker ps</font>,可以查看当前运行的Docker容器。</p>
+<p><img src="/./../../img/docker/image-20210418084217000.png" alt="image-20210418084217000"></p>
+<p>输入命令 <font color=red>docker -ps -a</font>,可以查看该计算机内所有的容器</p>
+<p><img src="/./../../img/docker/image-20210418085545595.png" alt="image-20210418085545595"></p>
+<p>输入命令 <font color=red>docker -ps -l(L的小写)</font>,可以查看最新创建的容器</p>
+<p><img src="/./../../img/docker/image-20210418090135076.png" alt="image-20210418090135076"></p>
+<p>假如我想启动我最近一次创建的容器，启动容器命令：<font color=red>docker start +container id(该容器的ID)</font></p>
+<p><img src="/./../../img/docker/image-20210418092034837.png" alt="image-20210418092034837"></p>
+<p>我们这是输入当前运行的命令：<font color=red>docker ps</font></p>
+<p><img src="/./../../img/docker/image-20210418092401547.png" alt="image-20210418092401547"></p>
+<p>假如我想暂停当前运行的容器，启动容器命令：<font color=red>docker stop+container id(该容器的ID)</font></p>
+<p><img src="/./../../img/docker/image-20210418105803791.png" alt="image-20210418105803791"></p>
+<h3 id="2-6将容器中的更改提交到Docker镜像"><a href="#2-6将容器中的更改提交到Docker镜像" class="headerlink" title="2.6将容器中的更改提交到Docker镜像"></a>2.6将容器中的更改提交到Docker镜像</h3><p>将更改提交到新的Docker镜像命令：docker commit -m“描述” -a“作者名字” 容器ID 存储路径（XBlack&#x2F;ubuntu-nodejs）</p>
+<p><img src="/./../../img/docker/image-20210420111900824.png" alt="image-20210420111900824"></p>
+<p>检查该镜像是否已部署完成输入命令：<font color = red>docker images</font></p>
+<p><img src="/./../../img/docker/image-20210420112159377.png" alt="image-20210420112159377"></p>
+<h3 id="2-7将Docker镜像推送到Docker存储库"><a href="#2-7将Docker镜像推送到Docker存储库" class="headerlink" title="2.7将Docker镜像推送到Docker存储库"></a>2.7将Docker镜像推送到Docker存储库</h3><p>请先登录Docker Hub，命令：<font color =red>docker login -u 你的Docker Hub账号</font></p>
+<p><img src="/./../../img/docker/image-20210420110214520.png" alt="image-20210420110214520"></p>
+<p>将刚刚部署的新镜像推送Docker Hub存储库命令：<font color=red>docker push xblack1216&#x2F;ubuntu-nodejs</font>，表示上传成功。</p>
+<p><img src="/./../../img/docker/image-20210420112353506.png" alt="image-20210420112353506"></p>
+<p>我们可以去Docker Hub上查看镜像是否以上传完成</p>
+<p><img src="/./../../img/docker/427d8d5f8483052a47429293093e118.png" alt="image-20210420112800690"></p>
+</div>
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5 itemprop="copyrightNotice">本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/04/20/XBlack/docker%20deploy/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/04/20/XBlack/docker%20deploy/";
+            const title         = "「Docker部署教程-Linux」";
+            const excerpt       = `1.安装VM虚拟机1.1下载VM虚拟机进入VM官网，根据不同系统的点击不同的下载方式（本人是安装在Windows系统上安装）
+
+1.2安装VM虚拟机双击VMware，跳出弹窗点击“是”，进入安装模式（如图所示）
+
+先勾选，在点击“下一...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/Docker/" rel="tag">Docker</a>
+                </div>
+                <div class="pull-date">
+                    <time datetime="2023-06-08T09:44:03.440Z" itemprop="dateModified">最后编辑：2023-06-08</time>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" 用VScode创建代码片段" href="/2021/04/20/linvkey/use vscode to create code snippets/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" 性能测试概念描述" href="/2021/04/21/XBlack/performance test concepts/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" loading="lazy" decoding="auto" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">分享学习的文章分享基地</p>
+    </div>
+    <div class="site-meta">
+        <a class="meta-item" href="/archives/">
+            <span class="title">
+                文章
+            </span>
+            <span class="count">
+                71
+            </span>
+        </a>
+        <a class="meta-item" href="/categories/">
+            <span class="title">
+                分类
+            </span>
+            <span class="count">
+                0
+            </span>
+        </a>
+        <a class="meta-item" href="/tags/">
+            <span class="title">
+                标签
+            </span>
+            <span class="count">
+                44
+            </span>
+        </a>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/CSS/" style="font-size: 0.65em;">CSS</a> <a href="/tags/Docker/" style="font-size: 0.7em;">Docker</a> <a href="/tags/ElementUI/" style="font-size: 0.6em;">ElementUI</a> <a href="/tags/Fiddler/" style="font-size: 0.6em;">Fiddler</a> <a href="/tags/HTML/" style="font-size: 0.7em;">HTML</a> <a href="/tags/JMeter/" style="font-size: 0.6em;">JMeter</a> <a href="/tags/Java/" style="font-size: 0.75em;">Java</a> <a href="/tags/JavaScript/" style="font-size: 0.8em;">JavaScript</a> <a href="/tags/Jira/" style="font-size: 0.6em;">Jira</a> <a href="/tags/Koa/" style="font-size: 0.6em;">Koa</a> <a href="/tags/NPM/" style="font-size: 0.6em;">NPM</a> <a href="/tags/Performance-Test/" style="font-size: 0.6em;">Performance Test</a> <a href="/tags/SEO/" style="font-size: 0.6em;">SEO</a> <a href="/tags/Synology/" style="font-size: 0.65em;">Synology</a> <a href="/tags/VScode/" style="font-size: 0.6em;">VScode</a> <a href="/tags/Vant/" style="font-size: 0.6em;">Vant</a> <a href="/tags/Vue/" style="font-size: 0.8em;">Vue</a> <a href="/tags/ZenTao/" style="font-size: 0.6em;">ZenTao</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/we/"><i class="fa  fa-book"></i> 我们</a>
+            
+          
+        
+          
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/exp/"><i class="fa  fa-book"></i> Markdown 书写示例</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/611118/"><i class="fa  fa-book"></i> 我的双11、618</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/"><i class="fa  fa-book"></i> 搭建一个Hexo博客并用vercel部署</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/05/30/hello-world/"><i class="fa  fa-book"></i> Hello World</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        <!-- Keep for compatibility -->
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <!-- New links -->
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2023 栋栋的个人博客 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by John DD.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="/vendors/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="/vendors/nprogress@0.2.0/nprogress.js"></script>
+<script>
+    if (!window.kr) {
+        window.kr = {};
+    }
+    window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
+    window.kr.siteRoot = "/";
+</script>
+
+
+    <script async src="/js/candy.min.js"></script>
+
+
+
+    <script defer src="/vendors/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="/vendors/meting@2.0.1/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>

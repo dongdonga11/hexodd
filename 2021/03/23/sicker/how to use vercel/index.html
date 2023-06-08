@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  
+  
+  <title>如何优雅的采用vercel托管vuepress静态网站 | 栋栋的个人博客</title>
+  
+  <meta name="author" content="John DD" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="vercel, vuepress" />
+  
+  <meta name="description" content="为什么使用 vercel 而非 xxxpages、obs等静态托管因某些不言而喻的原因，git pages 在国内的速度一言难尽。 又因为某些不言而喻的原因，我没法备案，也就无法绑定域名了，所以 vercel 也就成为了首选。 如果你没有域名，或者已经备案，同时又不经常更新。完全可以采用 GITEE PAGES 或者 腾讯、阿里、华为云的文件存储来托管。 采用github|gitlab|bitbu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何优雅的采用vercel托管vuepress静态网站">
+<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/03/23/sicker/how%20to%20use%20vercel/index.html">
+<meta property="og:site_name" content="栋栋的个人博客">
+<meta property="og:description" content="为什么使用 vercel 而非 xxxpages、obs等静态托管因某些不言而喻的原因，git pages 在国内的速度一言难尽。 又因为某些不言而喻的原因，我没法备案，也就无法绑定域名了，所以 vercel 也就成为了首选。 如果你没有域名，或者已经备案，同时又不经常更新。完全可以采用 GITEE PAGES 或者 腾讯、阿里、华为云的文件存储来托管。 采用github|gitlab|bitbu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/images/image-20210323201345174.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/images/image-20210323201545437.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/images/image-20210323201935055.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/images/image-20210323204118205.png">
+<meta property="article:published_time" content="2021-03-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-21T12:56:24.866Z">
+<meta property="article:author" content="John DD">
+<meta property="article:tag" content="vuepress">
+<meta property="article:tag" content="vercel">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/images/image-20210323201345174.png">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" media="all"></script>
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-color-dark.min.css" media="(prefers-color-scheme: dark)"></script>
+    <script src="/js/kr-dark.min.js"></script>
+  
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" media="all"></script>
+  
+  <link rel="stylesheet" id="fontawe-css" href="/vendors/font-awesome@4.7.0/css/font-awesome.min.css" media="all"></script>
+  <link rel="stylesheet" id="nprogress-css" href="/vendors/nprogress@0.2.0/nprogress.css" media="all"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/aplayer@1.10.1/dist/APlayer.min.css"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"></script>
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="/vendors/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="/vendors/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+  
+  <style>
+    
+    
+      @media(min-width:768px) {
+        body.custom-background {
+          background-image: url('/images/bg.webp');
+        }
+      }
+    
+  </style>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                    
+                                        
+                                            <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/friends/"><i class="fa fa-paw"></i>好伙伴</a></li>
+                                        
+                                    
+                                        
+                                            <li>
+                                                <a><i class="fa fa-link"></i>链接</a>
+                                                <ul class="sub-menu">
+                                                    
+                                                        
+                                                    
+                                                </ul>
+                                            </li>
+                                        
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">栋栋的个人博客</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>栋栋的个人博客</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article itemscope itemtype="https://schema.org/Article">
+    
+    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/03/23/sicker/how%20to%20use%20vercel/">
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center" itemprop="name headline">如何优雅的采用vercel托管vuepress静态网站</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><time datetime="2021-03-22T16:00:00.000Z" itemprop="datePublished"><i class="fa fa-calendar"></i> 2021-03-23</time></li>
+                <li itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <i class="fa fa-user"></i> 作者 <span itemprop="name">sicker</span>
+                </li>
+                
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            ~5.05K
+                        
+                        字
+                    </li>
+                
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                <div class="icon"><i class="fa fa-warning"></i></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1684673784866"></time> 前，其中的内容可能需要更新。</p></div>
+            </div>
+            
+            
+            
+            <hr />
+            <div itemprop="articleBody"><h2 id="为什么使用-vercel-而非-xxxpages、obs等静态托管"><a href="#为什么使用-vercel-而非-xxxpages、obs等静态托管" class="headerlink" title="为什么使用 vercel 而非 xxxpages、obs等静态托管"></a>为什么使用 vercel 而非 xxxpages、obs等静态托管</h2><p>因某些不言而喻的原因，<code>git pages</code> 在国内的速度一言难尽。</p>
+<p>又因为某些不言而喻的原因，我没法备案，也就无法绑定域名了，所以 <code>vercel</code> 也就成为了首选。</p>
+<p>如果你没有域名，或者已经备案，同时又不经常更新。完全可以采用 <code>GITEE PAGES</code> 或者 腾讯、阿里、华为云的文件存储来托管。</p>
+<h2 id="采用github-gitlab-bitbucket托管"><a href="#采用github-gitlab-bitbucket托管" class="headerlink" title="采用github|gitlab|bitbucket托管"></a>采用github|gitlab|bitbucket托管</h2><p>其实这个无甚好说，常规操作，应该绝大多数人采用的就是这种模式。</p>
+<p>优点是自动更新无需打包，很是省力。</p>
+<p>就简单说下如何去配置</p>
+<ol>
+<li>登录</li>
+<li>新增项目</li>
+<li>选取 <code>vuepress</code> 的库</li>
+<li><code>import</code></li>
+</ol>
+<p><img src="/../../../images/image-20210323201345174.png" alt="image-20210323201345174"></p>
+<p>选取根路径即可。</p>
+<ol start="5">
+<li>依据下图进行配置</li>
+</ol>
+<p><img src="/../../../images/image-20210323201545437.png" alt="image-20210323201545437"></p>
+<ol start="6">
+<li><p>等待 <code>yarn</code> 打包后即可</p>
+<p><img src="/../../../images/image-20210323201935055.png" alt="image-20210323201935055"></p>
+</li>
+</ol>
+<p>我们来看一下打包的日志</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">20:16:08.612  	Cloning github.com/sickeeer/warm-house (Branch: master, Commit: e3dd74f)</span><br><span class="line">20:16:09.765  	Cloning completed <span class="keyword">in</span> 1153ms</span><br><span class="line">20:16:09.769  	Analyzing <span class="built_in">source</span> code...</span><br><span class="line">20:16:10.332  	Installing build runtime...</span><br><span class="line">20:16:13.954  	Build runtime installed: 3621.746ms</span><br><span class="line">20:16:16.642  	Looking up build cache...</span><br><span class="line">20:16:16.982  	Build cache not found</span><br><span class="line">20:16:17.938  	Detected package.json</span><br><span class="line">20:16:17.939  	Installing dependencies...</span><br><span class="line">20:16:18.406  	yarn install v1.22.10</span><br><span class="line">20:16:18.491  	[1/4] Resolving packages...</span><br><span class="line">20:16:19.113  	[2/4] Fetching packages...</span><br><span class="line">20:16:25.973  	warning url-loader@1.1.2: Invalid bin field <span class="keyword">for</span> <span class="string">&quot;url-loader&quot;</span>.</span><br><span class="line">20:16:43.634  	info fsevents@1.2.13: The platform <span class="string">&quot;linux&quot;</span> is incompatible with this module.</span><br><span class="line">20:16:43.635  	info <span class="string">&quot;fsevents@1.2.13&quot;</span> is an optional dependency and failed compatibility check. Excluding it from installation.</span><br><span class="line">20:16:43.659  	info fsevents@2.3.2: The platform <span class="string">&quot;linux&quot;</span> is incompatible with this module.</span><br><span class="line">20:16:43.659  	info <span class="string">&quot;fsevents@2.3.2&quot;</span> is an optional dependency and failed compatibility check. Excluding it from installation.</span><br><span class="line">20:16:43.667  	[3/4] Linking dependencies...</span><br><span class="line">20:16:43.671  	warning <span class="string">&quot;@vuepress/theme-blog &gt; @vuepress/plugin-blog &gt; vuepress-plugin-sitemap@2.3.1&quot;</span> has unmet peer dependency <span class="string">&quot;chalk@^2.0.0&quot;</span>.</span><br><span class="line">20:16:43.672  	warning <span class="string">&quot;@vuepress/theme-blog &gt; @vuepress/plugin-blog &gt; vuepress-plugin-sitemap@2.3.1&quot;</span> has unmet peer dependency <span class="string">&quot;commander@^2.0.0&quot;</span>.</span><br><span class="line">20:16:43.672  	warning <span class="string">&quot;@vuepress/theme-blog &gt; @vuepress/plugin-blog &gt; vuepress-plugin-sitemap@2.3.1&quot;</span> has unmet peer dependency <span class="string">&quot;esm@^3.0.0&quot;</span>.</span><br><span class="line">20:16:52.826  	[4/4] Building fresh packages...</span><br><span class="line">20:16:54.021  	Done <span class="keyword">in</span> 35.62s.</span><br><span class="line">20:16:54.561  	yarn run v1.22.10</span><br><span class="line">20:16:54.597  	$ vuepress build docs</span><br><span class="line">20:16:55.856  	<span class="built_in">wait</span> Extracting site metadata...</span><br><span class="line">20:16:55.859  	tip Apply <span class="built_in">local</span> theme at /vercel/workpath0/docs/.vuepress/theme...</span><br><span class="line">20:16:55.884  	tip Apply theme <span class="built_in">local</span> ...</span><br><span class="line">20:16:55.912  	tip Apply plugin container (i.e. <span class="string">&quot;vuepress-plugin-container&quot;</span>) ...</span><br><span class="line">20:16:55.913  	tip Apply plugin @vuepress/register-components (i.e. <span class="string">&quot;@vuepress/plugin-register-components&quot;</span>) ...</span><br><span class="line">20:16:55.914  	tip Apply plugin @vuepress/nprogress (i.e. <span class="string">&quot;@vuepress/plugin-nprogress&quot;</span>) ...</span><br><span class="line">20:16:55.914  	tip Apply plugin @vuepress/medium-zoom (i.e. <span class="string">&quot;@vuepress/plugin-medium-zoom&quot;</span>) ...</span><br><span class="line">20:16:55.915  	tip Apply plugin @vuepress/search (i.e. <span class="string">&quot;@vuepress/plugin-search&quot;</span>) ...</span><br><span class="line">20:16:55.915  	tip Apply plugin @vuepress/blog (i.e. <span class="string">&quot;@vuepress/plugin-blog&quot;</span>) ...</span><br><span class="line">20:16:56.759  	[info] [webpackbar] Compiling Client</span><br><span class="line">20:16:56.782  	[info] [webpackbar] Compiling Server</span><br><span class="line">20:17:10.168  	[success] [webpackbar] Server: Compiled successfully <span class="keyword">in</span> 13.39s</span><br><span class="line">20:17:17.786  	[success] [webpackbar] Client: Compiled successfully <span class="keyword">in</span> 21.03s</span><br><span class="line">20:17:17.891  	<span class="built_in">wait</span> Rendering static HTML...</span><br><span class="line">20:17:18.472  	success Generated static files <span class="keyword">in</span> docs/.vuepress/dist.</span><br><span class="line">20:17:18.509  	Done <span class="keyword">in</span> 23.95s.</span><br><span class="line">20:17:19.488  	Uploading build outputs...</span><br><span class="line">20:17:20.796  	Deploying build outputs...</span><br><span class="line">20:17:26.598  	Build completed. Populating build cache...</span><br><span class="line">20:17:42.207  	Uploading build cache [17.36 MB]...</span><br><span class="line">20:17:43.850  	Build cache uploaded: 1642.714ms</span><br><span class="line">20:17:44.079  	Done with <span class="string">&quot;package.json&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到， <code>vercel</code> 主要做了这些工作。</p>
+<ul>
+<li><code>clone</code> 下你的代码</li>
+<li>通过 <code>yarn</code> or <code>npm</code> 安装依赖</li>
+<li>运行打包</li>
+</ul>
+<p>每当代码库更新后，<code>vercel</code> 就会自动再次执行该流程。</p>
+<p>但是，有优点就有缺点。首先，不算缺点的缺点，即是国内访问这些代码托管网站的速度异常的感人。</p>
+<p>另我又遇到了另外一个问题，</p>
+<p><img src="/../../../images/image-20210323204118205.png" alt="image-20210323204118205"></p>
+<p>在代码打到一定复杂度后，会使得 <code>vercel</code> 无法正确打包。</p>
+<p>此时，打包后上传到 <code>github</code> 上似乎成为了最后的选择。</p>
+<p>但是，实在过于麻烦。不适合我这种懒人~由此契机，也就诞生了如下的方法。</p>
+<h2 id="vercel-cli"><a href="#vercel-cli" class="headerlink" title="vercel-cli"></a>vercel-cli</h2><p><code>vercel-cli</code>[^f]，在本地直接打包上传至 <code>vercel</code></p>
+<ol>
+<li>安装<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm i -g vercel</span><br><span class="line">or</span><br><span class="line">yarn global add vercel</span><br></pre></td></tr></table></figure></li>
+<li>安装成功后，初始化 <code>vercel</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vercel</span><br></pre></td></tr></table></figure>
+依提示键入注册 <code>vercel</code> 使用的邮箱</li>
+<li>从邮箱激活账户<br>激活后，命令行会提示如下</li>
+</ol>
+<blockquote>
+<p>√ Email confirmed<br>Congratulations! You are now logged in. In order to deploy something, run <code>vercel</code>.<br>💡  Connect your Git Repositories to deploy every branch push automatically (<a target="_blank" rel="noopener" href="https://vercel.link/git">https://vercel.link/git</a>).</p>
+</blockquote>
+<ol start="4">
+<li>初始化项目<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vercel deploy</span><br></pre></td></tr></table></figure>
+依据提示关联或新建一个项目,当询问<blockquote>
+<p>In which directory is your code located</p>
+</blockquote>
+</li>
+</ol>
+<p>直接跳过即可。</p>
+<p>之后，会生成1个网站地址，暂时忽略。</p>
+<p>此时就可以在根路径看到 <code>.vercel</code> 的文件夹了，反过来说如果不存在该文件夹，则失败了。</p>
+<ol start="5">
+<li><p>新建 <code>deploy.sh</code> 文件<br>键入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env sh</span></span><br><span class="line"><span class="built_in">set</span> -e</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成静态文件</span></span><br><span class="line">npm run docs:build</span><br><span class="line"></span><br><span class="line"><span class="built_in">cp</span> -rvf .vercel docs/.vuepress/dist</span><br><span class="line"><span class="comment"># 进入生成的文件夹</span></span><br><span class="line"><span class="built_in">cd</span> docs/.vuepress/dist</span><br><span class="line"></span><br><span class="line">vercel --prod</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> -</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在命令行键入 <code>./deploy.sh</code> 测试<br>一键打包成功后，即可看到正常的页面。</p>
+</li>
+<li><p>其他命令<br><code>./pushToGit.sh</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 确保脚本抛出遇到的错误</span></span><br><span class="line"><span class="comment">#set -e</span></span><br><span class="line">time=$(<span class="built_in">date</span> <span class="string">&quot;+%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line"><span class="comment">#当未配置远端时，将下方的 # 移除</span></span><br><span class="line"><span class="comment">#git remote set-url origin  https://gitee.com/sickeeer/blog-resource.git</span></span><br><span class="line">git add -A</span><br><span class="line">git commit -m <span class="string">&quot;<span class="variable">$time</span>&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>至此，我们就可以优雅的将源码提交至代码库，而 <code>build</code> 的文件直接上传至 <code>vercel</code></p>
+<p>再也不用忍受 <code>github</code> 的龟速，再也不用忍受 <code>vercel</code> 的龟速打包，再也不用苦逼的打包后上传静态文件！</p>
+<p>优雅万岁！<br>[^f]:<a target="_blank" rel="noopener" href="https://vercel.com/docs/cli">vercel-cli首页</a></p>
+</div>
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5 itemprop="copyrightNotice">本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/03/23/sicker/how%20to%20use%20vercel/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2021/03/23/sicker/how%20to%20use%20vercel/";
+            const title         = "「如何优雅的采用vercel托管vuepress静态网站」";
+            const excerpt       = `为什么使用 vercel 而非 xxxpages、obs等静态托管因某些不言而喻的原因，git pages 在国内的速度一言难尽。
+又因为某些不言而喻的原因，我没法备案，也就无法绑定域名了，所以 vercel 也就成为了首选。
+如果你...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/vercel/" rel="tag">vercel</a>, <a class="tag-none-link" href="/tags/vuepress/" rel="tag">vuepress</a>
+                </div>
+                <div class="pull-date">
+                    <time datetime="2023-05-21T12:56:24.866Z" itemprop="dateModified">最后编辑：2023-05-21</time>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" 在vuepress中使用live2d看板娘" href="/2021/03/21/sicker/live2d for vuepress/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" vuepress/vue动态更换配色方案" href="/2021/03/23/sicker/color theme for vuepress/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" loading="lazy" decoding="auto" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">分享学习的文章分享基地</p>
+    </div>
+    <div class="site-meta">
+        <a class="meta-item" href="/archives/">
+            <span class="title">
+                文章
+            </span>
+            <span class="count">
+                71
+            </span>
+        </a>
+        <a class="meta-item" href="/categories/">
+            <span class="title">
+                分类
+            </span>
+            <span class="count">
+                0
+            </span>
+        </a>
+        <a class="meta-item" href="/tags/">
+            <span class="title">
+                标签
+            </span>
+            <span class="count">
+                44
+            </span>
+        </a>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/CSS/" style="font-size: 0.65em;">CSS</a> <a href="/tags/Docker/" style="font-size: 0.7em;">Docker</a> <a href="/tags/ElementUI/" style="font-size: 0.6em;">ElementUI</a> <a href="/tags/Fiddler/" style="font-size: 0.6em;">Fiddler</a> <a href="/tags/HTML/" style="font-size: 0.7em;">HTML</a> <a href="/tags/JMeter/" style="font-size: 0.6em;">JMeter</a> <a href="/tags/Java/" style="font-size: 0.75em;">Java</a> <a href="/tags/JavaScript/" style="font-size: 0.8em;">JavaScript</a> <a href="/tags/Jira/" style="font-size: 0.6em;">Jira</a> <a href="/tags/Koa/" style="font-size: 0.6em;">Koa</a> <a href="/tags/NPM/" style="font-size: 0.6em;">NPM</a> <a href="/tags/Performance-Test/" style="font-size: 0.6em;">Performance Test</a> <a href="/tags/SEO/" style="font-size: 0.6em;">SEO</a> <a href="/tags/Synology/" style="font-size: 0.65em;">Synology</a> <a href="/tags/VScode/" style="font-size: 0.6em;">VScode</a> <a href="/tags/Vant/" style="font-size: 0.6em;">Vant</a> <a href="/tags/Vue/" style="font-size: 0.8em;">Vue</a> <a href="/tags/ZenTao/" style="font-size: 0.6em;">ZenTao</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/we/"><i class="fa  fa-book"></i> 我们</a>
+            
+          
+        
+          
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/exp/"><i class="fa  fa-book"></i> Markdown 书写示例</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/08/611118/"><i class="fa  fa-book"></i> 我的双11、618</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/"><i class="fa  fa-book"></i> 搭建一个Hexo博客并用vercel部署</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/05/30/hello-world/"><i class="fa  fa-book"></i> Hello World</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        <!-- Keep for compatibility -->
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <!-- New links -->
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2023 栋栋的个人博客 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by John DD.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="/vendors/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="/vendors/nprogress@0.2.0/nprogress.js"></script>
+<script>
+    if (!window.kr) {
+        window.kr = {};
+    }
+    window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
+    window.kr.siteRoot = "/";
+</script>
+
+
+    <script async src="/js/candy.min.js"></script>
+
+
+
+    <script defer src="/vendors/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="/vendors/meting@2.0.1/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>
