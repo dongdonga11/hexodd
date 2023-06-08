@@ -20,27 +20,27 @@
   <meta name="description" content="Hexo 是一款基于Node.js的静态博客生成器，具有简单易用、快速高效、丰富主题、插件支持等特点，适合用于个人博客、技术文档、个人网站等场景。而且基于 markdown 编写起来非常顺畅，个人非常喜欢这个博客。这次下定决心搭建一个 Hexo 博客来实现我日常分享的一个小博客网站。 前置准备 一台 windows 笔记本电脑，当然 mac 电脑也是没问题的，即使 Linux 电脑也是可以的。 G">
 <meta property="og:type" content="article">
 <meta property="og:title" content="搭建一个Hexo博客并用vercel部署">
-<meta property="og:url" content="https://dongdonga11.github.io/project/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/index.html">
+<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/index.html">
 <meta property="og:site_name" content="栋栋的个人博客">
 <meta property="og:description" content="Hexo 是一款基于Node.js的静态博客生成器，具有简单易用、快速高效、丰富主题、插件支持等特点，适合用于个人博客、技术文档、个人网站等场景。而且基于 markdown 编写起来非常顺畅，个人非常喜欢这个博客。这次下定决心搭建一个 Hexo 博客来实现我日常分享的一个小博客网站。 前置准备 一台 windows 笔记本电脑，当然 mac 电脑也是没问题的，即使 Linux 电脑也是可以的。 G">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://dongdonga11.github.io/project/%5Cimg%5Cimage-20230530180853849.png">
-<meta property="og:image" content="https://dongdonga11.github.io/project/%5Cimg%5Ccf60858892fa440482540f548322cbfc.png">
-<meta property="og:image" content="https://dongdonga11.github.io/project/%5Cimg%5C5dce8878e1fd42228974ee532b328a31.png">
-<meta property="og:image" content="https://dongdonga11.github.io/project/%5Cimg%5C87e34403497b4e8092b8e234b7d154aa.png">
-<meta property="og:image" content="https://dongdonga11.github.io/project/%5Cimg%5C2dce5d421d4a45ae8b2628b405f00c85.png">
-<meta property="og:image" content="https://dongdonga11.github.io/project/%5Cimg%5C1ee6f73b701249a483c8022e90aa6d6d-1685510451300-24.png">
-<meta property="og:image" content="https://dongdonga11.github.io/project/%5Cimg%5C54ae8c862963400ea1c2b86c0bec2e79.png">
-<meta property="og:image" content="https://dongdonga11.github.io/project/%5Cimg%5C6a5b756f46bb4e3fb46a5d93bb32c5ca.png">
-<meta property="og:image" content="https://dongdonga11.github.io/project/%5Cimg%5Cd3f01706b7e84ac19d017b12b45cf23b.png">
-<meta property="og:image" content="d:\gitee\hexo\source\img\83a40d63337d4c02a6ac9d7d8a336ca6.png">
-<meta property="og:image" content="https://dongdonga11.github.io/project/%5Cimg%5C73fea79fe1634cf897df435520360cc0.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/%5Cimg%5Cimage-20230530180853849.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/%5Cimg%5Ccf60858892fa440482540f548322cbfc.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/%5Cimg%5C5dce8878e1fd42228974ee532b328a31.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/%5Cimg%5C87e34403497b4e8092b8e234b7d154aa.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/%5Cimg%5C2dce5d421d4a45ae8b2628b405f00c85.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/%5Cimg%5C1ee6f73b701249a483c8022e90aa6d6d-1685510451300-24.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/%5Cimg%5C54ae8c862963400ea1c2b86c0bec2e79.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/%5Cimg%5C6a5b756f46bb4e3fb46a5d93bb32c5ca.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/%5Cimg%5Cd3f01706b7e84ac19d017b12b45cf23b.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/%5Cimg%5C83a40d63337d4c02a6ac9d7d8a336ca6.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/%5Cimg%5C73fea79fe1634cf897df435520360cc0.png">
 <meta property="article:published_time" content="2023-05-31T00:28:47.588Z">
-<meta property="article:modified_time" content="2023-06-01T00:29:33.415Z">
+<meta property="article:modified_time" content="2023-06-08T08:56:03.821Z">
 <meta property="article:author" content="John DD">
 <meta property="article:tag" content="得胜">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://dongdonga11.github.io/project/%5Cimg%5Cimage-20230530180853849.png">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/%5Cimg%5Cimage-20230530180853849.png">
   
   <!-- 站点验证相关 -->
   
@@ -49,34 +49,30 @@
     
   
   <!-- 样式表文件 -->
-  <link rel="stylesheet" id="kratos-css" href="/project/css/kratosr.min.css" media="all"></script>
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" media="all"></script>
   
-    <link rel="stylesheet" id="darkmode-css" href="/project/css/kr-color-dark.min.css" media="(prefers-color-scheme: dark)"></script>
-    <script src="/project/js/kr-dark.min.js"></script>
-  
-  
-    <link rel="stylesheet" id="highlight-css" href="/project/css/highlight/night-eighties.min.css" media="all"></script>
-  
-  <link rel="stylesheet" id="fontawe-css" href="/project/vendors/font-awesome@4.7.0/css/font-awesome.min.css" media="all"></script>
-  <link rel="stylesheet" id="nprogress-css" href="/project/vendors/nprogress@0.2.0/nprogress.css" media="all"></script>
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-color-dark.min.css" media="(prefers-color-scheme: dark)"></script>
+    <script src="/js/kr-dark.min.js"></script>
   
   
-    <link rel="stylesheet" href="/project/vendors/aplayer@1.10.1/dist/APlayer.min.css"></script>
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" media="all"></script>
+  
+  <link rel="stylesheet" id="fontawe-css" href="/vendors/font-awesome@4.7.0/css/font-awesome.min.css" media="all"></script>
+  <link rel="stylesheet" id="nprogress-css" href="/vendors/nprogress@0.2.0/nprogress.css" media="all"></script>
   
   
-    <link rel="stylesheet" href="/project/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"></script>
+    <link rel="stylesheet" href="/vendors/aplayer@1.10.1/dist/APlayer.min.css"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"></script>
   
   <!-- 不得不预先加载的一些JS文件 -->
-  <script src="/project/vendors/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="/vendors/jquery@3.6.0/dist/jquery.min.js"></script>
   
-    <script src="/project/vendors/qrcode_js@1.0.0/qrcode.min.js"></script>
+    <script src="/vendors/qrcode_js@1.0.0/qrcode.min.js"></script>
   
   
   <style>
-    
-      .kratos-cover.kratos-cover-2 {
-        background-image: url('/images/banner.webp');
-      }
     
     
       @media(min-width:768px) {
@@ -102,6 +98,29 @@
                                 
                                     
                                     
+                                        
+                                            <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/friends/"><i class="fa fa-paw"></i>好伙伴</a></li>
+                                        
+                                    
+                                        
+                                            <li>
+                                                <a><i class="fa fa-link"></i>链接</a>
+                                                <ul class="sub-menu">
+                                                    
+                                                        
+                                                    
+                                                </ul>
+                                            </li>
+                                        
+                                    
                                 
                             </ul>
                         </nav>
@@ -110,7 +129,7 @@
             </header>
             <header id="kratos-mobile-topnav" class="kratos-topnav">
                 <div class="container">
-                    <div class="color-logo"><a href="/project/">栋栋的个人博客</a></div>
+                    <div class="color-logo"><a href="/">栋栋的个人博客</a></div>
                     <div class="nav-toggle">
                         <a class="kratos-nav-toggle js-kratos-nav-toggle">
                             <i></i>
@@ -123,7 +142,7 @@
             <!-- <div class="kratos-overlay"></div> -->
             <div class="kratos-cover kratos-cover-2 text-center">
                 <div class="desc desc2 animate-box">
-                    <a href="/project/">
+                    <a href="/">
                         <h2>栋栋的个人博客</h2> <br />
                         <span></span>
                     </a>
@@ -144,7 +163,7 @@
 
             <article itemscope itemtype="https://schema.org/Article">
     
-    <link itemprop="mainEntityOfPage" href="https://dongdonga11.github.io/project/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/">
+    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/">
     <div class="kratos-hentry kratos-post-inner clearfix">
         <header class="kratos-entry-header">
             
@@ -173,7 +192,7 @@
             
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
                 <div class="icon"><i class="fa fa-warning"></i></div>
-                <div class="text"><p>本文最后编辑于 <time datetime="1685579373415"></time> 前，其中的内容可能需要更新。</p></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1686214563821"></time> 前，其中的内容可能需要更新。</p></div>
             </div>
             
             
@@ -202,15 +221,15 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">INFO  Validating config</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000/ . Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
 
 
-<p><img src="/project/%5Cimg%5Cimage-20230530180853849.png" alt="image-20230530180853849"></p>
+<p><img src="/%5Cimg%5Cimage-20230530180853849.png" alt="image-20230530180853849"></p>
 <p>以上就正式搭建完成 hexo 的博客程序了。</p>
 <h5 id="修改博客的基本信息"><a href="#修改博客的基本信息" class="headerlink" title="修改博客的基本信息"></a>修改博客的基本信息</h5><p>修改 博客的标题，副标题，描述，语言时区等信息</p>
-<p><img src="/project/%5Cimg%5Ccf60858892fa440482540f548322cbfc.png" alt="在这里插入图片描述"></p>
+<p><img src="/%5Cimg%5Ccf60858892fa440482540f548322cbfc.png" alt="在这里插入图片描述"></p>
 <p>修改博客地址</p>
-<p><img src="/project/%5Cimg%5C5dce8878e1fd42228974ee532b328a31.png" alt="在这里插入图片描述"></p>
+<p><img src="/%5Cimg%5C5dce8878e1fd42228974ee532b328a31.png" alt="在这里插入图片描述"></p>
 <p>创建 github 仓库<br>打开 <a target="_blank" rel="noopener" href="https://github.com/">https://github.com/</a> 创建一个仓库用来存储我们的部署程序,创建后是这个样子的。</p>
-<p><img src="/project/%5Cimg%5C87e34403497b4e8092b8e234b7d154aa.png" alt="在这里插入图片描述"></p>
-<p><img src="/project/%5Cimg%5C2dce5d421d4a45ae8b2628b405f00c85.png" alt="在这里插入图片描述"></p>
+<p><img src="/%5Cimg%5C87e34403497b4e8092b8e234b7d154aa.png" alt="在这里插入图片描述"></p>
+<p><img src="/%5Cimg%5C2dce5d421d4a45ae8b2628b405f00c85.png" alt="在这里插入图片描述"></p>
 <h5 id="同步本地-Hexo-部署页面到-github-中"><a href="#同步本地-Hexo-部署页面到-github-中" class="headerlink" title="同步本地 Hexo 部署页面到 github 中"></a>同步本地 Hexo 部署页面到 github 中</h5><h5 id="初始化-git-项目"><a href="#初始化-git-项目" class="headerlink" title="初始化 git 项目"></a>初始化 git 项目</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git remote add origin https://github.com/runbrick/javier-blog.git</span><br></pre></td></tr></table></figure>
 
 
@@ -222,18 +241,18 @@
 
 
 <p>执行 <code>hexo g</code> 然后执行 <code>hexo d </code>将静态页面部署到 <strong>github</strong> 上，是这个样子的。</p>
-<p><img src="/project/%5Cimg%5C1ee6f73b701249a483c8022e90aa6d6d-1685510451300-24.png" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-1l70CeCZ-1684911538549)(images/IOcwTUiphjTqmWR1El8GuUpiJZt88ZpACMDzbcDsuEk.png)]"></p>
+<p><img src="/%5Cimg%5C1ee6f73b701249a483c8022e90aa6d6d-1685510451300-24.png" alt="在这里插入图片描述"></p>
 <h5 id="将项目部署到-vercel-上"><a href="#将项目部署到-vercel-上" class="headerlink" title="将项目部署到 vercel 上"></a>将项目部署到 vercel 上</h5><p>如果不需要部署到 vercel 上此步可以略过</p>
 <p>在 **dashboard **上 选择 <strong>Create a New Project</strong></p>
-<p><img src="/project/%5Cimg%5C54ae8c862963400ea1c2b86c0bec2e79.png" alt="在这里插入图片描述"></p>
+<p><img src="/%5Cimg%5C54ae8c862963400ea1c2b86c0bec2e79.png" alt="在这里插入图片描述"></p>
 <p>在关联的 **github **账户中，找到刚才的博客仓库，选择 import</p>
-<p><img src="/project/%5Cimg%5C6a5b756f46bb4e3fb46a5d93bb32c5ca.png" alt="在这里插入图片描述"></p>
+<p><img src="/%5Cimg%5C6a5b756f46bb4e3fb46a5d93bb32c5ca.png" alt="在这里插入图片描述"></p>
 <p>进入部署页面选择 deploy</p>
-<p><img src="/project/%5Cimg%5Cd3f01706b7e84ac19d017b12b45cf23b.png" alt="在这里插入图片描述"></p>
+<p><img src="/%5Cimg%5Cd3f01706b7e84ac19d017b12b45cf23b.png" alt="在这里插入图片描述"></p>
 <p>生成之后点击 Continue to Dashboard</p>
-<p><img src="D:\gitee\hexo\source\img\83a40d63337d4c02a6ac9d7d8a336ca6.png" alt="在这里插入图片描述"></p>
+<p><img src="/%5Cimg%5C83a40d63337d4c02a6ac9d7d8a336ca6.png" alt="在这里插入图片描述"></p>
 <p>点击 Visit 就可以看到刚刚生成的博客程序了</p>
-<p><img src="/project/%5Cimg%5C73fea79fe1634cf897df435520360cc0.png" alt="在这里插入图片描述"></p>
+<p><img src="/%5Cimg%5C73fea79fe1634cf897df435520360cc0.png" alt="在这里插入图片描述"></p>
 <p>将项目资源文件放入同一个仓库中<br>在命令行创建一个新的分支并切换过去</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b source</span><br></pre></td></tr></table></figure>
 
@@ -296,7 +315,7 @@
     <script type="text/javascript">
         $(()=>{
             new QRCode("wechat-qr", {
-                text: "https://dongdonga11.github.io/project/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/",
+                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/",
                 width: 150,
                 height: 150,
                 correctLevel : QRCode.CorrectLevel.H
@@ -308,7 +327,7 @@
             const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
             const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
             const twitterBase   = "https://twitter.com/intent/tweet?";
-            const hostUrl       = "https://dongdonga11.github.io/project/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/";
+            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/";
             const title         = "「搭建一个Hexo博客并用vercel部署」";
             const excerpt       = `Hexo 是一款基于Node.js的静态博客生成器，具有简单易用、快速高效、丰富主题、插件支持等特点，适合用于个人博客、技术文档、个人网站等场景。而且基于 markdown 编写起来非常顺畅，个人非常喜欢这个博客。这次下定决心搭建一个...`;
             let _URL;
@@ -332,7 +351,7 @@
                     
                 </div>
                 <div class="pull-date">
-                    <time datetime="2023-06-01T00:29:33.415Z" itemprop="dateModified">最后编辑：2023-06-01</time>
+                    <time datetime="2023-06-08T08:56:03.821Z" itemprop="dateModified">最后编辑：2023-06-08</time>
                 </div>
             </div>
         </footer>
@@ -341,12 +360,12 @@
         <nav class="navigation post-navigation clearfix" role="navigation">
             
             <div class="nav-previous clearfix">
-                <a title=" Hello World" href="/project/2023/05/30/hello-world/">&lt; 上一篇</a>
+                <a title=" Hello World" href="/2023/05/30/hello-world/">&lt; 上一篇</a>
             </div>
             
             
             <div class="nav-next clearfix">
-                <a title=" test" href="/project/2023/05/31/test/">下一篇 &gt;</a>
+                <a title=" (无标题)" href="/2023/06/01/交接文档：/">下一篇 &gt;</a>
             </div>
             
         </nav>
@@ -378,15 +397,15 @@
         <p class="text-center">分享学习的文章分享基地</p>
     </div>
     <div class="site-meta">
-        <a class="meta-item" href="/project/archives/">
+        <a class="meta-item" href="/archives/">
             <span class="title">
                 文章
             </span>
             <span class="count">
-                4
+                5
             </span>
         </a>
-        <a class="meta-item" href="/project/categories/">
+        <a class="meta-item" href="/categories/">
             <span class="title">
                 分类
             </span>
@@ -394,12 +413,12 @@
                 0
             </span>
         </a>
-        <a class="meta-item" href="/project/tags/">
+        <a class="meta-item" href="/tags/">
             <span class="title">
                 标签
             </span>
             <span class="count">
-                0
+                1
             </span>
         </a>
     </div>
@@ -411,6 +430,13 @@
 
             
                 
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/%E5%BF%83%E7%90%86%E5%81%A5%E5%BA%B7/" style="font-size: 0.6em;">心理健康</a>
+      </div>
+  </aside>
+
             
                 
   <aside id="krw-posts" class="widget widget-kratos-posts">
@@ -424,19 +450,22 @@
         
           
           
-            <a class="list-group-item" href="/project/2023/05/31/test/"><i class="fa  fa-book"></i> test</a>
+            <a class="list-group-item" href="/2023/06/06/%E4%B8%AD%E5%B0%8F%E5%AD%A6%E6%A0%A1%E5%BF%83%E7%90%86%E5%AE%89%E5%85%A8%E4%B8%8E%E5%81%A5%E5%BA%B7%E7%AE%A1%E7%90%86%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"><i class="fa  fa-book"></i> 中小学校心理安全与健康管理解决方案</a>
             
           
         
           
           
-            <a class="list-group-item" href="/project/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/"><i class="fa  fa-book"></i> 搭建一个Hexo博客并用vercel部署</a>
+        
+          
+          
+            <a class="list-group-item" href="/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/"><i class="fa  fa-book"></i> 搭建一个Hexo博客并用vercel部署</a>
             
           
         
           
           
-            <a class="list-group-item" href="/project/2023/05/30/hello-world/"><i class="fa  fa-book"></i> Hello World</a>
+            <a class="list-group-item" href="/2023/05/30/hello-world/"><i class="fa  fa-book"></i> Hello World</a>
             
           
         
@@ -495,7 +524,7 @@
             <div class="tool">
                 
                     <div class="box search-box">
-                        <a href="/project/search/">
+                        <a href="/search/">
                             <span class="fa fa-search"></span>
                         </a>
                     </div>
@@ -517,24 +546,24 @@
 </div>
 </div>
 
-        <script defer src="/project/vendors/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
-<script defer src="/project/vendors/nprogress@0.2.0/nprogress.js"></script>
+        <script defer src="/vendors/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="/vendors/nprogress@0.2.0/nprogress.js"></script>
 <script>
     if (!window.kr) {
         window.kr = {};
     }
     window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
-    window.kr.siteRoot = "/project/";
+    window.kr.siteRoot = "/";
 </script>
 
 
-    <script async src="/project/js/candy.min.js"></script>
+    <script async src="/js/candy.min.js"></script>
 
 
 
-    <script defer src="/project/vendors/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    <script defer src="/vendors/aplayer@1.10.1/dist/APlayer.min.js"></script>
     
-    <script defer src="/project/vendors/meting@2.0.1/dist/Meting.min.js"></script>
+    <script defer src="/vendors/meting@2.0.1/dist/Meting.min.js"></script>
     <meting-js
         server="netease"
         type="playlist"
@@ -546,10 +575,10 @@
 
 
 
-    <script defer src="/project/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <script defer src="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 
-<script defer src="/project/js/kratosr.min.js"></script>
-<script defer src="/project/js/pjax.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
 
 
 
