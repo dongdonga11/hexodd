@@ -375,7 +375,7 @@
 <ul>
 <li>配置 vscode</li>
 </ul>
-<p>安装 vscode 组件 <code>vetur</code> <code>EditorConfig for VS Code</code> <code>ESLint</code> <code>Prettier - Code formatter</code><br><img src="/../../../images/fd4ffce6d3a2760f704c1863925ceed413b21c715c5eb455418062abda8cbfc7.png" alt="图 1"><br>修改 VSCode setting.json</p>
+<p>安装 vscode 组件 <code>vetur</code> <code>EditorConfig for VS Code</code> <code>ESLint</code> <code>Prettier - Code formatter</code><br><img src="/./../../img/fd4ffce6d3a2760f704c1863925ceed413b21c715c5eb455418062abda8cbfc7.png" alt="图 1"><br>修改 VSCode setting.json</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关闭自动保存</span></span><br><span class="line"><span class="string">&quot;files.autoSave&quot;</span>: <span class="string">&quot;off&quot;</span>,</span><br><span class="line"><span class="comment"># 保存时美化文件</span></span><br><span class="line"><span class="string">&quot;editor.formatOnSave&quot;</span>: <span class="literal">true</span>,</span><br><span class="line"><span class="comment"># 窗口缩放等级</span></span><br><span class="line"><span class="string">&quot;window.zoomLevel&quot;</span>: 1,</span><br><span class="line"><span class="comment"># eslint 配置</span></span><br><span class="line"><span class="string">&quot;eslint.validate&quot;</span>: [</span><br><span class="line">    <span class="string">&quot;javascript&quot;</span>,</span><br><span class="line">    <span class="string">&quot;javascriptreact&quot;</span>,</span><br><span class="line">    <span class="string">&quot;html&quot;</span>,</span><br><span class="line">    <span class="string">&quot;vue&quot;</span>,</span><br><span class="line">],</span><br><span class="line"><span class="comment"># 保存时运行</span></span><br><span class="line"><span class="string">&quot;eslint.run&quot;</span>: <span class="string">&quot;onSave&quot;</span>,</span><br><span class="line"><span class="comment"># 保存时自动尝试修复</span></span><br><span class="line"><span class="string">&quot;editor.codeActionsOnSave&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;source.fixAll.eslint&quot;</span>: <span class="literal">true</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="comment"># eslint 包管理</span></span><br><span class="line"><span class="string">&quot;eslint.packageManager&quot;</span>: <span class="string">&quot;yarn&quot;</span>,</span><br><span class="line"><span class="comment"># vetur format 使用单引号、错误级别；</span></span><br><span class="line"><span class="string">&quot;vetur.format.defaultFormatterOptions&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;prettier&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;singleQuote&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">&quot;semi&quot;</span>: <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line"><span class="string">&quot;files.associations&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;*.cjson&quot;</span>: <span class="string">&quot;jsonc&quot;</span>,</span><br><span class="line">    <span class="string">&quot;*.wxss&quot;</span>: <span class="string">&quot;css&quot;</span>,</span><br><span class="line">    <span class="string">&quot;*.wxs&quot;</span>: <span class="string">&quot;javascript&quot;</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="string">&quot;emmet.includeLanguages&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;wxml&quot;</span>: <span class="string">&quot;html&quot;</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="comment"># VSCode 默认终端</span></span><br><span class="line"><span class="string">&quot;terminal.integrated.profiles.windows&quot;</span>:&#123;</span><br><span class="line">    <span class="string">&quot;Git-Bash&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;path&quot;</span>: <span class="string">&quot;C:\\Program Files\\Git\\bin\\bash.exe&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line"><span class="string">&quot;terminal.integrated.defaultProfile.windows&quot;</span>: <span class="string">&quot;Git-Bash&quot;</span>,</span><br><span class="line"><span class="comment"># 树形菜单缩进</span></span><br><span class="line"><span class="string">&quot;workbench.tree.indent&quot;</span>: 20</span><br></pre></td></tr></table></figure>
 <ul>
 <li><p>配置 .editorconfig</p>
@@ -452,12 +452,12 @@
 <li><p>通过 <a href="https://github.com/docker/compose/releases">github</a> 上的发行版列表，找到自己喜欢的版本，并记录下 版本号</p>
 </li>
 </ol>
-<p><img src="/../../../images/32d4abaae4a357af1e0038539a702d05289c78713899531d04968d10c3c1e117.png" alt="图 1">  </p>
+<p><img src="/./../../img/32d4abaae4a357af1e0038539a702d05289c78713899531d04968d10c3c1e117.png" alt="图 1">  </p>
 <ol start="7">
 <li>下载 <code>docker-compose</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`<span class="built_in">uname</span> -s`-`<span class="built_in">uname</span> -m` -o /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p>:::tip<br>简单解释下命令：下载 <code>docker-compose-Linux-x86_64</code> 文件，并保存到 <code>/usr/local/bin/</code> 路径下，并重命名为 <code>docker-compose</code><br>:::</p>
-<p><img src="/../../../images/5f36277084a04b548cddfbb455cf75561ee53332c65b123cd18e622a23afd31b.png" alt="图 2">  </p>
+<p><img src="/./../../img/5f36277084a04b548cddfbb455cf75561ee53332c65b123cd18e622a23afd31b.png" alt="图 2">  </p>
 <ol start="8">
 <li>为 <code>docker-compose</code> 授权执行权限</li>
 </ol>
@@ -507,7 +507,7 @@
 <p><strong>方案三</strong>：后端绘制 canvas ，前端获取后端返回文件地址数组，然后遍历下载，接着前端来进行打包压缩处理。</p>
 <p><strong>方案四</strong>：前端绘制 canvas ，然后遍历下载。</p>
 <p><strong>方案五</strong>：前端绘制 canvas ，接着前端来进行打包压缩处理。</p>
-<h2 id="方案简单分析"><a href="#方案简单分析" class="headerlink" title="方案简单分析"></a>方案简单分析</h2><p><img src="/../../../images/94b408a976b3d6440ab6686bf397590940a1e719264d1fb18098fc9324aa1d30.gif" alt="图 1">  </p>
+<h2 id="方案简单分析"><a href="#方案简单分析" class="headerlink" title="方案简单分析"></a>方案简单分析</h2><p><img src="/./../../img/94b408a976b3d6440ab6686bf397590940a1e719264d1fb18098fc9324aa1d30.gif" alt="图 1">  </p>
 <p>从图片可以看出，直接进行批量下载，非常的难看；所以，未经打包压缩直接下载，显然不够优雅，方案一、方案四 out。</p>
 <p>而后端绘制 canvas ，又不够灵活，方案二、方案三也宣布 out。</p>
 <p>剩下的便是方案五了；下面就让我们一起看看如何实现吧。</p>
@@ -520,7 +520,7 @@
 <p>接下去，就让我们步入正题吧！让各位嘉宾与选手拿出他们的真本事。</p>
 <p>只见， <code>canvas</code> 第一个站了出来，随着她的出现，编辑器上慢慢浮现出；</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> canvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;CANVAS&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&quot;2d&quot;</span>);</span><br><span class="line">canvas.<span class="property">height</span> = <span class="number">120</span>;</span><br><span class="line">canvas.<span class="property">width</span> = <span class="number">300</span>;</span><br><span class="line">ctx.<span class="property">fillStyle</span> = <span class="string">&quot;white&quot;</span>;</span><br><span class="line">ctx.<span class="title function_">fillRect</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">300</span>, <span class="number">120</span>);</span><br><span class="line">ctx.<span class="property">font</span> = <span class="string">&quot;16px 微软雅黑&quot;</span>;</span><br><span class="line">ctx.<span class="property">fillStyle</span> = <span class="string">&quot;red&quot;</span>;</span><br><span class="line">ctx.<span class="title function_">fillText</span>(<span class="string">`name ：sicker`</span>, <span class="number">130</span>, <span class="number">20</span>);</span><br><span class="line">ctx.<span class="title function_">fillText</span>(<span class="string">`number ：1024`</span>, <span class="number">130</span>, <span class="number">45</span>);</span><br><span class="line">ctx.<span class="title function_">fillText</span>(<span class="string">`fen ：200`</span>, <span class="number">130</span>, <span class="number">70</span>);</span><br><span class="line">ctx.<span class="property">fillStyle</span> = <span class="string">&quot;black&quot;</span>;</span><br><span class="line">ctx.<span class="title function_">fillText</span>(<span class="string">`一个没啥用的demo`</span>, <span class="number">130</span>, <span class="number">110</span>);</span><br><span class="line"><span class="keyword">let</span> base64 = canvas.<span class="title function_">toDataURL</span>(<span class="string">&quot;image/png&quot;</span>);</span><br></pre></td></tr></table></figure>
-<p><img src="/../../../images/f569d0f44fe57724f272bcb5fc2b8dadd0f36432e2e00f54ee06569586529e19.png" alt="图 2">  </p>
+<p><img src="/./../../img/f569d0f44fe57724f272bcb5fc2b8dadd0f36432e2e00f54ee06569586529e19.png" alt="图 2">  </p>
 <p>漂亮，我们的 <code>canvas</code> 选手，兔起鹘落间，已经在浏览器上画上了一个绝美的图卷；</p>
 <p>然后，一旁的数据一看，就不满的叫嚷起来，「哼，没有我，终究是个死物」。</p>
 <p><code>data</code> 选手，手一挥，编辑器上就留下了一排数据；</p>
@@ -546,7 +546,7 @@
 <p>嘉宾们也兴致很高的留下了签名</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">JSZip</span> <span class="keyword">from</span> <span class="string">&quot;jszip&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">QRCode</span> <span class="keyword">from</span> <span class="string">&quot;qrcode&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; saveAs &#125; <span class="keyword">from</span> <span class="string">&quot;file-saver&quot;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/../../../images/2.gif" alt="图 3"></p>
+<p><img src="/./../../img/2.gif" alt="图 3"></p>
 ]]></content>
       
         
@@ -585,12 +585,12 @@
 <li><p>通过 <a href="https://github.com/docker/compose/releases">github</a> 上的发行版列表，找到自己喜欢的版本，并记录下 版本号</p>
 </li>
 </ol>
-<p><img src="/../../../images/32d4abaae4a357af1e0038539a702d05289c78713899531d04968d10c3c1e117.png" alt="图 1">  </p>
+<p><img src="/./../../img/32d4abaae4a357af1e0038539a702d05289c78713899531d04968d10c3c1e117.png" alt="图 1">  </p>
 <ol start="7">
 <li>下载 <code>docker-compose</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`<span class="built_in">uname</span> -s`-`<span class="built_in">uname</span> -m` -o /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p>:::tip<br>简单解释下命令：下载 <code>docker-compose-Linux-x86_64</code> 文件，并保存到 <code>/usr/local/bin/</code> 路径下，并重命名为 <code>docker-compose</code><br>:::</p>
-<p><img src="/../../../images/5f36277084a04b548cddfbb455cf75561ee53332c65b123cd18e622a23afd31b.png" alt="图 2">  </p>
+<p><img src="/./../../img/5f36277084a04b548cddfbb455cf75561ee53332c65b123cd18e622a23afd31b.png" alt="图 2">  </p>
 <p>docker-compose 下载不动解决方案</p>
 <p><a href="https://gitee.com/mirrors/docker-compose">gitee</a> 下载后上传该文件即可</p>
 <ol start="8">
@@ -1276,7 +1276,7 @@
       <title><![CDATA[对Feign返回服务器状态码的处理]]></title>
       <url>/2021/05/13/WH/server%20code/</url>
       <content type="html"><![CDATA[<h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>在前端请求后端接口时，后端返回的返回类的code为500或其他的，<br>而服务器返回的状态全为200。导致于前端每次都要在200中判断code。</p>
-<p><strong>如下图所示</strong><br><img src="/../../../images/java-server-1620868011888.png" alt="java-server-1620868011888"></p>
+<p><strong>如下图所示</strong><br><img src="/./../../img/java-server-1620868011888.png" alt="java-server-1620868011888"></p>
 <h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p><strong>思路</strong></p>
 <ol>
 <li>使用spring ResponseEntity处理 返回的状态码与返回的信息</li>
@@ -1287,7 +1287,6 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 添加登录用户</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> token</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> loginInfo</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@PostMapping(&quot;/manage/user/info/add&quot;)</span></span><br><span class="line"><span class="keyword">public</span> ResponseEntity&lt;Result&gt; <span class="title function_">queryUserInfo</span><span class="params">(<span class="meta">@RequestHeader(&quot;X-Token&quot;)</span> String token,</span></span><br><span class="line"><span class="params"><span class="meta">@RequestBody</span> LoginInfo loginInfo)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ResultPackageToString(client.queryUserInfo(token,loginInfo));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> ResponseEntity&lt;Result&gt; <span class="title function_">ResultPackageToResult</span><span class="params">(Result result)</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">switch</span> (result.getCode())&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">401</span>:</span><br><span class="line">                <span class="keyword">return</span> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);</span><br><span class="line">            <span class="keyword">case</span> <span class="number">404</span>:</span><br><span class="line">                <span class="keyword">return</span> ResponseEntity.notFound().build();</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">return</span> ResponseEntity.ok().body(result);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
 
 
 
@@ -1316,7 +1315,7 @@
 <ol>
 <li>不怕污染环境，造成一些不可预计的错误</li>
 <li>群辉套件中心可以方便的安装 <code>docker</code></li>
-<li>如果出现问题，可以方便的使用 <code>NAS</code> 的可视化界面，轻松重启。<br>:::center<br><img src="/../../../images/bb1fc5151fa7bbcc3e5722f8da56a49fa936d51e8584fd33287c367447bbe8b4.png" alt="图 1"><br><small>docker 操作界面</small><br>:::</li>
+<li>如果出现问题，可以方便的使用 <code>NAS</code> 的可视化界面，轻松重启。<br>:::center<br><img src="/./../../img/bb1fc5151fa7bbcc3e5722f8da56a49fa936d51e8584fd33287c367447bbe8b4.png" alt="图 1"><br><small>docker 操作界面</small><br>:::</li>
 </ol>
 <p>::: danger 注意<br>docker 安装过程略，请自行确保安装成功<br>:::</p>
 <p>所以，我们跟着 <code>rap2-delos</code> 的 <code>README</code>[^read] 直接进入主题<br>[^read]: <a href="https://github.com/thx/rap2-delos#%E5%AE%89%E8%A3%85-docker">rap2-delos 的 readme</a></p>
@@ -1324,15 +1323,15 @@
 <p>:::details 点击查看 Dockerfile.yaml 文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"># BUILDING</span><br><span class="line">FROM node:lts-alpine AS builder</span><br><span class="line"></span><br><span class="line"># base on work of llitfkitfk@gmail.com</span><br><span class="line">LABEL maintainer=&quot;chibing.fy@alibaba-inc.com&quot;</span><br><span class="line"></span><br><span class="line">WORKDIR /app</span><br><span class="line"></span><br><span class="line"># cache dependencies</span><br><span class="line">COPY package.json ./</span><br><span class="line"></span><br><span class="line"># 在国内打开下面一行加速</span><br><span class="line">#RUN npm config set registry https://registry.npm.taobao.org/</span><br><span class="line"></span><br><span class="line"># instal dependencies</span><br><span class="line">RUN npm install typescript -g &amp;&amp; \</span><br><span class="line">    npm install</span><br><span class="line"></span><br><span class="line"># build</span><br><span class="line">COPY . ./</span><br><span class="line">RUN npm run build</span><br><span class="line"></span><br><span class="line"># RUNNING</span><br><span class="line">FROM node:lts-alpine</span><br><span class="line"></span><br><span class="line"># base on work of llitfkitfk@gmail.com</span><br><span class="line">LABEL maintainer=&quot;chibing.fy@alibaba-inc.com&quot;</span><br><span class="line"># use China mirror of: https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-linux.tar.gz</span><br><span class="line">RUN wget http://rap2-taobao-org.oss-cn-beijing.aliyuncs.com/pandoc-2.7.3-linux.tar.gz &amp;&amp; \</span><br><span class="line">    tar -xf pandoc-2.7.3-linux.tar.gz &amp;&amp; \</span><br><span class="line">    cp pandoc-2.7.3/bin/* /usr/bin/ &amp;&amp; \</span><br><span class="line">    pandoc -v &amp;&amp; \</span><br><span class="line">    rm -rf pandoc-2.7.3-linux.tar.gz pandoc-2.7.3</span><br><span class="line"></span><br><span class="line">WORKDIR /app</span><br><span class="line">COPY --from=builder /app/public .</span><br><span class="line">COPY --from=builder /app/dist .</span><br><span class="line">COPY --from=builder /app/node_modules ./node_modules</span><br></pre></td></tr></table></figure>
 <p>:::</p>
-<p><img src="/../../../images/d55a5b15fce2db18e6c32992674dca7627439eb95134c2753d165cf3e63ec994.png" alt="图 5">  </p>
+<p><img src="/./../../img/d55a5b15fce2db18e6c32992674dca7627439eb95134c2753d165cf3e63ec994.png" alt="图 5">  </p>
 <p>接着，随着下面图片的指引，打开 <code>NAS</code> 的 <code>ssh</code> 端口</p>
-<p><img src="/../../../images/042faeb97362005dcc0b1b9fbee22b42aca0ca359f3d32597b6a8f12fe9ffdd4.png" alt="图 6">  </p>
+<p><img src="/./../../img/042faeb97362005dcc0b1b9fbee22b42aca0ca359f3d32597b6a8f12fe9ffdd4.png" alt="图 6">  </p>
 <p>现在，我们就可以直接使用终端工具，连接到我们的 <code>NAS</code> 上了。</p>
 <p>::: info<br>终端工具请自行下载，笔者采用的是 xshell<br>:::</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Host : 192.168.2.100  // NAS 可视化界面的IP ，请按照实际情况自行判断</span><br><span class="line">user : sicker // NAS 可视化界面登录采用的用户名</span><br><span class="line">password : ******** // NAS 可视化界面登录采用的密码</span><br></pre></td></tr></table></figure>
 
 <p>登录成功后，会提示类似如下的界面</p>
-<p><img src="/../../../images/2f8cf58ce3ac24fd108bab6a67d297f650c792c1f5b5e31adb95068851340e9c.png" alt="图 7">  </p>
+<p><img src="/./../../img/2f8cf58ce3ac24fd108bab6a67d297f650c792c1f5b5e31adb95068851340e9c.png" alt="图 7">  </p>
 <p>键入 </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; sudo docker -v</span><br><span class="line"></span><br><span class="line">Docker version 18.09.8, build bfed4f5</span><br></pre></td></tr></table></figure>
 <p>验证 docker 是否安装成功。</p>
@@ -1348,7 +1347,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; docker-compose <span class="built_in">exec</span> delos node scripts/init</span><br></pre></td></tr></table></figure>
 
 <p>大功告成！现在打开你的 <code>$&#123;NAS IP&#125;:3000</code> 查看吧！</p>
-<p><img src="/../../../images/ad4f6f403c19d301a68eb1a242d5eb611a68d1620a87d1042517440fa8d4858a.png" alt="图 8">  </p>
+<p><img src="/./../../img/ad4f6f403c19d301a68eb1a242d5eb611a68d1620a87d1042517440fa8d4858a.png" alt="图 8">  </p>
 <p>如果你还是没成功，也许，你需要接着往下看</p>
 <h2 id="Issues"><a href="#Issues" class="headerlink" title="Issues"></a>Issues</h2><ol>
 <li>[ERROR] [Entrypoint]: MYSQL_USER&#x3D;”root”, MYSQL_USER and MYSQL_PASSWORD are for configuring a regular user and cannot be used for the root user<br>::: details 点开查看详细报错信息<figure class="highlight bash"><figcaption><span>&#123;7,9&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">2021-03-27 13:16:08+00:00 [Note] [Entrypoint]: Entrypoint script <span class="keyword">for</span> MySQL Server 8.0.23-1debian10 started.</span><br><span class="line"></span><br><span class="line">2021-03-27 13:16:08+00:00 [Note] [Entrypoint]: Switching to dedicated user <span class="string">&#x27;mysql&#x27;</span></span><br><span class="line"></span><br><span class="line">2021-03-27 13:16:08+00:00 [Note] [Entrypoint]: Entrypoint script <span class="keyword">for</span> MySQL Server 8.0.23-1debian10 started.</span><br><span class="line"></span><br><span class="line">2021-03-27 13:16:08+00:00 [ERROR] [Entrypoint]: MYSQL_USER=<span class="string">&quot;root&quot;</span>, MYSQL_USER and MYSQL_PASSWORD are <span class="keyword">for</span> configuring a regular user and cannot be used <span class="keyword">for</span> the root user</span><br><span class="line"></span><br><span class="line">Remove MYSQL_USER=<span class="string">&quot;root&quot;</span> and use one of the following to control the root user password:</span><br><span class="line"></span><br><span class="line">- MYSQL_ROOT_PASSWORD</span><br><span class="line"></span><br><span class="line">- MYSQL_ALLOW_EMPTY_PASSWORD</span><br><span class="line"></span><br><span class="line">- MYSQL_RANDOM_ROOT_PASSWORD</span><br></pre></td></tr></table></figure>
@@ -1924,7 +1923,7 @@ rows:规定文本区内的可见行数
 
 <p>看到这里，很多有过后端语言基础的朋友应该就已经明白了。</p>
 <p>没错，接着，打开资源管理器，</p>
-<p><img src="/../../../images/e7ba51df5f6446ceb0e4be3a0fbd41c836ba79a9dacb69f74fc179dd8b4ebf87.png" alt="图 1">  </p>
+<p><img src="/./../../img/e7ba51df5f6446ceb0e4be3a0fbd41c836ba79a9dacb69f74fc179dd8b4ebf87.png" alt="图 1">  </p>
 <p>::: center<br><small style="color:red">点击图片可以放大哦~</small><br>:::</p>
 <p>跟着如上操作一图流，可以看到 <code>npm</code> 的 <code>bin</code> 路径已然配置在了 <code>path</code> 中，那么是否将 <code>yarn</code> 的 <code>bin</code> 也配置好就OK了呢？</p>
 <p>done！</p>
@@ -1970,17 +1969,17 @@ rows:规定文本区内的可见行数
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm config get registry</span><br><span class="line">npm config get ELECTRON_MIRROR</span><br><span class="line">npm config get CHROMEDRIVER_CDNURL</span><br><span class="line">npm config get ELECTRON_BUILDER_BINARIES_MIRROR</span><br></pre></td></tr></table></figure>
 
 <p>最后安装成功后，运行 <code>electron</code>。</p>
-<p><img src="/../../../images/7aacce3b767972f9d457e6d960b84901f66d928160da7843db4c980dda9624a9.png" alt="图 3">  </p>
+<p><img src="/./../../img/7aacce3b767972f9d457e6d960b84901f66d928160da7843db4c980dda9624a9.png" alt="图 3">  </p>
 <p>好了，感谢淘宝吧！</p>
 <h3 id="issues"><a href="#issues" class="headerlink" title="issues"></a>issues</h3><ol>
 <li>别再用 electron-rebuild 了</li>
 </ol>
-<p><img src="/../../../images/20e2a12b9ed36c9472cbcffd413ea39c1811668b672f11eb941c22e0c8df4333.png" alt="图 1">  </p>
+<p><img src="/./../../img/20e2a12b9ed36c9472cbcffd413ea39c1811668b672f11eb941c22e0c8df4333.png" alt="图 1">  </p>
 <p>否则，安装的版本为 1.4.13 … 想必你也不想用远古版本的吧？</p>
 <ol start="2">
 <li>提示安装失败后，再次安装提示 文件已存在</li>
 </ol>
-<p><img src="/../../../images/1b51064e9819b9afa361a8c82462d158b1960abbf811397c4c4cf826294aad13.png" alt="图 2">  </p>
+<p><img src="/./../../img/1b51064e9819b9afa361a8c82462d158b1960abbf811397c4c4cf826294aad13.png" alt="图 2">  </p>
 <p>移除 <code>npm -g bin</code> 路径已存在的如上图选中的三个文件后重试</p>
 ]]></content>
       
@@ -2386,7 +2385,7 @@ if %current_minor% LEQ &quot;8&quot; (
 <p>Fiddler<a href="https://www.telerik.com/download/fiddler">下载链接</a></p>
 <h3 id="二、Fiddler的工作原理"><a href="#二、Fiddler的工作原理" class="headerlink" title="二、Fiddler的工作原理"></a>二、Fiddler的工作原理</h3><p>​	Fiddler 是以代理web服务器的形式工作的，它使用代理地址:127.0.0.1，端口:8888。Fiddler是一个抓包工具，当浏览器访问服务器会形成一个请求，此时，Fiddler就处于请求之间，当浏览器发送请求，会先经过Fiddler，然后在到服务器；当服务器有返回数据给浏览器显示时，也会先经过Fiddler，然后数据才到浏览器中显示，这样一个过程，Fiddler就抓取到了请求和响应的整个过程。</p>
 <p>Fiddler界面介绍：<font color = red>功能区</font>、<font color = brown>工具区</font>、<font color = blue>会话列表区</font>、<font color = green>命令行区</font>、<font color = grey>请求、响应区</font></p>
-<p><img src="/./../../img/Fiddler/image-20210425151606804.png" alt="image-20210425151606804"></p>
+<p><img src="/./../../imgFiddler/image-20210425151606804.png" alt="image-20210425151606804"></p>
 <p><font color = red>(1)抓取HTTPS数据包设置</font>:</p>
 <p>点击“Tools-&gt;Options…-&gt;HTTPS”初始情况：</p>
 <p><img src="/./../../img/Fiddler/image-20210426113037185.png" alt="image-20210426113037185"></p>
@@ -2457,8 +2456,8 @@ if %current_minor% LEQ &quot;8&quot; (
       <url>/2021/04/21/WH/svg%20download%20solve/</url>
       <content type="html"><![CDATA[<h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>在做中转系统的时候，提供的图标地址为内网地址需要中转站将url<br>转为外网可以访问的图标，而提供给中转站的图标url不带图标名称<br>与后缀，直接转存后为二进制文件，文件打开后，末尾多了一串null。<br>导致于浏览器无法识别该svg文件</p>
 <p><strong>如下图所示</strong></p>
-<p>打开后显示<br><img src="/../../../images/java-svg-1618995999300.png" alt="java-svg-1618995999300"></p>
-<p>浏览器中显示<br><img src="/../../../images/java-svg-1618996030300.png" alt="java-svg-1618996030300"></p>
+<p>打开后显示<br><img src="/./../../img/java-svg-1618995999300.png" alt="java-svg-1618995999300"></p>
+<p>浏览器中显示<br><img src="/./../../img/java-svg-1618996030300.png" alt="java-svg-1618996030300"></p>
 <h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p><strong>思路</strong></p>
 <ol>
 <li>先通过url拿到文件流(svg图片的文件流)</li>
@@ -2470,7 +2469,7 @@ if %current_minor% LEQ &quot;8&quot; (
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通过网络url取文件，并保存</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> path 文件保存路径</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> url  网络地址</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">uploadImage2</span><span class="params">(String path, String url)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 获取网络文件流</span></span><br><span class="line">            <span class="type">URL</span> <span class="variable">pathUrl</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">URL</span>(url);</span><br><span class="line">            <span class="type">DataInputStream</span> <span class="variable">dataInputStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DataInputStream</span>(pathUrl.openStream());</span><br><span class="line">            <span class="comment">// 创建文件流</span></span><br><span class="line">            <span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(path);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 判断需要保存的文件路径存在不存在，若不存在则创建</span></span><br><span class="line">            <span class="type">File</span> <span class="variable">file1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;/app/application/hdrs/file/icon&quot;</span>);</span><br><span class="line">            <span class="keyword">if</span> (!file1.exists()) &#123;</span><br><span class="line">                file1.mkdirs();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">FileOutputStream</span> <span class="variable">fileOutputStream</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(file);</span><br><span class="line">            <span class="type">byte</span>[] buffer = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">4096</span>];</span><br><span class="line">            <span class="keyword">while</span> (dataInputStream.read(buffer) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                fileOutputStream.write(buffer);<span class="comment">//将buffer中的字节写入文件中区</span></span><br><span class="line">            &#125;</span><br><span class="line">            dataInputStream.close();<span class="comment">//关闭输入流</span></span><br><span class="line">            fileOutputStream.close();<span class="comment">//关闭输出流</span></span><br><span class="line"></span><br><span class="line">            <span class="type">FileInputStream</span> <span class="variable">fis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(file);</span><br><span class="line"></span><br><span class="line">            <span class="type">InputStreamReader</span> <span class="variable">isr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(fis, <span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">            <span class="comment">//将file文件内容转成字符串</span></span><br><span class="line">            <span class="type">BufferedReader</span> <span class="variable">bf</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(isr);</span><br><span class="line">            <span class="type">String</span> <span class="variable">content</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">            <span class="type">StringBuilder</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">            <span class="keyword">while</span> (content != <span class="literal">null</span>) &#123;</span><br><span class="line">                content = bf.readLine();</span><br><span class="line">                <span class="keyword">if</span> (content == <span class="literal">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                sb.append(content.trim());</span><br><span class="line">            &#125;</span><br><span class="line">            bf.close();</span><br><span class="line"></span><br><span class="line">            <span class="type">String</span> <span class="variable">fileStr</span> <span class="operator">=</span> sb.toString();</span><br><span class="line"></span><br><span class="line">            string2File(fileStr,path);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将字符串写入指定文件</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> res  原字符串</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> filePath 文件路径</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 成功标记</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">string2File</span><span class="params">(String res, String filePath)</span> &#123;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">flag</span> <span class="operator">=</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="type">BufferedReader</span> <span class="variable">bufferedReader</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="type">BufferedWriter</span> <span class="variable">bufferedWriter</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">File</span> <span class="variable">distFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(filePath);</span><br><span class="line">            <span class="keyword">if</span> (!distFile.getParentFile().exists()) distFile.getParentFile().mkdirs();</span><br><span class="line">            bufferedReader = <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">StringReader</span>(res));</span><br><span class="line">            bufferedWriter = <span class="keyword">new</span> <span class="title class_">BufferedWriter</span>(<span class="keyword">new</span> <span class="title class_">FileWriter</span>(distFile));</span><br><span class="line">            <span class="type">char</span> buf[] = <span class="keyword">new</span> <span class="title class_">char</span>[<span class="number">1024</span>];         <span class="comment">//字符缓冲区</span></span><br><span class="line">            <span class="type">int</span> len;</span><br><span class="line">            <span class="keyword">while</span> ((len = bufferedReader.read(buf)) != -<span class="number">1</span>) &#123;</span><br><span class="line">                bufferedWriter.write(buf, <span class="number">0</span>, len);</span><br><span class="line">            &#125;</span><br><span class="line">            bufferedWriter.flush();</span><br><span class="line">            bufferedReader.close();</span><br><span class="line">            bufferedWriter.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            flag = <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">return</span> flag;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (bufferedReader != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    bufferedReader.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> flag;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><strong>效果图</strong></p>
-<p><img src="/../../../images/java-svg-1618996761300.png" alt="java-svg-1618996761300"></p>
+<p><img src="/./../../img/java-svg-1618996761300.png" alt="java-svg-1618996761300"></p>
 ]]></content>
       
         
@@ -2524,70 +2523,70 @@ if %current_minor% LEQ &quot;8&quot; (
       <title><![CDATA[Docker部署教程-Linux]]></title>
       <url>/2021/04/20/XBlack/docker%20deploy/</url>
       <content type="html"><![CDATA[<h2 id="1-安装VM虚拟机"><a href="#1-安装VM虚拟机" class="headerlink" title="1.安装VM虚拟机"></a>1.安装VM虚拟机</h2><h3 id="1-1下载VM虚拟机"><a href="#1-1下载VM虚拟机" class="headerlink" title="1.1下载VM虚拟机"></a>1.1下载VM虚拟机</h3><p>进入<a href="https://www.vmware.com/cn/products/workstation-pro/workstation-pro-evaluation.html">VM官网</a>，根据不同系统的点击不同的下载方式（本人是安装在Windows系统上安装）</p>
-<p><img src="/./../../img/docker/image-20210420114738530.png" alt="image-20210414131101787"></p>
+<p><img src="/./../../imgdocker/image-20210420114738530.png" alt="image-20210414131101787"></p>
 <h3 id="1-2安装VM虚拟机"><a href="#1-2安装VM虚拟机" class="headerlink" title="1.2安装VM虚拟机"></a>1.2安装VM虚拟机</h3><p>双击VMware，跳出弹窗点击“是”，进入安装模式（如图所示）</p>
-<p><img src="/./../../img/img/docker/image-20210414134449915.png" alt="image-20210414134449915"></p>
+<p><img src="/./../../imgimg/docker/image-20210414134449915.png" alt="image-20210414134449915"></p>
 <p>先勾选，在点击“下一步”</p>
-<p><img src="/./../../img/img/docker/image-20210414134519517.png" alt="image-20210414134519517"></p>
+<p><img src="/./../../imgimg/docker/image-20210414134519517.png" alt="image-20210414134519517"></p>
 <p>先勾选，在点击“下一步”</p>
-<p><img src="/./../../img/docker/image-20210414134607285.png" alt="image-20210414134607285"></p>
+<p><img src="/./../../imgdocker/image-20210414134607285.png" alt="image-20210414134607285"></p>
 <p>安装位置根据自己意愿选择安装位置（可以选择默认），默认勾选，点击“下一步”</p>
-<p><img src="/./../../img/docker/image-20210414134704346.png" alt="image-20210414134704346"></p>
+<p><img src="/./../../imgdocker/image-20210414134704346.png" alt="image-20210414134704346"></p>
 <p>默认勾选，在点击“下一步”</p>
-<p><img src="/./../../img/docker/image-20210414134750676.png" alt="image-20210414134750676"></p>
+<p><img src="/./../../imgdocker/image-20210414134750676.png" alt="image-20210414134750676"></p>
 <p>默认勾选，在点击“下一步”</p>
-<p><img src="/./../../img/docker/image-20210414134826070.png" alt="image-20210414134826070"></p>
+<p><img src="/./../../imgdocker/image-20210414134826070.png" alt="image-20210414134826070"></p>
 <p>点击“安装”</p>
-<p><img src="/./../../img/docker/image-20210414134851965.png" alt="image-20210414134851965"></p>
+<p><img src="/./../../imgdocker/image-20210414134851965.png" alt="image-20210414134851965"></p>
 <p>进入安装步骤</p>
-<p><img src="/./../../img/docker/image-20210414134912550.png" alt="image-20210414134912550"></p>
+<p><img src="/./../../imgdocker/image-20210414134912550.png" alt="image-20210414134912550"></p>
 <p>点击”许可证”，</p>
-<p><img src="/./../../img/docker/image-20210414135048162.png" alt="image-20210414135048162"></p>
+<p><img src="/./../../imgdocker/image-20210414135048162.png" alt="image-20210414135048162"></p>
 <p>输入<font color=red>YF390-0HF8P-M81RQ-2DXQE-M2UT6</font>，点击“输入”</p>
-<p><img src="/./../../img/docker/image-20210414135315935.png" alt="image-20210414135315935"></p>
+<p><img src="/./../../imgdocker/image-20210414135315935.png" alt="image-20210414135315935"></p>
 <p>点击“完成”，安装安装步骤完成</p>
-<p><img src="/./../../img/docker/image-20210414135926085.png" alt="image-20210414135926085"></p>
+<p><img src="/./../../imgdocker/image-20210414135926085.png" alt="image-20210414135926085"></p>
 <h3 id="1-3部署虚拟机环境"><a href="#1-3部署虚拟机环境" class="headerlink" title="1.3部署虚拟机环境"></a>1.3部署虚拟机环境</h3><p>​	登录<a href="https://cn.ubuntu.com/download">ubuntu</a>，点击“下载”，选择下载的路径（本人路径选择桌面），完成linux系统下载</p>
-<p><img src="/./../../img/docker/image-20210414141104980.png" alt="image-20210414141104980"></p>
+<p><img src="/./../../imgdocker/image-20210414141104980.png" alt="image-20210414141104980"></p>
 <p>​	VMware 虚拟机安装完成后，双击“图标“</p>
-<p><img src="/./../../img/docker/image-20210414140537345.png" alt="image-20210414140537345"></p>
+<p><img src="/./../../imgdocker/image-20210414140537345.png" alt="image-20210414140537345"></p>
 <p>​	VMware软件打开，点击“创建新的虚拟机“</p>
-<p><img src="/./../../img/docker/image-20210414140841175.png" alt="image-20210414140841175"></p>
+<p><img src="/./../../imgdocker/image-20210414140841175.png" alt="image-20210414140841175"></p>
 <p>默认选项，点击“下一步”</p>
-<p><img src="/./../../img/docker/image-20210414141205666.png" alt="image-20210414141205666"></p>
+<p><img src="/./../../imgdocker/image-20210414141205666.png" alt="image-20210414141205666"></p>
 <p>​	如果刚刚liunx系统下载完成后，<font color=red>安装程序光盘将自动显示该系统</font>、然后点击“<font color=red>安装程序光盘映像文件</font>”选择刚才下载完成的Linux，再次选择“<font color=red>创建空白的硬盘</font>”,最后选择“下一步”。</p>
-<p><img src="/./../../img/docker/image-20210414141338086.png" alt="image-20210414141338086"></p>
+<p><img src="/./../../imgdocker/image-20210414141338086.png" alt="image-20210414141338086"></p>
 <p>选择Linux，点击版本并选择Ubuntu 64位，最后“下一步”</p>
-<p><img src="/./../../img/docker/image-20210414142738052.png" alt="image-20210414142738052"></p>
+<p><img src="/./../../imgdocker/image-20210414142738052.png" alt="image-20210414142738052"></p>
 <p>虚拟机名称可以默认，也可以自己编写，位置选择，（本人选择默认），最后点击下一步</p>
-<p><img src="/./../../img/docker/image-20210414143104132.png" alt="image-20210414143104132"></p>
+<p><img src="/./../../imgdocker/image-20210414143104132.png" alt="image-20210414143104132"></p>
 <p>磁盘大小按照自己意愿，虚拟磁盘选项为默认选项，最后点击“下一步”</p>
-<p><img src="/./../../img/docker/image-20210414143311371.png" alt="image-20210414143311371"></p>
+<p><img src="/./../../imgdocker/image-20210414143311371.png" alt="image-20210414143311371"></p>
 <p>点击“完成”，虚拟机部署完成</p>
-<p><img src="/./../../img/docker/image-20210414143706453.png" alt="image-20210414143706453"></p>
+<p><img src="/./../../imgdocker/image-20210414143706453.png" alt="image-20210414143706453"></p>
 <p>首先选择虚拟机，再点击“编辑虚拟机设置”，</p>
-<p><img src="/./../../img/docker/image-20210414143742857.png" alt="image-20210414143742857">打开设置界面后，选择“CD&#x2F;DVD”选项，再点击“使用ISO映像文件”，最后点击“确定”，设置完成后，返回到首页</p>
-<p><img src="/./../../img/docker/image-20210414144123252.png" alt="image-20210414144123252"></p>
+<p><img src="/./../../imgdocker/image-20210414143742857.png" alt="image-20210414143742857">打开设置界面后，选择“CD&#x2F;DVD”选项，再点击“使用ISO映像文件”，最后点击“确定”，设置完成后，返回到首页</p>
+<p><img src="/./../../imgdocker/image-20210414144123252.png" alt="image-20210414144123252"></p>
 <p>选择虚拟机后，再点击“开启次虚拟机”</p>
-<p><img src="/./../../img/docker/image-20210414144409361.png" alt="image-20210414144409361"></p>
+<p><img src="/./../../imgdocker/image-20210414144409361.png" alt="image-20210414144409361"></p>
 <h3 id="1-4Liunx安装"><a href="#1-4Liunx安装" class="headerlink" title="1.4Liunx安装"></a>1.4Liunx安装</h3><p>点击“确定”，开始Liunx的系统安装</p>
-<p><img src="/./../../img/docker/image-20210414144509587.png" alt="image-20210414144509587"></p>
+<p><img src="/./../../imgdocker/image-20210414144509587.png" alt="image-20210414144509587"></p>
 <p>选择语言，选择自己喜欢的语言，在点击“安装”</p>
-<p><img src="/./../../img/docker/image-20210414144955090.png" alt="image-20210414144955090"></p>
+<p><img src="/./../../imgdocker/image-20210414144955090.png" alt="image-20210414144955090"></p>
 <p>点击“继续”</p>
-<p><img src="/./../../img/docker/image-20210414145053804.png" alt="image-20210414145053804"></p>
+<p><img src="/./../../imgdocker/image-20210414145053804.png" alt="image-20210414145053804"></p>
 <p>所有选项为默认，在点击“继续”</p>
-<p><img src="/./../../img/docker/image-20210414145350518.png" alt="image-20210414145350518"></p>
+<p><img src="/./../../imgdocker/image-20210414145350518.png" alt="image-20210414145350518"></p>
 <p>所有选项为默认选项，点击“现在安装”，弹出界面点击“继续”</p>
-<p><img src="/./../../img/docker/image-20210414145851394.png" alt="image-20210414145851394"></p>
+<p><img src="/./../../imgdocker/image-20210414145851394.png" alt="image-20210414145851394"></p>
 <p>默认点击“继续”</p>
-<p><img src="/./../../img/docker/image-20210414150012144.png" alt="image-20210414150012144"></p>
+<p><img src="/./../../imgdocker/image-20210414150012144.png" alt="image-20210414150012144"></p>
 <p>输入信息后，点击“继续”后，等待一段较长时间，安装成功之后，再点击重启</p>
-<p><img src="/./../../img/docker/image-20210414150058808.png" alt="image-20210414150058808"></p>
+<p><img src="/./../../imgdocker/image-20210414150058808.png" alt="image-20210414150058808"></p>
 <p>重启完成后，系统安装成功.</p>
-<p><img src="/./../../img/docker/image-20210414153327866.png" alt="image-20210414153327866"></p>
+<p><img src="/./../../imgdocker/image-20210414153327866.png" alt="image-20210414153327866"></p>
 <h2 id="2-在Ubuntu环境下Docker部署"><a href="#2-在Ubuntu环境下Docker部署" class="headerlink" title="2.在Ubuntu环境下Docker部署"></a>2.在Ubuntu环境下Docker部署</h2><h3 id="2-1获取管理员权限"><a href="#2-1获取管理员权限" class="headerlink" title="2.1获取管理员权限"></a>2.1获取管理员权限</h3><p>进入终端：点击“在终端中打开”</p>
-<p><img src="/./../../img/docker/image-20210414160054178.png" alt="image-20210414160054178"></p>
+<p><img src="/./../../imgdocker/image-20210414160054178.png" alt="image-20210414160054178"></p>
 <p>获取管理员权限：</p>
 <p>先输入命令：<font color=red>sudo passwd root</font></p>
 <p>先输入电脑开机密码：</p>
@@ -2597,68 +2596,68 @@ if %current_minor% LEQ &quot;8&quot; (
 <p>输入命令：su</p>
 <p>输入新的登录密码</p>
 <p>获取到管理员权限</p>
-<p><img src="/./../../img/docker/image-20210414164141923.png" alt="image-20210414164141923"></p>
+<p><img src="/./../../imgdocker/image-20210414164141923.png" alt="image-20210414164141923"></p>
 <p>部署docker</p>
 <p>首先，更新现有的包列表命令：<font color=red>sudo apt update</font></p>
-<p><img src="/./../../img/docker/image-20210414170503948.png" alt="image-20210414170503948"></p>
+<p><img src="/./../../imgdocker/image-20210414170503948.png" alt="image-20210414170503948"></p>
 <p>安装一些允许通过HTTPS才能使用的软件包命令：<font color=red>sudo apt install apt-transport-https ca-certificates curl software-properties-common</font></p>
-<p><img src="/./../../img/docker/image-20210414170708537.png" alt="image-20210414170708537"></p>
+<p><img src="/./../../imgdocker/image-20210414170708537.png" alt="image-20210414170708537"></p>
 <p>Docker存储库的GPG密钥添加到您的系统命令: <font color=red>curl -fsSL <a href="https://download.docker.com/linux/ubuntu/gpg">https://download.docker.com/linux/ubuntu/gpg</a> | sudo apt-key add -</font></p>
-<p><img src="/./../../img/docker/image-20210414171128549.png" alt="image-20210414171128549"></p>
+<p><img src="/./../../imgdocker/image-20210414171128549.png" alt="image-20210414171128549"></p>
 <p>Docker存储库添加到APT源命令：<font color=red>sudo add-apt-repository “deb [arch&#x3D;amd64] <a href="https://download.docker.com/linux/ubuntu">https://download.docker.com/linux/ubuntu</a> bionic stable”</font></p>
-<p><img src="/./../../img/docker/image-20210414171250228.png" alt="image-20210414171250228"></p>
+<p><img src="/./../../imgdocker/image-20210414171250228.png" alt="image-20210414171250228"></p>
 <p>使用新添加的repo源中的Docker包更新包数据库命令：<font color=red>sudo apt update</font></p>
-<p><img src="/./../../img/docker/image-20210414171537446.png" alt="image-20210414171537446"></p>
+<p><img src="/./../../imgdocker/image-20210414171537446.png" alt="image-20210414171537446"></p>
 <p>确保您要从Docker repo安装而不是默认的Ubuntu repo命令：<font color=red>apt-cache policy docker-ce</font></p>
-<p><img src="/./../../img/docker/image-20210414172009527.png" alt="image-20210414172009527"></p>
+<p><img src="/./../../imgdocker/image-20210414172009527.png" alt="image-20210414172009527"></p>
 <p>安装Docker命令：<font color=red>sudo apt install docker-ce</font></p>
-<p><img src="/./../../img/docker/image-20210414172659479.png" alt="image-20210414172659479"></p>
+<p><img src="/./../../imgdocker/image-20210414172659479.png" alt="image-20210414172659479"></p>
 <p>检查Docker是否正在运行命令：<font color=red>sudo systemctl status docker</font></p>
-<p><img src="/./../../img/docker/image-20210414173549291.png" alt="image-20210414173549291"></p>
+<p><img src="/./../../imgdocker/image-20210414173549291.png" alt="image-20210414173549291"></p>
 <h3 id="2-2-使用Docker命令"><a href="#2-2-使用Docker命令" class="headerlink" title="2.2 使用Docker命令"></a>2.2 使用Docker命令</h3><p>查看所有子命令：<font color=red>docker</font></p>
-<p><img src="/./../../img/docker/image-20210415104537374.png" alt="image-20210415104537374"></p>
+<p><img src="/./../../imgdocker/image-20210415104537374.png" alt="image-20210415104537374"></p>
 <p>查看有关Docker的系统信息命令：<font color=red>docker info</font></p>
-<p><img src="/./../../img/docker/image-20210415105125369.png" alt="image-20210415105125369"></p>
-<h3 id="2-3-使用Docker镜像"><a href="#2-3-使用Docker镜像" class="headerlink" title="2.3 使用Docker镜像"></a>2.3 使用Docker镜像</h3><p>检查Docker Hub访问和下载镜像命令：<font color=red>docker run hello-world</font><img src="/./../../img/docker/image-20210415110908286.png" alt="image-20210415110908286"></p>
+<p><img src="/./../../imgdocker/image-20210415105125369.png" alt="image-20210415105125369"></p>
+<h3 id="2-3-使用Docker镜像"><a href="#2-3-使用Docker镜像" class="headerlink" title="2.3 使用Docker镜像"></a>2.3 使用Docker镜像</h3><p>检查Docker Hub访问和下载镜像命令：<font color=red>docker run hello-world</font><img src="/./../../imgdocker/image-20210415110908286.png" alt="image-20210415110908286"></p>
 <p>可以使用docker带子命令的search命令搜索Docker Hub上可用的镜像。例如，要搜索Ubuntu映像，请输入：</p>
 <p><font color=red>docker search ubuntu</font>,在OFFICIAL列中，带OK标记的表明这个镜像由公司构建和支持。其他镜像则由个人创建。确定要使用的映像后，可以使用命令pull将其下载到计算机。</p>
-<p><img src="/./../../img/docker/image-20210415133715439.png" alt="image-20210415133715439"></p>
+<p><img src="/./../../imgdocker/image-20210415133715439.png" alt="image-20210415133715439"></p>
 <p>执行以下ubuntu命令将官方映像下载到您的计算机：<font color=red>docker pull ubuntu</font></p>
-<p><img src="/./../../img/docker/image-20210415134831436.png" alt="image-20210415134831436"></p>
+<p><img src="/./../../imgdocker/image-20210415134831436.png" alt="image-20210415134831436"></p>
 <p>查看已下载到计算机的镜像命令：<font color=red>docker images</font></p>
-<p><img src="/./../../img/docker/image-20210415135023235.png" alt="image-20210415135023235"></p>
+<p><img src="/./../../imgdocker/image-20210415135023235.png" alt="image-20210415135023235"></p>
 <h3 id="2-4运行Docker容器"><a href="#2-4运行Docker容器" class="headerlink" title="2.4运行Docker容器"></a>2.4运行Docker容器</h3><p>使用Ubuntu的最新镜像运行一个容器命令：<font color=red>docker run -it ubuntu</font>,执行后我们进入docker内部</p>
-<p><img src="/./../../img/docker/image-20210415140200965.png" alt="image-20210415140200965"></p>
+<p><img src="/./../../imgdocker/image-20210415140200965.png" alt="image-20210415140200965"></p>
 <p>更新容器内的包数据库命令：<font color=red>apt update</font></p>
-<p><img src="/./../../img/docker/image-20210415141205278.png" alt="image-20210415141205278"></p>
+<p><img src="/./../../imgdocker/image-20210415141205278.png" alt="image-20210415141205278"></p>
 <p>安装Node.js命令:<font color=red>apt install nodejs</font>，如果遇到下列问题，根据提示先选择地区：<font color=red>6</font></p>
-<p><img src="/./../../img/docker/image-20210416165521295.png" alt="image-20210416165521295"></p>
+<p><img src="/./../../imgdocker/image-20210416165521295.png" alt="image-20210416165521295"></p>
 <p>选择城市：<font color=red>70</font></p>
-<p><img src="/./../../img/docker/image-20210416171133393.png" alt="image-20210416171133393"></p>
+<p><img src="/./../../imgdocker/image-20210416171133393.png" alt="image-20210416171133393"></p>
 <p>​	Ubuntu存储库中安装容器中的Node.js. 安装完成后，验证Node.js是否安装成功命令：<font color=red>node -v</font>，显示版本号后说明该容器Node.js已安装成功。在输入命令<font color="red">exit</font>，退出该容器</p>
-<p><img src="/./../../img/docker/image-20210418083541373.png" alt="image-20210418083541373"></p>
+<p><img src="/./../../imgdocker/image-20210418083541373.png" alt="image-20210418083541373"></p>
 <h3 id="2-5管理Docker容器"><a href="#2-5管理Docker容器" class="headerlink" title="2.5管理Docker容器"></a>2.5管理Docker容器</h3><p>使用一段时间docker后，计算机中应该部署了很多的Docker容器，输入<font color = red>docker ps</font>,可以查看当前运行的Docker容器。</p>
-<p><img src="/./../../img/docker/image-20210418084217000.png" alt="image-20210418084217000"></p>
+<p><img src="/./../../imgdocker/image-20210418084217000.png" alt="image-20210418084217000"></p>
 <p>输入命令 <font color=red>docker -ps -a</font>,可以查看该计算机内所有的容器</p>
-<p><img src="/./../../img/docker/image-20210418085545595.png" alt="image-20210418085545595"></p>
+<p><img src="/./../../imgdocker/image-20210418085545595.png" alt="image-20210418085545595"></p>
 <p>输入命令 <font color=red>docker -ps -l(L的小写)</font>,可以查看最新创建的容器</p>
-<p><img src="/./../../img/docker/image-20210418090135076.png" alt="image-20210418090135076"></p>
+<p><img src="/./../../imgdocker/image-20210418090135076.png" alt="image-20210418090135076"></p>
 <p>假如我想启动我最近一次创建的容器，启动容器命令：<font color=red>docker start +container id(该容器的ID)</font></p>
-<p><img src="/./../../img/docker/image-20210418092034837.png" alt="image-20210418092034837"></p>
+<p><img src="/./../../imgdocker/image-20210418092034837.png" alt="image-20210418092034837"></p>
 <p>我们这是输入当前运行的命令：<font color=red>docker ps</font></p>
-<p><img src="/./../../img/docker/image-20210418092401547.png" alt="image-20210418092401547"></p>
+<p><img src="/./../../imgdocker/image-20210418092401547.png" alt="image-20210418092401547"></p>
 <p>假如我想暂停当前运行的容器，启动容器命令：<font color=red>docker stop+container id(该容器的ID)</font></p>
-<p><img src="/./../../img/docker/image-20210418105803791.png" alt="image-20210418105803791"></p>
+<p><img src="/./../../imgdocker/image-20210418105803791.png" alt="image-20210418105803791"></p>
 <h3 id="2-6将容器中的更改提交到Docker镜像"><a href="#2-6将容器中的更改提交到Docker镜像" class="headerlink" title="2.6将容器中的更改提交到Docker镜像"></a>2.6将容器中的更改提交到Docker镜像</h3><p>将更改提交到新的Docker镜像命令：docker commit -m“描述” -a“作者名字” 容器ID 存储路径（XBlack&#x2F;ubuntu-nodejs）</p>
-<p><img src="/./../../img/docker/image-20210420111900824.png" alt="image-20210420111900824"></p>
+<p><img src="/./../../imgdocker/image-20210420111900824.png" alt="image-20210420111900824"></p>
 <p>检查该镜像是否已部署完成输入命令：<font color = red>docker images</font></p>
-<p><img src="/./../../img/docker/image-20210420112159377.png" alt="image-20210420112159377"></p>
+<p><img src="/./../../imgdocker/image-20210420112159377.png" alt="image-20210420112159377"></p>
 <h3 id="2-7将Docker镜像推送到Docker存储库"><a href="#2-7将Docker镜像推送到Docker存储库" class="headerlink" title="2.7将Docker镜像推送到Docker存储库"></a>2.7将Docker镜像推送到Docker存储库</h3><p>请先登录Docker Hub，命令：<font color =red>docker login -u 你的Docker Hub账号</font></p>
-<p><img src="/./../../img/docker/image-20210420110214520.png" alt="image-20210420110214520"></p>
+<p><img src="/./../../imgdocker/image-20210420110214520.png" alt="image-20210420110214520"></p>
 <p>将刚刚部署的新镜像推送Docker Hub存储库命令：<font color=red>docker push xblack1216&#x2F;ubuntu-nodejs</font>，表示上传成功。</p>
-<p><img src="/./../../img/docker/image-20210420112353506.png" alt="image-20210420112353506"></p>
+<p><img src="/./../../imgdocker/image-20210420112353506.png" alt="image-20210420112353506"></p>
 <p>我们可以去Docker Hub上查看镜像是否以上传完成</p>
-<p><img src="/./../../img/docker/427d8d5f8483052a47429293093e118.png" alt="image-20210420112800690"></p>
+<p><img src="/./../../imgdocker/427d8d5f8483052a47429293093e118.png" alt="image-20210420112800690"></p>
 ]]></content>
       
         
@@ -2850,10 +2849,10 @@ if %current_minor% LEQ &quot;8&quot; (
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  <span class="string">&#x27;@vuepress/medium-zoom&#x27;</span>, &#123;</span><br><span class="line">    <span class="attr">selector</span>: <span class="string">&#x27;.content__default:not(.custom) img&#x27;</span>,</span><br><span class="line">    <span class="comment">// medium-zoom options here</span></span><br><span class="line">    <span class="comment">// See: https://github.com/francoischalifour/medium-zoom#options</span></span><br><span class="line">    <span class="attr">options</span>: &#123;</span><br><span class="line">      <span class="attr">margin</span>: <span class="number">16</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 
 <p>尝试在插件里增加如上配置，发现入口页确实达到了预期，但是跳转后，却失效了。</p>
-<p><img src="/../../../images/52558245-c03a5d80-2e2c-11e9-9b3d-7281b0d7dda9.gif" alt="52558245-c03a5d80-2e2c-11e9-9b3d-7281b0d7dda9"></p>
+<p><img src="/./../../img/52558245-c03a5d80-2e2c-11e9-9b3d-7281b0d7dda9.gif" alt="52558245-c03a5d80-2e2c-11e9-9b3d-7281b0d7dda9"></p>
 <p>::: center<br><small>在 查阅解决方案时，找到的相同问题图片</small><a href="a%20href=%22https://github.com/vuejs/vuepress/issues/1276%22%3Evuepress%20issues/1276%3C/a">^first</a><br>:::</p>
 <p>下方同时有 &#x3D;&#x3D;尤雨溪&#x3D;&#x3D; 大神亲自给出的解决方案，</p>
-<p><img src="/../../../images/image-20210330185343779.png" alt="image-20210330185343779"></p>
+<p><img src="/./../../img/image-20210330185343779.png" alt="image-20210330185343779"></p>
 <p>简单来说，就是…</p>
 <p>升级版本！（希望对你的情况有所帮助）</p>
 <p>遗憾的是，我的似乎并没有得到解决。</p>
@@ -2892,13 +2891,13 @@ if %current_minor% LEQ &quot;8&quot; (
 </blockquote>
 <p>如果你只是需要解决修复 gitlab clone 时，IP 不对的问题，请直接移步 <a href="#修复-gitlab-clone-时-ip-不对的问题">#修复 gitlab clone 时，IP 不对的问题</a></p>
 <h2 id="安装-docker"><a href="#安装-docker" class="headerlink" title="安装 docker"></a>安装 docker</h2><p>首先，通过 &#x3D;&#x3D;套件中心&#x3D;&#x3D; 搜索 <code>docker</code></p>
-<p><img src="/../../../images/image-20210330132955399.png" alt="image-20210330132955399"></p>
+<p><img src="/./../../img/image-20210330132955399.png" alt="image-20210330132955399"></p>
 <p>安装成功后，进入该应用。（你也可以直接安装边上的 <code>gitlab</code> 因为笔者当时并没有选择直接安装它，所以安装方式不详）</p>
 <p>在左侧菜单中选择 &#x3D;&#x3D;注册表&#x3D;&#x3D; 如下图搜索并选中 <code>gitlab/gitlab-ce</code> ，在左上方找到下载按钮点击下载！（亦可双击下载）版本直接选择 <code>latest</code> 最后版本。</p>
-<p><img src="/../../../images/image-20210330133247420.png" alt="image-20210330133247420"></p>
-<p><img src="/../../../images/image-20210330133950821.png" alt="image-20210330133950821"></p>
+<p><img src="/./../../img/image-20210330133247420.png" alt="image-20210330133247420"></p>
+<p><img src="/./../../img/image-20210330133950821.png" alt="image-20210330133950821"></p>
 <p>接着在 &#x3D;&#x3D;映像&#x3D;&#x3D; 中即可找到该 <code>image</code> 点击启动，选取 &#x3D;&#x3D;高级设置&#x3D;&#x3D;</p>
-<p><img src="/../../../images/image-20210330134114760.png" alt="image-20210330134114760"></p>
+<p><img src="/./../../img/image-20210330134114760.png" alt="image-20210330134114760"></p>
 <p>在 &#x3D;&#x3D;卷&#x3D;&#x3D; 中，&#x3D;&#x3D; 添加文件夹 &#x3D;&#x3D; 配置文件映射 （<font color=red>重要</font>）</p>
 <table>
 <thead>
@@ -2930,7 +2929,7 @@ if %current_minor% LEQ &quot;8&quot; (
 <p>但是，由于我们再安装时，配置了文件映射。</p>
 <p>解决这个问题的突破点，也就依托在这里了。</p>
 <p>从上文的表格中，我们也已经了解到了 <code>/docker/gitlab/config</code> 路径，映射的正是 <code>gitlab</code> 的配置文件。于是，我们可以通到群辉预装的 &#x3D;&#x3D;File Station&#x3D;&#x3D; 进入该路径。</p>
-<p><img src="/../../../images/image-20210330135046705.png" alt="image-20210330135046705"></p>
+<p><img src="/./../../img/image-20210330135046705.png" alt="image-20210330135046705"></p>
 <p>下载 <code>gitlab.rb</code> 在本地通过文本编辑器打开，（推荐 <code>Sublime Text</code>、<code>visual studio Code</code> ），当然你也可以使用记事本打开。</p>
 <p>打开后，我们直接下拉到最底下，依据下文注释，新增如下行</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">external_url <span class="string">&#x27;http://192.168.2.100:1080&#x27;</span> // 这里修改为你的 NAS IP ，以及端口号 </span><br><span class="line">nginx[<span class="string">&#x27;listen_port&#x27;</span>] = 80</span><br></pre></td></tr></table></figure>
@@ -2938,25 +2937,25 @@ if %current_minor% LEQ &quot;8&quot; (
 
 
 <p>接着上传覆盖回去，打开 <code>gitlab</code> ，</p>
-<p><img src="/../../../images/image-20210330135919571.png" alt="image-20210330135919571"></p>
+<p><img src="/./../../img/image-20210330135919571.png" alt="image-20210330135919571"></p>
 <p>你的问题是否也解决了呢？</p>
 <hr>
 <h2 id="更暴力的解决方案"><a href="#更暴力的解决方案" class="headerlink" title="更暴力的解决方案"></a>更暴力的解决方案</h2><ol>
 <li>打开 <code>ssh</code></li>
 </ol>
-<p><img src="/../../../images/image-20210330140946266.png" alt="image-20210330140946266"></p>
-<p><img src="/../../../images/image-20210330141005254.png" alt="image-20210330141005254"></p>
+<p><img src="/./../../img/image-20210330140946266.png" alt="image-20210330140946266"></p>
+<p><img src="/./../../img/image-20210330141005254.png" alt="image-20210330141005254"></p>
 <ol start="2">
 <li>接着，我们即可通过管理员账号密码，连接我们的 <code>NAS</code></li>
 </ol>
-<p><img src="/../../../images/image-20210330141100355.png" alt="image-20210330141100355"></p>
+<p><img src="/./../../img/image-20210330141100355.png" alt="image-20210330141100355"></p>
 <ol start="3">
 <li>直接操作 <code>docker</code></li>
 </ol>
 <p>键入</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker ps</span><br></pre></td></tr></table></figure>
 
-<p><img src="/../../../images/image-20210330141234685.png" alt="image-20210330141234685"></p>
+<p><img src="/./../../img/image-20210330141234685.png" alt="image-20210330141234685"></p>
 <p>可以看到，下载被挂载的镜像，仅有 <code>gitlab/gitlab-ce:latest</code></p>
 <p>我们找到该镜像的 <code>CONTAINER ID</code> ，笔者的为 <code>f4bc755c7297</code> ，于是，我们就可以尝试进入该镜像啦！</p>
 <p>键入</p>
@@ -2964,10 +2963,10 @@ if %current_minor% LEQ &quot;8&quot; (
 
 
 
-<p><img src="/../../../images/image-20210330141623301.png" alt="image-20210330141623301"></p>
+<p><img src="/./../../img/image-20210330141623301.png" alt="image-20210330141623301"></p>
 <p>从用户名判断，我们已经进入了该镜像内部。</p>
-<p><img src="/../../../images/image-20210330142142149.png" alt="image-20210330142142149"></p>
-<p><img src="/../../../images/image-20210330142331589.png" alt="image-20210330142331589"></p>
+<p><img src="/./../../img/image-20210330142142149.png" alt="image-20210330142142149"></p>
+<p><img src="/./../../img/image-20210330142331589.png" alt="image-20210330142331589"></p>
 <p>接着依据上图进行操作，接着在编辑模式下，依据下文注释，新增如下行(按 shift + g ，可以快速移入最下行，按 i 进入编辑模式， 按 ctrl + c 退出编辑模式 键入 :wq 保存退出 ，具体可以自行学习)</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">external_url <span class="string">&#x27;http://192.168.2.100:1080&#x27;</span> // 这里修改为你的 NAS IP ，以及端口号 </span><br><span class="line">nginx[<span class="string">&#x27;listen_port&#x27;</span>] = 80</span><br></pre></td></tr></table></figure>
 
@@ -3075,15 +3074,15 @@ if %current_minor% LEQ &quot;8&quot; (
 <li>选取 <code>vuepress</code> 的库</li>
 <li><code>import</code></li>
 </ol>
-<p><img src="/../../../images/image-20210323201345174.png" alt="image-20210323201345174"></p>
+<p><img src="/./../../img/image-20210323201345174.png" alt="image-20210323201345174"></p>
 <p>选取根路径即可。</p>
 <ol start="5">
 <li>依据下图进行配置</li>
 </ol>
-<p><img src="/../../../images/image-20210323201545437.png" alt="image-20210323201545437"></p>
+<p><img src="/./../../img/image-20210323201545437.png" alt="image-20210323201545437"></p>
 <ol start="6">
 <li><p>等待 <code>yarn</code> 打包后即可</p>
-<p><img src="/../../../images/image-20210323201935055.png" alt="image-20210323201935055"></p>
+<p><img src="/./../../img/image-20210323201935055.png" alt="image-20210323201935055"></p>
 </li>
 </ol>
 <p>我们来看一下打包的日志</p>
@@ -3098,7 +3097,7 @@ if %current_minor% LEQ &quot;8&quot; (
 <p>每当代码库更新后，<code>vercel</code> 就会自动再次执行该流程。</p>
 <p>但是，有优点就有缺点。首先，不算缺点的缺点，即是国内访问这些代码托管网站的速度异常的感人。</p>
 <p>另我又遇到了另外一个问题，</p>
-<p><img src="/../../../images/image-20210323204118205.png" alt="image-20210323204118205"></p>
+<p><img src="/./../../img/image-20210323204118205.png" alt="image-20210323204118205"></p>
 <p>在代码打到一定复杂度后，会使得 <code>vercel</code> 无法正确打包。</p>
 <p>此时，打包后上传到 <code>github</code> 上似乎成为了最后的选择。</p>
 <p>但是，实在过于麻烦。不适合我这种懒人~由此契机，也就诞生了如下的方法。</p>

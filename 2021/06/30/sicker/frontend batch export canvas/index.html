@@ -24,15 +24,15 @@
 <meta property="og:site_name" content="栋栋的个人博客">
 <meta property="og:description" content="在后台的时候，经常学会遇到批量导出的场景；通常我们可以交由后端去处理，然而最近在开发中遇到了需要绘制 canvas 后再导出的场景；  方案面对这样的需求，提出了以下几个方案： 方案一：后端绘制 canvas ，前端获取后端返回文件地址数组，然后遍历下载； 方案二：后端绘制 canvas ，接着对文件进行打包压缩处理，然后前端下载一个压缩文件； 方案三：后端绘制 canvas ，前端获取后端返回">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/images/94b408a976b3d6440ab6686bf397590940a1e719264d1fb18098fc9324aa1d30.gif">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/images/f569d0f44fe57724f272bcb5fc2b8dadd0f36432e2e00f54ee06569586529e19.png">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/images/2.gif">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/94b408a976b3d6440ab6686bf397590940a1e719264d1fb18098fc9324aa1d30.gif">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/f569d0f44fe57724f272bcb5fc2b8dadd0f36432e2e00f54ee06569586529e19.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/2.gif">
 <meta property="article:published_time" content="2021-06-29T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-05-21T12:56:24.857Z">
+<meta property="article:modified_time" content="2023-06-08T09:59:02.708Z">
 <meta property="article:author" content="John DD">
 <meta property="article:tag" content="Vue">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/images/94b408a976b3d6440ab6686bf397590940a1e719264d1fb18098fc9324aa1d30.gif">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/94b408a976b3d6440ab6686bf397590940a1e719264d1fb18098fc9324aa1d30.gif">
   
   <!-- 站点验证相关 -->
   
@@ -184,7 +184,7 @@
             
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
                 <div class="icon"><i class="fa fa-warning"></i></div>
-                <div class="text"><p>本文最后编辑于 <time datetime="1684673784857"></time> 前，其中的内容可能需要更新。</p></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1686218342708"></time> 前，其中的内容可能需要更新。</p></div>
             </div>
             
             
@@ -199,7 +199,7 @@
 <p><strong>方案三</strong>：后端绘制 canvas ，前端获取后端返回文件地址数组，然后遍历下载，接着前端来进行打包压缩处理。</p>
 <p><strong>方案四</strong>：前端绘制 canvas ，然后遍历下载。</p>
 <p><strong>方案五</strong>：前端绘制 canvas ，接着前端来进行打包压缩处理。</p>
-<h2 id="方案简单分析"><a href="#方案简单分析" class="headerlink" title="方案简单分析"></a>方案简单分析</h2><p><img src="/../../../images/94b408a976b3d6440ab6686bf397590940a1e719264d1fb18098fc9324aa1d30.gif" alt="图 1">  </p>
+<h2 id="方案简单分析"><a href="#方案简单分析" class="headerlink" title="方案简单分析"></a>方案简单分析</h2><p><img src="/./../../img/94b408a976b3d6440ab6686bf397590940a1e719264d1fb18098fc9324aa1d30.gif" alt="图 1">  </p>
 <p>从图片可以看出，直接进行批量下载，非常的难看；所以，未经打包压缩直接下载，显然不够优雅，方案一、方案四 out。</p>
 <p>而后端绘制 canvas ，又不够灵活，方案二、方案三也宣布 out。</p>
 <p>剩下的便是方案五了；下面就让我们一起看看如何实现吧。</p>
@@ -212,7 +212,7 @@
 <p>接下去，就让我们步入正题吧！让各位嘉宾与选手拿出他们的真本事。</p>
 <p>只见， <code>canvas</code> 第一个站了出来，随着她的出现，编辑器上慢慢浮现出；</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> canvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;CANVAS&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&quot;2d&quot;</span>);</span><br><span class="line">canvas.<span class="property">height</span> = <span class="number">120</span>;</span><br><span class="line">canvas.<span class="property">width</span> = <span class="number">300</span>;</span><br><span class="line">ctx.<span class="property">fillStyle</span> = <span class="string">&quot;white&quot;</span>;</span><br><span class="line">ctx.<span class="title function_">fillRect</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">300</span>, <span class="number">120</span>);</span><br><span class="line">ctx.<span class="property">font</span> = <span class="string">&quot;16px 微软雅黑&quot;</span>;</span><br><span class="line">ctx.<span class="property">fillStyle</span> = <span class="string">&quot;red&quot;</span>;</span><br><span class="line">ctx.<span class="title function_">fillText</span>(<span class="string">`name ：sicker`</span>, <span class="number">130</span>, <span class="number">20</span>);</span><br><span class="line">ctx.<span class="title function_">fillText</span>(<span class="string">`number ：1024`</span>, <span class="number">130</span>, <span class="number">45</span>);</span><br><span class="line">ctx.<span class="title function_">fillText</span>(<span class="string">`fen ：200`</span>, <span class="number">130</span>, <span class="number">70</span>);</span><br><span class="line">ctx.<span class="property">fillStyle</span> = <span class="string">&quot;black&quot;</span>;</span><br><span class="line">ctx.<span class="title function_">fillText</span>(<span class="string">`一个没啥用的demo`</span>, <span class="number">130</span>, <span class="number">110</span>);</span><br><span class="line"><span class="keyword">let</span> base64 = canvas.<span class="title function_">toDataURL</span>(<span class="string">&quot;image/png&quot;</span>);</span><br></pre></td></tr></table></figure>
-<p><img src="/../../../images/f569d0f44fe57724f272bcb5fc2b8dadd0f36432e2e00f54ee06569586529e19.png" alt="图 2">  </p>
+<p><img src="/./../../img/f569d0f44fe57724f272bcb5fc2b8dadd0f36432e2e00f54ee06569586529e19.png" alt="图 2">  </p>
 <p>漂亮，我们的 <code>canvas</code> 选手，兔起鹘落间，已经在浏览器上画上了一个绝美的图卷；</p>
 <p>然后，一旁的数据一看，就不满的叫嚷起来，「哼，没有我，终究是个死物」。</p>
 <p><code>data</code> 选手，手一挥，编辑器上就留下了一排数据；</p>
@@ -238,7 +238,7 @@
 <p>嘉宾们也兴致很高的留下了签名</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">JSZip</span> <span class="keyword">from</span> <span class="string">&quot;jszip&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">QRCode</span> <span class="keyword">from</span> <span class="string">&quot;qrcode&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; saveAs &#125; <span class="keyword">from</span> <span class="string">&quot;file-saver&quot;</span>;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/../../../images/2.gif" alt="图 3"></p>
+<p><img src="/./../../img/2.gif" alt="图 3"></p>
 </div>
         </div>
         
@@ -332,7 +332,7 @@
                     <a class="tag-none-link" href="/tags/Vue/" rel="tag">Vue</a>
                 </div>
                 <div class="pull-date">
-                    <time datetime="2023-05-21T12:56:24.857Z" itemprop="dateModified">最后编辑：2023-05-21</time>
+                    <time datetime="2023-06-08T09:59:02.708Z" itemprop="dateModified">最后编辑：2023-06-08</time>
                 </div>
             </div>
         </footer>

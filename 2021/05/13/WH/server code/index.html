@@ -24,13 +24,13 @@
 <meta property="og:site_name" content="栋栋的个人博客">
 <meta property="og:description" content="问题描述在前端请求后端接口时，后端返回的返回类的code为500或其他的，而服务器返回的状态全为200。导致于前端每次都要在200中判断code。 如下图所示 解决方案思路  使用spring ResponseEntity处理 返回的状态码与返回的信息 使用ResultPackageToString工具类对service层抓取返回的code 根据返回的code返回对应的服务器状态码与信息  代码">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/images/java-server-1620868011888.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/java-server-1620868011888.png">
 <meta property="article:published_time" content="2021-05-12T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-05-21T12:56:24.826Z">
+<meta property="article:modified_time" content="2023-06-08T10:03:06.448Z">
 <meta property="article:author" content="John DD">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/images/java-server-1620868011888.png">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/java-server-1620868011888.png">
   
   <!-- 站点验证相关 -->
   
@@ -170,7 +170,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            966
+                            965
                         
                         字
                     </li>
@@ -182,14 +182,14 @@
             
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
                 <div class="icon"><i class="fa fa-warning"></i></div>
-                <div class="text"><p>本文最后编辑于 <time datetime="1684673784826"></time> 前，其中的内容可能需要更新。</p></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1686218586448"></time> 前，其中的内容可能需要更新。</p></div>
             </div>
             
             
             
             <hr />
             <div itemprop="articleBody"><h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>在前端请求后端接口时，后端返回的返回类的code为500或其他的，<br>而服务器返回的状态全为200。导致于前端每次都要在200中判断code。</p>
-<p><strong>如下图所示</strong><br><img src="/../../../images/java-server-1620868011888.png" alt="java-server-1620868011888"></p>
+<p><strong>如下图所示</strong><br><img src="/./../../img/java-server-1620868011888.png" alt="java-server-1620868011888"></p>
 <h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p><strong>思路</strong></p>
 <ol>
 <li>使用spring ResponseEntity处理 返回的状态码与返回的信息</li>
@@ -200,7 +200,6 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 添加登录用户</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> token</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> loginInfo</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@PostMapping(&quot;/manage/user/info/add&quot;)</span></span><br><span class="line"><span class="keyword">public</span> ResponseEntity&lt;Result&gt; <span class="title function_">queryUserInfo</span><span class="params">(<span class="meta">@RequestHeader(&quot;X-Token&quot;)</span> String token,</span></span><br><span class="line"><span class="params"><span class="meta">@RequestBody</span> LoginInfo loginInfo)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ResultPackageToString(client.queryUserInfo(token,loginInfo));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> ResponseEntity&lt;Result&gt; <span class="title function_">ResultPackageToResult</span><span class="params">(Result result)</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">switch</span> (result.getCode())&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">401</span>:</span><br><span class="line">                <span class="keyword">return</span> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);</span><br><span class="line">            <span class="keyword">case</span> <span class="number">404</span>:</span><br><span class="line">                <span class="keyword">return</span> ResponseEntity.notFound().build();</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">return</span> ResponseEntity.ok().body(result);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
 
 
 
@@ -297,7 +296,7 @@
                     <a class="tag-none-link" href="/tags/Java/" rel="tag">Java</a>
                 </div>
                 <div class="pull-date">
-                    <time datetime="2023-05-21T12:56:24.826Z" itemprop="dateModified">最后编辑：2023-05-21</time>
+                    <time datetime="2023-06-08T10:03:06.448Z" itemprop="dateModified">最后编辑：2023-06-08</time>
                 </div>
             </div>
         </footer>
