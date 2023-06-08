@@ -48,18 +48,6 @@
     </entry>
     
     <entry>
-      <title></title>
-      <url>/2023/06/08/index/</url>
-      <content type="html"><![CDATA[<p>这是一个不纯粹的三无网站了</p>
-<p><strong>无水平</strong><br>  全靠缝合+瞎鸡巴改</p>
-<p><strong>有备案</strong><br>  家里穷，买不起服务器 <del> 没法备案 </del> 白嫖了一个备了案</p>
-<p><strong>无后端</strong><br>  只想白嫖，托管静态不要钱不香吗？</p>
-]]></content>
-      
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[Markdown 书写示例]]></title>
       <url>/2023/06/08/exp/</url>
       <content type="html"><![CDATA[<h2 id="插槽"><a href="#插槽" class="headerlink" title="插槽"></a>插槽</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">::: slot module1</span><br><span class="line">this is module1</span><br><span class="line">::::</span><br><span class="line"></span><br><span class="line">::: slot module2</span><br><span class="line">this is module2</span><br><span class="line">:::</span><br></pre></td></tr></table></figure>
