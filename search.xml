@@ -3,6 +3,44 @@
   
     
     <entry>
+      <title><![CDATA[pandas 使用方法]]></title>
+      <url>/2023/06/14/pandas-%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</url>
+      <content type="html"><![CDATA[<p>好的，我可以帮你介绍如何使用 Pandas 来读取 Excel 数据并实现追加数据或追加 Sheet。</p>
+<p>首先需要安装 Pandas 库，可以使用以下命令进行安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pandas</span><br></pre></td></tr></table></figure>
+
+<p>有了 Pandas 库，就可以通过 <code>read_excel()</code> 方法读取 Excel 文件了。假设我们有一个名为 <code>data.xlsx</code> 的 Excel 文件，可以使用以下代码读取其中的 Sheet1 中的数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.read_excel(<span class="string">&#x27;data.xlsx&#x27;</span>, sheet_name=<span class="string">&#x27;Sheet1&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(df)</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>sheet_name</code> 参数可以用来指定要读取的 Sheet 名称或 Sheet 的下标。</p>
+<p>接下来可以使用 Pandas 提供的方法往 Excel 中追加数据。假设我们有一个名为 <code>new_data.xlsx</code> 的 Excel 文件，要将数据追加到其中的 Sheet1，可以使用以下代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取原有数据</span></span><br><span class="line">df1 = pd.read_excel(<span class="string">&#x27;new_data.xlsx&#x27;</span>, sheet_name=<span class="string">&#x27;Sheet1&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 待追加的新数据</span></span><br><span class="line">data_to_append = &#123;<span class="string">&#x27;Column1&#x27;</span>: [<span class="string">&#x27;New value 1&#x27;</span>, <span class="string">&#x27;New value 2&#x27;</span>],</span><br><span class="line">                  <span class="string">&#x27;Column2&#x27;</span>: [<span class="string">&#x27;New value 3&#x27;</span>, <span class="string">&#x27;New value 4&#x27;</span>]&#125;</span><br><span class="line">df2 = pd.DataFrame(data=data_to_append)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将新数据追加到原有数据后面</span></span><br><span class="line">df = pd.concat([df1, df2], axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将新数据写入 Excel</span></span><br><span class="line"><span class="keyword">with</span> pd.ExcelWriter(<span class="string">&#x27;new_data.xlsx&#x27;</span>) <span class="keyword">as</span> writer:</span><br><span class="line">    df.to_excel(writer, sheet_name=<span class="string">&#x27;Sheet1&#x27;</span>, index=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<p>以上代码中，我们首先使用 <code>read_excel()</code> 方法读取名为 <code>new_data.xlsx</code> 的 Excel 文件中的 Sheet1 数据，然后创建一个包含新数据的数据帧 <code>df2</code>，接着使用 <code>concat()</code> 方法将新数据追加到原有数据后面，最后使用 <code>ExcelWriter()</code> 创建一个 ExcelWriter 对象，并使用 <code>to_excel()</code> 方法将数据写入 Excel 文件中的 Sheet1。</p>
+<p>如果要新增一个 Sheet，可以使用以下代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取 Excel 文件</span></span><br><span class="line">df1 = pd.read_excel(<span class="string">&#x27;new_data.xlsx&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 待追加的新数据</span></span><br><span class="line">data_to_append = &#123;<span class="string">&#x27;Column1&#x27;</span>: [<span class="string">&#x27;New value 1&#x27;</span>, <span class="string">&#x27;New value 2&#x27;</span>],</span><br><span class="line">                  <span class="string">&#x27;Column2&#x27;</span>: [<span class="string">&#x27;New value 3&#x27;</span>, <span class="string">&#x27;New value 4&#x27;</span>]&#125;</span><br><span class="line">df2 = pd.DataFrame(data=data_to_append)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将新数据写入 Excel 中的新 Sheet 中</span></span><br><span class="line"><span class="keyword">with</span> pd.ExcelWriter(<span class="string">&#x27;new_data.xlsx&#x27;</span>, engine=<span class="string">&#x27;openpyxl&#x27;</span>, mode=<span class="string">&#x27;a&#x27;</span>) <span class="keyword">as</span> writer:</span><br><span class="line">    df2.to_excel(writer, sheet_name=<span class="string">&#x27;New Sheet&#x27;</span>, index=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<p>以上代码中，我们使用 <code>read_excel()</code> 方法读取名为 <code>new_data.xlsx</code> 的 Excel 文件中的所有数据，接着创建一个包含新数据的数据帧 <code>df2</code>，最后使用 <code>ExcelWriter()</code> 创建一个 ExcelWriter 对象，并使用 <code>to_excel()</code> 方法将新数据写入 Excel 文件中的新 Sheet 中。请注意，我们在 <code>ExcelWriter()</code> 中指定了 <code>engine</code> 为 <code>openpyxl</code>，并将 <code>mode</code> 参数设置为 <code>a</code>，这样可以以追加模式打开 Excel 文件。</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> -pandas </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[高考志愿网JS逆向]]></title>
+      <url>/2023/06/14/%E9%AB%98%E8%80%83%E5%BF%97%E6%84%BF%E7%BD%91JS%E9%80%86%E5%90%91/</url>
+      <content type="html"></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[我们]]></title>
       <url>/2023/06/08/we/</url>
       <content type="html"><![CDATA[<h2 id="author"><a href="#author" class="headerlink" title="author"></a>author</h2><AuthorList />
