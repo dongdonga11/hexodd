@@ -3,6 +3,61 @@
   
     
     <entry>
+      <title><![CDATA[记录我的小项目-第一弹]]></title>
+      <url>/2023/06/19/%E5%BF%97%E6%84%BF%E5%A1%AB%E6%8A%A5%E9%A1%B9%E7%9B%AE/</url>
+      <content type="html"><![CDATA[<p>记录我的小项目-第一弹</p>
+<p>一、项目起因：</p>
+<p>最近一致在琢磨一个有趣的项目，可以涵盖自己的所学知识，运营、技术、产品、销售。最初规划是希望通过chatgpt的Vercel项目免费开发给美术生，Midjourney出一些美图在小红书、抖音上发进行引流，chatGPT做钩子引导公众号，通过公众号做文章软文做转化，小程序做chatgpt活跃,。最后完成产品的售卖。</p>
+<p>而后切入到6月高考季，发现社会热点的仍是聚焦志愿填报，而且自己的目标人群也有十分之一是美术生，所幸自己的Excel运用也不错，就想通过Excel做一个高考志愿填报的系统，主要用公式进行志愿分析，用于引流，料想应该不会差。遂进行初期尝试。</p>
+<p>记录工具：<a href="https://kgithub.com/hexojs">hexojs</a>&#x2F;**<a href="https://kgithub.com/hexojs/hexo">hexo</a>**博客，vercel部署</p>
+<p>chatGpt：<a href="https://kgithub.com/Yidadaa">Yidadaa</a>&#x2F;**<a href="https://kgithub.com/Yidadaa/ChatGPT-Next-Web">ChatGPT-Next-Web</a>**，vercel部署</p>
+<p>流程工具：**<a href="https://gitee.com/aipaw">aipaw</a> &#x2F; <a href="https://gitee.com/aipaw/dootask">dootask</a>**，docker部署</p>
+<p>小程序工具：**<a href="https://gitee.com/smalle">月星墙</a> &#x2F; <a href="https://gitee.com/smalle/ChatGPT-MP">ChatGPT-MP</a>**，（未开发）</p>
+<p>项目逻辑：</p>
+<ol>
+<li>Midjourney出图，在小红书（美术生栋栋阿）、抖音号（美术生栋栋阿）发，通过简介发布美术生-找我免费领chatGPT。Midjourney教程。引导（美考攻略公众号）</li>
+<li>美考攻略账号直播“美术生志愿填报”引导加公众号领取</li>
+<li>公众号发布美术生文章和产品软文，菜单发布ChatGPT单日密码，引导加小程序</li>
+<li>小程序有chatGPT,内含升序规划和资料包，引导加微信</li>
+<li>产品包设计，美术生小班课、直播插画课、美术生找画室产品</li>
+</ol>
+<p>chatgpt可以涵盖美术生找画室、美术生查成绩、美术生升学规划、美术报志愿等功能。通过小红书、抖音等新媒体渠道进行引流。</p>
+<p>项目规划：</p>
+<ol>
+<li>小红书、抖音账号注册；公众号注册</li>
+<li>完成Midjourney出图。</li>
+<li>完成美术生志愿填报系统设计</li>
+<li>公众号文章存档</li>
+<li>小班课产品营销物料设计</li>
+<li>找老师，出课程</li>
+<li>小程序完善</li>
+</ol>
+<p>当前进展：</p>
+<p>小红书、抖音账号、公众号注册完成</p>
+<p>美术生志愿填报设计制作中</p>
+<p><a href="%E9%AB%98%E8%80%83%E5%BF%97%E6%84%BF%E7%BD%91JS%E9%80%86%E5%90%91.md">高考志愿</a></p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> 项目集锦 </tag>
+            
+            <tag> ideas </tag>
+            
+            <tag> 小爬虫 </tag>
+            
+            <tag> 高考网站 </tag>
+            
+            <tag> 志愿填报 </tag>
+            
+            <tag> 逆向 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[pandas 使用方法]]></title>
       <url>/2023/06/14/pandas-%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</url>
       <content type="html"><![CDATA[<p>好的，我可以帮你介绍如何使用 Pandas 来读取 Excel 数据并实现追加数据或追加 Sheet。</p>
