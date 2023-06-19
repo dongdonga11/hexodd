@@ -3,18 +3,107 @@
   
     
     <entry>
+      <title><![CDATA[Markdown 书写示例]]></title>
+      <url>/2023/06/19/exp/</url>
+      <content type="html"><![CDATA[<h2 id="插槽"><a href="#插槽" class="headerlink" title="插槽"></a>插槽</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">::: slot module1</span><br><span class="line">this is module1</span><br><span class="line">::::</span><br><span class="line"></span><br><span class="line">::: slot module2</span><br><span class="line">this is module2</span><br><span class="line">:::</span><br></pre></td></tr></table></figure>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>[[toc]]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[toc]]</span><br></pre></td></tr></table></figure>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><blockquote>
+<p>这是一条引用</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; 这是一条引用</span><br></pre></td></tr></table></figure>
+<h2 id="自定义容器"><a href="#自定义容器" class="headerlink" title="自定义容器"></a>自定义容器</h2><p>::: info 信息<br>这是一个信息<br>:::</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">::: info 信息</span><br><span class="line">这是一个信息</span><br><span class="line">:::</span><br></pre></td></tr></table></figure>
+
+<p>::: tip 告示<br>这是一个提示<br>:::</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">::: tip 告示</span><br><span class="line">这是一个提示</span><br><span class="line">:::</span><br></pre></td></tr></table></figure>
+
+<p>::: warning 警告<br>这是一个警告<br>:::</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">::: warning 警告</span><br><span class="line">这是一个警告</span><br><span class="line">:::</span><br></pre></td></tr></table></figure>
+
+<p>::: danger STOP<br>危险区域，禁止通行<br>:::</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">::: danger STOP</span><br><span class="line">危险区域，禁止通行</span><br><span class="line">:::</span><br></pre></td></tr></table></figure>
+
+
+<p>::: details 点击查看代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;你好，VuePress！&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>:::</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">::: details 点击查看代码</span><br><span class="line">```</span><br><span class="line">console.log(&#x27;你好，VuePress！&#x27;)</span><br><span class="line">```</span><br><span class="line">:::</span><br></pre></td></tr></table></figure>
+
+<p>::: v-pre<br><code>&#123;&#123; This will be displayed as-is &#125;&#125;</code><br>:::</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">::: v-pre</span><br><span class="line">`&#123;&#123; This will be displayed as-is &#125;&#125;`</span><br><span class="line">:::</span><br></pre></td></tr></table></figure>
+
+<p>::: center<br>居中文字<br>:::</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">::: center</span><br><span class="line">居中文字</span><br><span class="line">:::</span><br></pre></td></tr></table></figure>
+<p>::: right<br>居右文字<br>:::</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">::: right</span><br><span class="line">居右文字</span><br><span class="line">:::</span><br></pre></td></tr></table></figure>
+<h2 id="高亮"><a href="#高亮" class="headerlink" title="高亮"></a>高亮</h2><p>我是 &#x3D;&#x3D;高亮&#x3D;&#x3D; 的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">我是 ==高亮== 的</span><br></pre></td></tr></table></figure>
+<h2 id="代码块行高亮"><a href="#代码块行高亮" class="headerlink" title="代码块行高亮"></a>代码块行高亮</h2><figure class="highlight js"><figcaption><span>&#123;1,3-5&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  data () &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">msg</span>: <span class="string">&#x27;Highlighted!&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">``` js &#123;1,3-5&#125;</span><br><span class="line">export default &#123;</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      msg: &#x27;Highlighted!&#x27;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">```</span><br></pre></td></tr></table></figure>
+<p>更多用法参照：<a href="https://v1.vuepress.vuejs.org/zh/guide/markdown.html">https://v1.vuepress.vuejs.org/zh/guide/markdown.html</a></p>
+<h2 id="emoji"><a href="#emoji" class="headerlink" title="emoji"></a>emoji</h2><p>:tada:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:tada:</span><br></pre></td></tr></table></figure>
+<h2 id="复选框"><a href="#复选框" class="headerlink" title="复选框"></a>复选框</h2><ul>
+<li><p><input disabled="" type="checkbox"> 
+看板娘</p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+调色板</p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox"> 
+多语言</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- [ ] 看板娘</span><br><span class="line"></span><br><span class="line">- [ ] 调色板</span><br><span class="line"></span><br><span class="line">- [x] 多语言</span><br></pre></td></tr></table></figure>
+<h2 id="上下标"><a href="#上下标" class="headerlink" title="上下标"></a>上下标</h2><p>19^th^<br>H<del>2</del>O</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">19^th^</span><br><span class="line">H~2~O</span><br></pre></td></tr></table></figure>
+<h2 id="脚注"><a href="#脚注" class="headerlink" title="脚注"></a>脚注</h2><p>脚注 1 链接<a href="%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E8%84%9A%E6%B3%A8">^first</a>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">脚注 1 链接[^first].</span><br><span class="line"></span><br><span class="line">[^first]: 这是一个脚注</span><br></pre></td></tr></table></figure>
+<h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">st=&gt;start: Start|past:&gt;http://localhost:8080/exp.html[blank]</span><br><span class="line">e=&gt;end: End|future:&gt;http://localhost:8080/exp.html</span><br><span class="line">op1=&gt;operation: My Operation|past</span><br><span class="line">op2=&gt;operation: Stuff|current</span><br><span class="line">sub1=&gt;subroutine: My Subroutine|invalid</span><br><span class="line">cond=&gt;condition: Yes</span><br><span class="line">or No?|approved:&gt;http://localhost:8080/exp.html</span><br><span class="line">c2=&gt;condition: Good idea|rejected</span><br><span class="line">io=&gt;inputoutput: catch something...|future</span><br><span class="line"></span><br><span class="line">st-&gt;op1(right)-&gt;cond</span><br><span class="line">cond(yes, right)-&gt;c2</span><br><span class="line">cond(no)-&gt;sub1(left)-&gt;op1</span><br><span class="line">c2(yes)-&gt;io-&gt;e</span><br><span class="line">c2(no)-&gt;op2-&gt;e</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">```flow</span><br><span class="line">st=&gt;start: Start|past:&gt;http://localhost:8080/exp.html[blank]</span><br><span class="line">e=&gt;end: End|future:&gt;http://localhost:8080/exp.html</span><br><span class="line">op1=&gt;operation: My Operation|past</span><br><span class="line">op2=&gt;operation: Stuff|current</span><br><span class="line">sub1=&gt;subroutine: My Subroutine|invalid</span><br><span class="line">cond=&gt;condition: Yes</span><br><span class="line">or No?|approved:&gt;http://localhost:8080/exp.html</span><br><span class="line">c2=&gt;condition: Good idea|rejected</span><br><span class="line">io=&gt;inputoutput: catch something...|future</span><br><span class="line"></span><br><span class="line">st-&gt;op1(right)-&gt;cond</span><br><span class="line">cond(yes, right)-&gt;c2</span><br><span class="line">cond(no)-&gt;sub1(left)-&gt;op1</span><br><span class="line">c2(yes)-&gt;io-&gt;e</span><br><span class="line">c2(no)-&gt;op2-&gt;e</span><br><span class="line">```</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Tex"><a href="#Tex" class="headerlink" title="Tex"></a>Tex</h2><p>Euler’s identity $e^{i\pi}+1&#x3D;0$ is a beautiful formula in $\mathbb{R}^2$.</p>
+<p>$$<br>\frac {\partial^r} {\partial \omega^r} \left(\frac {y^{\omega}} {\omega}\right)<br>&#x3D; \left(\frac {y^{\omega}} {\omega}\right) \left{(\log y)^r + \sum_{i&#x3D;1}^r \frac {(-1)^i r \cdots (r-i+1) (\log y)^{r-i}} {\omega^i} \right}<br>$$</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Euler’s identity $e^&#123;i\pi&#125;+1=0$ is a beautiful formula in $\mathbb&#123;R&#125;^2$.</span><br><span class="line"></span><br><span class="line">$$</span><br><span class="line">\frac &#123;\partial^r&#125; &#123;\partial \omega^r&#125; \left(\frac &#123;y^&#123;\omega&#125;&#125; &#123;\omega&#125;\right)</span><br><span class="line">= \left(\frac &#123;y^&#123;\omega&#125;&#125; &#123;\omega&#125;\right) \left\&#123;(\log y)^r + \sum_&#123;i=1&#125;^r \frac &#123;(-1)^i r \cdots (r-i+1) (\log y)^&#123;r-i&#125;&#125; &#123;\omega^i&#125; \right\&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+
+<h2 id="演示"><a href="#演示" class="headerlink" title="演示"></a>演示</h2><p>::: demo 这是 demo 标题</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">&quot;hello&quot;</span>&gt;</span>点我试试<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;#hello&quot;</span>).<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="title function_">alert</span>(<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">span</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>:::</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">::: demo 这是 demo 标题</span><br><span class="line"></span><br><span class="line">```html</span><br><span class="line">&lt;p&gt;&lt;span id=&quot;hello&quot;&gt;点我试试&lt;/span&gt;&lt;/p&gt;</span><br><span class="line">```</span><br><span class="line"></span><br><span class="line">```js</span><br><span class="line">document.querySelector(&quot;#hello&quot;).addEventListener(&quot;click&quot;, () =&gt; &#123;</span><br><span class="line">  alert(&quot;hello world&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">```</span><br><span class="line"></span><br><span class="line">```css</span><br><span class="line">span &#123;</span><br><span class="line">  color: red;</span><br><span class="line">&#125;</span><br><span class="line">```</span><br><span class="line"></span><br><span class="line">:::</span><br></pre></td></tr></table></figure>
+<p>存在超自然现象，谨慎使用！</p>
+<h2 id="常用Front-Matter"><a href="#常用Front-Matter" class="headerlink" title="常用Front Matter"></a>常用Front Matter</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">标题</span></span><br><span class="line"><span class="attr">date:</span> <span class="string">日期</span> <span class="number">2021-03-4</span></span><br><span class="line"><span class="attr">tags:</span> </span><br><span class="line">  <span class="bullet">-</span> <span class="string">JavaScript</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">Vue</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">ElementUI</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">作者</span></span><br><span class="line"><span class="attr">location:</span> <span class="string">地理位置</span></span><br><span class="line"><span class="attr">layout:</span> <span class="string">模板</span></span><br><span class="line"><span class="attr">meta:</span> </span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">description</span></span><br><span class="line">    <span class="attr">content:</span> <span class="string">seo用页面描述</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">keywords</span></span><br><span class="line">    <span class="attr">content:</span> <span class="string">seo用关键词</span></span><br><span class="line"><span class="attr">summary:</span> <span class="string">列表显示文章简述</span></span><br><span class="line"><span class="attr">permalink:</span> <span class="string">伪静态用生成文章url</span></span><br><span class="line"><span class="attr">metaTitle:</span> <span class="string">网页的title</span></span><br><span class="line"><span class="attr">sitemap:</span></span><br><span class="line">  <span class="attr">changefreq:</span> <span class="string">monthly</span> [<span class="string">alway|shourly|daily|weekly|monthly|yearly|never</span>]</span><br><span class="line"><span class="attr">styleClass:</span> <span class="string">someClass</span></span><br><span class="line"><span class="attr">comment:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">waiting:</span> <span class="literal">false</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>其他格式 请使用 Typora 编辑器辅助使用<br>或者参照</p>
+<p><a href="https://markdown-it.github.io/">https://markdown-it.github.io/</a></p>
+<p><a href="https://vuepress-theme-hope.github.io/md-enhance/zh/guide/">https://vuepress-theme-hope.github.io/md-enhance/zh/guide/</a></p>
+<p>书写规范，参见</p>
+<p><a href="/2021/04/27/docs-regulation/">此处</a></p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[记录我的小项目-第一弹]]></title>
       <url>/2023/06/19/%E8%AE%B0%E5%BD%95%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%80%E5%BC%B9/</url>
       <content type="html"><![CDATA[<p>记录我的小项目-第一弹</p>
-<p>一、项目起因：</p>
+<h5 id="一、项目起因："><a href="#一、项目起因：" class="headerlink" title="一、项目起因："></a>一、项目起因：</h5><blockquote>
 <p>最近一致在琢磨一个有趣的项目，可以涵盖自己的所学知识，运营、技术、产品、销售。最初规划是希望通过chatgpt的Vercel项目免费开发给美术生，Midjourney出一些美图在小红书、抖音上发进行引流，chatGPT做钩子引导公众号，通过公众号做文章软文做转化，小程序做chatgpt活跃,。最后完成产品的售卖。</p>
 <p>而后切入到6月高考季，发现社会热点的仍是聚焦志愿填报，而且自己的目标人群也有十分之一是美术生，所幸自己的Excel运用也不错，就想通过Excel做一个高考志愿填报的系统，主要用公式进行志愿分析，用于引流，料想应该不会差。遂进行初期尝试。</p>
-<p>记录工具：<a href="https://kgithub.com/hexojs">hexojs</a>&#x2F;**<a href="https://kgithub.com/hexojs/hexo">hexo</a>**博客，vercel部署</p>
-<p>chatGpt：<a href="https://kgithub.com/Yidadaa">Yidadaa</a>&#x2F;**<a href="https://kgithub.com/Yidadaa/ChatGPT-Next-Web">ChatGPT-Next-Web</a>**，vercel部署</p>
-<p>流程工具：**<a href="https://gitee.com/aipaw">aipaw</a> &#x2F; <a href="https://gitee.com/aipaw/dootask">dootask</a>**，docker部署</p>
-<p>小程序工具：**<a href="https://gitee.com/smalle">月星墙</a> &#x2F; <a href="https://gitee.com/smalle/ChatGPT-MP">ChatGPT-MP</a>**，（未开发）</p>
-<p>项目逻辑：</p>
-<ol>
+</blockquote>
+<p><strong>记录工具：</strong><a href="https://kgithub.com/hexojs">hexojs</a>&#x2F;<a href="https://kgithub.com/hexojs/hexo">hexo</a>博客，vercel部署</p>
+<p><strong>chatGpt：</strong><a href="https://kgithub.com/Yidadaa">Yidadaa</a>&#x2F;<a href="https://kgithub.com/Yidadaa/ChatGPT-Next-Web">ChatGPT-Next-Web</a>，vercel部署</p>
+<p><strong>流程工具：</strong><a href="https://gitee.com/aipaw">aipaw</a> &#x2F; <a href="https://gitee.com/aipaw/dootask">dootask</a>，docker部署</p>
+<p><strong>小程序工具：</strong><a href="https://gitee.com/smalle">月星墙</a> &#x2F; <a href="https://gitee.com/smalle/ChatGPT-MP">ChatGPT-MP</a>，（未开发）</p>
+<h5 id="二、项目逻辑："><a href="#二、项目逻辑：" class="headerlink" title="二、项目逻辑："></a>二、项目逻辑：</h5><ol>
 <li>Midjourney出图，在小红书（美术生栋栋阿）、抖音号（美术生栋栋阿）发，通过简介发布美术生-找我免费领chatGPT。Midjourney教程。引导（美考攻略公众号）</li>
 <li>美考攻略账号直播“美术生志愿填报”引导加公众号领取</li>
 <li>公众号发布美术生文章和产品软文，菜单发布ChatGPT单日密码，引导加小程序</li>
@@ -22,20 +111,22 @@
 <li>产品包设计，美术生小班课、直播插画课、美术生找画室产品</li>
 </ol>
 <p>chatgpt可以涵盖美术生找画室、美术生查成绩、美术生升学规划、美术报志愿等功能。通过小红书、抖音等新媒体渠道进行引流。</p>
-<p>项目规划：</p>
-<ol>
-<li>小红书、抖音账号注册；公众号注册</li>
-<li>完成Midjourney出图。</li>
-<li>完成美术生志愿填报系统设计</li>
-<li>公众号文章存档</li>
-<li>小班课产品营销物料设计</li>
-<li>找老师，出课程</li>
-<li>小程序完善</li>
+<h5 id="三、整体规划："><a href="#三、整体规划：" class="headerlink" title="三、整体规划："></a>三、整体规划：</h5><ol>
+<li>小红书、抖音账号注册；公众号注册（6月完成）</li>
+<li>完成Midjourney出图。（6月完成）</li>
+<li>完成美术生志愿填报系统设计（6月完成）</li>
+<li>公众号文章存档（7月完成10篇）</li>
+<li>小班课产品营销物料设计（7月完成10篇）</li>
+<li>找老师，出课程（待定）</li>
+<li>小程序完善（待定）</li>
 </ol>
-<p>当前进展：</p>
-<p>小红书、抖音账号、公众号注册完成</p>
-<p>美术生志愿填报设计制作中</p>
-<p><a href="%E9%AB%98%E8%80%83%E5%BF%97%E6%84%BF%E7%BD%91JS%E9%80%86%E5%90%91.md">高考志愿</a></p>
+<h5 id="四、当前进展："><a href="#四、当前进展：" class="headerlink" title="四、当前进展："></a>四、当前进展：</h5><ul>
+<li><input disabled="" type="checkbox"> 小红书、抖音账号、公众号注册完成(已完成)</li>
+<li><input disabled="" type="checkbox"> 美术生志愿填报设计制作中（计划6月29日前完成）</li>
+</ul>
+<h5 id="五、指标计划："><a href="#五、指标计划：" class="headerlink" title="五、指标计划："></a>五、指标计划：</h5><p>暂未涉及</p>
+<p>&#x3D;&#x3D; 当前项目进展：&#x3D;&#x3D;</p>
+<p>已经延后</p>
 ]]></content>
       
         
@@ -50,8 +141,6 @@
             <tag> 高考网站 </tag>
             
             <tag> 志愿填报 </tag>
-            
-            <tag> 逆向 </tag>
             
         </tags>
         
@@ -90,8 +179,34 @@
     <entry>
       <title><![CDATA[高考志愿网JS逆向]]></title>
       <url>/2023/06/14/%E9%AB%98%E8%80%83%E5%BF%97%E6%84%BF%E7%BD%91JS%E9%80%86%E5%90%91/</url>
-      <content type="html"></content>
+      <content type="html"><![CDATA[<p>起因：最近想出一个高考志愿填报的excel系统，想先从网上拿一些资源，最开始的设计是希望从网站上找到近5年的报考指南PDF，然后写代码OCR扫描PDF，摘取关键数据，后发现网站没有PDF,于是告吹。后来就找寻网站，看看有没有我想要的数据，于是找到了”掌上高考“，发现有一些数据是想要的。（其实公司内有一个高考志愿网站，草率了）</p>
+<p>处理数据：</p>
+<p>第一步：打开开发者工具</p>
+<p>找到对应的数据文件</p>
+<p><img src="/./../img/image-202306191342401592.png" alt="image-20230619134240159"></p>
+<p>第二步：分析payload</p>
+<p>发现是一个POST请求，需要给他的服务器发送数据，再分析payload，发现里面有要发送的数据，里面有个signsafe（估计是个加密数据）看来必须要逆向才行了</p>
+<p>后来发现这个网站做逆向纯属脱裤子放屁了。（既然可以用GET请求得到数据，signsafe就是个摆设）不过正好可以学习一下如何逆向。</p>
+<p><img src="/./../img/image-20230619134459860.png" alt="image-20230619134459860"></p>
+<p><img src="/./../img/image-20230619134408130.png" alt="image-20230619134408130"></p>
+<p>第三步：用search搜索一下signsafe</p>
+<p>发现了一堆数据，但是能用的就是第一个</p>
+<p><img src="/./../img/image-20230619135552504.png" alt="image-20230619135552504"></p>
+<p>第四步：分析数据</p>
+<p>通过上下文判断是用的Hmac sha1加密</p>
+<p><img src="/./../img/image-20230619140902617.png" alt="image-20230619140902617"></p>
+<p>第五步：用source打断点试试</p>
+<p>找到数据文件夹<img src="/./../img/image-20230619141030125.png" alt="image-20230619141030125"></p>
+]]></content>
       
+        
+        <tags>
+            
+            <tag> 高考网站 </tag>
+            
+            <tag> 逆向 </tag>
+            
+        </tags>
         
     </entry>
     

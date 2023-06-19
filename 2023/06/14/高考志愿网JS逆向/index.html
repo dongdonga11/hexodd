@@ -15,20 +15,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta name="format-detection" content="telphone=no, email=no" />
   
-    <meta name="keywords" content="" />
+    <meta name="keywords" content="逆向, 高考网站" />
   
-  <meta name="description" content="分享学习的文章分享基地">
+  <meta name="description" content="起因：最近想出一个高考志愿填报的excel系统，想先从网上拿一些资源，最开始的设计是希望从网站上找到近5年的报考指南PDF，然后写代码OCR扫描PDF，摘取关键数据，后发现网站没有PDF,于是告吹。后来就找寻网站，看看有没有我想要的数据，于是找到了”掌上高考“，发现有一些数据是想要的。（其实公司内有一个高考志愿网站，草率了） 处理数据： 第一步：打开开发者工具 找到对应的数据文件  第二步：分析p">
 <meta property="og:type" content="article">
 <meta property="og:title" content="高考志愿网JS逆向">
 <meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/06/14/%E9%AB%98%E8%80%83%E5%BF%97%E6%84%BF%E7%BD%91JS%E9%80%86%E5%90%91/index.html">
 <meta property="og:site_name" content="栋栋的个人博客">
-<meta property="og:description" content="分享学习的文章分享基地">
+<meta property="og:description" content="起因：最近想出一个高考志愿填报的excel系统，想先从网上拿一些资源，最开始的设计是希望从网站上找到近5年的报考指南PDF，然后写代码OCR扫描PDF，摘取关键数据，后发现网站没有PDF,于是告吹。后来就找寻网站，看看有没有我想要的数据，于是找到了”掌上高考“，发现有一些数据是想要的。（其实公司内有一个高考志愿网站，草率了） 处理数据： 第一步：打开开发者工具 找到对应的数据文件  第二步：分析p">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/image-202306191342401592.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/image-20230619134459860.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/image-20230619134408130.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/image-20230619135552504.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/image-20230619140902617.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/image-20230619141030125.png">
 <meta property="article:published_time" content="2023-06-14T01:15:05.000Z">
-<meta property="article:modified_time" content="2023-06-14T01:15:05.689Z">
+<meta property="article:modified_time" content="2023-06-19T06:18:37.274Z">
 <meta property="article:author" content="John DD">
-<meta property="article:tag" content="得胜">
+<meta property="article:tag" content="高考网站">
+<meta property="article:tag" content="逆向">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/image-202306191342401592.png">
   
   <!-- 站点验证相关 -->
   
@@ -162,7 +170,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            0
+                            457
                         
                         字
                     </li>
@@ -174,13 +182,31 @@
             
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
                 <div class="icon"><i class="fa fa-warning"></i></div>
-                <div class="text"><p>本文最后编辑于 <time datetime="1686705305689"></time> 前，其中的内容可能需要更新。</p></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1687155517274"></time> 前，其中的内容可能需要更新。</p></div>
             </div>
             
             
             
             <hr />
-            <div itemprop="articleBody"></div>
+            <div itemprop="articleBody"><p>起因：最近想出一个高考志愿填报的excel系统，想先从网上拿一些资源，最开始的设计是希望从网站上找到近5年的报考指南PDF，然后写代码OCR扫描PDF，摘取关键数据，后发现网站没有PDF,于是告吹。后来就找寻网站，看看有没有我想要的数据，于是找到了”掌上高考“，发现有一些数据是想要的。（其实公司内有一个高考志愿网站，草率了）</p>
+<p>处理数据：</p>
+<p>第一步：打开开发者工具</p>
+<p>找到对应的数据文件</p>
+<p><img src="/./../img/image-202306191342401592.png" alt="image-20230619134240159"></p>
+<p>第二步：分析payload</p>
+<p>发现是一个POST请求，需要给他的服务器发送数据，再分析payload，发现里面有要发送的数据，里面有个signsafe（估计是个加密数据）看来必须要逆向才行了</p>
+<p>后来发现这个网站做逆向纯属脱裤子放屁了。（既然可以用GET请求得到数据，signsafe就是个摆设）不过正好可以学习一下如何逆向。</p>
+<p><img src="/./../img/image-20230619134459860.png" alt="image-20230619134459860"></p>
+<p><img src="/./../img/image-20230619134408130.png" alt="image-20230619134408130"></p>
+<p>第三步：用search搜索一下signsafe</p>
+<p>发现了一堆数据，但是能用的就是第一个</p>
+<p><img src="/./../img/image-20230619135552504.png" alt="image-20230619135552504"></p>
+<p>第四步：分析数据</p>
+<p>通过上下文判断是用的Hmac sha1加密</p>
+<p><img src="/./../img/image-20230619140902617.png" alt="image-20230619140902617"></p>
+<p>第五步：用source打断点试试</p>
+<p>找到数据文件夹<img src="/./../img/image-20230619141030125.png" alt="image-20230619141030125"></p>
+</div>
         </div>
         
             <div class="kratos-copyright text-center clearfix">
@@ -247,7 +273,7 @@
             const twitterBase   = "https://twitter.com/intent/tweet?";
             const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/06/14/%E9%AB%98%E8%80%83%E5%BF%97%E6%84%BF%E7%BD%91JS%E9%80%86%E5%90%91/";
             const title         = "「高考志愿网JS逆向」";
-            const excerpt       = ``;
+            const excerpt       = `起因：最近想出一个高考志愿填报的excel系统，想先从网上拿一些资源，最开始的设计是希望从网站上找到近5年的报考指南PDF，然后写代码OCR扫描PDF，摘取关键数据，后发现网站没有PDF,于是告吹。后来就找寻网站，看看有没有我想要的数...`;
             let _URL;
             switch (dest) {
                 case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
@@ -266,10 +292,10 @@
             <div class="footer-tag clearfix">
                 <div class="pull-left">
                 <i class="fa fa-tags"></i>
-                    
+                    <a class="tag-none-link" href="/tags/%E9%80%86%E5%90%91/" rel="tag">逆向</a>, <a class="tag-none-link" href="/tags/%E9%AB%98%E8%80%83%E7%BD%91%E7%AB%99/" rel="tag">高考网站</a>
                 </div>
                 <div class="pull-date">
-                    <time datetime="2023-06-14T01:15:05.689Z" itemprop="dateModified">最后编辑：2023-06-14</time>
+                    <time datetime="2023-06-19T06:18:37.274Z" itemprop="dateModified">最后编辑：2023-06-19</time>
                 </div>
             </div>
         </footer>
@@ -320,7 +346,7 @@
                 文章
             </span>
             <span class="count">
-                4
+                5
             </span>
         </a>
         <a class="meta-item" href="/categories/">
@@ -351,7 +377,7 @@
   <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
     <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
       <div class="tag-clouds">
-        <a href="/tags/pandas/" style="font-size: 0.6em;">-pandas</a> <a href="/tags/ideas/" style="font-size: 0.6em;">ideas</a> <a href="/tags/%E5%B0%8F%E7%88%AC%E8%99%AB/" style="font-size: 0.6em;">小爬虫</a> <a href="/tags/%E5%BF%97%E6%84%BF%E5%A1%AB%E6%8A%A5/" style="font-size: 0.6em;">志愿填报</a> <a href="/tags/%E9%80%86%E5%90%91/" style="font-size: 0.6em;">逆向</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E9%9B%86%E9%94%A6/" style="font-size: 0.6em;">项目集锦</a> <a href="/tags/%E9%AB%98%E8%80%83%E7%BD%91%E7%AB%99/" style="font-size: 0.6em;">高考网站</a>
+        <a href="/tags/pandas/" style="font-size: 0.6em;">-pandas</a> <a href="/tags/ideas/" style="font-size: 0.6em;">ideas</a> <a href="/tags/%E5%B0%8F%E7%88%AC%E8%99%AB/" style="font-size: 0.6em;">小爬虫</a> <a href="/tags/%E5%BF%97%E6%84%BF%E5%A1%AB%E6%8A%A5/" style="font-size: 0.6em;">志愿填报</a> <a href="/tags/%E9%80%86%E5%90%91/" style="font-size: 0.6em;">逆向</a> <a href="/tags/%E9%A1%B9%E7%9B%AE%E9%9B%86%E9%94%A6/" style="font-size: 0.6em;">项目集锦</a> <a href="/tags/%E9%AB%98%E8%80%83%E7%BD%91%E7%AB%99/" style="font-size: 0.8em;">高考网站</a>
       </div>
   </aside>
 
@@ -362,6 +388,12 @@
   <div class="tab-content">
       <ul class="list-group">
         
+        
+          
+          
+            <a class="list-group-item" href="/2023/06/19/exp/"><i class="fa  fa-book"></i> Markdown 书写示例</a>
+            
+          
         
           
           
