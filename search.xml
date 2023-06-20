@@ -8,7 +8,7 @@
       <content type="html"><![CDATA[<p>推荐一位国外全栈开发者大神：Alyssa，在 Github 上有 5.34K 的关注者。她是一名全栈开发者、Sonuum 公司的创始人。</p>
 <p>被 Maker Mag 评为 2018 最佳女性 Maker，并两次入围 Product Hunt Maker of the Year 决赛。</p>
 <p>注：Product Hunt 是国外的一个寻找好产品的网站，开发者或者开发团队可以把自己开发的产品发布到网站，与社区的用户一起讨论。本文中推荐 4 个有趣的开源项目，都是由开发者 Alyssa 完成。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/ePw3ZeGRruyZm3e5tzWtkJfR1EqvtZGmrDW53y8GDNK0Hb546XKkSrvvOzibeStkAMicb9HiaHiaFqAdF6ZWtKicZ6g/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="/./../img/651" alt="图片"></p>
 <p>本期推荐开源项目目录：</p>
 <p>\1. 适用于 Chrome 的屏幕录制工具</p>
 <p>\2. 强大的浏览器插件</p>
@@ -22,31 +22,31 @@
 <p>开源地址：<a href="https://github.com/alyssaxuu/screenity">https://github.com/alyssaxuu/screenity</a></p>
 <p>相关开源组件地址：</p>
 <p>用于交互式文本和箭头：<a href="https://github.com/fabricjs/fabric.js">https://github.com/fabricjs/fabric.js</a><br>下拉菜单的开源组件：<a href="https://github.com/hernansartorio/jquery-nice-select">https://github.com/hernansartorio/jquery-nice-select</a><br>用于修剪&#x2F;删除录音部分的范围组件：<a href="https://github.com/leongersen/noUiSlider">https://github.com/leongersen/noUiSlider</a><br>颜色选择块：<a href="https://github.com/Simonwep/pickr">https://github.com/Simonwep/pickr</a><br>用于在录制时异步保存视频：<a href="https://github.com/jimmywarting/StreamSaver.js">https://github.com/jimmywarting/StreamSaver.js</a><br>使下载的视频可搜索的开源组件：<a href="https://github.com/yusitnikov/fix-webm-duration">https://github.com/yusitnikov/fix-webm-duration</a></p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_gif/ePw3ZeGRruyZm3e5tzWtkJfR1EqvtZGmfJmiakS4Uj8HUBLBJ4Nln671CeBZlqJJVIDtYiaRB4mRItLSjD9cibuhA/640?wx_fmt=gif&tp=wxpic&wxfrom=5&wx_lazy=1" alt="图片"></p>
+<p><img src="/./../img/652" alt="图片"></p>
 <h1 id="02"><a href="#02" class="headerlink" title="02"></a>02</h1><p><strong>强大的浏览器插件</strong></p>
 <p>使用开源项目 Omni 可以帮助你更专业的管理你的浏览器， Omni 提供了一个简单界面，在界面中你只需要使用简单的命令就能管理选项卡、书签、浏览器历史记录、执行各种操作等等。</p>
 <p>你可以方便的搜索、浏览管理标签、快速搜索浏览历史记录、与 Notion、Figma、稳定集成，同时好包含更多高级设置。</p>
 <p>编程语言：JavaScript</p>
 <p>开源地址：<a href="https://github.com/alyssaxuu/omni">https://github.com/alyssaxuu/omni</a></p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/ePw3ZeGRruyZm3e5tzWtkJfR1EqvtZGmQLcaQysT0yTt4l9bCTNiavC2cQqhhUDN1GJPUSiakeUh01ibeM7JXWzXg/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/ePw3ZeGRruyZm3e5tzWtkJfR1EqvtZGmzv0tOWA2UFlZVXicGLI9GibZaJIN7YgwreLvOE7l3ZCYHjEYuugaYCJQ/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/ePw3ZeGRruyZm3e5tzWtkJfR1EqvtZGmWZLJ47mD4G7D5WGEL0eD3qVz8wdQcSL5VChAcUS83nlGwcCZcGTX0g/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="/./../img/653" alt="图片"></p>
+<p><img src="/./../img/654" alt="图片"></p>
+<p><img src="/./../img/655" alt="图片"></p>
 <h1 id="03"><a href="#03" class="headerlink" title="03"></a>03</h1><p><strong>实时协作的地图工具</strong></p>
 <p>Mapus 是一种在地图上协作探索和注释的工具，开源一年获得了近 3K 的 Star。使用该开源项目你可以在地图上绘制、标记、画出区域等等，想当于在普通的地图上增加了实时协作的功能。</p>
 <p>通过实时协作，你可以与其他用户同步计划和行程；你能使用画笔或者箭头在地图上标记和注释；还可以创建一些标记，方便快速定位标注地图上的位置，同样可以把地图数据导出。</p>
 <p>编程语言：JavaScript、CSS、HTML</p>
 <p>开源地址：<a href="https://github.com/alyssaxuu/mapus">https://github.com/alyssaxuu/mapus</a></p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/ePw3ZeGRruyZm3e5tzWtkJfR1EqvtZGmbglswPGtiahrRvz0qVfQqSApemZNf3YSHo1vthKqXiciaEkrR8vpcZnlg/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="/./../img/656" alt="图片"></p>
 <p><img src="https://mmbiz.qpic.cn/mmbiz_png/ePw3ZeGRruyZm3e5tzWtkJfR1EqvtZGmtyaSdznmJHgJDqiclRG4AN4CicTOicwLcPKxTX8vOiam49ribuqHUnLVfaA/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/ePw3ZeGRruyZm3e5tzWtkJfR1EqvtZGmvLN68BXias0uLxGK2u2u3vd6uIQCwAafmt4kj7vkcv4FvQO7jPSzOAQ/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="/./../img/657" alt="图片"></p>
 <h1 id="04"><a href="#04" class="headerlink" title="04"></a>04</h1><p><strong>创建漂亮的流程图</strong></p>
 <p>这是一个轻量级的 JavaScript 库 近1W人 Star，通过该 Flowy 你能在你的应用中创建漂亮的流程图，使用步骤如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/* 在你的 Web 项目引入 flowy.min.js 和 flow.min.css  */</span><br><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/alyssaxuu/flowy/flowy.min.css&quot;&gt; </span><br><span class="line">&lt;script src=&quot;https://cdn.jsdelivr.net/gh/alyssaxuu/flowy/flowy.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">/* 引入 create-flowy 类就能创建可拖动的 block   */</span><br><span class="line">&lt;div class=&quot;create-flowy&quot;&gt;The block to be dragged&lt;/div&gt;</span><br><span class="line">&lt;div id=&quot;canvas&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 
 <p>更详细的教程可以参考该项目的 Readme 文件：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/ePw3ZeGRruyZm3e5tzWtkJfR1EqvtZGmgZbFfEqkVVgrLQ37SXPb0lDMY0gwvXx3csDnXgjBrQ8BicMm5PjibW9A/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="/./../img/658" alt="图片"></p>
 <p>开源地址：<a href="https://github.com/alyssaxuu/flowy">https://github.com/alyssaxuu/flowy</a></p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_gif/ePw3ZeGRruyZm3e5tzWtkJfR1EqvtZGmgQ84kd0xMRbdicKlkoibicNQBNOMDzhnwMJEiaByltQgMQN3w7p8WEjt2w/640?wx_fmt=gif&tp=wxpic&wxfrom=5&wx_lazy=1" alt="图片"></p>
+<p><img src="/./../img/659" alt="图片"></p>
 ]]></content>
       
         
@@ -69,10 +69,10 @@
 <p><code>eu.org</code>对个人和组织是免费注册的。</p>
 <h1 id="域名申请"><a href="#域名申请" class="headerlink" title="域名申请"></a>域名申请</h1><h3 id="申请地址"><a href="#申请地址" class="headerlink" title="申请地址"></a>申请地址</h3><p>申请地址：<a href="https://nic.eu.org/">https://nic.eu.org/</a></p>
 <p>第一次打开你可能会怀疑进错了页面，不用怀疑，他们就是这么简洁的页面。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/rpOwdJr9nJFL1Ww81hPxDvOmvThlI9orCG7faFmllUQZcGxf59pQptKoRsViazCSU3Hfj1YhERIk0CVQ2Pvfz5g/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="/./../img/640" alt="图片"></p>
 <p>点击 <code>Sign-in or sign-up here!</code> 进入登录页面。</p>
 <h3 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h3><p>然后点击Register进入注册页面。输入你的基本信息，比如Name，Email等等基本信息，这里不建议填国内的地址信息，你可以进入 <a href="https://www.haoweichi.com/">https://www.haoweichi.com/</a> 网站随机生成一个虚拟英国或者美国地址，会提高通过的概率。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/rpOwdJr9nJFL1Ww81hPxDvOmvThlI9orFeOUgHTDZ5c39fUrTeCCMCbuwLlXLhF0zD4BiciaHkYPPliaQGLU5HIGA/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="/./../img/641" alt="图片"></p>
 <p>注册成功之后点击<code>New Domain</code>申请新的域名，</p>
 <p>设置你的域名，eu.org后缀，比如我申请一个新的域名：techxiaofei.eu.org</p>
 <p>![图片](data:image&#x2F;svg+xml,%3C%3Fxml version&#x3D;’1.0’ encoding&#x3D;’UTF-8’%3F%3E%3Csvg width&#x3D;’1px’ height&#x3D;’1px’ viewBox&#x3D;’0 0 1 1’ version&#x3D;’1.1’ xmlns&#x3D;’<a href="http://www.w3.org/2000/svg">http://www.w3.org/2000/svg</a>‘ xmlns:xlink&#x3D;’<a href="http://www.w3.org/1999/xlink'%3E%3Ctitle%3E%3C/title%3E%3Cg">http://www.w3.org/1999/xlink&#39;%3E%3Ctitle%3E%3C/title%3E%3Cg</a> stroke&#x3D;’none’ stroke-width&#x3D;’1’ fill&#x3D;’none’ fill-rule&#x3D;’evenodd’ fill-opacity&#x3D;’0’%3E%3Cg transform&#x3D;’translate(-249.000000, -126.000000)’ fill&#x3D;’%23FFFFFF’%3E%3Crect x&#x3D;’249’ y&#x3D;’126’ width&#x3D;’1’ height&#x3D;’1’%3E%3C&#x2F;rect%3E%3C&#x2F;g%3E%3C&#x2F;g%3E%3C&#x2F;svg%3E)</p>
@@ -83,31 +83,31 @@
 <p>点击确认，会提示<code>未使用DNSPod</code>，鼠标放上去会显示具体的DNS服务器地址：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">barlow.dnspod.nethammer.dnspod.net</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/rpOwdJr9nJFL1Ww81hPxDvOmvThlI9or8lIiammlS8Ov43Haicvic02I7U23C46iaR5sp7LLB2ZHUkoI7bybK5JdoA/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="/./../img/642" alt="图片"></p>
 <p>这个DNS服务器就是我们需要在eu.org填写的Name Servers</p>
 <h3 id="Name-Servers"><a href="#Name-Servers" class="headerlink" title="Name Servers"></a>Name Servers</h3><p>选择<code>server names</code>，然后填写刚才DNSPod上的两个DNS服务器地址：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/rpOwdJr9nJFL1Ww81hPxDvOmvThlI9orQEPT5oq41Y19FV2e01sLW9bDyia4D0hJE29EAyJ3edPwfViaaYlsvu5w/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="/./../img/643" alt="图片"></p>
 <p>然后点击Submit后跳转页面显示：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---- Servers and domain names check</span><br><span class="line">Getting IP for BARLOW.DNSPOD.NET: 112.80.181.45 1.12.0.4 61.151.180.44 129.211.176.187 120.241.130.98Getting IP for BARLOW.DNSPOD.NET: 2402:4e00:1430:1102:0:9136:2b30:e554Getting IP for HAMMER.DNSPOD.NET: 112.80.181.111 1.12.0.1 117.89.178.184 129.211.176.224 36.155.149.176Getting IP for HAMMER.DNSPOD.NET: 2402:4e00:1020:1264:0:9136:29bc:87f9</span><br><span class="line"></span><br><span class="line">No error, storing for validation...Saved as request 20230326043206-arf-59848</span><br><span class="line">Done</span><br></pre></td></tr></table></figure>
 
 <p>说明你申请成功了，需要等待1到30天，通过会给邮件通知。</p>
 <h3 id="申请通过"><a href="#申请通过" class="headerlink" title="申请通过"></a>申请通过</h3><p>我这里等待了大半个月收到邮件通知，这个时候说明你的免费域名已经申请通过了。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/rpOwdJr9nJFL1Ww81hPxDvOmvThlI9orpoEH3j8hzkmJh6wqgeHjUFxED6h9UJUt7Nw26RPK4oRka1sibKg6tDA/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="/./../img/644" alt="图片"></p>
 <p>收到通知之后就可以去DNSPod上添加具体的解析记录绑定到你的个人网站了：</p>
 <h1 id="绑定个人网站"><a href="#绑定个人网站" class="headerlink" title="绑定个人网站"></a>绑定个人网站</h1><h3 id="DNSPod记录"><a href="#DNSPod记录" class="headerlink" title="DNSPod记录"></a>DNSPod记录</h3><p>申请通过之后DNSPod记录会从<code>未使用DNSPod</code>变为无记录，就说明域名已经授权使用DNSPod来解析了。只是还没有添加解析记录。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/rpOwdJr9nJFL1Ww81hPxDvOmvThlI9orIs93tE67KoMYicZpUaroUBPXibNCY9PAakEm2hp89N2EMicp5ygWYoSNw/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="/./../img/645" alt="图片"></p>
 <h3 id="绑定域名到Vercel托管平台"><a href="#绑定域名到Vercel托管平台" class="headerlink" title="绑定域名到Vercel托管平台"></a>绑定域名到Vercel托管平台</h3><p>由于我的网站是部署在Vercel托管平台，所以我们需要先回到Vercel来添加域名：</p>
 <p>回到你的vercel，点击你的项目-&gt;<code>Settings</code>-&gt;<code>Domains</code></p>
 <p>添加你刚申请的域名</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/rpOwdJr9nJFL1Ww81hPxDvOmvThlI9oricK3Y4rulRpYdJ2k9dDu5HmUhaUAhYTVGKrheWY1U45oeLJaPtx68sg/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="/./../img/646" alt="图片"></p>
 <p>添加之后会提示你需要域名解析商添加一条A记录。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/rpOwdJr9nJFL1Ww81hPxDvOmvThlI9ornyJzwdrH6ez0uRgHob2ZRjJ8ic1LLM4kNkSy4hW4zDylUDfRlPhLpicA/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="/./../img/647" alt="图片"></p>
 <h3 id="添加一条A记录"><a href="#添加一条A记录" class="headerlink" title="添加一条A记录"></a>添加一条A记录</h3><p>回到DNSPod域名解析商那里添加一条A记录，记录值就是Vercel平台提示的IP地址。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/rpOwdJr9nJFL1Ww81hPxDvOmvThlI9or044csPpBC4p2y4WECDKj8eJSI6qIZiaWMeEEcCxjib1Ky8hDr6OTmC0w/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="/./../img/648" alt="图片"></p>
 <h3 id="添加成功"><a href="#添加成功" class="headerlink" title="添加成功"></a>添加成功</h3><p>回到Verel托管平台，会自动刷新，显示合法配置。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/rpOwdJr9nJFL1Ww81hPxDvOmvThlI9or8rU7anyicC3kic5WTQI5DoVLjicF3lkMZwqaY7MUhlb7r9ZVnTXqNbloQ/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="/./../img/649" alt="图片"></p>
 <p>然后点击域名后面的跳转链接，直接打开个人网站。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/rpOwdJr9nJFL1Ww81hPxDvOmvThlI9orw4OF2mmsMEiavwQTSkAcPWibsTjSScC7KiaaDxcLlh4XesDREMW7kXuNQ/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="/./../img/650" alt="图片"></p>
 <h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>希望大家都能早日成功申请到自己的免费域名。</p>
 ]]></content>
       
