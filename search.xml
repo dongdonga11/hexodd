@@ -10,38 +10,38 @@
 <p><strong>一、hostbuddy注册</strong></p>
 <p><strong>1、注册账号</strong></p>
 <p>首先我们访问hostbuddy官网，地址：<a href="https://www.hostbuddy.com/%EF%BC%8C%E5%B9%B6%E7%82%B9%E5%87%BB%E2%80%9CGET">https://www.hostbuddy.com/，并点击“GET</a> STARTED”按钮，</p>
-<p><img src="/./../img/vcbxe" alt="图片"></p>
+<p><img src="http://rwun4oyu6.sabkt.gdipper.com/vcbxe" alt="图片"></p>
 <p>填写注册信息，并点击注册</p>
-<p><img src="/./../img/dbxcvb" alt="图片"></p>
+<p><img src="http://rwun4oyu6.sabkt.gdipper.com/dbxcvb" alt="图片"></p>
 <p>不出意外的话，我们会进入以下界面</p>
-<p><img src="/./../img/fdvv" alt="图片"></p>
+<p><img src="http://rwun4oyu6.sabkt.gdipper.com/fdvv" alt="图片"></p>
 <p><strong>2、验证账号</strong></p>
 <p>进入注册账号时填写的邮箱，找到激活邮件，并点击激活链接</p>
-<p><img src="/./../img/fghdf" alt="图片"></p>
+<p><img src="http://rwun4oyu6.sabkt.gdipper.com/fghdf" alt="图片"></p>
 <p><strong>3、登录账号</strong></p>
 <p>账号成功激活后会转向到登录页，填写我们注册的账号并登录</p>
-<p><img src="/./../img/fghdfg" alt="图片"></p>
+<p><img src="http://rwun4oyu6.sabkt.gdipper.com/fghdfg" alt="图片"></p>
 <p><strong>4、激活试用计划</strong></p>
 <p>首次登录完毕之后我们需要激活我们的试用计划，点击“Try Now”</p>
-<p><img src="/./../img/asfahcv" alt="图片"></p>
+<p><img src="http://rwun4oyu6.sabkt.gdipper.com/asfahcv" alt="图片"></p>
 <p>可以看到默认的地区是美国，刚好可以用于我们访问ChatGPT服务，然后我们填入密码和网站名，这里的密码就是后面我们登录FTP的密码，网站名就是网站的目录名称，然后点击“Next”</p>
-<p><img src="/./../img/fgdfg" alt="图片"></p>
+<p><img src="http://rwun4oyu6.sabkt.gdipper.com/fgdfg" alt="图片"></p>
 <p>确认信息并点击“提交”</p>
-<p><img src="/./../img/agdg" alt="图片"></p>
+<p><img src="http://rwun4oyu6.sabkt.gdipper.com/agdg" alt="图片"></p>
 <p>此时不要关闭窗口，需要等待激活完成，一般1-3分钟</p>
-<p><img src="/./../img/bsfb" alt="图片"></p>
+<p><img src="http://rwun4oyu6.sabkt.gdipper.com/bsfb" alt="图片"></p>
 <p><strong>5、创建node应用</strong></p>
 <p>在激活完成后，我们登录主机面板并创建node应用，</p>
-<p><img src="/./../img/gweg" alt="图片"></p>
-<p><img src="/./../img/567356" alt="图片"></p>
+<p><img src="http://rwun4oyu6.sabkt.gdipper.com/gweg" alt="图片"></p>
+<p><img src="http://rwun4oyu6.sabkt.gdipper.com/567356" alt="图片"></p>
 <p>这里显示了我们的FTP登录信息和对外域名，我们点击“管理网站”并点击“NodeJs“进入node应用创建界面</p>
-<p><img src="/./../img/34567" alt="图片"></p>
+<p><img src="http://rwun4oyu6.sabkt.gdipper.com/34567" alt="图片"></p>
 <p>按序号依次点击完成node应用的创建，需要注意的是当激活NodeJS后，所有的javascript将会被当作NodeJS运行。</p>
 <p><strong>6、登录FTP</strong></p>
 <p>在node应用创建完成后，我们用步骤5截图中显示的FTP信息和步骤4设置的密码登录FTP，登录后目录结构如下：</p>
-<p><img src="/./../img/246246" alt="图片"></p>
+<p><img src="http://rwun4oyu6.sabkt.gdipper.com/246246" alt="图片"></p>
 <p>“www”即为存放网站源码的目录，我们进入目录</p>
-<p><img src="/./../img/352345" alt="图片"></p>
+<p><img src="http://rwun4oyu6.sabkt.gdipper.com/352345" alt="图片"></p>
 <p>目录中有2个文件，default.asp是网站的默认页，我们需要删除掉，web.config是网站的配置文件。</p>
 <p><strong>7、测试node应用</strong></p>
 <p>在node应用创建完毕后我们就可以开始测试了，创建app.js， 并编写如下代码：</p>
@@ -65,7 +65,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> request = <span class="built_in">require</span>(<span class="string">&#x27;request&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getData</span>(<span class="params">prompt</span>) &#123;    </span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">request</span>(&#123;        </span><br><span class="line">        <span class="attr">url</span>: <span class="string">&#x27;https://api.openai.com/v1/completions&#x27;</span>,</span><br><span class="line">        <span class="attr">method</span>: <span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">        <span class="attr">body</span>: &#123;</span><br><span class="line">            prompt,</span><br><span class="line">            <span class="attr">max_tokens</span>: <span class="number">2048</span>,</span><br><span class="line">            <span class="attr">model</span>: <span class="string">&#x27;text-davinci-003&#x27;</span>        &#125;,</span><br><span class="line">        <span class="attr">json</span>: <span class="literal">true</span>, </span><br><span class="line">        <span class="attr">headers</span>: &#123;</span><br><span class="line">            <span class="title class_">Authorization</span>: <span class="string">&#x27;OPENAI_TOKEN&#x27;</span>       </span><br><span class="line">        &#125;    </span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    getData,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>将所有的源码连同node_modules一起上传到www目录下，这里稍微有点慢，可以尝试压缩后再上传，然后在线解压，</p>
-<p><img src="/./../img/640134123" alt="图片"></p>
+<p><img src="http://rwun4oyu6.sabkt.gdipper.com/640134123" alt="图片"></p>
 <p>等待所有文件上传完毕后，通过“对外地址&#x2F;gpt&#x2F;chat?q&#x3D;你的问题”即可访问我们部署的ChatGPT服务。</p>
 <p><strong>三、问题总结</strong></p>
 <p>1、hostbuddy服务器的免费试用时长目前是60天即2个月，这个门槛比较低，到期前找个邮箱重新注册即可继续使用，当然也可以选择其他的厂商，比如LAF，免费时长是一个月，需要手机号注册，具体可参考：<a href="https://mp.weixin.qq.com/s?__biz=Mzg5NTczMjAxMg==&mid=2247484797&idx=1&sn=de3d62aa80284e08f658a1421c490991&scene=21#wechat_redirect">用Laf云平台，两步将ChatGPT接入微信公众号(含代码)</a></p>
