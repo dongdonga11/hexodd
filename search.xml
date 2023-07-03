@@ -219,7 +219,7 @@
 <p>所以我们只需要注册一个Github账号即可。</p>
 <h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><h3 id="1-Github"><a href="#1-Github" class="headerlink" title="1. Github"></a>1. Github</h3><p>我们首先先在<strong>Github</strong>上访问这个地址：<a href="https://github.com/Yidadaa/ChatGPT-Next-Web">https://github.com/Yidadaa/ChatGPT-Next-Web</a></p>
 <p>然后点击右上角的<code>Fork</code>也就是克隆，然后点击<code>Create Fork</code>把这个仓库克隆到你的账号下</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/rpOwdJr9nJGx8dIP7h2tlROcUaVJxZAWjg2VQkdwbhGDuiavOiabD6FNAXV0BnhiaQWrIUh61GlqUJXLvvAWtiaFpQ/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="http://rwun4oyu6.sabkt.gdipper.com//202307031758362.png" alt="图片"></p>
 <p>这个时候就会把这个github 仓库克隆到你的个人账号下面。</p>
 <h3 id="Vercel"><a href="#Vercel" class="headerlink" title="Vercel"></a>Vercel</h3><p>克隆之后我们去到Vercel平台。<strong>Vercel</strong> 使用刚才的Github账号登录并授权。</p>
 <p>我们直接点击<code>Add New-&gt;Project</code>，然后找到我们的<code>ChatGPT-next-web</code>这个Github仓库，点击<code>Import</code>导入</p>
