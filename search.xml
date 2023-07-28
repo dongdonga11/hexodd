@@ -33,64 +33,65 @@
 <p>第五步： 关闭数据库连接，并释放变量（一定要）</p>
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">con.Close</span><br><span class="line"><span class="comment">&#x27; 释放变量</span></span><br><span class="line"><span class="keyword">Set</span> con = <span class="literal">Nothing</span></span><br></pre></td></tr></table></figure>
 
-<p>三、数据库语法</p>
-<pre><code> 1. 数据常见的增、删、改、查
-</code></pre>
-<ul>
-<li><p>增加数据</p>
-<ul>
-<li><pre><code class="vb">sub InsetSql()
-    Dim sql As String
-    sql = &quot;insert into TEST(测试1,测试2,测试3) values(&#39;a09&#39;,&#39;D文学员&#39;,&#39;6999&#39;)&quot;
-    &#39; 执行sql
-    con.Execute (sql)
-end sub
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 删除数据</span><br><span class="line"></span><br><span class="line">  - ```vb</span><br><span class="line">    Sub DelSql()</span><br><span class="line">        &#x27;删除数据： delete from 表名 [where 条件]</span><br><span class="line">        Dim sql As String</span><br><span class="line">        sql = &quot;delete from TEST where id=2&quot; &#x27;如果是字符串需要加&#x27;&#x27;</span><br><span class="line">        con.Execute (sql)</span><br><span class="line">    End Sub</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-</ul>
-</li>
-<li><p>修改数据</p>
-<ul>
-<li><pre><code class="vb">Sub UpdateSql()
-    &#39;更新记录 update 表名 set 字段=值 [where 条件]
-    &#39; 多条件更新 update 表名 set 字段1=值1，字段2=值2 where 条件
-    &#39; 如果要使用变量的化，一定要在“号的外面
-    &#39; &quot;update 表名 set 字段1=值1，字段2=&#39;&quot;&amp; 变量 &amp; &quot;&#39; where 条件&quot; 注意&#39;
-    Dim sql As String
-    sql = &quot;update TEST set 测试1=&#39;a088&#39; where 测试3=&#39;999&#39;&quot;
-    con.Execute (sql)
-End Sub
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 查找数据</span><br><span class="line"></span><br><span class="line">  - ```vb</span><br><span class="line">    Sub SelectSql()</span><br><span class="line">     	Dim sql As String</span><br><span class="line">        sql = &quot;select * from TEST&quot;</span><br><span class="line">    	con.Execute (sql)</span><br><span class="line">    End Sub    </span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-<li><pre><code class="sql">&#39;书写sql命令字符串
-sql = &quot;select * from 院校&quot;                                  &#39;查询全部字段
-sql = &quot;select 姓名，性别，职称 from 导师&quot;        				 &#39;指定部分字段
-sql = &quot;select distinct 研究方向 from 学生&quot;        		    &#39;提取不重复记录
-sql = &quot;select 课程代码，成绩 from 成绩 order by 成绩 asc&quot; 		 &#39;排序
-sql = &quot;select *，2006 from 学生&quot; 							   &#39;生成新的字段
-sql = &quot;select 学号，姓名，性别，year(入学日期) as 年份 from 学生&quot;  &#39;根据年份查找对应字段
-sql = &quot;selcet 姓名，性别 from union select 姓名，性别 from 导师&quot; 
-&#39; union：去除重复，并按照第一个字段升序排序
-&#39; union all 全部复制，重复的也不管，不排序
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2. 数据库记录集</span><br><span class="line"></span><br><span class="line">   通过查询或其他方式获取数据后，需要存放在一个记录集对象中</span><br><span class="line"></span><br><span class="line">   - 创建一个记录集对象，创建记录集主要有两个方法(第二种用的最多)</span><br><span class="line"></span><br><span class="line">   - 第一中不能修改记录集对象，第二种可以修改（这是最大区别）</span><br><span class="line"></span><br><span class="line">     - ```vb</span><br><span class="line">       Dim rs As New ADODB.Recordset &#x27;创建了一个记录集对象</span><br><span class="line">       Set rs = con.Execute(sql)  &#x27;这是一个记录集</span><br></pre></td></tr></table></figure>
 
- - ```vb
-   set rs = New ADODB.Recordset &#39;创建记录集对象
-   rs.Open sql, con, adOpenRecordset, adLockOptimistic
-   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 使用 `Set rs = con.Execute(sql)` 语句可以直接执行 SQL 查询，并将结果集赋值给记录集对象 `rs`。这种方法适用于执行 SQL 查询并将结果保存在记录集中。</span><br><span class="line"></span><br><span class="line">  - 使用 `rs.Open sql, con, adOpenReyset, adLicjOptimistic` 语句可以在已经创建的记录集对象 (`rs`) 上打开一个结果集。这个方法可以用于在已经存在的记录集对象上重新打开一个新的结果集。</span><br><span class="line"></span><br><span class="line">- 获取记录集中的字段，需要用Fields.name</span><br><span class="line"></span><br><span class="line">- ```vb</span><br><span class="line">  &#x27;获取字段名需要一个循环</span><br><span class="line">  Dim i As Integer</span><br><span class="line">  For i = 0 To rs.Fields.Count - 1</span><br><span class="line">  	Cells(1, i + 1) = rs.Fields(i).Name</span><br><span class="line">  Next</span><br></pre></td></tr></table></figure>
+
+<h4 id="三、数据库语法"><a href="#三、数据库语法" class="headerlink" title="三、数据库语法"></a>三、数据库语法</h4><pre><code> 1. 数据常见的增、删、改、查
 </code></pre>
-</li>
-<li><p>将记录集返回到数据表</p>
-</li>
-<li><pre><code class="vb">sheets(&quot;sheet1&quot;).Range(&quot;A2&quot;).CopyFromRecordset rs  &#39;可以直接定位到当前的单元格，sheets(&quot;sheet1&quot;）可加可不加
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 释放对象变量空间</span><br><span class="line"></span><br><span class="line">- ```vb</span><br><span class="line">  &#x27;释放对象变量空间</span><br><span class="line">  rs.Close: Set rs = Nothing</span><br><span class="line">  con.Close: Set con = Nothing    </span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
+<ul>
+<li>增加数据</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sub InsetSql()</span><br><span class="line">    Dim sql As String</span><br><span class="line">    sql = &quot;insert into TEST(测试1,测试2,测试3) values(&#x27;a09&#x27;,&#x27;D文学员&#x27;,&#x27;6999&#x27;)&quot;</span><br><span class="line">    &#x27; 执行sql</span><br><span class="line">    con.Execute (sql)</span><br><span class="line">end sub</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除数据</li>
+</ul>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> DelSql()</span><br><span class="line">    <span class="comment">&#x27;删除数据： delete from 表名 [where 条件]</span></span><br><span class="line">    <span class="keyword">Dim</span> sql <span class="keyword">As</span> <span class="type">String</span></span><br><span class="line">    sql = <span class="string">&quot;delete from TEST where id=2&quot;</span> <span class="comment">&#x27;如果是字符串需要加&#x27;&#x27;</span></span><br><span class="line">    con.Execute (sql)</span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改数据</li>
+</ul>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> UpdateSql()</span><br><span class="line">    <span class="comment">&#x27;更新记录 update 表名 set 字段=值 [where 条件]</span></span><br><span class="line">    <span class="comment">&#x27; 多条件更新 update 表名 set 字段1=值1，字段2=值2 where 条件</span></span><br><span class="line">    <span class="comment">&#x27; 如果要使用变量的化，一定要在“号的外面</span></span><br><span class="line">    <span class="comment">&#x27; &quot;update 表名 set 字段1=值1，字段2=&#x27;&quot;&amp; 变量 &amp; &quot;&#x27; where 条件&quot; 注意&#x27;</span></span><br><span class="line">    <span class="keyword">Dim</span> sql <span class="keyword">As</span> <span class="type">String</span></span><br><span class="line">    sql = <span class="string">&quot;update TEST set 测试1=&#x27;a088&#x27; where 测试3=&#x27;999&#x27;&quot;</span></span><br><span class="line">    con.Execute (sql)</span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查找数据</li>
+</ul>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> SelectSql()</span><br><span class="line"> 	<span class="keyword">Dim</span> sql <span class="keyword">As</span> <span class="type">String</span></span><br><span class="line">    sql = <span class="string">&quot;select * from TEST&quot;</span></span><br><span class="line">	con.Execute (sql)</span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span>    </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x27;书写sql命令字符串</span><br><span class="line">sql = &quot;select * from 院校&quot;                                  	&#x27;查询全部字段</span><br><span class="line">sql = &quot;select 姓名，性别，职称 from 导师&quot;        				 	&#x27;指定部分字段</span><br><span class="line">sql = &quot;select distinct 研究方向 from 学生&quot;        		    	&#x27;提取不重复记录</span><br><span class="line">sql = &quot;select 课程代码，成绩 from 成绩 order by 成绩 asc&quot; 		 	&#x27;排序</span><br><span class="line">sql = &quot;select *，2006 from 学生&quot; 							   &#x27;生成新的字段</span><br><span class="line">sql = &quot;select 学号，姓名，性别，year(入学日期) as 年份 from 学生&quot;  &#x27;根据年份查找对应字段</span><br><span class="line">sql = &quot;selcet 姓名，性别 from union select 姓名，性别 from 导师&quot; </span><br><span class="line">&#x27; union：去除重复，并按照第一个字段升序排序</span><br><span class="line">&#x27; union all 全部复制，重复的也不管，不排序</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>数据库记录集</p>
+<p>通过查询或其他方式获取数据后，需要存放在一个记录集对象中</p>
+<ul>
+<li>创建一个记录集对象，创建记录集主要有两个方法(第二种用的最多)</li>
+<li>第一中不能修改记录集对象，第二种可以修改（这是最大区别）</li>
 </ul>
 </li>
+</ol>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Dim</span> rs <span class="keyword">As</span> <span class="built_in">New</span> ADODB.Recordset <span class="comment">&#x27;创建了一个记录集对象</span></span><br><span class="line"><span class="keyword">Set</span> rs = con.Execute(sql)  <span class="comment">&#x27;这是一个记录集</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> rs = <span class="built_in">New</span> ADODB.Recordset <span class="comment">&#x27;创建记录集对象</span></span><br><span class="line">rs.Open sql, con, adOpenRecordset, adLockOptimistic</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>使用 <code>Set rs = con.Execute(sql)</code> 语句可以直接执行 SQL 查询，并将结果集赋值给记录集对象 <code>rs</code>。这种方法适用于执行 SQL 查询并将结果保存在记录集中。</p>
+</li>
+<li><p>使用 <code>rs.Open sql, con, adOpenReyset, adLicjOptimistic</code> 语句可以在已经创建的记录集对象 (<code>rs</code>) 上打开一个结果集。这个方法可以用于在已经存在的记录集对象上重新打开一个新的结果集。</p>
+</li>
+<li><p>获取记录集中的字段，需要用Fields.name</p>
+</li>
 </ul>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&#x27;获取字段名需要一个循环</span></span><br><span class="line"><span class="keyword">Dim</span> i <span class="keyword">As</span> <span class="type">Integer</span></span><br><span class="line"><span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> rs.Fields.Count - <span class="number">1</span></span><br><span class="line">	Cells(<span class="number">1</span>, i + <span class="number">1</span>) = rs.Fields(i).Name</span><br><span class="line"><span class="keyword">Next</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>将记录集返回到数据表</li>
+</ul>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sheets(<span class="string">&quot;sheet1&quot;</span>).Range(<span class="string">&quot;A2&quot;</span>).CopyFromRecordset rs  <span class="comment">&#x27;可以直接定位到当前的单元格，sheets(&quot;sheet1&quot;）可加可不加</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>释放对象变量空间</li>
+</ul>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&#x27;释放对象变量空间</span></span><br><span class="line">rs.Close: <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">con.Close: <span class="keyword">Set</span> con = <span class="literal">Nothing</span>    </span><br></pre></td></tr></table></figure>
+
 <p>四、多表查询</p>
 <p>​	1. </p>
 ]]></content>
