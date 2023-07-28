@@ -17,17 +17,17 @@
   
     <meta name="keywords" content="excel, vba, 数据库" />
   
-  <meta name="description" content="一、卡点：    这个问题是用wps连接的OLEDB（access数据库）, 用excel打开就没有问题，如果用wps就需要用其他方式 excel： 12345Dim con As ADODB.ConnectionSet con &#x3D; New ADODB.Connection &amp;#x27;对象变量赋值必须用set&#96; 建立数据连接    con.Open &quot;provider&#x3D;Microsof">
+  <meta name="description" content="[TOC] 一、卡点：  这个问题是用wps连接的OLEDB（access数据库）, 用excel打开就没有问题，如果用wps就需要用其他方式 excel： 12345Dim con As ADODB.ConnectionSet con &#x3D; New ADODB.Connection &amp;#x27;对象变量赋值必须用set&#96; 建立数据连接    con.Open &quot;provider&#x3D;Micr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="excel-vba 数据库操作方式">
 <meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/07/28/excel-vba-%E9%94%80%E5%94%AE%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/index.html">
 <meta property="og:site_name" content="栋栋的个人博客">
-<meta property="og:description" content="一、卡点：    这个问题是用wps连接的OLEDB（access数据库）, 用excel打开就没有问题，如果用wps就需要用其他方式 excel： 12345Dim con As ADODB.ConnectionSet con &#x3D; New ADODB.Connection &amp;#x27;对象变量赋值必须用set&#96; 建立数据连接    con.Open &quot;provider&#x3D;Microsof">
+<meta property="og:description" content="[TOC] 一、卡点：  这个问题是用wps连接的OLEDB（access数据库）, 用excel打开就没有问题，如果用wps就需要用其他方式 excel： 12345Dim con As ADODB.ConnectionSet con &#x3D; New ADODB.Connection &amp;#x27;对象变量赋值必须用set&#96; 建立数据连接    con.Open &quot;provider&#x3D;Micr">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/07/28/img/image-20230728134957123.png">
 <meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/07/28/img/image-20230728143220859.png">
 <meta property="article:published_time" content="2023-07-28T05:44:42.000Z">
-<meta property="article:modified_time" content="2023-07-28T07:58:43.472Z">
+<meta property="article:modified_time" content="2023-07-28T09:22:22.769Z">
 <meta property="article:author" content="John DD">
 <meta property="article:tag" content="excel">
 <meta property="article:tag" content="vba">
@@ -167,7 +167,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~3.60K
+                            ~5.31K
                         
                         字
                     </li>
@@ -179,101 +179,170 @@
             
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
                 <div class="icon"><i class="fa fa-warning"></i></div>
-                <div class="text"><p>本文最后编辑于 <time datetime="1690531123472"></time> 前，其中的内容可能需要更新。</p></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1690536142769"></time> 前，其中的内容可能需要更新。</p></div>
             </div>
             
             
             
             <hr />
-            <div itemprop="articleBody"><p>一、卡点：</p>
-<ol>
-<li><div align="left"><img src="./../img/image-20230728134957123.png" alt="image-20230728134957123" style="zoom:33%;" /></div></li>
-</ol>
+            <div itemprop="articleBody"><p>[TOC]</p>
+<h4 id="一、卡点："><a href="#一、卡点：" class="headerlink" title="一、卡点："></a>一、卡点：</h4><img src="./../img/image-20230728134957123.png" alt="image-20230728134957123"  />
+
 <p>这个问题是用wps连接的OLEDB（access数据库）, 用excel打开就没有问题，如果用wps就需要用其他方式</p>
-<p>excel：</p>
+<p><strong>excel：</strong></p>
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Dim</span> con <span class="keyword">As</span> ADODB.Connection</span><br><span class="line"><span class="keyword">Set</span> con = <span class="built_in">New</span> ADODB.Connection <span class="comment">&#x27;对象变量赋值必须用set</span></span><br><span class="line">` 建立数据连接    </span><br><span class="line">con.Open <span class="string">&quot;provider=Microsoft.ACE.OLEDB.16.0;data source=&quot;</span> &amp; _</span><br><span class="line">    ThisWorkbook.Path &amp; <span class="string">&quot;\基础数据.accdb&quot;</span></span><br></pre></td></tr></table></figure>
 
-<p>wps：</p>
+<p><strong>wps：</strong></p>
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Dim</span> con <span class="keyword">As</span> <span class="built_in">New</span> ADODB.Connection</span><br><span class="line">con.Open <span class="string">&quot;provider=microsoft.jet.oledb.4.0;extended properties=excel 8.0;data source=&quot;</span> &amp; ThisWorkbook.Path &amp; <span class="string">&quot;/test2.xls&quot;</span></span><br></pre></td></tr></table></figure>
 
-<p>二、access 数据库操作指南</p>
-<p>第一步：告诉电脑我要用ADO了，这个操作在【工具】–&gt; 【引用】–&gt; 【Microsoft ActiveX Data Objects 6.1 Libray】</p>
-<div align="left"><img src="./../img/image-20230728143220859.png" alt="image-20230728143220859" style="zoom:33%;" /></div>
+<hr>
+<h4 id="二、access-数据库操作指南"><a href="#二、access-数据库操作指南" class="headerlink" title="二、access 数据库操作指南"></a>二、access 数据库操作指南</h4><ul>
+<li><strong>第一步：</strong>告诉电脑我要用ADO了，</li>
+</ul>
+<p>​	<em><strong>这个操作在【工具】–&gt; 【引用】–&gt; 【Microsoft ActiveX Data Objects 6.1 	Libray】</strong></em></p>
+<img src="./../img/image-20230728143220859.png" alt="image-20230728143220859"  />
 
-<p>第二步：创建连接对对象</p>
+<ul>
+<li><strong>第二步：</strong>创建连接对对象</li>
+</ul>
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">&#x27; 2-1 声明对象变量名</span></span><br><span class="line"><span class="keyword">Dim</span> con <span class="keyword">As</span> ADODB.Connection</span><br><span class="line"> <span class="comment">&#x27; 2-2 创建对象变量并赋值</span></span><br><span class="line"><span class="keyword">Set</span> con = <span class="built_in">New</span> ADODB.Connection <span class="comment">&#x27;对象变量赋值必须用set</span></span><br></pre></td></tr></table></figure>
 
-<p>第三步：连接数据库</p>
+<ul>
+<li><strong>第三步：</strong>连接数据库</li>
+</ul>
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&#x27; 建立数据库连接</span></span><br><span class="line">con.Open <span class="string">&quot;provider=Microsoft.ACE.OLEDB.16.0;data source=&quot;</span> &amp; _</span><br><span class="line">ThisWorkbook.Path &amp; <span class="string">&quot;\基础数据.accdb&quot;</span></span><br></pre></td></tr></table></figure>
 
-<p>(注意这个部分，OLEDB, 2007以上是12.0，一下是8.0或4.0)</p>
-<p>第四步：执行sql语句</p>
+<p><em>(注意这个部分，OLEDB, 2007以上是12.0，一下是8.0或4.0)</em></p>
+<ul>
+<li><strong>第四步：</strong>执行sql语句</li>
+</ul>
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&#x27;插入记录：insert into 表名 （字段1，字段2，...） values(值1，值2，...)</span></span><br><span class="line"><span class="keyword">Dim</span> sql <span class="keyword">As</span> <span class="type">String</span></span><br><span class="line">sql = <span class="string">&quot;insert into TEST(测试1,测试2,测试3) values(&#x27;a09&#x27;,&#x27;D文学员&#x27;,&#x27;6999&#x27;)&quot;</span></span><br><span class="line"><span class="comment">&#x27; 执行sql</span></span><br><span class="line">con.Execute (sql)</span><br></pre></td></tr></table></figure>
 
-<p>第五步： 关闭数据库连接，并释放变量（一定要）</p>
+<ul>
+<li><strong>第五步：</strong> 关闭数据库连接，并释放变量（一定要）</li>
+</ul>
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">con.Close</span><br><span class="line"><span class="comment">&#x27; 释放变量</span></span><br><span class="line"><span class="keyword">Set</span> con = <span class="literal">Nothing</span></span><br></pre></td></tr></table></figure>
 
-
-
-<h4 id="三、数据库语法"><a href="#三、数据库语法" class="headerlink" title="三、数据库语法"></a>三、数据库语法</h4><pre><code> 1. 数据常见的增、删、改、查
+<hr>
+<h4 id="三、数据库语法"><a href="#三、数据库语法" class="headerlink" title="三、数据库语法"></a>三、数据库语法</h4><pre><code> 1. **数据常见的`增`、`删`、`改`、`查`**
 </code></pre>
 <ul>
-<li>增加数据</li>
+<li><strong>增加数据</strong></li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sub InsetSql()</span><br><span class="line">    Dim sql As String</span><br><span class="line">    sql = &quot;insert into TEST(测试1,测试2,测试3) values(&#x27;a09&#x27;,&#x27;D文学员&#x27;,&#x27;6999&#x27;)&quot;</span><br><span class="line">    &#x27; 执行sql</span><br><span class="line">    con.Execute (sql)</span><br><span class="line">end sub</span><br></pre></td></tr></table></figure>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sub</span> InsetSql()</span><br><span class="line">    <span class="keyword">Dim</span> sql <span class="keyword">As</span> <span class="type">String</span></span><br><span class="line">    sql = <span class="string">&quot;insert into TEST(测试1,测试2,测试3) values(&#x27;a09&#x27;,&#x27;D文学员&#x27;,&#x27;6999&#x27;)&quot;</span></span><br><span class="line">    <span class="comment">&#x27; 执行sql</span></span><br><span class="line">    con.Execute (sql)</span><br><span class="line"><span class="keyword">end</span> <span class="keyword">sub</span></span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>删除数据</li>
+<li><strong>删除数据</strong></li>
 </ul>
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> DelSql()</span><br><span class="line">    <span class="comment">&#x27;删除数据： delete from 表名 [where 条件]</span></span><br><span class="line">    <span class="keyword">Dim</span> sql <span class="keyword">As</span> <span class="type">String</span></span><br><span class="line">    sql = <span class="string">&quot;delete from TEST where id=2&quot;</span> <span class="comment">&#x27;如果是字符串需要加&#x27;&#x27;</span></span><br><span class="line">    con.Execute (sql)</span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>修改数据</li>
+<li><strong>修改数据</strong></li>
 </ul>
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> UpdateSql()</span><br><span class="line">    <span class="comment">&#x27;更新记录 update 表名 set 字段=值 [where 条件]</span></span><br><span class="line">    <span class="comment">&#x27; 多条件更新 update 表名 set 字段1=值1，字段2=值2 where 条件</span></span><br><span class="line">    <span class="comment">&#x27; 如果要使用变量的化，一定要在“号的外面</span></span><br><span class="line">    <span class="comment">&#x27; &quot;update 表名 set 字段1=值1，字段2=&#x27;&quot;&amp; 变量 &amp; &quot;&#x27; where 条件&quot; 注意&#x27;</span></span><br><span class="line">    <span class="keyword">Dim</span> sql <span class="keyword">As</span> <span class="type">String</span></span><br><span class="line">    sql = <span class="string">&quot;update TEST set 测试1=&#x27;a088&#x27; where 测试3=&#x27;999&#x27;&quot;</span></span><br><span class="line">    con.Execute (sql)</span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>查找数据</li>
+<li><strong>查找数据</strong></li>
 </ul>
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> SelectSql()</span><br><span class="line"> 	<span class="keyword">Dim</span> sql <span class="keyword">As</span> <span class="type">String</span></span><br><span class="line">    sql = <span class="string">&quot;select * from TEST&quot;</span></span><br><span class="line">	con.Execute (sql)</span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span>    </span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x27;书写sql命令字符串</span><br><span class="line">sql = &quot;select * from 院校&quot;                                  	&#x27;查询全部字段</span><br><span class="line">sql = &quot;select 姓名，性别，职称 from 导师&quot;        				 	&#x27;指定部分字段</span><br><span class="line">sql = &quot;select distinct 研究方向 from 学生&quot;        		    	&#x27;提取不重复记录</span><br><span class="line">sql = &quot;select 课程代码，成绩 from 成绩 order by 成绩 asc&quot; 		 	&#x27;排序</span><br><span class="line">sql = &quot;select *，2006 from 学生&quot; 							   &#x27;生成新的字段</span><br><span class="line">sql = &quot;select 学号，姓名，性别，year(入学日期) as 年份 from 学生&quot;  &#x27;根据年份查找对应字段</span><br><span class="line">sql = &quot;selcet 姓名，性别 from union select 姓名，性别 from 导师&quot; </span><br><span class="line">&#x27; union：去除重复，并按照第一个字段升序排序</span><br><span class="line">&#x27; union all 全部复制，重复的也不管，不排序</span><br></pre></td></tr></table></figure>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&#x27;书写sql命令字符串</span></span><br><span class="line">sql = <span class="string">&quot;select * from 院校&quot;</span>                                  	<span class="comment">&#x27;查询全部字段</span></span><br><span class="line">sql = <span class="string">&quot;select 姓名，性别，职称 from 导师&quot;</span>        				 	<span class="comment">&#x27;指定部分字段</span></span><br><span class="line">sql = <span class="string">&quot;select distinct 研究方向 from 学生&quot;</span>        		    	<span class="comment">&#x27;提取不重复记录</span></span><br><span class="line">sql = <span class="string">&quot;select 课程代码，成绩 from 成绩 order by 成绩 asc&quot;</span> 		 	<span class="comment">&#x27;排序</span></span><br><span class="line">sql = <span class="string">&quot;select *，2006 from 学生&quot;</span> 							   <span class="comment">&#x27;生成新的字段</span></span><br><span class="line">sql = <span class="string">&quot;select 学号，姓名，性别，year(入学日期) as 年份 from 学生&quot;</span>  <span class="comment">&#x27;根据年份查找对应字段</span></span><br><span class="line">sql = <span class="string">&quot;selcet 姓名，性别 from union select 姓名，性别 from 导师&quot;</span> </span><br><span class="line"><span class="comment">&#x27; union：去除重复，并按照第一个字段升序排序</span></span><br><span class="line"><span class="comment">&#x27; union all 全部复制，重复的也不管，不排序</span></span><br></pre></td></tr></table></figure>
 
 <ol start="2">
-<li><p>数据库记录集</p>
+<li><strong>数据库记录集</strong></li>
+</ol>
+<blockquote>
 <p>通过查询或其他方式获取数据后，需要存放在一个记录集对象中</p>
 <ul>
-<li>创建一个记录集对象，创建记录集主要有两个方法(第二种用的最多)</li>
-<li>第一中不能修改记录集对象，第二种可以修改（这是最大区别）</li>
-</ul>
+<li><p>创建一个记录集对象，创建记录集主要有两个方法(第二种用的最多)</p>
 </li>
-</ol>
+<li><p>第一中不能修改记录集对象，第二种可以修改</p>
+</li>
+<li><p>使用 <code>Set rs = con.Execute(sql)</code> 语句可以直接执行 SQL 查询，并将结果集赋值给记录集对象 <code>rs</code>。这种方法适用于执行 SQL 查询并将结果保存在记录集中。</p>
+</li>
+<li><p>使用 <code>rs.Open sql, con, adOpenReyset, adLicjOptimistic</code> 语句可以在已经创建的记录集对象 (<code>rs</code>) 上打开一个结果集。这个方法可以用于在已经存在的记录集对象上重新打开一个新的结果集。</p>
+</li>
+</ul>
+</blockquote>
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Dim</span> rs <span class="keyword">As</span> <span class="built_in">New</span> ADODB.Recordset <span class="comment">&#x27;创建了一个记录集对象</span></span><br><span class="line"><span class="keyword">Set</span> rs = con.Execute(sql)  <span class="comment">&#x27;这是一个记录集</span></span><br></pre></td></tr></table></figure>
 
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> rs = <span class="built_in">New</span> ADODB.Recordset <span class="comment">&#x27;创建记录集对象</span></span><br><span class="line">rs.Open sql, con, adOpenRecordset, adLockOptimistic</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li><p>使用 <code>Set rs = con.Execute(sql)</code> 语句可以直接执行 SQL 查询，并将结果集赋值给记录集对象 <code>rs</code>。这种方法适用于执行 SQL 查询并将结果保存在记录集中。</p>
-</li>
-<li><p>使用 <code>rs.Open sql, con, adOpenReyset, adLicjOptimistic</code> 语句可以在已经创建的记录集对象 (<code>rs</code>) 上打开一个结果集。这个方法可以用于在已经存在的记录集对象上重新打开一个新的结果集。</p>
-</li>
-<li><p>获取记录集中的字段，需要用Fields.name</p>
-</li>
+<li><strong>获取记录集中的字段</strong>，需要用<code>Fields.name</code></li>
 </ul>
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&#x27;获取字段名需要一个循环</span></span><br><span class="line"><span class="keyword">Dim</span> i <span class="keyword">As</span> <span class="type">Integer</span></span><br><span class="line"><span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> rs.Fields.Count - <span class="number">1</span></span><br><span class="line">	Cells(<span class="number">1</span>, i + <span class="number">1</span>) = rs.Fields(i).Name</span><br><span class="line"><span class="keyword">Next</span></span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>将记录集返回到数据表</li>
+<li><strong>将记录集返回到数据表</strong></li>
 </ul>
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sheets(<span class="string">&quot;sheet1&quot;</span>).Range(<span class="string">&quot;A2&quot;</span>).CopyFromRecordset rs  <span class="comment">&#x27;可以直接定位到当前的单元格，sheets(&quot;sheet1&quot;）可加可不加</span></span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>释放对象变量空间</li>
+<li><strong>释放对象变量空间</strong></li>
 </ul>
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&#x27;释放对象变量空间</span></span><br><span class="line">rs.Close: <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">con.Close: <span class="keyword">Set</span> con = <span class="literal">Nothing</span>    </span><br></pre></td></tr></table></figure>
 
-<p>四、多表查询</p>
-<p>​	1. </p>
+<h4 id="四、多表查询（where连接"><a href="#四、多表查询（where连接" class="headerlink" title="四、多表查询（where连接)"></a>四、多表查询（where连接)</h4><ul>
+<li><strong>案例1：</strong>查询所有学生的姓名、性别、选修的课程名称及成绩</li>
+</ul>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sql = <span class="string">&quot;select 姓名，性别，课程名称，成绩&quot;</span> _</span><br><span class="line">&amp; <span class="string">&quot; from 学生，课程，成绩&quot;</span> _</span><br><span class="line">&amp; <span class="string">&quot; where 学生.学号=成绩.学号 and 课程.课程代码=成绩.成绩代码&quot;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>案例2：</strong>查询“王维欣”同学的性别、选修的课程名称及考试成绩</li>
+</ul>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sql = <span class="string">&quot;select 性别，课程名称，成绩&quot;</span> _</span><br><span class="line">&amp; <span class="string">&quot; from 学生，课程，成绩&quot;</span> _</span><br><span class="line">&amp; <span class="string">&quot; where 学生，学号=成绩.学号 and 课程.课程代码=成绩.课程代码&quot;</span> _</span><br><span class="line">&amp; <span class="string">&quot; and 姓名=&#x27;王维欣&#x27;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="五、多表查询（内连接）"><a href="#五、多表查询（内连接）" class="headerlink" title="五、多表查询（内连接）"></a>五、多表查询（内连接）</h4><ul>
+<li><strong>案例1：</strong>查询所有课程的平均成绩，结果包含课程名称，平均成绩两个字段</li>
+</ul>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sql = <span class="string">&quot;select 课程名称，avg(成绩) as 平均成绩&quot;</span> _</span><br><span class="line">&amp; <span class="string">&quot; from 课程 inner join 成绩 on 课程.课程代码=成绩.课程代码&quot;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>案例2：</strong> 查询所有课程的平均成绩，结果包含课程名称，平均成绩两个字段，平均成绩要大于85分</li>
+</ul>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sql = <span class="string">&quot;select 课程名称，avg(成绩) as 平均成绩&quot;</span> _</span><br><span class="line">&amp; <span class="string">&quot; from 课程 inner join 成绩 on 课程.课程代码=成绩.课程代码&quot;</span> _</span><br><span class="line">&amp; <span class="string">&quot; group by 课程名称 having avg(成绩)&gt;=85&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>（sql语句的执行顺序是: from –&gt; where –&gt; group –&gt; having –&gt; select）</p>
+<h4 id="六、多表查询（外连接）"><a href="#六、多表查询（外连接）" class="headerlink" title="六、多表查询（外连接）"></a>六、多表查询（外连接）</h4><blockquote>
+<p>基本格式： from 左表 连接类型  右表 on 连接条件</p>
+</blockquote>
+<ul>
+<li><strong>案例1：</strong>查询所有导师的院系信息，包含姓名，性别，职称，系号、系名</li>
+</ul>
+<p>​	<code>左连接：左边连接字段有的，而右表没有的，左表全部显示，右表留空</code></p>
+<p><code>(根据左表查右表)</code></p>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sql = <span class="string">&quot;select 姓名，性别，职称，系号，系名 &quot;</span> _</span><br><span class="line">&amp; <span class="string">&quot; from 导师 left join 院系 on 导师.院系编号=院系.系号&quot;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>案例2：</strong>查询所有院系的导师信息，包含系号、系名、姓名、职称</li>
+</ul>
+<p><code>右连接：右表连接字段有的，而左表没有的，右边全部显示，左表留空</code></p>
+<p><code>（根据右表查左表）</code></p>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sql = <span class="string">&quot;select 系号，系名，姓名，职称&quot;</span> _</span><br><span class="line">&amp; <span class="string">&quot; from 导师 right join 院系 on 导师.院系编号=院系.系号&quot;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>案例3：</strong>查询所有导师、所有院系的信息，包含姓名、性别、职称、系号、系名</li>
+</ul>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sql = <span class="string">&quot;select 姓名，性别，职称，系号，系名&quot;</span> _</span><br><span class="line">&amp; <span class="string">&quot; from 导师 full join 院系 on 导师.院系编号=院系.系号&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="七、多表查询（自连接）"><a href="#七、多表查询（自连接）" class="headerlink" title="七、多表查询（自连接）"></a>七、多表查询（自连接）</h4><p><code>含义：自己连接自己</code></p>
+<ul>
+<li><strong>案例1：</strong>查询员工表中姓名有重复的员工记录(刷出全部记录看看)</li>
+</ul>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sql = <span class="string">&quot;select * from 员工 t1 inner join 员工 t2 on t1.姓名=t2.姓名&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="八、子查询（嵌套查询）"><a href="#八、子查询（嵌套查询）" class="headerlink" title="八、子查询（嵌套查询）"></a>八、子查询（嵌套查询）</h4><ul>
+<li><strong>案例1：</strong>查询每个部门年龄在30岁以上的员工的平均年龄</li>
+</ul>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sql = <span class="string">&quot;select 部门，count(*) as 人数 from 员工 where 年龄&gt;30 group by 部门&quot;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>案例2：</strong> 查询年龄高于平均年龄的员工信息，包含姓名、身份证号、部门、年龄职务</p>
+</li>
+<li><p><strong>案例3：</strong> 查询年龄排在第5-10名的员工信息，包含姓名、身份证号、部门、年龄职务</p>
+</li>
+</ul>
 </div>
         </div>
         
@@ -341,13 +410,12 @@
             const twitterBase   = "https://twitter.com/intent/tweet?";
             const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/07/28/excel-vba-%E9%94%80%E5%94%AE%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/";
             const title         = "「excel-vba 数据库操作方式」";
-            const excerpt       = `一、卡点：
-
-
+            const excerpt       = `[TOC]
+一、卡点：
 
 这个问题是用wps连接的OLEDB（access数据库）, 用excel打开就没有问题，如果用wps就需要用其他方式
 excel：
-12345Dim con As ADODB.ConnectionSet con = ...`;
+12345Dim con As ADODB.ConnectionSet co...`;
             let _URL;
             switch (dest) {
                 case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
@@ -369,7 +437,7 @@ excel：
                     <a class="tag-none-link" href="/tags/excel/" rel="tag">excel</a>, <a class="tag-none-link" href="/tags/vba/" rel="tag">vba</a>, <a class="tag-none-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a>
                 </div>
                 <div class="pull-date">
-                    <time datetime="2023-07-28T07:58:43.472Z" itemprop="dateModified">最后编辑：2023-07-28</time>
+                    <time datetime="2023-07-28T09:22:22.769Z" itemprop="dateModified">最后编辑：2023-07-28</time>
                 </div>
             </div>
         </footer>
