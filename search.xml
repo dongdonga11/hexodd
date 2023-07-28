@@ -3,6 +3,183 @@
   
     
     <entry>
+      <title><![CDATA[excel-vba 数据库操作方式]]></title>
+      <url>/2023/07/28/excel-vba-%E9%94%80%E5%94%AE%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/</url>
+      <content type="html"><![CDATA[<p>一、卡点：</p>
+<ol>
+<li><div align="left"><img src="./../img/image-20230728134957123.png" alt="image-20230728134957123" style="zoom:33%;" /></div></li>
+</ol>
+<p>这个问题是用wps连接的OLEDB（access数据库）, 用excel打开就没有问题，如果用wps就需要用其他方式</p>
+<p>excel：</p>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Dim</span> con <span class="keyword">As</span> ADODB.Connection</span><br><span class="line"><span class="keyword">Set</span> con = <span class="built_in">New</span> ADODB.Connection <span class="comment">&#x27;对象变量赋值必须用set</span></span><br><span class="line">` 建立数据连接    </span><br><span class="line">con.Open <span class="string">&quot;provider=Microsoft.ACE.OLEDB.16.0;data source=&quot;</span> &amp; _</span><br><span class="line">    ThisWorkbook.Path &amp; <span class="string">&quot;\基础数据.accdb&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>wps：</p>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Dim</span> con <span class="keyword">As</span> <span class="built_in">New</span> ADODB.Connection</span><br><span class="line">con.Open <span class="string">&quot;provider=microsoft.jet.oledb.4.0;extended properties=excel 8.0;data source=&quot;</span> &amp; ThisWorkbook.Path &amp; <span class="string">&quot;/test2.xls&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>二、access 数据库操作指南</p>
+<p>第一步：告诉电脑我要用ADO了，这个操作在【工具】–&gt; 【引用】–&gt; 【Microsoft ActiveX Data Objects 6.1 Libray】</p>
+<div align="left"><img src="./../img/image-20230728143220859.png" alt="image-20230728143220859" style="zoom:33%;" /></div>
+
+<p>第二步：创建连接对对象</p>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">&#x27; 2-1 声明对象变量名</span></span><br><span class="line"><span class="keyword">Dim</span> con <span class="keyword">As</span> ADODB.Connection</span><br><span class="line"> <span class="comment">&#x27; 2-2 创建对象变量并赋值</span></span><br><span class="line"><span class="keyword">Set</span> con = <span class="built_in">New</span> ADODB.Connection <span class="comment">&#x27;对象变量赋值必须用set</span></span><br></pre></td></tr></table></figure>
+
+<p>第三步：连接数据库</p>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&#x27; 建立数据库连接</span></span><br><span class="line">con.Open <span class="string">&quot;provider=Microsoft.ACE.OLEDB.16.0;data source=&quot;</span> &amp; _</span><br><span class="line">ThisWorkbook.Path &amp; <span class="string">&quot;\基础数据.accdb&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>(注意这个部分，OLEDB, 2007以上是12.0，一下是8.0或4.0)</p>
+<p>第四步：执行sql语句</p>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&#x27;插入记录：insert into 表名 （字段1，字段2，...） values(值1，值2，...)</span></span><br><span class="line"><span class="keyword">Dim</span> sql <span class="keyword">As</span> <span class="type">String</span></span><br><span class="line">sql = <span class="string">&quot;insert into TEST(测试1,测试2,测试3) values(&#x27;a09&#x27;,&#x27;D文学员&#x27;,&#x27;6999&#x27;)&quot;</span></span><br><span class="line"><span class="comment">&#x27; 执行sql</span></span><br><span class="line">con.Execute (sql)</span><br></pre></td></tr></table></figure>
+
+<p>第五步： 关闭数据库连接，并释放变量（一定要）</p>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">con.Close</span><br><span class="line"><span class="comment">&#x27; 释放变量</span></span><br><span class="line"><span class="keyword">Set</span> con = <span class="literal">Nothing</span></span><br></pre></td></tr></table></figure>
+
+<p>三、数据库语法</p>
+<pre><code> 1. 数据常见的增、删、改、查
+</code></pre>
+<ul>
+<li><p>增加数据</p>
+<ul>
+<li><pre><code class="vb">sub InsetSql()
+    Dim sql As String
+    sql = &quot;insert into TEST(测试1,测试2,测试3) values(&#39;a09&#39;,&#39;D文学员&#39;,&#39;6999&#39;)&quot;
+    &#39; 执行sql
+    con.Execute (sql)
+end sub
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 删除数据</span><br><span class="line"></span><br><span class="line">  - ```vb</span><br><span class="line">    Sub DelSql()</span><br><span class="line">        &#x27;删除数据： delete from 表名 [where 条件]</span><br><span class="line">        Dim sql As String</span><br><span class="line">        sql = &quot;delete from TEST where id=2&quot; &#x27;如果是字符串需要加&#x27;&#x27;</span><br><span class="line">        con.Execute (sql)</span><br><span class="line">    End Sub</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>修改数据</p>
+<ul>
+<li><pre><code class="vb">Sub UpdateSql()
+    &#39;更新记录 update 表名 set 字段=值 [where 条件]
+    &#39; 多条件更新 update 表名 set 字段1=值1，字段2=值2 where 条件
+    &#39; 如果要使用变量的化，一定要在“号的外面
+    &#39; &quot;update 表名 set 字段1=值1，字段2=&#39;&quot;&amp; 变量 &amp; &quot;&#39; where 条件&quot; 注意&#39;
+    Dim sql As String
+    sql = &quot;update TEST set 测试1=&#39;a088&#39; where 测试3=&#39;999&#39;&quot;
+    con.Execute (sql)
+End Sub
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 查找数据</span><br><span class="line"></span><br><span class="line">  - ```vb</span><br><span class="line">    Sub SelectSql()</span><br><span class="line">     	Dim sql As String</span><br><span class="line">        sql = &quot;select * from TEST&quot;</span><br><span class="line">    	con.Execute (sql)</span><br><span class="line">    End Sub    </span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><pre><code class="sql">&#39;书写sql命令字符串
+sql = &quot;select * from 院校&quot;                                  &#39;查询全部字段
+sql = &quot;select 姓名，性别，职称 from 导师&quot;        				 &#39;指定部分字段
+sql = &quot;select distinct 研究方向 from 学生&quot;        		    &#39;提取不重复记录
+sql = &quot;select 课程代码，成绩 from 成绩 order by 成绩 asc&quot; 		 &#39;排序
+sql = &quot;select *，2006 from 学生&quot; 							   &#39;生成新的字段
+sql = &quot;select 学号，姓名，性别，year(入学日期) as 年份 from 学生&quot;  &#39;根据年份查找对应字段
+sql = &quot;selcet 姓名，性别 from union select 姓名，性别 from 导师&quot; 
+&#39; union：去除重复，并按照第一个字段升序排序
+&#39; union all 全部复制，重复的也不管，不排序
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2. 数据库记录集</span><br><span class="line"></span><br><span class="line">   通过查询或其他方式获取数据后，需要存放在一个记录集对象中</span><br><span class="line"></span><br><span class="line">   - 创建一个记录集对象，创建记录集主要有两个方法(第二种用的最多)</span><br><span class="line"></span><br><span class="line">   - 第一中不能修改记录集对象，第二种可以修改（这是最大区别）</span><br><span class="line"></span><br><span class="line">     - ```vb</span><br><span class="line">       Dim rs As New ADODB.Recordset &#x27;创建了一个记录集对象</span><br><span class="line">       Set rs = con.Execute(sql)  &#x27;这是一个记录集</span><br></pre></td></tr></table></figure>
+
+ - ```vb
+   set rs = New ADODB.Recordset &#39;创建记录集对象
+   rs.Open sql, con, adOpenRecordset, adLockOptimistic
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 使用 `Set rs = con.Execute(sql)` 语句可以直接执行 SQL 查询，并将结果集赋值给记录集对象 `rs`。这种方法适用于执行 SQL 查询并将结果保存在记录集中。</span><br><span class="line"></span><br><span class="line">  - 使用 `rs.Open sql, con, adOpenReyset, adLicjOptimistic` 语句可以在已经创建的记录集对象 (`rs`) 上打开一个结果集。这个方法可以用于在已经存在的记录集对象上重新打开一个新的结果集。</span><br><span class="line"></span><br><span class="line">- 获取记录集中的字段，需要用Fields.name</span><br><span class="line"></span><br><span class="line">- ```vb</span><br><span class="line">  &#x27;获取字段名需要一个循环</span><br><span class="line">  Dim i As Integer</span><br><span class="line">  For i = 0 To rs.Fields.Count - 1</span><br><span class="line">  	Cells(1, i + 1) = rs.Fields(i).Name</span><br><span class="line">  Next</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>将记录集返回到数据表</p>
+</li>
+<li><pre><code class="vb">sheets(&quot;sheet1&quot;).Range(&quot;A2&quot;).CopyFromRecordset rs  &#39;可以直接定位到当前的单元格，sheets(&quot;sheet1&quot;）可加可不加
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 释放对象变量空间</span><br><span class="line"></span><br><span class="line">- ```vb</span><br><span class="line">  &#x27;释放对象变量空间</span><br><span class="line">  rs.Close: Set rs = Nothing</span><br><span class="line">  con.Close: Set con = Nothing    </span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<p>四、多表查询</p>
+<p>​	1. </p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> 数据库 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[记录我的小项目-第二弹]]></title>
+      <url>/2023/07/28/%E8%AE%B0%E5%BD%95%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%BA%8C%E5%BC%B9/</url>
+      <content type="html"><![CDATA[<h4 id="一、项目起因："><a href="#一、项目起因：" class="headerlink" title="一、项目起因："></a>一、项目起因：</h4><blockquote>
+<p>前段时间开会，跟公司快递营销组两位同事闹了点不愉快，这个原因是两方面的：第一是因为也是对工作项确实不太清楚（说实话，官僚主义太严重，全是形式主义，扣字眼一个比一个厉害，整一些形式主义的东西，什么三大标准化，要必须产出，也没明白什么是三大标准，不清楚怎么定义，也不清楚什么算什么标准，怎么提交怎么弄）第二是对这项工作的不认可（业务本身是千变万化的，标准是在工作中形成的，不清楚这件事对项目有什么帮助，在产品还在定义中，出标准化有什么意义。花大量的时间做了一些纸面文档【说多了，算是吐槽吧】）后来被批了，想想也没什么，思想本身也无法统一也无法调和，只能低头默认（得吃饭呀），后来挨批了一顿，然后想想怎么缓和下关系（写到这里，突然觉得自己活成自己讨厌的样子了，社会发展，个人成长，环境适应）</p>
+<p>针对这件事，自己也有问题，对事情的不认可可以向上提出，可以无法接收文化离开，可以沉默隐忍接受，但是不应该对项目里执行的人出言刁难，（本意并非如此，只是提出了疑问，没想到点了炸药包，确实不知三大标准化是什么）尤其不应该对一个小专员，然她下不来台。现在也没到权力斗争的底部，搞掉别人对自己也没什么好处，自己的思维和工作方式的问题，也需要检讨。</p>
+<p>后来想想，自己在以前的工作中做过一个《培训管理系统》就琢磨给你们用excel也做一个自动化系统吧，算是关系的缓和，也不是有意刁难的，这个事情也算过去了</p>
+</blockquote>
+<h4 id="二、使用工具："><a href="#二、使用工具：" class="headerlink" title="二、使用工具："></a>二、使用工具：</h4><p>​	<strong>wps</strong>：<em>最新版就可以</em></p>
+<p>​	<strong>excel：</strong><em>最好是2017-2023版</em></p>
+<p>​	<strong>WPS宏插件：</strong> <a href="https://wws.lanzout.com/inOQs0nmaf3e">VBA宏插件（含安装说明）.rar</a></p>
+<p>​	密码：1234 提取码：yypd</p>
+<p>​	<strong>access数据库：</strong></p>
+<ul>
+<li>​	office_ tool  <a href="https://www.uy5.net/download/?path=00019700101000000001/1611iptRY1EL05620230205234842x9v/1611iptRY1EL078202210220137074zo/1611iptRY1EL0582023041602553503b/1611iptRY1EL05620230416025622hvd">Office_Tool_with_runtime_v10.1.3.4.zip</a></li>
+<li>​     破解工具 <a href="https://www.uy5.net/download/?path=00019700101000000001/1611iptRY1EL05620230205234842x9v/1611iptRY1EL078202210220137074zo/1611iptRY1EL05420230503093148fly/1611iptRY1EL07820230503093254zq4"> ReBirth Activator 1.4.zip</a></li>
+</ul>
+<p>​	<strong>sqlServer数据库：</strong><a href="https://www.zhihu.com/tardis/bd/art/59017254?source_id=1001">SQLserver 安装教程</a></p>
+<h4 id="三、项目需求："><a href="#三、项目需求：" class="headerlink" title="三、项目需求："></a>三、项目需求：</h4><ol>
+<li>可以分发数据，让销售自己的数据看自己</li>
+<li>可以有一个数据对照，因为用“vlookup”有时候会出错（销售填写的表格有时候会加一个空格）</li>
+<li>有一个数据看板和查找系统</li>
+</ol>
+<h4 id="四、项目思考："><a href="#四、项目思考：" class="headerlink" title="四、项目思考："></a>四、项目思考：</h4><ol>
+<li><p>根据现有的信息来看，无法通过钉钉进行文件共享，通过公式来满足</p>
+</li>
+<li><p>数据库有两套方案：</p>
+<p>(1). 用传统的数据库进行，access，sqlServer</p>
+<p>​	优势：数据库安全，易操作，数据调用方便</p>
+<p>​	劣势：需要给他人电脑安装access数据库和sqlserver，比较麻烦</p>
+<p>(2).用excel 的xls 作为数据库，ocdb 用 jet，通过共享文件进行</p>
+<p>​	优势： 简单方便，wps也能用</p>
+<p>​	劣势：数据不安全，不确定效率如何，另外是否也需要给别人的电脑安装OCDB不确定</p>
+</li>
+<li><p>数据分配方式：</p>
+<p>准备多个表格，用名字区分，每人一个（简单易行就好了，不整太复杂的）用数据库区分</p>
+</li>
+<li><p>数据展示：</p>
+<p>看下模板，有合适的模板直接套用，加代码就可以了</p>
+</li>
+</ol>
+<h4 id="五、项目逻辑："><a href="#五、项目逻辑：" class="headerlink" title="五、项目逻辑："></a>五、项目逻辑：</h4><ol>
+<li>将所有的数据放入数据库，中台可以获取所有的数据，给中台加入一个数据获取按钮，获取最新的所有数据，数据最好是更新过来的（因为数据量有几千条，不能所有数据一起更新）</li>
+<li>中台做一个数据分配按钮（每天更新一次数据，分配给销售）</li>
+<li>销售一人准备一个表，做数据的提交，注意限制原始数据的改动</li>
+</ol>
+<h4 id="六、项目计划："><a href="#六、项目计划：" class="headerlink" title="六、项目计划："></a>六、项目计划：</h4><ol>
+<li>测试数据库：测试access，及xlsx</li>
+<li>找合适的表模板</li>
+<li>敲代码</li>
+</ol>
+<h4 id="七、具体实现："><a href="#七、具体实现：" class="headerlink" title="七、具体实现："></a>七、具体实现：</h4><p>​	见：</p>
+<h4 id="八、项目指标："><a href="#八、项目指标：" class="headerlink" title="八、项目指标："></a>八、项目指标：</h4><p>​	暂未涉及</p>
+<p>​	&#x3D;&#x3D; 当前项目进展：&#x3D;&#x3D;</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> 项目集锦 </tag>
+            
+            <tag> excel </tag>
+            
+            <tag> 销售流程 </tag>
+            
+            <tag> vba </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[使用免费国外服务器搭建ChatGPT接口服务[附注册教程/源码]]]></title>
       <url>/2023/06/26/%E4%BD%BF%E7%94%A8%E5%85%8D%E8%B4%B9%E5%9B%BD%E5%A4%96%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BAChatGPT%E6%8E%A5%E5%8F%A3%E6%9C%8D%E5%8A%A1-%E9%99%84%E6%B3%A8%E5%86%8C%E6%95%99%E7%A8%8B-%E6%BA%90%E7%A0%81/</url>
       <content type="html"><![CDATA[<p>最近这段时间，ChatGPT火的一塌糊涂，到处都是介绍ChatGPT的文章，但自从前段时间开始，很多人可能都发现了ChatGPT接口国内调用不了了，而很多人可能是抱着玩玩的心态，并不愿意去花钱另外购买国外的服务器，当然这其中也包括我，由于没有预算去购买一台国外的服务器，所以我公众号的ChatGPT功能也被迫停止运行了一段时间，但是今天我想告诉大家，<strong>本站公众号ChatGPT服务重启了</strong>，还是之前的使用方式，但是速度快了很多，有兴趣的朋友可以去关注公众号去体验，不知道怎么用的可以看公众号的“使用帮助”。</p>
