@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  
+  
+  <title>Access-VBA-目录 | 栋栋的个人博客</title>
+  
+  <meta name="author" content="John DD" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="access, excel, vba" />
+  
+  <meta name="description" content="目录：   Excel-Access-入门（Excel作为界面端，Access作为数据库） Access-控件解析 Access-小示例 Access-大项目-培训管理系统 Excel-Excel-入门（Excel作为界面端，Excel作为数据库）   Excel-Access-入门（Excel作为界面端，Access作为数据库）   Access&#x2F;VBA&#x2F;Excel-数据库-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Access-VBA-目录">
+<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/08/01/Access-VBA-%E7%9B%AE%E5%BD%95/index.html">
+<meta property="og:site_name" content="栋栋的个人博客">
+<meta property="og:description" content="目录：   Excel-Access-入门（Excel作为界面端，Access作为数据库） Access-控件解析 Access-小示例 Access-大项目-培训管理系统 Excel-Excel-入门（Excel作为界面端，Excel作为数据库）   Excel-Access-入门（Excel作为界面端，Access作为数据库）   Access&#x2F;VBA&#x2F;Excel-数据库-">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-01T06:23:23.000Z">
+<meta property="article:modified_time" content="2023-08-01T06:29:53.145Z">
+<meta property="article:author" content="John DD">
+<meta property="article:tag" content="excel">
+<meta property="article:tag" content="vba">
+<meta property="article:tag" content="access">
+<meta name="twitter:card" content="summary">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" media="all"></script>
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-color-dark.min.css" media="(prefers-color-scheme: dark)"></script>
+    <script src="/js/kr-dark.min.js"></script>
+  
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" media="all"></script>
+  
+  <link rel="stylesheet" id="fontawe-css" href="/vendors/font-awesome@4.7.0/css/font-awesome.min.css" media="all"></script>
+  <link rel="stylesheet" id="nprogress-css" href="/vendors/nprogress@0.2.0/nprogress.css" media="all"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/aplayer@1.10.1/dist/APlayer.min.css"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"></script>
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="/vendors/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="/vendors/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+  
+  <style>
+    
+    
+  </style>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                    
+                                        
+                                            <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/friends/"><i class="fa fa-paw"></i>好伙伴</a></li>
+                                        
+                                    
+                                        
+                                            <li>
+                                                <a><i class="fa fa-link"></i>链接</a>
+                                                <ul class="sub-menu">
+                                                    
+                                                        
+                                                    
+                                                </ul>
+                                            </li>
+                                        
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">栋栋的个人博客</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>栋栋的个人博客</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article itemscope itemtype="https://schema.org/Article">
+    
+    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/08/01/Access-VBA-%E7%9B%AE%E5%BD%95/">
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center" itemprop="name headline">Access-VBA-目录</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><time datetime="2023-08-01T06:23:23.000Z" itemprop="datePublished"><i class="fa fa-calendar"></i> 2023-08-01</time></li>
+                <li itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <i class="fa fa-user"></i> 作者 <span itemprop="name">John DD</span>
+                </li>
+                
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            ~1.61K
+                        
+                        字
+                    </li>
+                
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                <div class="icon"><i class="fa fa-warning"></i></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1690871393145"></time> 前，其中的内容可能需要更新。</p></div>
+            </div>
+            
+            
+            
+            <hr />
+            <div itemprop="articleBody"><p><strong>目录：</strong></p>
+<blockquote>
+<ol>
+<li>Excel-Access-入门（Excel作为界面端，Access作为数据库）</li>
+<li>Access-控件解析</li>
+<li>Access-小示例</li>
+<li>Access-大项目-培训管理系统</li>
+<li>Excel-Excel-入门（Excel作为界面端，Excel作为数据库）</li>
+</ol>
+</blockquote>
+<p><strong>Excel-Access-入门（Excel作为界面端，Access作为数据库）</strong></p>
+<hr>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484122&idx=1&sn=0587815bb9cb4d36e8a1106723b58f28&chksm=ea811f77ddf69661bcddeaa1d9bccd9a5a04d2486bda46b5c885a3627176235ac403118f1ec6&scene=21#wechat_redirect">Access&#x2F;VBA&#x2F;Excel-数据库-01</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484127&idx=1&sn=0b87098bc60444af4aa419a4c545fa0a&chksm=ea811f72ddf696641f98ab5f2d06a7c8bd12e7c9803fc0d6b885e8c80e6dda0afdef2182f82c&scene=21#wechat_redirect">Access&#x2F;VBA&#x2F;Excel-新建Access文件-02</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484136&idx=1&sn=cffcfc40d6486185e92f0d8a6d0ca35a&chksm=ea811f45ddf6965392e29519eae95bdbbf225feef8676cdc26d1238006455c03a6c83b295d82&scene=21#wechat_redirect">Access&#x2F;VBA&#x2F;Excel-Access表及字段创建-03</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484140&idx=1&sn=b6429db84d4ba8b7ae2bb9024e4b5dc7&chksm=ea811f41ddf696570352be40b399f50d1444a1f45f870aa0b694bfdf30b2957a29459ec21220&scene=21#wechat_redirect">Access&#x2F;VBA&#x2F;Excel-Access记录创建-04</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484144&idx=1&sn=400cba73e328a8d4792f50280f006877&chksm=ea811f5dddf6964b0d9130d2528db22353ce4ab721887f0f1515f1d6a340cf9a52a6e3fb19a2&scene=21#wechat_redirect">Access&#x2F;VBA&#x2F;Excel-Access记录修改-05</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484486&idx=1&sn=28c04338c3fe20f4db6a098765bdb21d&chksm=ea8119ebddf690fd8dc2b968de34d342235a2e5757595f179449bae6db07859ec62638607e77&scene=21#wechat_redirect">Access&#x2F;VBA&#x2F;Excel-Access记录删除-06</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484521&idx=1&sn=f3326992d6c4c86aea4d5096b196e128&chksm=ea8119c4ddf690d2f8e7883f9418a997f803ce103880c60225abd6e9c08e2ab34f5ef8a6419f&scene=21#wechat_redirect">Access&#x2F;VBA&#x2F;Excel-Access字段删除-07</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484554&idx=1&sn=149518da2ef1c7f9d86265cc223cfdfd&chksm=ea811927ddf69031cf35b1cb1be11bbfd6c16fbe3b9c2e19865c9cd3d9a94a7906c50acc2b10&scene=21#wechat_redirect">Access&#x2F;VBA&#x2F;Excel-获取数据库数据-08</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484570&idx=1&sn=d43c000c5aa85f5495baa63500754670&chksm=ea811937ddf690215c9e818a4954c2e30cf367924369ee87e109449ee088232d186cf47f56d2&scene=21#wechat_redirect">Access&#x2F;VBA&#x2F;Excel-单表筛选数据-09</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484591&idx=1&sn=a39c1e880f3fbfecf5cf4410ba66cc34&chksm=ea811902ddf690149dd24fd9f3887f2d49a22aad684d50e6e9581b567f6d8254fe9e952a0abe&scene=21#wechat_redirect">Access&#x2F;VBA&#x2F;Excel-多条件筛选数据-10</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484630&idx=1&sn=ccd2fb66805e8887b00a111f52d4cbf9&chksm=ea81197bddf6906dc449057e182f5e9fb3d166ee7df3c6acb45e6180be40aff98a24b6c9db7f&scene=21#wechat_redirect">Access&#x2F;VBA&#x2F;Excel-左连接-11</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484642&idx=1&sn=f853c3abea7799636e5e60ff37b0bc09&chksm=ea81194fddf69059d804d81e5d96915e9a24c45b60cd5cccd7c10aa70da1ea01441172bfd67d&scene=21#wechat_redirect">Access&#x2F;VBA&#x2F;Excel-12-模糊查询</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484654&idx=1&sn=5814bf972a362874a1c3f3218c0918c3&chksm=ea811943ddf69055d6f43b937c28f0104a2f79f83a90c0b58bdb9b8dd5dfaaac424d632f6d22&scene=21#wechat_redirect">Access&#x2F;VBA&#x2F;Excel-13-嵌套查询</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484667&idx=1&sn=f55663cd0499668dda1d1405cd3b620b&chksm=ea811956ddf6904054c7df67e5b9e532a03217323ef698071692426b4f9c384097c97c63c83a&scene=21#wechat_redirect">Access&#x2F;VBA&#x2F;Excel-14-消除重复值</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484692&idx=1&sn=a5e89c01799240aad808b26f6652587d&chksm=ea8118b9ddf691aff071cb4b85ae46d795e05e596a1dd3fa5ff981c9da3d98b785d96e6d3a4e&scene=21#wechat_redirect">Access&#x2F;VBA&#x2F;Excel-15-表信息整体迁移</a></li>
+</ol>
+<blockquote>
+<p><strong>我是分界线</strong></p>
+</blockquote>
+<p><strong>Access-控件解析</strong></p>
+<hr>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484994&idx=1&sn=b3729e4ef33b10d4b5ba9c8405ff5153&chksm=ea811befddf692f97b7812dc9aa1124185880254014c650313f142dc6bc48ecbef868b69dac5&scene=21#wechat_redirect">Access-控件解析-列表框-01-多选数目获取</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247485002&idx=1&sn=1bfe56af9b19f5a3efaca1783b6dbe25&chksm=ea811be7ddf692f1f1b88d1ed1ccf252a22a357ba70ffa4f6d5e3be0477b369bbe211e7674c3&scene=21#wechat_redirect">Access-控件解析-列表框-02-获取选项</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247485114&idx=1&sn=04546a7120b3e61aa36c168b4ef94f19&chksm=ea811b17ddf692017db11d593e17e26bded90bde67de57784a41da56856723008c850ae32a97&scene=21#wechat_redirect">Access-控件解析-列表框-03-向列表框录入信息</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247485179&idx=1&sn=2b456f8bd88177e34e229d5557bbea0f&chksm=ea811b56ddf69240998715b7a734279cca2d52f963c361a4f9d94bbe7329592fd02f0b3ae664&scene=21#wechat_redirect">Access-控件解析-列表框-04-双击效果</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247485184&idx=1&sn=4dc97db44facf92e1196a9ffc40dbcbf&chksm=ea811aadddf693bb8ccce328c343bbea01289f74e68d96de868bb8b40937be6a95dbf92348e9&scene=21#wechat_redirect">Access-控件解析-组合框-01-下拉列表</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247485205&idx=1&sn=ff50515a46aef487ac7da9e25eebac12&chksm=ea811ab8ddf693aef9b152687b57f687c1cca26389ec59779bd87fce685c31105ffe45081a8b&scene=21#wechat_redirect">Access-控件解析-组合框-02-两个组合框联动</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247485270&idx=1&sn=cb6b307725b606ae7a84a2967fe20f76&chksm=ea811afbddf693ed8d65723871ec3ecf9c0183c255a4344cdbc3b54474131621ad0c7ed3bf0a&scene=21#wechat_redirect">Access-控件解析-文本框-01-格式设置</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247485294&idx=1&sn=e4d8e98324266a3228a3d74446b751b2&chksm=ea811ac3ddf693d5e72a23986c81162c3b6d47c69d8796f1d73dc7a9d80de1d616edae7533c7&scene=21#wechat_redirect">Access-控件解析-按钮-01-关联代码</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247485299&idx=1&sn=8119fb142d5a22b693a3423b532ef0d8&chksm=ea811adeddf693c87b375ddd86965f68850369b20f9d94bf8b7314d8e01cf01d8ad9d5543867&scene=21#wechat_redirect">Access-控件解析-按钮-02-来个双击</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247485311&idx=1&sn=518208b96e505b71a88284e4b60a2e23&chksm=ea811ad2ddf693c4854e0f73f001078ecfd8263a847b759bba439ede993bca927164014be9d0&scene=21#wechat_redirect">Access-控件解析-标签-01-控件提示</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247485320&idx=1&sn=bd3e612b8f2a0e4130665582175829be&chksm=ea811a25ddf69333bc81ed36e59d6df96782b539a7bf60fc95f0d93b721b45ac45b05d2df357&scene=21#wechat_redirect">Access-控件解析-窗体-01-弹出</a></li>
+</ol>
+<blockquote>
+<p><strong>我是分界线</strong></p>
+</blockquote>
+<p><strong>Access-小示例</strong></p>
+<hr>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247485340&idx=1&sn=5d191556de83e156c79bc8b488150270&chksm=ea811a31ddf69327a821c27cf221b92fa6ed93a7819031a5355b39ed05d89e4ddaabba5b636d&scene=21#wechat_redirect">Access-常用功能解析-01-账户权限管理</a>（Environ(“username”)）</li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247485620&idx=1&sn=18cbace8c97db797bded35293b61221b&chksm=ea811519ddf69c0f750cc63ccfcbf00c3e5a01a3c34c5dfd05bca505a25397375994e6ea1a49&scene=21#wechat_redirect">Access-小示例-02-连接mdb数据库</a></li>
+</ol>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247483868&idx=1&sn=2c695bf89caee63b612f3df5161c01ae&scene=21#wechat_redirect"><strong>我是分界线</strong></a></p>
+</blockquote>
+<p><strong>Access-实战项目-培训管理系统</strong></p>
+<hr>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484735&idx=1&sn=bc7f1f6616ff2154cc300c71a1a9e6ae&chksm=ea811892ddf691849e0b4e0191c4de533e7ff9be9d118a17ebabceb9069f3b9b62832f3aa62d&scene=21#wechat_redirect">Access-培训管理系统-01-概括</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484747&idx=1&sn=23f7218a970b782cd5f1c38775be8abc&chksm=ea8118e6ddf691f052b1d3137ad848ada4210204ea3f21fc51c6495d3a96ee2013684edf7a91&scene=21#wechat_redirect">Access-培训管理系统-02-来个界面</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484768&idx=1&sn=030ffbfc406ef1f4c91785d05a01e9f6&chksm=ea8118cdddf691db9a0331cfd6cb7d9c6c40f4bec07aa03c741c23f5e1c90902147a1a87b0f3&scene=21#wechat_redirect">Access-培训管理系统-03-建个数据库</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484793&idx=1&sn=ba9af6227774e79fc353c9a6a0700326&chksm=ea8118d4ddf691c29c319c5c2d43801aaf8726375845d0857c0107011fff94bba7eb58192b52&scene=21#wechat_redirect">Access-培训管理系统-04-清空界面及下拉列表实现（上篇）</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484801&idx=1&sn=710af2e5d3132990dd875be27b38aa22&chksm=ea81182cddf6913a28aba7fd23296b30db425d9b672d3fc81789dc048820863b3f186f293192&scene=21#wechat_redirect">Access-培训管理系统-04-清空界面及下拉列表实现（下篇）</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484814&idx=1&sn=3d0c745504a73e8693cd08f58a97b0c2&chksm=ea811823ddf691352b701e3727339558a25e4d60ec84b181559ac298984cba4c53c08ae87304&scene=21#wechat_redirect">Access-培训管理系统-06-按钮代码设置之 清空所有</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484824&idx=1&sn=d4185218c90ecce0b53c26e21ca3aa9f&chksm=ea811835ddf69123534f51624f2f23825d056df0200b5ebd0e82e99c2381ef97500d204f1dee&scene=21#wechat_redirect">Access-培训管理系统-07-按钮代码设置之增加学员</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484833&idx=1&sn=9cb70f94f09f3954fdd4cca50aaee830&chksm=ea81180cddf6911ab24fa7800da58e41616b677086b7d2f1d9f19f0bedd282db65a625fff922&scene=21#wechat_redirect">Access-培训管理系统-08-按钮代码设置之 删除所选行</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484846&idx=1&sn=dc5787dd73ca503dbb337dfebe49912a&chksm=ea811803ddf69115522b6865362b4d9660113f650db18e44d729121bcade9d12ea168390ab30&scene=21#wechat_redirect">Access-培训管理系统-09-按钮代码设置之 录入（1）</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484856&idx=1&sn=665b468e7dc524d2210c4e6d529bfa2a&chksm=ea811815ddf691032b503b4d34204a505238e2aa349542aaa29a0a9ed7708ff08571f6dd79ab&scene=21#wechat_redirect">Access-培训管理系统-10-按钮代码设置之 录入（2）</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484878&idx=1&sn=51629a522870d683181b2be37de5d526&chksm=ea811863ddf69175121951b227297dfb7c5f2977c23b32317446d21e0ad8d2e81324a4d4986c&scene=21#wechat_redirect">Access-培训管理系统-11-按钮代码设置之 录入（3）</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247484961&idx=1&sn=540edd3eb1f8cb86aeee0cc93c3a520c&chksm=ea811b8cddf6929a88fa40c57dd570d918d7c6b882e1aa23d80192892cea0718ab1f53fbdb88&scene=21#wechat_redirect">Access-培训管理系统-12-输出界面</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247485021&idx=1&sn=7107a67e4cbc1b265909cfdeba05e519&chksm=ea811bf0ddf692e6c8ddde1f47fb8e81a37c22be1629c8f1b175c0217ed93676672f80fa30c9&scene=21#wechat_redirect">Access-培训管理系统-13-输出个人培训档案</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247485028&idx=1&sn=b6c5b12534e6bbd47990ebba04c2787b&chksm=ea811bc9ddf692df03b68c67cebdd340b1a80cdb215870342a0d1e8e898ed3aa581ba7264ef0&scene=21#wechat_redirect">Access-培训管理系统-14-输出老师上课记录</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247485034&idx=1&sn=b33d88dd04db8ebcf2de63776dfe1d18&chksm=ea811bc7ddf692d1b3aba73ef72526bc99b45815a36f654bcef8034f9aa7779bc33bcfe329c5&scene=21#wechat_redirect">Access-培训管理系统-15-输出所有老师上课记录</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247485043&idx=1&sn=ca29bce9c43ffe8f0884b5ebd259cb09&chksm=ea811bdeddf692c828d6f3eff5b1133f7daf12c892e5016f2667f93a701b711e3d7b99fdab5e&scene=21#wechat_redirect">Access-培训管理系统-16-首页</a></li>
+<li><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzI2NzM0MDk5NA==&mid=2247485254&idx=1&sn=c11b9d3d6826d63bd58886a2dc9f624a&chksm=ea811aebddf693fda784a23c12964990155180bb621ab0f55171fc7a561c11cbf7f072f79591&scene=21#wechat_redirect">Access-培训管理系统-17-番外篇-程序发布</a></li>
+</ol>
+</div>
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5 itemprop="copyrightNotice">本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/08/01/Access-VBA-%E7%9B%AE%E5%BD%95/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/08/01/Access-VBA-%E7%9B%AE%E5%BD%95/";
+            const title         = "「Access-VBA-目录」";
+            const excerpt       = `目录：
+
+
+Excel-Access-入门（Excel作为界面端，Access作为数据库）
+Access-控件解析
+Access-小示例
+Access-大项目-培训管理系统
+Excel-Excel-入门（Excel作为界面端，Exce...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/access/" rel="tag">access</a>, <a class="tag-none-link" href="/tags/excel/" rel="tag">excel</a>, <a class="tag-none-link" href="/tags/vba/" rel="tag">vba</a>
+                </div>
+                <div class="pull-date">
+                    <time datetime="2023-08-01T06:29:53.145Z" itemprop="dateModified">最后编辑：2023-08-01</time>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" 微信图文编辑器-Markdown" href="/2023/08/01/微信图文编辑器-Markdown/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" Access/VBA/Excel-数据库-01" href="/2023/08/01/Access-VBA-Excel-数据库-01/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.webp" loading="lazy" decoding="auto" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">分享学习的文章分享基地</p>
+    </div>
+    <div class="site-meta">
+        <a class="meta-item" href="/archives/">
+            <span class="title">
+                文章
+            </span>
+            <span class="count">
+                21
+            </span>
+        </a>
+        <a class="meta-item" href="/categories/">
+            <span class="title">
+                分类
+            </span>
+            <span class="count">
+                5
+            </span>
+        </a>
+        <a class="meta-item" href="/tags/">
+            <span class="title">
+                标签
+            </span>
+            <span class="count">
+                23
+            </span>
+        </a>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/chatgpt/">chatgpt</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/excel/">excel</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vba-access/">vba-access</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a><span class="category-list-count">2</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/ChatGPT/" style="font-size: 0.67em;">ChatGPT</a> <a href="/tags/access/" style="font-size: 0.73em;">access</a> <a href="/tags/chrom/" style="font-size: 0.6em;">chrom</a> <a href="/tags/excel/" style="font-size: 0.8em;">excel</a> <a href="/tags/github/" style="font-size: 0.67em;">github</a> <a href="/tags/hexo/" style="font-size: 0.6em;">hexo</a> <a href="/tags/ideas/" style="font-size: 0.6em;">ideas</a> <a href="/tags/markdown/" style="font-size: 0.6em;">markdown</a> <a href="/tags/pandas/" style="font-size: 0.6em;">pandas</a> <a href="/tags/vba/" style="font-size: 0.8em;">vba</a> <a href="/tags/vercel/" style="font-size: 0.6em;">vercel</a> <a href="/tags/vervel/" style="font-size: 0.6em;">vervel</a> <a href="/tags/%E5%9F%9F%E5%90%8D/" style="font-size: 0.6em;">域名</a> <a href="/tags/%E5%B0%8F%E7%88%AC%E8%99%AB/" style="font-size: 0.6em;">小爬虫</a> <a href="/tags/%E5%BF%97%E6%84%BF%E5%A1%AB%E6%8A%A5/" style="font-size: 0.6em;">志愿填报</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 0.6em;">插件</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 0.67em;">数据库</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 0.6em;">服务器</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2023/08/01/Access-VBA-Excel-Access%E5%AD%97%E6%AE%B5%E5%88%A0%E9%99%A4-07/"><i class="fa  fa-book"></i> Access/VBA/Excel-Access字段删除-07</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/08/01/Access-VBA-Excel-Access%E8%AE%B0%E5%BD%95%E5%88%A0%E9%99%A4-06/"><i class="fa  fa-book"></i> Access/VBA/Excel-Access记录删除-06</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/08/01/Access-VBA-Excel-Access%E8%AE%B0%E5%BD%95%E4%BF%AE%E6%94%B9-05/"><i class="fa  fa-book"></i> Access/VBA/Excel-Access记录修改-05</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/08/01/Access-VBA-Excel-Access%E8%AE%B0%E5%BD%95%E5%88%9B%E5%BB%BA-04/"><i class="fa  fa-book"></i> Access/VBA/Excel-Access记录创建-04</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/08/01/Excel-Excel-%E5%85%A5%E9%97%A8%EF%BC%88Excel%E4%BD%9C%E4%B8%BA%E7%95%8C%E9%9D%A2%E7%AB%AF%EF%BC%8CExcel%E4%BD%9C%E4%B8%BA%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%89/"><i class="fa  fa-book"></i> Excel-Excel-入门（Excel作为界面端，Excel作为数据库）</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        <!-- Keep for compatibility -->
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <!-- New links -->
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2023 栋栋的个人博客 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by John DD.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="/vendors/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="/vendors/nprogress@0.2.0/nprogress.js"></script>
+<script>
+    if (!window.kr) {
+        window.kr = {};
+    }
+    window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
+    window.kr.siteRoot = "/";
+</script>
+
+
+    <script async src="/js/candy.min.js"></script>
+
+
+
+    <script defer src="/vendors/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="/vendors/meting@2.0.1/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>
