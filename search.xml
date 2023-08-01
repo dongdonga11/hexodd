@@ -3,6 +3,1270 @@
   
     
     <entry>
+      <title><![CDATA[Access-小示例-02-连接mdb数据库]]></title>
+      <url>/2023/08/01/Access-%E5%B0%8F%E7%A4%BA%E4%BE%8B-02-%E8%BF%9E%E6%8E%A5mdb%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+      <content type="html"><![CDATA[<p>目录</p>
+<p>Part 1：本篇目标</p>
+<ol>
+<li>常用Access数据库格式为<em><strong>accdb</strong></em>，近来发现一种<em><strong>mdb</strong></em>数据格式的</li>
+<li>作为数据库端，本文就是验证一下两者在使用<em><strong>VBA</strong></em>连接时是否有一些明显区别</li>
+<li>示例：连接***mdb***数据库，并将内容显示到前端</li>
+</ol>
+<p><strong>mdb数据库</strong></p>
+<p><img src="/./../img/640-1690880578432-390.png" alt="图片"></p>
+<p><strong>前端效果</strong></p>
+<p><img src="/./../img/640-1690880578433-391.gif" alt="图片"></p>
+<hr>
+<p>目录</p>
+<p>Part 2：实现步骤</p>
+<ol>
+<li><p>新建一个<em><strong>Access</strong></em>文件，默认为<em><strong>accdb</strong></em>格式，转变为<em><strong>mdb</strong></em>格式步骤如下</p>
+</li>
+<li><ul>
+<li>打开该文件，点击<strong>文件</strong>菜单，另存为<strong>mdb</strong>格式即可</li>
+<li>在该文件中录入相关信息</li>
+</ul>
+</li>
+<li><p>再新建一个<strong>Access</strong>文件，作为界面端，<strong>VBA</strong>代码也是写在这里</p>
+</li>
+<li><ul>
+<li>搭建一个简单界面，包括一个按钮和一个列表框</li>
+<li>设计视图下，设置列表框的<strong>列数</strong>、<strong>列标题：是</strong>、<strong>行来源类型：值列表</strong></li>
+<li>设计视图下，按钮的单击事件写入以下代码</li>
+</ul>
+</li>
+</ol>
+<p><strong>另存为mdb文件</strong></p>
+<p><img src="/./../img/640-1690880578433-392.png" alt="图片"></p>
+<hr>
+<p>目录</p>
+<p>Part 3：代码</p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Private</span> <span class="keyword">Sub</span> Command0_Click()  </span><br><span class="line">    <span class="comment">&#x27; 第1部分：后端操作   </span></span><br><span class="line">    <span class="comment">&#x27; 数据库连接  </span></span><br><span class="line">    <span class="keyword">Dim</span> currentDir </span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line">    <span class="keyword">Dim</span> adConn As ADODB.Connection </span><br><span class="line">    <span class="keyword">Set</span> adConn = <span class="keyword">New</span> ADODB.Connection   </span><br><span class="line">    <span class="keyword">Dim</span> rs As ADODB.Recordset  </span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="keyword">New</span> ADODB.Recordset        </span><br><span class="line">    <span class="comment">&#x27; 数据库地址  </span></span><br><span class="line">    currentDir = Application.CurrentProject.Path &amp; <span class="string">&quot;\&quot;</span>    dbAddr = currentDir &amp; <span class="string">&quot;数据库.mdb&quot;</span>     </span><br><span class="line">    <span class="keyword">With</span> adConn    </span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0;&quot;</span>    </span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span>     </span><br><span class="line">    SQL = <span class="string">&quot;Select * From basic&quot;</span><span class="comment">&#x27;   </span></span><br><span class="line">    <span class="keyword">Set</span> rs = adConn.<span class="keyword">Execute</span>(SQL)  </span><br><span class="line">    rs.Open SQL, adConn, adOpenKeyset, adLockOptimistic  </span><br><span class="line">    <span class="comment">&#x27; 第2部分：前端显示   </span></span><br><span class="line">    <span class="keyword">Set</span> ctrl = <span class="keyword">Me</span>.Controls(<span class="string">&quot;List1&quot;</span>) </span><br><span class="line">    <span class="comment">&#x27;清除原listbox 信息  </span></span><br><span class="line">    ctrl.RowSource = <span class="string">&quot;&quot;</span>    </span><br><span class="line">    <span class="keyword">Dim</span> rsCount  </span><br><span class="line">    </span><br><span class="line">    rsCount = rs.RecordCount     </span><br><span class="line">    <span class="keyword">If</span> rsCount &lt; <span class="number">1</span> <span class="keyword">Then</span> <span class="comment">&#x27;没有信息&#x27;  </span></span><br><span class="line">        strAnswer = <span class="built_in">MsgBox</span>(<span class="string">&quot;无数据&quot;</span>, vbInformation, <span class="string">&quot;提示&quot;</span>)     </span><br><span class="line">        <span class="keyword">Exit</span> <span class="keyword">Sub</span>   </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">If</span>      </span><br><span class="line">    fildCount = rs.Fields.Count   <span class="comment">&#x27; 字段数目  </span></span><br><span class="line">    existsRow = ctrl.ListCount    <span class="comment">&#x27; 当前已写入行        </span></span><br><span class="line">    <span class="comment">&#x27;写入表头   </span></span><br><span class="line">    tableHeader = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">If</span> existsRow = <span class="number">0</span> <span class="keyword">Then</span>    </span><br><span class="line">        <span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> fildCount - <span class="number">1</span> <span class="keyword">Step</span> <span class="number">1</span>    </span><br><span class="line">            fildName = rs.Fields(i).Name      </span><br><span class="line">            <span class="keyword">If</span> tableHeader = <span class="string">&quot;&quot;</span> <span class="keyword">Then</span>         </span><br><span class="line">                tableHeader = fildName      </span><br><span class="line">            <span class="keyword">Else</span>               </span><br><span class="line">                tableHeader = tableHeader &amp; <span class="string">&quot;;&quot;</span> &amp; fildName    </span><br><span class="line">            <span class="keyword">End</span> <span class="keyword">If</span></span><br><span class="line">        <span class="keyword">Next</span> i</span><br><span class="line">        ctrl.AddItem tableHeader </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">If</span>     </span><br><span class="line">    <span class="comment">&#x27;回到第一条记录  </span></span><br><span class="line">    rs.MoveFirst   </span><br><span class="line">    <span class="keyword">For</span> i = <span class="number">1</span> <span class="keyword">To</span> rsCount   </span><br><span class="line">        fildContents = <span class="string">&quot;&quot;</span></span><br><span class="line">        <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> fildCount - <span class="number">1</span> <span class="keyword">Step</span> <span class="number">1</span>    </span><br><span class="line">            fildContent = rs.Fields(j).Value   </span><br><span class="line">            <span class="keyword">If</span> fildContents = <span class="string">&quot;&quot;</span> <span class="keyword">Then</span>        </span><br><span class="line">                fildContents = fildContent     </span><br><span class="line">            <span class="keyword">Else</span>              </span><br><span class="line">                fildContents = fildContents &amp; <span class="string">&quot;;&quot;</span> &amp; fildContent     </span><br><span class="line">            <span class="keyword">End</span> <span class="keyword">If</span></span><br><span class="line">        <span class="keyword">Next</span> j     </span><br><span class="line">        ctrl.AddItem fildContents</span><br><span class="line">        rs.MoveNext </span><br><span class="line">    <span class="keyword">Next</span> i</span><br><span class="line">    adConn.Close  </span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span>  </span><br><span class="line">    <span class="keyword">Set</span> adConn = <span class="literal">Nothing</span> </span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><strong>代码截图</strong></p>
+<p><img src="/./../img/640-1690880578433-393.png" alt="图片"></p>
+<p><img src="/./../img/640-1690880578433-394.png" alt="图片"></p>
+<hr>
+<p>目录</p>
+<p>Part 4：部分代码解读</p>
+<ol>
+<li><p>对数据库的操作，一般分为以下几个步骤</p>
+</li>
+<li><ul>
+<li>确定数据库地址</li>
+<li>连接数据库</li>
+<li>确定SQL语句</li>
+<li>执行SQL语句</li>
+<li>若有返回结果，对返回结果进行处理</li>
+</ul>
+</li>
+<li><p>执行SQL语句一般有两种方法</p>
+</li>
+<li><ul>
+<li><code>Set rs = adConn.Execute(SQL)</code>，若无需返回结果，可以采用该方法，例如插入、删除、更新等操作</li>
+<li><code>rs.Open SQL, adConn, adOpenKeyset, adLockOptimistic</code>，若需要返回结果，可以采用该方法，例如查询</li>
+<li>当然还有一些更细致的区别，但一般也只用到这两个区别</li>
+</ul>
+</li>
+<li><p>本文使用<code>ADODB.Connection</code>连接数据库，记得务必在<strong>Access</strong>中手动加入引用，本文采用的是<code>Microsoft ActiveX Data Objects 6.1 Library</code>,加入方法如下</p>
+</li>
+<li><ul>
+<li>VBE界面下<strong>工具</strong>菜单-引用</li>
+</ul>
+</li>
+</ol>
+<p><img src="/./../img/640-1690880578433-395.png" alt="图片"></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>目录</p>
+<p>Part 5：小结</p>
+<ol>
+<li>本文中对<em><strong>mdb</strong></em>数据库的连接方法与<em><strong>accdb</strong></em>采用一样的方法，目前来看可以适用</li>
+</ol>
+]]></content>
+      
+        <categories>
+            
+            <category> Access-小示例 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+            <tag> 常用小实例 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access-常用功能解析-01-账户权限管理]]></title>
+      <url>/2023/08/01/Access-%E5%B8%B8%E7%94%A8%E5%8A%9F%E8%83%BD%E8%A7%A3%E6%9E%90-01-%E8%B4%A6%E6%88%B7%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</url>
+      <content type="html"><![CDATA[<p><strong>Part 1：本篇目标</strong></p>
+<ol>
+<li>根据打开软件的不同用户，赋予不同操作权限</li>
+<li>本质上就是将一部分控件禁用，一部分控件启用</li>
+<li>如下图所示，打开窗体时，禁用按钮<strong>非管理员按钮</strong>，启用按钮<strong>管理员按钮</strong>，在文本框中写入当前登录账户</li>
+</ol>
+<p>效果图</p>
+<p><img src="/./../img/640-1690880364122-379.png" alt="图片"></p>
+<p><strong>Part 2：实现步骤</strong></p>
+<ol>
+<li>画出设计图，文本框名称为<em><strong>txt1*<strong>，管理员按钮名称为</strong>*cmd1**<em>，非管理员按钮名称为</em></strong>cmd2*</em>*</li>
+</ol>
+<p>界面设计</p>
+<p><img src="/./../img/640-1690880364123-380.png" alt="图片"></p>
+<p><strong>Part 3：代码</strong></p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Private</span> <span class="keyword">Sub</span> Form_Load()  </span><br><span class="line">    currentUserName = Environ(<span class="string">&quot;username&quot;</span>)  </span><br><span class="line">    Debug.Pr<span class="built_in">int</span> (currentUserName)     </span><br><span class="line">    <span class="keyword">Set</span> frm = Forms(<span class="string">&quot;窗体1&quot;</span>)    </span><br><span class="line">    <span class="keyword">Set</span> ctrl1 = frm.Controls(<span class="string">&quot;cmd1&quot;</span>)  </span><br><span class="line">    <span class="keyword">Set</span> ctrl2 = frm.Controls(<span class="string">&quot;cmd2&quot;</span>) </span><br><span class="line">    <span class="keyword">Set</span> ctrl3 = frm.Controls(<span class="string">&quot;txt1&quot;</span>)      </span><br><span class="line">    <span class="keyword">If</span> currentUserName = <span class="string">&quot;Administrator&quot;</span> <span class="keyword">Then</span>     </span><br><span class="line">        ctrl1.Enabled = <span class="literal">True</span>    </span><br><span class="line">        ctrl2.Enabled = <span class="literal">False</span> </span><br><span class="line">    <span class="keyword">Else</span>    </span><br><span class="line">        ctrl1.Enabled = <span class="literal">False</span>      </span><br><span class="line">        ctrl2.Enabled = <span class="literal">True</span>  </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">If</span>     </span><br><span class="line">    ctrl3.Value = currentUserName  </span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>代码截图</p>
+<p><img src="/./../img/640-1690880364126-381.png" alt="图片"></p>
+<p><strong>Part 3：部分代码解读</strong></p>
+<ol>
+<li><code>currentUserName = Environ(&quot;username&quot;)</code>获取当前登录账户</li>
+<li><code>ctrl1.Enabled = True</code>启用控件<em><strong>ctrl1</strong></em></li>
+<li><code>ctrl2.Enabled = False</code>禁用控件<em><strong>ctrl2</strong></em></li>
+<li>***Private Sub Form_Load()***，窗体启动事件</li>
+</ol>
+]]></content>
+      
+        <categories>
+            
+            <category> Access-小示例 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+            <tag> 常用小实例 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access-控件解析-窗体-02-进度条]]></title>
+      <url>/2023/08/01/Access-%E6%8E%A7%E4%BB%B6%E8%A7%A3%E6%9E%90-%E7%AA%97%E4%BD%93-02-%E8%BF%9B%E5%BA%A6%E6%9D%A1/</url>
+      <content type="html"><![CDATA[<p><strong>Part 1：示例</strong></p>
+<ol>
+<li>点击按钮实现进度条显示，并显示完成程度百分比</li>
+</ol>
+<p>效果图<br><img src="/./../img/640-1690880136994-358.png" alt="图片"></p>
+<p>动态图<br><img src="/./../img/640-1690880136994-359.gif" alt="图片"></p>
+<p><strong>Part 2：代码</strong></p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> 进度条()   </span><br><span class="line">    <span class="keyword">Dim</span> i, n  </span><br><span class="line">    n = <span class="number">5000</span>   </span><br><span class="line">    UserForm1.Show <span class="number">0</span>  </span><br><span class="line">    <span class="keyword">Set</span> ProgressBar1 = UserForm1.ProgressBar1</span><br><span class="line">    ProgressBar1.Max = n  </span><br><span class="line">    ProgressBar1.Min = <span class="number">0</span>     </span><br><span class="line">    <span class="keyword">For</span> i = <span class="number">0</span> <span class="keyword">To</span> n  </span><br><span class="line">        process = <span class="built_in">CInt</span>(<span class="number">100</span> * (i - <span class="number">0</span>) / (n - <span class="number">0</span>))    </span><br><span class="line">        UserForm1.Caption = <span class="string">&quot;完成度：&quot;</span> &amp; process &amp; <span class="string">&quot;%&quot;</span>   </span><br><span class="line">        ProgressBar1.Value = i  </span><br><span class="line">    <span class="keyword">Next</span>  </span><br><span class="line">    Unload UserForm1  </span><br><span class="line">    MsgBox <span class="string">&quot;完成&quot;</span></span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>代码截图</p>
+<p><img src="/./../img/640-1690880136994-360.png" alt="图片"></p>
+<p><strong>Part 3：窗体搭建</strong></p>
+<p>新建一个窗体，插入控件<code>ProgressBar</code></p>
+<ol>
+<li><ul>
+<li>如果没有发现控件工具箱，可以在菜单栏：<strong>视图</strong>-<strong>工具箱</strong>打开</li>
+</ul>
+</li>
+<li><ul>
+<li>默认是没有进度条控件的，需要人工加入，鼠标悬浮在工具箱<strong>控件区域</strong>位置上，右键<code>附加控件</code>，注意鼠标位置，不同位置右键效果不同。添加控件<code>Microsoft ProgressBar Control</code></li>
+</ul>
+</li>
+</ol>
+<p>显示工箱</p>
+<p><img src="/./../img/640-1690880136994-361.png" alt="图片"></p>
+<p>添加进度条控件</p>
+<p><img src="/./../img/640-1690880136994-362.png" alt="图片"></p>
+<p><img src="/./../img/640-1690880136994-363.png" alt="图片"></p>
+<p><strong>Part 4：部分代码解读</strong></p>
+<ol>
+<li><code>UserForm1.Show 0</code>，显示窗体</li>
+<li><code>Unload UserForm1</code>，关闭窗体</li>
+<li><code>Set ProgressBar1 = UserForm1.ProgressBar1</code>，定义控件</li>
+</ol>
+]]></content>
+      
+        <categories>
+            
+            <category> Access-控件解析 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+            <tag> 控件 </tag>
+            
+            <tag> 弹出控件 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access-控件解析-窗体-01-弹出]]></title>
+      <url>/2023/08/01/Access-%E6%8E%A7%E4%BB%B6%E8%A7%A3%E6%9E%90-%E7%AA%97%E4%BD%93-01-%E5%BC%B9%E5%87%BA/</url>
+      <content type="html"><![CDATA[<p><strong>Part 1：本篇目标</strong></p>
+<ol>
+<li>本篇介绍窗体。涉及功能为：点击按钮后，弹出一个窗体</li>
+<li>严格来说窗体不是控件，它是控件的载体</li>
+</ol>
+<p>效果动图</p>
+<p><img src="/./../img/640-1690879931180-340.gif" alt="图片"></p>
+<p><strong>Part 2：实现步骤</strong></p>
+<ol>
+<li><p>本项目中涉及到两个窗体</p>
+</li>
+<li><ul>
+<li>窗体<em><strong>main</strong></em>作为主窗体，有一个按钮，点击后弹出窗体<strong>弹窗</strong></li>
+<li>窗体<strong>弹窗</strong>，需要将其<strong>弹出方式</strong>选择<strong>是</strong></li>
+</ul>
+</li>
+<li><p>窗体<em><strong>main</strong></em>中设置按钮对应的代码</p>
+</li>
+</ol>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Private</span> <span class="keyword">Sub</span> Command0_Click() </span><br><span class="line">    <span class="keyword">Dim</span> frm   </span><br><span class="line">    <span class="keyword">Dim</span> ctrl </span><br><span class="line">    <span class="keyword">Dim</span> frmName   </span><br><span class="line">    frmName = <span class="string">&quot;弹窗&quot;</span>    </span><br><span class="line">    DoCmd.OpenForm (frmName)     </span><br><span class="line">    <span class="keyword">Set</span> frm = Forms(frmName)  </span><br><span class="line">    frm.Caption = <span class="string">&quot;说明&quot;</span>      </span><br><span class="line">    <span class="keyword">Set</span> ctrl = frm.Controls(<span class="string">&quot;Label4&quot;</span>) </span><br><span class="line">    strSay = <span class="string">&quot;这是一个测试弹窗功能的小程序&quot;</span>  </span><br><span class="line">    ctrl.Caption = strSay</span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+<p>代码截图<br><img src="/./../img/640-1690879931180-341.png" alt="图片"></p>
+<p>窗体<strong>弹窗</strong></p>
+<p><img src="/./../img/640-1690879931180-342.png" alt="图片"></p>
+<p><strong>弹出方式</strong>设置</p>
+<p><img src="/./../img/640-1690879931180-343.png" alt="图片"></p>
+<p><strong>Part 3：部分代码解读</strong></p>
+<ol>
+<li><code>DoCmd.OpenForm (frmName)</code>打开窗体</li>
+<li><code>frm.Caption = &quot;说明&quot;</code>设置标题</li>
+</ol>
+<p>设置标题效果</p>
+<p><img src="/./../img/640-1690879931180-344.png" alt="图片"></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Access-控件解析 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+            <tag> 控件 </tag>
+            
+            <tag> 弹出空间 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access-控件解析-按钮-02-来个双击]]></title>
+      <url>/2023/08/01/Access-%E6%8E%A7%E4%BB%B6%E8%A7%A3%E6%9E%90-%E6%8C%89%E9%92%AE-02-%E6%9D%A5%E4%B8%AA%E5%8F%8C%E5%87%BB/</url>
+      <content type="html"><![CDATA[<p><strong>Part 1：本篇目标</strong></p>
+<ol>
+<li>本篇介绍的控件为：<strong>按钮</strong>。涉及功能为：双击事件</li>
+</ol>
+<p>效果动图</p>
+<p><img src="/./../img/640-1690879828265-328.gif" alt="图片"></p>
+<p><strong>Part 2：实现步骤</strong></p>
+<ol>
+<li>设计视图下，插入按钮</li>
+<li>选中按钮，右键-属性，事件选项卡下，双击，关联事件过程</li>
+<li>点击右侧的<code>...</code>，直接打开<em><strong>VBE</strong></em>界面，进行代码编写</li>
+<li>直接关联的代码是在窗体对应的代码窗口，建议核心代码还是写在模块下，方便管理，窗体代码只是一个事件导入</li>
+<li>仔细看下图，发现有很多事件，不仅仅只是最近写的两篇文章，单击事件，双击事件，其它事件大家可以试试</li>
+<li>对于其它控件，也有一些事件，但是每个控件支持的事件可能是不同的</li>
+</ol>
+<p>属性设置</p>
+<p><img src="/./../img/640-1690879828265-329.png" alt="图片"></p>
+<p><strong>标签</strong>支持事件</p>
+<p><img src="/./../img/640-1690879828265-330.png" alt="图片"></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Access-控件解析 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+            <tag> 控件 </tag>
+            
+            <tag> 按钮 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access-控件解析-按钮-01-关联代码]]></title>
+      <url>/2023/08/01/Access-%E6%8E%A7%E4%BB%B6%E8%A7%A3%E6%9E%90-%E6%8C%89%E9%92%AE-01-%E5%85%B3%E8%81%94%E4%BB%A3%E7%A0%81/</url>
+      <content type="html"><![CDATA[<p><strong>Part 1：本篇目标</strong></p>
+<ol>
+<li>本篇介绍的控件为：<strong>按钮</strong>。涉及功能为：关联代码</li>
+</ol>
+<p>效果动图</p>
+<p><img src="/./../img/640-1690879757230-313.gif" alt="图片"></p>
+<p><strong>Part 2：实现步骤</strong></p>
+<ol>
+<li>设计视图下，插入按钮</li>
+<li>选中按钮，右键-属性，事件选项卡下，单击，关联事件过程</li>
+<li>点击右侧的<code>...</code>，直接打开<em><strong>VBE</strong></em>界面，进行代码编写</li>
+<li>直接关联的代码是在窗体对应的代码窗口，建议核心代码还是写在模块下，方便管理，窗体代码只是一个事件导入</li>
+</ol>
+<p>插入按钮</p>
+<p><img src="/./../img/640-1690879757230-314.png" alt="图片"></p>
+<p>属性设置</p>
+<p><img src="/./../img/640-1690879757230-315.png" alt="图片"></p>
+<p>代码位置</p>
+<p><img src="/./../img/640-1690879757230-316.png" alt="图片"></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Access-控件解析 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+            <tag> 控件 </tag>
+            
+            <tag> 按钮 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access-控件解析-文本框-01-格式设置]]></title>
+      <url>/2023/08/01/Access-%E6%8E%A7%E4%BB%B6%E8%A7%A3%E6%9E%90-%E6%96%87%E6%9C%AC%E6%A1%86-01-%E6%A0%BC%E5%BC%8F%E8%AE%BE%E7%BD%AE/</url>
+      <content type="html"><![CDATA[<p><strong>Part 1：本篇目标</strong></p>
+<ol>
+<li>本篇介绍的控件为：<strong>文本框</strong>。涉及功能为：文本框输入内容的<strong>格式</strong>限制</li>
+<li>一般系统可以简单理解为有3个部分组成：<strong>输入</strong>-<strong>处理</strong>-<strong>输出</strong></li>
+<li>对于输入这部分往往会有些要求，例如要求输入日期。因为使用客户不同，如果希望由客户来主动规范化输入是不现实的，所以希望系统方面来限制</li>
+</ol>
+<p>功能效果<br><img src="/./../img/640-1690879638307-298.png" alt="图片"></p>
+<p><strong>Part 2：实现步骤</strong></p>
+<ol>
+<li><strong>设计视图</strong>下，插入文本框</li>
+<li>选中文本框，右键-属性，格式选项卡下，选择需求的格式</li>
+<li>设置完格式后，当用户输入不满足要求的数据时，系统会提示</li>
+</ol>
+<p>插入文本框</p>
+<p><img src="/./../img/640-1690879638308-299.png" alt="图片"></p>
+<p>格式选项卡</p>
+<p><img src="/./../img/640-1690879638309-300.png" alt="图片"></p>
+<p>输入格式错误</p>
+<p><img src="/./../img/640-1690879638310-301.png" alt="图片"></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Access-控件解析 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+            <tag> 控件 </tag>
+            
+            <tag> 文本框 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access-控件解析-组合框-02-两个组合框联动]]></title>
+      <url>/2023/08/01/Access-%E6%8E%A7%E4%BB%B6%E8%A7%A3%E6%9E%90-%E7%BB%84%E5%90%88%E6%A1%86-02-%E4%B8%A4%E4%B8%AA%E7%BB%84%E5%90%88%E6%A1%86%E8%81%94%E5%8A%A8/</url>
+      <content type="html"><![CDATA[<p><strong>Part 1：本篇目标</strong></p>
+<ol>
+<li>本篇介绍的控件为：组合框。涉及功能为：两个组合框联动</li>
+</ol>
+<p><strong>功能动图</strong></p>
+<p><img src="/./../img/640-1690879336337-283.gif" alt="图片"></p>
+<p><strong>Part 2：实现功能</strong></p>
+<ol>
+<li>手动设置<strong>省</strong>组合框下拉列表：广东，湖南</li>
+<li><strong>省</strong>组合框变化时，<strong>市</strong>组合框下拉列表随之变化</li>
+<li>这里<strong>省</strong>组合框有3个事件，都引起<strong>市</strong>组合框下拉列表变化，包括<strong>更改</strong>，<strong>键按下</strong>，<strong>进入</strong>三个事件。具体哪些事件会触发，根据需要自己制定。一般来说这三种即可</li>
+</ol>
+<p>界面</p>
+<p><img src="/./../img/640-1690879336337-284.png" alt="图片"></p>
+<p>3类事件</p>
+<p><img src="/./../img/640-1690879336338-285.jpeg" alt="图片"></p>
+<p><strong>Part 3：代码</strong></p>
+<p><strong>事件代码</strong></p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Private</span> <span class="keyword">Sub</span> cbo1_Change()  </span><br><span class="line">    frmName = <span class="keyword">Me</span>.Name</span><br><span class="line">    <span class="keyword">Call</span> sMod_通用库_01_零件名称下拉列表(frmName)</span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">Private</span> <span class="keyword">Sub</span> cbo1_Enter()  </span><br><span class="line">    frmName = <span class="keyword">Me</span>.Name</span><br><span class="line">    <span class="keyword">Call</span> sMod_通用库_01_零件名称下拉列表(frmName)</span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">Private</span> <span class="keyword">Sub</span> cbo1_KeyDown(KeyCode As Integer, Shift As Integer)  </span><br><span class="line">    frmName = <span class="keyword">Me</span>.Name</span><br><span class="line">    <span class="keyword">Call</span> sMod_通用库_01_零件名称下拉列表(frmName)</span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>实际动作</strong></p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> sMod_通用库_01_零件名称下拉列表(frmName)    </span><br><span class="line">    <span class="keyword">Dim</span> ctrl    </span><br><span class="line">    <span class="keyword">Dim</span> frm   </span><br><span class="line">    <span class="keyword">Dim</span> ctrlName        </span><br><span class="line">    <span class="keyword">Set</span> frm = Forms(frmName)        </span><br><span class="line">    <span class="keyword">Set</span> ctrl = frm.Controls(<span class="string">&quot;cbo1&quot;</span>)  </span><br><span class="line">    sheng = ctrl.Value       </span><br><span class="line">    ctrlName = <span class="string">&quot;cbo2&quot;</span>   </span><br><span class="line">    <span class="keyword">Set</span> cbo = frm.Controls(ctrlName)      </span><br><span class="line">    <span class="keyword">If</span> sheng = <span class="string">&quot;广东&quot;</span> <span class="keyword">Then</span>        </span><br><span class="line">        cbo.RowSource = <span class="string">&quot;&quot;</span>        </span><br><span class="line">        cbo.Value = <span class="string">&quot;&quot;</span>               </span><br><span class="line">        arr = <span class="built_in">Array</span>(<span class="string">&quot;广州&quot;</span>, <span class="string">&quot;深圳&quot;</span>, <span class="string">&quot;东莞&quot;</span>, <span class="string">&quot;佛山&quot;</span>)       </span><br><span class="line">        <span class="keyword">For</span> <span class="keyword">Each</span> x <span class="keyword">In</span> arr           </span><br><span class="line">            cbo.AddItem x       </span><br><span class="line">        <span class="keyword">Next</span>    </span><br><span class="line">    <span class="keyword">ElseIf</span> sheng = <span class="string">&quot;湖南&quot;</span> <span class="keyword">Then</span>       </span><br><span class="line">        cbo.RowSource = <span class="string">&quot;&quot;</span>       </span><br><span class="line">        cbo.Value = <span class="string">&quot;&quot;</span>               </span><br><span class="line">        arr = <span class="built_in">Array</span>(<span class="string">&quot;长沙&quot;</span>, <span class="string">&quot;湘潭&quot;</span>, <span class="string">&quot;株洲&quot;</span>, <span class="string">&quot;郴州&quot;</span>)       </span><br><span class="line">        <span class="keyword">For</span> <span class="keyword">Each</span> x <span class="keyword">In</span> arr           </span><br><span class="line">            cbo.AddItem x       </span><br><span class="line">        <span class="keyword">Next</span>   </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">If</span>   </span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码截图****代码位置</strong>：将通用代码写在模块内了，方便代码复用</p>
+<p><img src="/./../img/640-1690879336338-286.png" alt="图片"></p>
+<p><strong>Part 4：部分代码解读</strong></p>
+<ol>
+<li>虽然本示例中涉及3个事件，但只是触发不一样，但引起的结果是一样的，所以将共用代码写在了模块内</li>
+<li><code>frmName = Me.Name</code>，获取当前窗体名称，该代码必须放在对应的窗体中才有效</li>
+</ol>
+]]></content>
+      
+        <categories>
+            
+            <category> Access-控件解析 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+            <tag> 控件 </tag>
+            
+            <tag> 组合框 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access-控件解析-组合框-01-下拉列表]]></title>
+      <url>/2023/08/01/Access-%E6%8E%A7%E4%BB%B6%E8%A7%A3%E6%9E%90-%E7%BB%84%E5%90%88%E6%A1%86-01-%E4%B8%8B%E6%8B%89%E5%88%97%E8%A1%A8/</url>
+      <content type="html"><![CDATA[<p><strong>Part 1：本篇目标</strong></p>
+<ol>
+<li>本篇介绍的控件为：<strong>组合框</strong>。涉及功能为：下拉列表的实现</li>
+</ol>
+<p>功能动图</p>
+<p><img src="/./../img/640-1690879216174-271.gif" alt="图片"></p>
+<p><strong>Part 2：实现功能</strong></p>
+<ol>
+<li>手动设置组合框下拉列表：长江；黄河；珠江；淮河</li>
+<li>通过代码修改组合框下拉列表：1；2；3；4</li>
+<li><strong>应用场景</strong>，组合框的下拉列表随着另外一个控件的取值变化而变化。例如，两个组合框，一个显示省份，一个显示城市，当省份不同时，城市组合框下拉列表也会不同</li>
+</ol>
+<p><strong>手动设置</strong>：打开组合框<strong>属性</strong> - <strong>数据</strong>选项卡 - <strong>行来源类型</strong>设置为<strong>值列表</strong> - <strong>行来源</strong>设置下拉列表数据，以<strong>分号</strong>**;**隔开</p>
+<p><img src="/./../img/640-1690879216174-272.png" alt="图片"></p>
+<p><strong>Part 3：代码</strong></p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Private</span> <span class="keyword">Sub</span> Command4_Click() </span><br><span class="line">    ctrlName = <span class="string">&quot;Combo2&quot;</span>   </span><br><span class="line">    <span class="keyword">Set</span> cbo = <span class="keyword">Me</span>.Controls(ctrlName) </span><br><span class="line">    cbo.RowSource = <span class="string">&quot;&quot;</span> </span><br><span class="line">    cbo.Value = <span class="string">&quot;&quot;</span></span><br><span class="line">    arr = <span class="built_in">Array</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)  </span><br><span class="line">    <span class="keyword">For</span> <span class="keyword">Each</span> x <span class="keyword">In</span> arr   </span><br><span class="line">        cbo.AddItem x   </span><br><span class="line">    <span class="keyword">Next</span></span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>代码截图</p>
+<p><img src="/./../img/640-1690879216175-273.png" alt="图片"></p>
+<p><strong>Part 4：部分代码解读</strong></p>
+<p><img src="/./../img/640-1690879216174-270.png" alt="图片"></p>
+<ol>
+<li><code>cbo.RowSource = &quot;&quot;</code>，将下拉列表清空</li>
+<li><code>cbo.Value = &quot;&quot;</code>，将组合框取值清空</li>
+<li><code>cbo.AddItem x</code> ，增加组合框下拉列表</li>
+</ol>
+]]></content>
+      
+        <categories>
+            
+            <category> Access-控件解析 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+            <tag> 控件 </tag>
+            
+            <tag> 组合框 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access-控件解析-列表框-04-双击效果]]></title>
+      <url>/2023/08/01/Access-%E6%8E%A7%E4%BB%B6%E8%A7%A3%E6%9E%90-%E5%88%97%E8%A1%A8%E6%A1%86-04-%E5%8F%8C%E5%87%BB%E6%95%88%E6%9E%9C/</url>
+      <content type="html"><![CDATA[<p><strong>Part 1：本篇目标</strong></p>
+<ol>
+<li>本篇介绍的控件为：<strong>列表框</strong>。涉及功能为：双击列表框显示所选行第1列信息</li>
+</ol>
+<p>功能动图</p>
+<p><img src="/./../img/640-1690879009674-259.gif" alt="图片"></p>
+<p><strong>Part 2：代码</strong></p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Private</span> <span class="keyword">Sub</span></span><br><span class="line">    List0_DblClick(Cancel As Integer)</span><br><span class="line">    ctrlName = <span class="string">&quot;List0&quot;</span>  </span><br><span class="line">    <span class="keyword">Set</span> ctrl = <span class="keyword">Me</span>.Controls(ctrlName)  </span><br><span class="line">    chooseRow = ctrl.ListIndex <span class="comment">&#x27;listIndex 计数不包括标题行   </span></span><br><span class="line">    colNum = <span class="number">1</span>  </span><br><span class="line">    <span class="keyword">If</span> chooseRow &gt;= <span class="number">0</span> <span class="keyword">Then</span>    </span><br><span class="line">        chooseContent = ctrl.Column(colNum - <span class="number">1</span>, chooseRow + <span class="number">1</span>)    </span><br><span class="line">        MsgBox <span class="string">&quot;选中行第1列信息为：&quot;</span> &amp; chooseContent  </span><br><span class="line">    <span class="keyword">Else</span>     </span><br><span class="line">        chooseContent = <span class="string">&quot;未选中&quot;</span>    </span><br><span class="line">        MsgBox chooseContent        </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">If</span>  </span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>代码截图</p>
+<p><img src="/./../img/640-1690879009674-260.jpeg" alt="图片"></p>
+<p><strong>Part 3：事件设置</strong></p>
+<ol>
+<li>获取选项内容在上一篇文章中已经讲过，核心函数<code>ctrl.Column</code></li>
+<li>设置双击事件：<strong>设计视图</strong>下-右键列表框-选择<strong>属性</strong>-选择<strong>事件</strong>选项卡-设置<strong>双击</strong>事件</li>
+<li>对应双击事件<em>Sub</em>名称：<code>List0_DblClick(Cancel As Integer)</code>，***DblClick，double click***的缩写</li>
+<li>整个<em><strong>Sub</strong></em>名称是系统自动生成的，尽量不要自己看出规律后人为建立，有时候系统无法识别</li>
+</ol>
+<p>事件设置</p>
+<p><img src="/./../img/640-1690879009675-261.jpeg" alt="图片"></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Access-控件解析 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+            <tag> 控件 </tag>
+            
+            <tag> 列表框 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access-控件解析-列表框-03-向列表框录入信息]]></title>
+      <url>/2023/08/01/Access-%E6%8E%A7%E4%BB%B6%E8%A7%A3%E6%9E%90-%E5%88%97%E8%A1%A8%E6%A1%86-03-%E5%90%91%E5%88%97%E8%A1%A8%E6%A1%86%E5%BD%95%E5%85%A5%E4%BF%A1%E6%81%AF/</url>
+      <content type="html"><![CDATA[<p>目录</p>
+<p>Part 1：本篇目标</p>
+<ol>
+<li>本篇介绍的控件为：<strong>列表框</strong>。涉及功能为：向列表框中录入信息</li>
+</ol>
+<p>功能动图</p>
+<p><img src="/./../img/640-1690878870332-240.gif" alt="图片"></p>
+<p>静图</p>
+<p><img src="/./../img/640-1690878870332-241.png" alt="图片"></p>
+<p>目录</p>
+<p>Part 2：代码</p>
+<p>录入信息</p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Private</span> <span class="keyword">Sub</span> btn_Click()</span><br><span class="line">    arrTitle = <span class="built_in">Array</span>(<span class="string">&quot;姓名&quot;</span>, <span class="string">&quot;性别&quot;</span>, <span class="string">&quot;年龄&quot;</span>)</span><br><span class="line">    arrContents1 = <span class="built_in">Array</span>(<span class="string">&quot;张三&quot;</span>, <span class="string">&quot;男&quot;</span>, <span class="number">20</span>)</span><br><span class="line">    arrContents2 = <span class="built_in">Array</span>(<span class="string">&quot;李四&quot;</span>, <span class="string">&quot;男&quot;</span>)</span><br><span class="line">    arrContents3 = <span class="built_in">Array</span>(<span class="number">100</span>)        </span><br><span class="line">    <span class="keyword">Set</span> ctrl = <span class="keyword">Me</span>.Controls(<span class="string">&quot;List0&quot;</span>)</span><br><span class="line">    ctrl.RowSource = <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;加入标题</span></span><br><span class="line">    inputContents = arrToStr(arrTitle)</span><br><span class="line">    ctrl.AddItem inputContents    <span class="comment">&#x27;加入内容</span></span><br><span class="line">    inputContents = arrToStr(arrContents1)</span><br><span class="line">    ctrl.AddItem inputContents</span><br><span class="line"></span><br><span class="line">    inputContents = arrToStr(arrContents2)</span><br><span class="line">    ctrl.AddItem inputContents</span><br><span class="line"></span><br><span class="line">    inputContents = arrToStr(arrContents3)</span><br><span class="line">    ctrl.AddItem inputContentsEnd <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>代码截图</p>
+<p><img src="/./../img/640-1690878870332-242.jpeg" alt="图片"></p>
+<p><strong>数组转为字符串</strong></p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Function</span> arrToStr(arr)        <span class="comment">&#x27;假设数组不为空</span></span><br><span class="line">    op = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">If</span> <span class="built_in">UBound</span>(arr) = <span class="number">0</span> <span class="keyword">Then</span></span><br><span class="line">        op = arr(<span class="number">0</span>)       </span><br><span class="line">    <span class="keyword">Else</span></span><br><span class="line">        <span class="keyword">For</span> <span class="keyword">Each</span> x <span class="keyword">In</span> arr                        </span><br><span class="line">            <span class="keyword">If</span> op = <span class="string">&quot;&quot;</span> <span class="keyword">Then</span></span><br><span class="line">                op = x &amp; <span class="string">&quot;&quot;</span></span><br><span class="line">            <span class="keyword">Else</span></span><br><span class="line">                op = op &amp; <span class="string">&quot;;&quot;</span> &amp; x                       </span><br><span class="line">            <span class="keyword">End</span> <span class="keyword">If</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">Next</span></span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">If</span></span><br><span class="line"></span><br><span class="line">    arrToStr = opEnd <span class="keyword">Function</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>代码截图</p>
+<p><img src="/./../img/640-1690878870332-243.png" alt="图片"></p>
+<p>清空列表框</p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Private</span> <span class="keyword">Sub</span> btn2_Click()        </span><br><span class="line">    <span class="keyword">Set</span> ctrl = <span class="keyword">Me</span>.Controls(<span class="string">&quot;List0&quot;</span>)</span><br><span class="line">    ctrl.RowSource = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+<p>代码截图</p>
+<p><img src="/./../img/640-1690878870332-244.png" alt="图片"></p>
+<p>目录</p>
+<p>Part 3：部分代码解读</p>
+<ol>
+<li><code>ctrl.AddItem inputContents</code>，向列表框一行一行加入信息，要求输入内容为<strong>字符串</strong>，不同列之间用**;**分开</li>
+<li><code>op = x &amp; &quot;&quot;</code>，将其它数据类型转为字符串，其实在本示例可以不使用，会自动转为字符串，可以手动测试一下</li>
+</ol>
+<p>ListBox.AddItem官方解读</p>
+<p><img src="/./../img/640-1690878870332-245.jpeg" alt="图片"></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Access-控件解析 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+            <tag> 控件 </tag>
+            
+            <tag> 列表框 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access-控件解析-列表框-02-获取选项]]></title>
+      <url>/2023/08/01/Access-%E6%8E%A7%E4%BB%B6%E8%A7%A3%E6%9E%90-%E5%88%97%E8%A1%A8%E6%A1%86-02-%E8%8E%B7%E5%8F%96%E9%80%89%E9%A1%B9/</url>
+      <content type="html"><![CDATA[<p>Part 1：本篇目标</p>
+<ol>
+<li>本篇介绍的控件为：列表框。涉及功能为：后台获取用户的选择项</li>
+<li>UI界面存在大量与用户互动的部分，根据客户不同的选择展现不同的信息</li>
+</ol>
+<p><strong>功能动图</strong></p>
+<p><img src="/./../img/640-1690874789826-228.gif" alt="图片"></p>
+<p><strong>静图</strong></p>
+<p><img src="/./../img/640-1690874789826-229.png" alt="图片"></p>
+<p>Part 2：代码</p>
+<p><strong>控件关联代码</strong></p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Private</span> <span class="keyword">Sub</span> 获取姓名信息_Click()</span><br><span class="line">    frmName = <span class="keyword">Me</span>.Name</span><br><span class="line">    ctrlName = <span class="string">&quot;List0&quot;</span></span><br><span class="line">    colNum = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    x = 获取列表框选项(frmName, ctrlName, colNum)</span><br><span class="line">    MsgBox <span class="string">&quot;选择姓名为：&quot;</span> &amp; x</span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><strong>核心函数</strong>：获取不同列，改变***colNum***值即可</p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Function</span> 获取列表框选项(frmName, ctrlName, colNum)        <span class="keyword">Rem</span>&gt;&gt;</span><br><span class="line">    <span class="keyword">Dim</span> frm        </span><br><span class="line">    <span class="keyword">Dim</span> ctrl        </span><br><span class="line">    <span class="keyword">Dim</span> chooseRow        </span><br><span class="line">    <span class="keyword">Set</span> frm = Forms(frmName)        </span><br><span class="line">    <span class="keyword">Set</span> ctrl = frm.Controls(ctrlName)</span><br><span class="line">    chooseRow = ctrl.ListIndex <span class="comment">&#x27;listIndex 计数不包括标题行</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;ListBox.Column(Index, Row)，Index表示列信息，Row表示行信息，都是从0开始</span></span><br><span class="line">    <span class="keyword">If</span> chooseRow &gt;= <span class="number">0</span> <span class="keyword">Then</span></span><br><span class="line">        获取列表框选项 = ctrl.Column(colNum - <span class="number">1</span>, chooseRow + <span class="number">1</span>)        </span><br><span class="line">    <span class="keyword">Else</span></span><br><span class="line">        获取列表框选项 = <span class="string">&quot;未选中&quot;</span></span><br><span class="line">    <span class="keyword">End</span> IfEnd <span class="keyword">Function</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><strong>代码截图</strong></p>
+<p><img src="/./../img/640-1690874789826-230.jpeg" alt="图片"></p>
+<p>Part 3：部分代码解读</p>
+<ol>
+<li><p><code>chooseRow = ctrl.ListIndex</code>，注意是否设置列标题选项，在计数时，是不包括列标题的</p>
+</li>
+<li><p><code>ListBox.Column(Index, Row)</code>，列表框可以看成一个<strong>Excel</strong>表格，不同的是</p>
+</li>
+<li><ul>
+<li>行和列都是从0开始计数</li>
+<li>与Excel中不同的是，先是列再是行，格式：（列，行）</li>
+</ul>
+</li>
+</ol>
+<p><strong>ListBox.Column官方解读</strong></p>
+<p><img src="/./../img/640-1690874825992-237.jpeg" alt="图片"></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Access-控件解析 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+            <tag> 控件 </tag>
+            
+            <tag> 列表框 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access-控件解析-列表框-01-多选数目获取]]></title>
+      <url>/2023/08/01/Access-%E6%8E%A7%E4%BB%B6%E8%A7%A3%E6%9E%90-%E5%88%97%E8%A1%A8%E6%A1%86-01-%E5%A4%9A%E9%80%89%E6%95%B0%E7%9B%AE%E8%8E%B7%E5%8F%96/</url>
+      <content type="html"><![CDATA[<p>Part 1：本篇目标</p>
+<ol>
+<li><p>本篇介绍的控件为：<strong>列表框</strong></p>
+</li>
+<li><ul>
+<li>列表框可以理解成一个简单的***Excel***表格，只不过不能直接编辑</li>
+<li>可以将第一行设置为列标题</li>
+</ul>
+</li>
+<li><p>列表框支持多选（属性表-其他-多重选择-展开的），本文目标在于：每次选择后获取选择的行数</p>
+</li>
+<li><ul>
+<li>关于多重选择，有两种：简单；展开的</li>
+<li>简单：左键直接多选</li>
+<li>展开的：<em><strong>windows</strong></em>多选方法（结合<em><strong>ctrl</strong></em>和<em><strong>shift</strong></em>）</li>
+</ul>
+</li>
+</ol>
+<p><strong>功能动图</strong></p>
+<p><img src="/./../img/640-1690874638367-201.gif" alt="图片"></p>
+<p><strong>展示给客户的最终界面如下</strong></p>
+<p><img src="/./../img/640-1690874638367-202.png" alt="图片"></p>
+<p><strong>列表框控件位置</strong></p>
+<p><img src="/./../img/640-1690874638367-203.jpeg" alt="图片"></p>
+<p><strong>列表框录入数据</strong></p>
+<p><img src="/./../img/640-1690874638368-204.png" alt="图片"></p>
+<p><strong>打开多重选择功能</strong></p>
+<p><img src="/./../img/640-1690874638368-205.png" alt="图片"></p>
+<p><strong>打开列标题功能</strong></p>
+<p><img src="/./../img/640-1690874638368-206.png" alt="图片"></p>
+<p>Part 2：代码</p>
+<p><strong>窗体内代码</strong></p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Private</span> <span class="keyword">Sub</span> 选择数目_Click()        </span><br><span class="line">    <span class="keyword">Set</span> ctrl = <span class="keyword">Me</span>.Controls(<span class="string">&quot;List0&quot;</span>)</span><br><span class="line">    choose_num = ctrl.ItemsSelected.Count</span><br><span class="line">    MsgBox <span class="string">&quot;选中数目：&quot;</span> &amp; choose_num</span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><strong>代码截图</strong></p>
+<p><img src="/./../img/640-1690874638369-207.png" alt="图片"></p>
+]]></content>
+      
+        <categories>
+            
+            <category> Access-控件解析 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+            <tag> 控件 </tag>
+            
+            <tag> 列表框 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access/VBA/Excel-15-表信息整体迁移]]></title>
+      <url>/2023/08/01/Access-VBA-Excel-15-%E8%A1%A8%E4%BF%A1%E6%81%AF%E6%95%B4%E4%BD%93%E8%BF%81%E7%A7%BB/</url>
+      <content type="html"><![CDATA[<h2 id="Part-1：问题"><a href="#Part-1：问题" class="headerlink" title="Part 1：问题"></a>Part 1：问题</h2><ol>
+<li>有一个<strong>原信息</strong>表存储着学生的姓名和成绩信息，现在需要对信息进行扩容</li>
+<li>有一个<strong>新信息</strong>表，不仅有学生的姓名和成绩信息，还有一些其它信息</li>
+<li>问题：将<strong>原信息</strong>表中满足要求的信息复制到<strong>新信息</strong>表中去，示例复制张三的信息</li>
+</ol>
+<p><strong>原信息</strong>数据表<br><img src="/./../img/640-1690874446329-180.png" alt="图片"></p>
+<p><strong>新信息</strong>表<br><img src="/./../img/640-1690874446329-181.png" alt="图片"></p>
+<h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()        </span><br><span class="line">    <span class="keyword">Dim</span> adConn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset        </span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName        </span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\信息档案.accdb&quot;</span></span><br><span class="line">    tbl1Name = <span class="string">&quot;原信息&quot;</span></span><br><span class="line">    tbl2Name = <span class="string">&quot;新信息&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> adConn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr        </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    opFilds = <span class="string">&quot;*&quot;</span></span><br><span class="line">    searchC = <span class="string">&quot;姓名=&#x27;张三&#x27;&quot;</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;Insert Into &quot;</span> &amp; tbl2Name &amp; <span class="string">&quot; Select &quot;</span> &amp; opFilds &amp; <span class="string">&quot; From &quot;</span> &amp; tbl1Name &amp; <span class="string">&quot; Where (&quot;</span> &amp; searchC &amp; <span class="string">&quot;)&quot;</span></span><br><span class="line">    <span class="keyword">Set</span> rs = adConn.<span class="keyword">Execute</span>(SQL)<span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码截图</strong><br><img src="/./../img/640-1690874446329-182.jpeg" alt="图片"></p>
+<p><strong>执行结果</strong><br><img src="/./../img/640-1690874446329-183.png" alt="图片"></p>
+<h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
+<li>**核心*SQL***：<code>Insert Into 新信息 Select * From 原信息 Where (姓名=&#39;张三&#39;)</code></li>
+<li>上面<em><strong>SQL</strong></em>由两部分组成：<em><strong>Insert Into</strong></em> 加入新表部分，<em><strong>Select</strong></em> 查询获取拟加入新表的信息</li>
+<li>这种方法要求<strong>新信息</strong>表中必须有相同的字段</li>
+</ol>
+<p><strong>核心*SQL*</strong><br><img src="/./../img/640-1690874446329-184.png" alt="图片"></p>
+<h2 id="Part-4：延伸"><a href="#Part-4：延伸" class="headerlink" title="Part 4：延伸"></a>Part 4：延伸</h2><ul>
+<li>只从<strong>旧信息</strong>表中获取2个字段：姓名，语文</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Insert Into 新信息 Select 姓名,语文 From 原信息 Where (姓名=&#x27;李四&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>执行结果</strong><br><img src="/./../img/640-1690874446330-185.png" alt="图片"></p>
+<ul>
+<li><p>从<strong>旧信息</strong>表中获取所有字段所有记录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Insert Into 新信息 Select * From 原信息</span><br></pre></td></tr></table></figure>
+
+<p><strong>执行结果</strong><br><img src="/./../img/640-1690874446330-186.png" alt="图片"></p>
+</li>
+</ul>
+<p><strong>思考</strong>：下面这句***SQL***的结果又是什么效果呢？</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Insert</span> <span class="keyword">Into</span> 新信息 (姓名,数学) <span class="keyword">Select</span> 姓名,语文 <span class="keyword">From</span> 原信息 <span class="keyword">Where</span> (姓名<span class="operator">=</span><span class="string">&#x27;李四&#x27;</span>)</span><br></pre></td></tr></table></figure>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access/VBA/Excel-14-消除重复值]]></title>
+      <url>/2023/08/01/Access-VBA-Excel-14-%E6%B6%88%E9%99%A4%E9%87%8D%E5%A4%8D%E5%80%BC/</url>
+      <content type="html"><![CDATA[<h2 id="Part-1：题目"><a href="#Part-1：题目" class="headerlink" title="Part 1：题目"></a>Part 1：题目</h2><ol>
+<li>从地址表中获取含有的省份信息，结果是：广东省，湖南省，安徽省</li>
+<li>那么怎么使用<em><strong>SQL</strong></em>实现呢</li>
+</ol>
+<p><strong>地址</strong>数据表<br><img src="/./../img/640-1690874333335-168.png" alt="图片"></p>
+<h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()        </span><br><span class="line">    <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset        </span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName        </span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\地址信息.accdb&quot;</span></span><br><span class="line">    tblName = <span class="string">&quot;地址&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr        </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    opFilds = <span class="string">&quot;省份&quot;</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;Select distinct &quot;</span> &amp; opFilds &amp; <span class="string">&quot; from &quot;</span> &amp; tblName </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)            </span><br><span class="line">    <span class="keyword">Dim</span> sht        </span><br><span class="line">    <span class="keyword">Dim</span> fildNum        </span><br><span class="line">    <span class="keyword">Set</span> sht = ThisWorkbook.Worksheets(<span class="string">&quot;示例&quot;</span>)</span><br><span class="line">    sht.Cells.ClearContents</span><br><span class="line"></span><br><span class="line">    fildNum = rs.Fields.Count        </span><br><span class="line">    <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> fildNum - <span class="number">1</span> <span class="keyword">Step</span> <span class="number">1</span></span><br><span class="line">        fildName = rs.Fields(j).Name</span><br><span class="line">        sht.Cells(<span class="number">1</span>, j + <span class="number">1</span>) = fildName        </span><br><span class="line">    <span class="keyword">Next</span> j</span><br><span class="line"></span><br><span class="line">    sht.Cells(<span class="number">2</span>, <span class="number">1</span>).CopyFromRecordset rs</span><br><span class="line"></span><br><span class="line">    cnn.Close        </span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = NothingEnd <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码截图</strong><br><img src="/./../img/640-1690874333336-169.jpeg" alt="图片"></p>
+<p><strong>执行结果</strong><br><img src="/./../img/640-1690874333336-170.png" alt="图片"></p>
+<h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
+<li><p>**核心*SQL***：<code>Select distinct 省份 from 地址</code></p>
+</li>
+<li><p>中文释义：</p>
+</li>
+<li><ul>
+<li>从<strong>地址</strong>中获取<strong>省份</strong>字段非重复的值</li>
+<li>关键字：<em><strong>distinct</strong></em>，在字段前加上这个关键字，输出值中就没有重复值</li>
+</ul>
+</li>
+</ol>
+<p><strong>核心SQL</strong><br><img src="/./../img/640-1690874333336-171.png" alt="图片"></p>
+]]></content>
+      
+        <categories>
+            
+            <category> vba-access </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access/VBA/Excel-13-嵌套查询]]></title>
+      <url>/2023/08/01/Access-VBA-Excel-13-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/</url>
+      <content type="html"><![CDATA[<h2 id="Part-1：题目"><a href="#Part-1：题目" class="headerlink" title="Part 1：题目"></a>Part 1：题目</h2><ol>
+<li>获取<strong>张三</strong>，<strong>李四</strong>的数学成绩</li>
+<li>已知条件：数据库中有两个表（<strong>学生信息表</strong>，<strong>成绩表</strong>），如下图</li>
+<li>逻辑过程：从<strong>学生信息表</strong>中获取张三&#x2F;李四的学号，从<strong>成绩表</strong>中以<strong>学号</strong>查询满足条件的<strong>数学成绩</strong></li>
+</ol>
+<p><strong>学生信息表</strong><br><img src="/./../img/0-1690874160819-153.jpeg" alt="图片"></p>
+<p><strong>成绩表</strong><br><img src="/./../img/0-1690874160820-154.jpeg" alt="图片"></p>
+<h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()        </span><br><span class="line">    <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset        </span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName        </span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\学生信息.accdb&quot;</span></span><br><span class="line">    tbl1Name = <span class="string">&quot;学生信息表&quot;</span></span><br><span class="line">    tbl2Name = <span class="string">&quot;成绩表&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr        </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    op1Filds = <span class="string">&quot;学号&quot;</span></span><br><span class="line">    search1C = <span class="string">&quot;姓名 in (&#x27;张三&#x27;,&#x27;李四&#x27;)&quot;</span></span><br><span class="line">    SQL1 = <span class="string">&quot;Select &quot;</span> &amp; op1Filds &amp; <span class="string">&quot; from &quot;</span> &amp; tbl1Name &amp; <span class="string">&quot; where (&quot;</span> &amp; search1C &amp; <span class="string">&quot;)&quot;</span></span><br><span class="line"></span><br><span class="line">    op2Filds = <span class="string">&quot;学号,年级,数学成绩&quot;</span></span><br><span class="line">    search2C = <span class="string">&quot;学号 in (&quot;</span> &amp; SQL1 &amp; <span class="string">&quot;)&quot;</span></span><br><span class="line">    SQL2 = <span class="string">&quot;Select &quot;</span> &amp; op2Filds &amp; <span class="string">&quot; from &quot;</span> &amp; tbl2Name &amp; <span class="string">&quot; where (&quot;</span> &amp; search2C &amp; <span class="string">&quot;) order by 学号 asc,年级 desc&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL2)            </span><br><span class="line">    <span class="keyword">Dim</span> sht        </span><br><span class="line">    <span class="keyword">Dim</span> fildNum        </span><br><span class="line">    <span class="keyword">Set</span> sht = ThisWorkbook.Worksheets(<span class="string">&quot;示例&quot;</span>)</span><br><span class="line">    sht.Cells.ClearContents</span><br><span class="line"></span><br><span class="line">    fildNum = rs.Fields.Count        </span><br><span class="line">    <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> fildNum - <span class="number">1</span> <span class="keyword">Step</span> <span class="number">1</span></span><br><span class="line">        fildName = rs.Fields(j).Name</span><br><span class="line">        sht.Cells(<span class="number">1</span>, j + <span class="number">1</span>) = fildName        </span><br><span class="line">    <span class="keyword">Next</span> j</span><br><span class="line"></span><br><span class="line">    sht.Cells(<span class="number">2</span>, <span class="number">1</span>).CopyFromRecordset rs</span><br><span class="line"></span><br><span class="line">    cnn.Close        </span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = NothingEnd <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码截图</strong><br><img src="/./../img/0-1690874160820-155.jpeg" alt="图片"></p>
+<p><strong>执行结果</strong><br><img src="/./../img/0-1690874160820-156.jpeg" alt="图片"></p>
+<h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
+<li><p>**核心*SQL***：<code>Select 学号,年级,数学成绩 from 成绩表 where (学号 in (Select 学号 from 学生信息表 where (姓名 in (&#39;张三&#39;,&#39;李四&#39;)))) order by 学号 asc,年级 desc</code></p>
+</li>
+<li><p><strong>中文释义</strong>：</p>
+</li>
+<li><ul>
+<li>两层***Select***，内层获取张三&#x2F;李四的学号，外层以学号检索需要的信息</li>
+<li>输出排序：第一级排序以<strong>学号</strong>升序（<em><strong>asc</strong></em>），第二级排序以<strong>年级</strong>降序（<em><strong>desc</strong></em>）</li>
+</ul>
+</li>
+</ol>
+<p><strong>核心SQL</strong><br><img src="/./../img/0-1690874160820-157.jpeg" alt="图片"></p>
+<p><strong>思考</strong>：输出的信息中不含有姓名信息，看起来不清晰，那么如何将姓名信息加进来呢？和之前的<strong>left join</strong>结合吗？</p>
+]]></content>
+      
+        <categories>
+            
+            <category> vba-access </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access/VBA/Excel-12-模糊查询]]></title>
+      <url>/2023/08/01/Access-VBA-Excel-12-%E6%A8%A1%E7%B3%8A%E6%9F%A5%E8%AF%A2/</url>
+      <content type="html"><![CDATA[<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><p><strong>商品清单</strong><br><img src="/./../img/640-1690874077454-129.png" alt="图片"></p>
+<ol>
+<li><p>根据<strong>商品ID</strong>检索需要的商品</p>
+</li>
+<li><p>通过模糊检索实现，有点<strong>百度</strong>的味道，只知道部分信息，来查询</p>
+</li>
+<li><p>逻辑过程</p>
+</li>
+<li><ul>
+<li>连接数据库</li>
+<li>根据需求确定***SQL***语句</li>
+<li>执行<strong><em>SQL*<strong>语句，得到</strong></em>recordset</strong>*</li>
+<li>将***recordset***写入工作表（字段名+所有记录 <strong>即</strong> 列名+每一行）</li>
+<li>断开与数据库的连接</li>
+</ul>
+</li>
+<li><p>检索<strong>商品ID</strong>首字母为<em><strong>m</strong></em>的商品</p>
+</li>
+</ol>
+<h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()        </span><br><span class="line">    <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset        </span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName        </span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\商品清单.accdb&quot;</span></span><br><span class="line">    tblName = <span class="string">&quot;商品清单&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr        </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    opFilds = <span class="string">&quot;商品ID,商品名称,厂家,数量&quot;</span></span><br><span class="line">    searchC = <span class="string">&quot;商品ID like &#x27;m%&#x27;&quot;</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;Select &quot;</span> &amp; opFilds &amp; <span class="string">&quot; from &quot;</span> &amp; tblName &amp; <span class="string">&quot; where (&quot;</span> &amp; searchC &amp; <span class="string">&quot;)&quot;</span></span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)            </span><br><span class="line">    <span class="keyword">Dim</span> sht        </span><br><span class="line">    <span class="keyword">Dim</span> fildNum        </span><br><span class="line">    <span class="keyword">Set</span> sht = ThisWorkbook.Worksheets(<span class="string">&quot;示例&quot;</span>)</span><br><span class="line">    sht.Cells.ClearContents</span><br><span class="line"></span><br><span class="line">    fildNum = rs.Fields.Count        </span><br><span class="line">    <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> fildNum - <span class="number">1</span> <span class="keyword">Step</span> <span class="number">1</span></span><br><span class="line">        fildName = rs.Fields(j).Name</span><br><span class="line">        sht.Cells(<span class="number">1</span>, j + <span class="number">1</span>) = fildName        </span><br><span class="line">    <span class="keyword">Next</span> j</span><br><span class="line"></span><br><span class="line">    sht.Cells(<span class="number">2</span>, <span class="number">1</span>).CopyFromRecordset rs</span><br><span class="line"></span><br><span class="line">    cnn.Close        </span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = NothingEnd <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码截图</strong><br><img src="/./../img/640-1690874077454-130.jpeg" alt="图片"></p>
+<p><strong>执行结果</strong><br><img src="/./../img/640-1690874077454-131.png" alt="图片"></p>
+<h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
+<li><code>Select 商品ID,商品名称,厂家,数量 from 商品清单 where (商品ID like &#39;m%&#39;)</code></li>
+<li><strong>中文释义</strong>：选取满足<strong>商品ID</strong>第1位为字母*<strong>m*<strong>的商品信息，从结果看，</strong>没有区分</strong>大小写</li>
+<li>这样的***%<em><strong>表示</strong>0</em>*或者<strong>任意字符</strong>，有点像<code>*</code>的作用</li>
+</ol>
+<p><strong>Part 4：延伸</strong></p>
+<hr>
+<ul>
+<li><code>_</code>代表单一字符，<code>searchC = &quot;商品ID like &#39;____&#39;&quot;</code>，<strong>四个下划线</strong>，结果如下</li>
+</ul>
+<p><img src="/./../img/640-1690874077455-132.png" alt="图片"></p>
+<ul>
+<li><code>[]</code>指定范围，<code>searchC = &quot;商品ID like &#39;[0-9]%&#39;&quot;</code>，表示***0-9***开头的字符串，结果如下</li>
+</ul>
+<p><img src="/./../img/640-1690874077455-133.png" alt="图片"></p>
+<ul>
+<li><code>[ ]</code>指定范围，<code>searchC = &quot;商品ID like &#39;[a-z]%&#39;&quot;</code>，表示<em>a-z</em>开头的字符串，依然没有区分大小写，结果如下</li>
+</ul>
+<p><img src="/./../img/640-1690874077455-134.png" alt="图片"></p>
+<ul>
+<li><p><code>[!]</code>指定范围之外，<code>searchC = &quot;商品ID like &#39;[!a-z]%&#39;&quot;</code>，表示不以***a-z***开头，结果如下</p>
+<p><img src="/./../img/640-1690874077455-135.png" alt="图片"></p>
+</li>
+<li><p><code>not like</code>取反，<code>searchC = &quot;商品ID not like &#39;[a-z]%&#39;&quot;</code>，表示<strong>不满足a-z</strong>开头的字符串，依然<strong>没有区分</strong>大小写，结果如下</p>
+</li>
+</ul>
+<p><img src="/./../img/640-1690874077455-136.png" alt="图片"></p>
+]]></content>
+      
+        <categories>
+            
+            <category> vba-access </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access/VBA/Excel-左连接-11]]></title>
+      <url>/2023/08/01/Access-VBA-Excel-%E5%B7%A6%E8%BF%9E%E6%8E%A5-11/</url>
+      <content type="html"><![CDATA[<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><p><strong>成绩表</strong></p>
+<p><img src="/./../img/640-1690873974530-102.png" alt="图片"></p>
+<p><strong>学生信息表</strong></p>
+<p><img src="/./../img/640-1690873974530-103.png" alt="图片"></p>
+<p><strong>运行过程</strong></p>
+<p><img src="/./../img/0-1690873974530-104.gif" alt="图片"></p>
+<ol>
+<li><p>获取学号为<em><strong>1101</strong></em>学生在不同年级的<strong>语文成绩</strong>，输出信息包括：<strong>姓名，学号，性别，年级，语文成绩</strong></p>
+</li>
+<li><p>最终想要获得的信息来自于两个工作表，所以需要连接查询</p>
+</li>
+<li><p>逻辑过程</p>
+</li>
+<li><ul>
+<li>连接数据库</li>
+<li>根据需求确定<em><strong>SQL</strong></em>语句</li>
+<li>执行<em><strong>SQL</strong></em>语句，得到*<strong>recordset*</strong></li>
+<li>将<em><strong>recordset</strong></em>写入工作表（字段名+所有记录 <strong>即</strong> 列名+每一行）</li>
+<li>断开与数据库的连接</li>
+</ul>
+</li>
+<li><p><em><strong>SQL</strong></em>语句</p>
+</li>
+<li><ul>
+<li><code>&quot;Select &quot; &amp; opFilds &amp; &quot; from &quot; &amp; &quot;(&quot; &amp; tbls &amp; &quot;)&quot; &amp; &quot; where (&quot; &amp; searchC &amp; &quot;)&quot;</code></li>
+<li><code>opFilds = &quot;姓名,&quot; &amp; tblNote &amp; &quot;.学号,性别,年级,语文成绩&quot;</code></li>
+<li><code>searchC = tblNote &amp; &quot;.学号=1101&quot;</code></li>
+<li><code>tbls = tblNote &amp; &quot; left join &quot; &amp; tblName &amp; &quot; on &quot; &amp; tblNote &amp; &quot;.学号=&quot; &amp; tblName &amp; &quot;.学号&quot;</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()        </span><br><span class="line">    <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset        </span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName        </span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\学生信息.accdb&quot;</span></span><br><span class="line">    tblName = <span class="string">&quot;学生信息表&quot;</span></span><br><span class="line">    tblNote = <span class="string">&quot;成绩表&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr        </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    opFilds = <span class="string">&quot;姓名,&quot;</span> &amp; tblNote &amp; <span class="string">&quot;.学号,性别,年级,语文成绩&quot;</span></span><br><span class="line">    searchC = tblNote &amp; <span class="string">&quot;.学号=1101&quot;</span></span><br><span class="line"></span><br><span class="line">    tbls = tblNote &amp; <span class="string">&quot; left join &quot;</span> &amp; tblName _</span><br><span class="line">    &amp; <span class="string">&quot; on &quot;</span> &amp; tblNote &amp; <span class="string">&quot;.学号=&quot;</span> &amp; tblName &amp; <span class="string">&quot;.学号&quot;</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;Select &quot;</span> &amp; opFilds &amp; <span class="string">&quot; from &quot;</span> &amp; <span class="string">&quot;(&quot;</span> &amp; tbls &amp; <span class="string">&quot;)&quot;</span> &amp; <span class="string">&quot; where (&quot;</span> &amp; searchC &amp; <span class="string">&quot;)&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)        </span><br><span class="line">    <span class="keyword">Dim</span> sht        </span><br><span class="line">    <span class="keyword">Dim</span> fildNum        </span><br><span class="line">    <span class="keyword">Set</span> sht = ThisWorkbook.Worksheets(<span class="string">&quot;示例&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    sht.Cells.ClearContents</span><br><span class="line"></span><br><span class="line">    fildNum = rs.Fields.Count        </span><br><span class="line">    <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> fildNum - <span class="number">1</span> <span class="keyword">Step</span> <span class="number">1</span></span><br><span class="line">        fildName = rs.Fields(j).Name</span><br><span class="line">        sht.Cells(<span class="number">1</span>, j + <span class="number">1</span>) = fildName       </span><br><span class="line">    <span class="keyword">Next</span> j</span><br><span class="line"></span><br><span class="line">    sht.Cells(<span class="number">2</span>, <span class="number">1</span>).CopyFromRecordset rs</span><br><span class="line"></span><br><span class="line">    cnn.Close        </span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = NothingEnd <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码截图</strong></p>
+<p><img src="/./../img/640-1690873974530-105.jpeg" alt="图片"></p>
+<p><img src="/./../img/640-1690873974531-106.jpeg" alt="图片"></p>
+<p><strong>执行结果</strong></p>
+<p><img src="/./../img/640-1690873974531-107.png" alt="图片"></p>
+<h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
+<li><p><code>SQL = &quot;Select &quot; &amp; opFilds &amp; &quot; from &quot; &amp; &quot;(&quot; &amp; tbls &amp; &quot;)&quot; &amp; &quot; where (&quot; &amp; searchC &amp; &quot;)&quot;</code></p>
+</li>
+<li><ul>
+<li>本问题中，相关变量取值后<em><strong>SQL</strong></em>语句如下</li>
+<li>*<strong>Select*</strong> 姓名,成绩表.学号,性别,年级,语文成绩 *<strong>from*</strong> (成绩表 *<strong>left join*</strong> 学生信息表 *<strong>on*</strong> 成绩表.学号&#x3D;学生信息表.学号) *<strong>where*</strong> (成绩表.学号&#x3D;1101)</li>
+</ul>
+</li>
+<li><pre><code>Select 姓名,成绩表.学号,性别,年级,语文成绩 from (成绩表 left join 学生信息表 on 成绩表.学号=学生信息表.学号) where (成绩表.学号=1101)
+</code></pre>
+</li>
+<li><p><strong>中文解读</strong>：从成绩表和学生信息表连接表中获取学号为1101的学生信息</p>
+</li>
+<li><p><code>表1 left join 表2 on 表1.ID=表2.ID</code></p>
+</li>
+<li><ul>
+<li>两个表进行连接，以左侧为基准，即这里的<strong>表1</strong></li>
+<li>连接条件：表1与表2的ID号相同</li>
+<li>当表2中满足表1中ID条件的有多条记录，那么进行分别匹配</li>
+<li>当表2中没有满足表1中ID的条件时，匹配Null</li>
+</ul>
+</li>
+</ol>
+<p><strong>例1</strong>：匹配多个，修改<strong>学生信息表</strong>，增加同样学号的</p>
+<p><img src="/./../img/640-1690873974531-108.png" alt="图片"></p>
+<p><strong>查询结果</strong></p>
+<p><img src="/./../img/640-1690873974531-109.png" alt="图片"></p>
+<p><strong>例2</strong>：若未匹配上，则对应信息为空</p>
+<p><img src="/./../img/640-1690873974532-110.png" alt="图片"></p>
+]]></content>
+      
+        <categories>
+            
+            <category> vba-access </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel - access - vba </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access/VBA/Excel-多条件筛选数据-10]]></title>
+      <url>/2023/08/01/Access-VBA-Excel-%E5%A4%9A%E6%9D%A1%E4%BB%B6%E7%AD%9B%E9%80%89%E6%95%B0%E6%8D%AE-10/</url>
+      <content type="html"><![CDATA[<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><p><img src="/./../img/640-1690873872930-90.png" alt="图片"></p>
+<ol>
+<li><p>目标1：将数据库中数据表<strong>学生信息表</strong>中的语文成绩大于<strong>85分</strong>且学号<strong>大于</strong>4的人员信息读入当前工作簿<strong>示例</strong>工作表</p>
+</li>
+<li><p>目标2：将数据库中数据表<strong>学生信息表</strong>中姓名为<strong>张三</strong>或者<strong>小红</strong>的人员信息读入当前工作簿<strong>示例</strong>工作表</p>
+</li>
+<li><p>逻辑过程</p>
+</li>
+<li><ul>
+<li>连接数据库</li>
+<li>根据需求确定SQL语句</li>
+<li>执行SQL语句，得到<em>recordset</em></li>
+<li>将<em><strong>recordset</strong></em>写入工作表（字段名+所有记录 <strong>即</strong> 列名+每一行）</li>
+<li>断开与数据库的连接</li>
+</ul>
+</li>
+<li><p>实现两个目标只有<em><strong>SQL</strong></em>语句不同，其余一致</p>
+</li>
+<li><ul>
+<li>目标1：<code>SQL = &quot;Select * from &quot; &amp; tblName &amp; &quot; where 语文成绩&gt;85 and 学号&gt;4&quot;</code></li>
+<li>目标2：<code>SQL = &quot;Select * from &quot; &amp; tblName &amp; &quot; where 姓名 in(&#39;张三&#39;,&#39;小红&#39;)&quot;</code></li>
+</ul>
+</li>
+</ol>
+<p><strong>目标1</strong><br><img src="/./../img/640-1690873872930-91.png" alt="图片"></p>
+<p><strong>目标2</strong><br><img src="/./../img/640-1690873872930-92.png" alt="图片"></p>
+<h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()        </span><br><span class="line">    <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset        </span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName        </span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\学生信息.accdb&quot;</span></span><br><span class="line">    tblName = <span class="string">&quot;学生信息表&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr        </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;Select * from &quot;</span> &amp; tblName &amp; <span class="string">&quot; where 语文成绩&gt;85 and 学号&gt;4&quot;</span><span class="comment">&#x27;   SQL = &quot;Select * from &quot; &amp; tblName &amp; &quot; where 姓名 in(&#x27;张三&#x27;,&#x27;小红&#x27;)&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)        </span><br><span class="line">    <span class="keyword">Dim</span> sht        </span><br><span class="line">    <span class="keyword">Dim</span> fildNum        </span><br><span class="line">    <span class="keyword">Set</span> sht = ThisWorkbook.Worksheets(<span class="string">&quot;示例&quot;</span>)</span><br><span class="line">    sht.Cells.ClearContents</span><br><span class="line"></span><br><span class="line">    fildNum = rs.Fields.Count        </span><br><span class="line">    <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> fildNum - <span class="number">1</span> <span class="keyword">Step</span> <span class="number">1</span></span><br><span class="line">        fildName = rs.Fields(j).Name</span><br><span class="line">        sht.Cells(<span class="number">1</span>, j + <span class="number">1</span>) = fildName        </span><br><span class="line">    <span class="keyword">Next</span> j</span><br><span class="line"></span><br><span class="line">    sht.Cells(<span class="number">2</span>, <span class="number">1</span>).CopyFromRecordset rs</span><br><span class="line"></span><br><span class="line">    cnn.Close        </span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = NothingEnd <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码截图</strong><br><img src="/./../img/640-1690873872931-93.jpeg" alt="图片"></p>
+<h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
+<li><p><code>SQL = &quot;Select * from &quot; &amp; tblName &amp; &quot; where 语文成绩&gt;85 and 学号&gt;4&quot;</code>，中文释义：从工作表中获取满足语文成绩&gt;85且学号&gt;4的所有信息</p>
+</li>
+<li><p><code>SQL = &quot;Select * from &quot; &amp; tblName &amp; &quot; where 姓名 in(&#39;张三&#39;,&#39;小红&#39;)&quot;</code>，中文释义：从工作表中获取满足姓名为张三或者小红的所有信息，也可以使用<code>or</code>来实现该功能</p>
+</li>
+<li><ul>
+<li><code>&quot;Select * from &quot; &amp; tblName &amp; &quot; where 姓名=&#39;张三&#39; or 姓名=&#39;小红&#39;&quot;</code></li>
+</ul>
+</li>
+</ol>
+]]></content>
+      
+        <categories>
+            
+            <category> vba-access </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access/VBA/Excel-单表筛选数据-09]]></title>
+      <url>/2023/08/01/Access-VBA-Excel-%E5%8D%95%E8%A1%A8%E7%AD%9B%E9%80%89%E6%95%B0%E6%8D%AE-09/</url>
+      <content type="html"><![CDATA[<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><p><img src="https://mmbiz.qpic.cn/mmbiz_png/OSQ4UFyzdeN92ZOSmM847ib3iadwibRoQTwozs3Amy6UfkK8HzM1rv85iagajyaofDkY1FVeaqibsEibribcILucCkZvg/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<ol>
+<li><p>将数据库中数据表<strong>学生信息表</strong>中的语文成绩<strong>大于85分</strong>的人员信息读入当前工作簿<strong>示例</strong>工作表</p>
+</li>
+<li><p>逻辑过程</p>
+</li>
+<li><ul>
+<li>连接数据库</li>
+<li>根据需求确定<em><strong>SQ</strong>L</em>语句</li>
+<li>执行<strong><em>SQL*<strong>语句，得到</strong></em>recordset</strong>*</li>
+<li>将<em><strong>recordset</strong></em>写入工作表（字段名+所有记录 <strong>即</strong> 列名+每一行）</li>
+<li>断开与数据库的连接</li>
+</ul>
+</li>
+<li><p>所以与上一篇文章的区别在于<em><strong>SQL</strong></em>语句</p>
+</li>
+</ol>
+<h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()        </span><br><span class="line">    <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset        </span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName        </span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\学生信息.accdb&quot;</span></span><br><span class="line">    tblName = <span class="string">&quot;学生信息表&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr        </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;Select * from &quot;</span> &amp; tblName &amp; <span class="string">&quot; where 语文成绩&gt;85&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)            </span><br><span class="line">    <span class="keyword">Dim</span> sht        </span><br><span class="line">    <span class="keyword">Dim</span> fildNum        </span><br><span class="line">    <span class="keyword">Set</span> sht = ThisWorkbook.Worksheets(<span class="string">&quot;示例&quot;</span>)</span><br><span class="line"></span><br><span class="line">    fildNum = rs.Fields.Count        </span><br><span class="line">    <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> fildNum - <span class="number">1</span> <span class="keyword">Step</span> <span class="number">1</span></span><br><span class="line">        fildName = rs.Fields(j).Name</span><br><span class="line">        sht.Cells(<span class="number">1</span>, j + <span class="number">1</span>) = fildName        </span><br><span class="line">    <span class="keyword">Next</span> j</span><br><span class="line"></span><br><span class="line">    sht.Cells(<span class="number">2</span>, <span class="number">1</span>).CopyFromRecordset rs</span><br><span class="line"></span><br><span class="line">    cnn.Close        </span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = NothingEnd <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码截图</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/OSQ4UFyzdeN92ZOSmM847ib3iadwibRoQTwbJb0micJricK8MSoicSnKh7icZKu7Xwibt14jyqKgUnmBH8SmaVJ4VePxkg/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><strong>Access与Excel数据对比</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/OSQ4UFyzdeN92ZOSmM847ib3iadwibRoQTwWeoMTxdRU7MnIcicjmNTUnT96RicRcnGicnHsyAnB3DvhbLXzPiahcnUzQ/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
+<li><p><code>&quot;Select * from &quot; &amp; tblName &amp; &quot; where 语文成绩&gt;85&quot;</code>，中文释义：从工作表中获取满足语文成绩&gt;85所有信息</p>
+</li>
+<li><p><code>rs.Fields.Count</code>获取字段数目</p>
+</li>
+<li><ul>
+<li>字段是从0开始计数，所以最后一个字段表示为rs.Fields(rs.Fields.Count-1)</li>
+</ul>
+</li>
+<li><p><code>rs.Fields(j).Name</code>获取字段的名称（列名）</p>
+</li>
+<li><p><code>CopyFromRecordset</code>复制整个<code>rs</code>（所有记录）</p>
+</li>
+</ol>
+<p><strong>联想</strong>：那么是不是还有其它筛选方式呢？那必须有，这也是<em><strong>SQL</strong></em>的强大之处，常规<em><strong>VBA</strong></em>语句需要写很多代码实现的功能，<em><strong>SQL</strong></em>一句可能就搞定了</p>
+]]></content>
+      
+        <categories>
+            
+            <category> vba-access </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Access/VBA/Excel-获取数据库数据-08]]></title>
+      <url>/2023/08/01/Access-VBA-Excel-%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE-08/</url>
+      <content type="html"><![CDATA[<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><p><img src="/./../img/640-1690873608593-70.jpeg" alt="图片"></p>
+<ol>
+<li><p>将<em><strong>Access*<strong>数据库中数据表</strong>学生信息表</strong>中的所有信息读入当前</em><strong>Excel*<strong>工作簿</strong>示例</strong>工作表</p>
+</li>
+<li><p>***VBA***逻辑过程</p>
+</li>
+<li><ul>
+<li>连接数据库</li>
+<li>根据需求确定SQL语句</li>
+<li>执行SQL语句，得到<em><strong>recordset</strong></em></li>
+<li>将<em><strong>recordset</strong></em>写入工作表（字段名+所有记录 <strong>即</strong> 列名+每一行）</li>
+<li>断开与数据库的连接</li>
+</ul>
+</li>
+</ol>
+<h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()        </span><br><span class="line">    <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset       </span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName        </span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\学生信息.accdb&quot;</span></span><br><span class="line">    tblName = <span class="string">&quot;学生信息表&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr        </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;Select * from &quot;</span> &amp; tblName        </span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)        </span><br><span class="line">    <span class="keyword">Dim</span> sht        </span><br><span class="line">    <span class="keyword">Dim</span> fildNum        </span><br><span class="line">    <span class="keyword">Set</span> sht = ThisWorkbook.Worksheets(<span class="string">&quot;示例&quot;</span>)</span><br><span class="line"></span><br><span class="line">    fildNum = rs.Fields.Count        </span><br><span class="line">    <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> fildNum - <span class="number">1</span> <span class="keyword">Step</span> <span class="number">1</span></span><br><span class="line">        fildName = rs.Fields(j).Name</span><br><span class="line">        sht.Cells(<span class="number">1</span>, j + <span class="number">1</span>) = fildName        </span><br><span class="line">    <span class="keyword">Next</span> j</span><br><span class="line"></span><br><span class="line">    sht.Cells(<span class="number">2</span>, <span class="number">1</span>).CopyFromRecordset rs</span><br><span class="line"></span><br><span class="line">    cnn.Close        </span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = NothingEnd <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码截图</strong></p>
+<p><img src="/./../img/640-1690873608593-71.jpeg" alt="图片"></p>
+<p>**运行过程<br>**</p>
+<p><img src="/./../img/0.gif" alt="图片"></p>
+<p><strong>Access与Excel数据对比</strong></p>
+<p><img src="/./../img/640-1690873608593-72.jpeg" alt="图片"></p>
+<h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
+<li><code>Select * from &quot; &amp; tblName</code>，中文释义：从工作表中获取所有信息</li>
+<li><code>rs.Fields.Count</code>获取字段数目</li>
+<li><code>rs.Fields(j).Name</code>获取字段的名称（列名）</li>
+<li><code>CopyFromRecordset</code>复制整个<code>rs</code>（所有记录）</li>
+</ol>
+]]></content>
+      
+        <categories>
+            
+            <category> vba-access </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> access </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Access/VBA/Excel-Access字段删除-07]]></title>
       <url>/2023/08/01/Access-VBA-Excel-Access%E5%AD%97%E6%AE%B5%E5%88%A0%E9%99%A4-07/</url>
       <content type="html"><![CDATA[<blockquote>
