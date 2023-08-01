@@ -775,9 +775,9 @@
 <p><img src="/...%5Cimg%5Cimage-20230530180853849.png" alt="image-20230530180853849"></p>
 <p>以上就正式搭建完成 hexo 的博客程序了。</p>
 <h5 id="修改博客的基本信息"><a href="#修改博客的基本信息" class="headerlink" title="修改博客的基本信息"></a>修改博客的基本信息</h5><p>修改 博客的标题，副标题，描述，语言时区等信息</p>
-<p><img src="/......%5Cimg%5Ccf60858892fa440482540f548322cbfc.png" alt="在这里插入图片描述"></p>
+<p><img src="/...%5Cimg%5Ccf60858892fa440482540f548322cbfc.png" alt="在这里插入图片描述"></p>
 <p>修改博客地址</p>
-<p><img src="/...%5Cimg%5C5dce8878e1fd42228974ee532b328a31.png" alt="在这里插入图片描述"></p>
+<p><img src="/...%5Cimg%5C5dce8878e1fd42228974ee532b328a31.png" alt="5dce8878e1fd42228974ee532b328a31"></p>
 <p>创建 github 仓库<br>打开 <a href="https://github.com/">https://github.com/</a> 创建一个仓库用来存储我们的部署程序,创建后是这个样子的。</p>
 <p><img src="/...%5Cimg%5C87e34403497b4e8092b8e234b7d154aa.png" alt="在这里插入图片描述"></p>
 <p><img src="/...%5Cimg%5C2dce5d421d4a45ae8b2628b405f00c85.png" alt="在这里插入图片描述"></p>
@@ -815,6 +815,20 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;name&quot;       # 新建文章</span><br><span class="line">hexo new page &quot;name&quot;  # 新建页面</span><br><span class="line">hexo g                # 生成页面</span><br><span class="line">hexo d                # 部署</span><br><span class="line">hexo g -d             # 生成页面并部署</span><br><span class="line">hexo s                # 本地预览</span><br><span class="line">hexo clean            # 清除缓存和已生成的静态文件</span><br><span class="line">hexo help             # 帮助</span><br></pre></td></tr></table></figure>
 ]]></content>
       
+        <categories>
+            
+            <category> github </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> vervel </tag>
+            
+            <tag> hexo </tag>
+            
+        </tags>
         
     </entry>
     
