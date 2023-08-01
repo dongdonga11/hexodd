@@ -4,10 +4,8 @@
     
     <entry>
       <title><![CDATA[excel-vba 数据库操作方式]]></title>
-      <url>/2023/07/28/excel-vba-%E9%94%80%E5%94%AE%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/</url>
-      <content type="html"><![CDATA[<p>[TOC]</p>
-<h4 id="一、卡点："><a href="#一、卡点：" class="headerlink" title="一、卡点："></a>一、卡点：</h4><img src="./../img/image-20230728134957123.png" alt="image-20230728134957123"  />
-
+      <url>/2023/07/28/excel-vba-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C%E6%96%B9%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<h4 id="一、卡点："><a href="#一、卡点：" class="headerlink" title="一、卡点："></a>一、卡点：</h4><p><img src="/./../img/image-20230728134957123.png" alt="image-20230728134957123"></p>
 <p>这个问题是用wps连接的OLEDB（access数据库）, 用excel打开就没有问题，如果用wps就需要用其他方式</p>
 <p><strong>excel：</strong></p>
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Dim</span> con <span class="keyword">As</span> ADODB.Connection</span><br><span class="line"><span class="keyword">Set</span> con = <span class="built_in">New</span> ADODB.Connection <span class="comment">&#x27;对象变量赋值必须用set</span></span><br><span class="line">` 建立数据连接    </span><br><span class="line">con.Open <span class="string">&quot;provider=Microsoft.ACE.OLEDB.16.0;data source=&quot;</span> &amp; _</span><br><span class="line">    ThisWorkbook.Path &amp; <span class="string">&quot;\基础数据.accdb&quot;</span></span><br></pre></td></tr></table></figure>
@@ -20,8 +18,7 @@
 <li><strong>第一步：</strong>告诉电脑我要用ADO了，</li>
 </ul>
 <p>​	<em><strong>这个操作在【工具】–&gt; 【引用】–&gt; 【Microsoft ActiveX Data Objects 6.1 	Libray】</strong></em></p>
-<img src="./../img/image-20230728143220859.png" alt="image-20230728143220859"  />
-
+<p><img src="/./../img/image-20230728143220859.png" alt="image-20230728143220859"></p>
 <ul>
 <li><strong>第二步：</strong>创建连接对对象</li>
 </ul>

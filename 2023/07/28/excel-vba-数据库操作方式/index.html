@@ -17,23 +17,23 @@
   
     <meta name="keywords" content="excel, vba, 数据库" />
   
-  <meta name="description" content="[TOC] 一、卡点：  这个问题是用wps连接的OLEDB（access数据库）, 用excel打开就没有问题，如果用wps就需要用其他方式 excel： 12345Dim con As ADODB.ConnectionSet con &#x3D; New ADODB.Connection &amp;#x27;对象变量赋值必须用set&#96; 建立数据连接    con.Open &quot;provider&#x3D;Micr">
+  <meta name="description" content="一、卡点： 这个问题是用wps连接的OLEDB（access数据库）, 用excel打开就没有问题，如果用wps就需要用其他方式 excel： 12345Dim con As ADODB.ConnectionSet con &#x3D; New ADODB.Connection &amp;#x27;对象变量赋值必须用set&#96; 建立数据连接    con.Open &quot;provider&#x3D;Microsoft.A">
 <meta property="og:type" content="article">
 <meta property="og:title" content="excel-vba 数据库操作方式">
-<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/07/28/excel-vba-%E9%94%80%E5%94%AE%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/07/28/excel-vba-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C%E6%96%B9%E5%BC%8F/index.html">
 <meta property="og:site_name" content="栋栋的个人博客">
-<meta property="og:description" content="[TOC] 一、卡点：  这个问题是用wps连接的OLEDB（access数据库）, 用excel打开就没有问题，如果用wps就需要用其他方式 excel： 12345Dim con As ADODB.ConnectionSet con &#x3D; New ADODB.Connection &amp;#x27;对象变量赋值必须用set&#96; 建立数据连接    con.Open &quot;provider&#x3D;Micr">
+<meta property="og:description" content="一、卡点： 这个问题是用wps连接的OLEDB（access数据库）, 用excel打开就没有问题，如果用wps就需要用其他方式 excel： 12345Dim con As ADODB.ConnectionSet con &#x3D; New ADODB.Connection &amp;#x27;对象变量赋值必须用set&#96; 建立数据连接    con.Open &quot;provider&#x3D;Microsoft.A">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/07/28/img/image-20230728134957123.png">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/07/28/img/image-20230728143220859.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/image-20230728134957123.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/image-20230728143220859.png">
 <meta property="article:published_time" content="2023-07-28T05:44:42.000Z">
-<meta property="article:modified_time" content="2023-07-28T09:22:22.769Z">
+<meta property="article:modified_time" content="2023-08-01T00:37:57.301Z">
 <meta property="article:author" content="John DD">
 <meta property="article:tag" content="excel">
 <meta property="article:tag" content="vba">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/07/28/img/image-20230728134957123.png">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/image-20230728134957123.png">
   
   <!-- 站点验证相关 -->
   
@@ -150,7 +150,7 @@
 
             <article itemscope itemtype="https://schema.org/Article">
     
-    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/07/28/excel-vba-%E9%94%80%E5%94%AE%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/">
+    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/07/28/excel-vba-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C%E6%96%B9%E5%BC%8F/">
     <div class="kratos-hentry kratos-post-inner clearfix">
         <header class="kratos-entry-header">
             
@@ -167,7 +167,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~5.31K
+                            ~5.30K
                         
                         字
                     </li>
@@ -179,15 +179,13 @@
             
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
                 <div class="icon"><i class="fa fa-warning"></i></div>
-                <div class="text"><p>本文最后编辑于 <time datetime="1690536142769"></time> 前，其中的内容可能需要更新。</p></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1690850277301"></time> 前，其中的内容可能需要更新。</p></div>
             </div>
             
             
             
             <hr />
-            <div itemprop="articleBody"><p>[TOC]</p>
-<h4 id="一、卡点："><a href="#一、卡点：" class="headerlink" title="一、卡点："></a>一、卡点：</h4><img src="./../img/image-20230728134957123.png" alt="image-20230728134957123"  />
-
+            <div itemprop="articleBody"><h4 id="一、卡点："><a href="#一、卡点：" class="headerlink" title="一、卡点："></a>一、卡点：</h4><p><img src="/./../img/image-20230728134957123.png" alt="image-20230728134957123"></p>
 <p>这个问题是用wps连接的OLEDB（access数据库）, 用excel打开就没有问题，如果用wps就需要用其他方式</p>
 <p><strong>excel：</strong></p>
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Dim</span> con <span class="keyword">As</span> ADODB.Connection</span><br><span class="line"><span class="keyword">Set</span> con = <span class="built_in">New</span> ADODB.Connection <span class="comment">&#x27;对象变量赋值必须用set</span></span><br><span class="line">` 建立数据连接    </span><br><span class="line">con.Open <span class="string">&quot;provider=Microsoft.ACE.OLEDB.16.0;data source=&quot;</span> &amp; _</span><br><span class="line">    ThisWorkbook.Path &amp; <span class="string">&quot;\基础数据.accdb&quot;</span></span><br></pre></td></tr></table></figure>
@@ -200,8 +198,7 @@
 <li><strong>第一步：</strong>告诉电脑我要用ADO了，</li>
 </ul>
 <p>​	<em><strong>这个操作在【工具】–&gt; 【引用】–&gt; 【Microsoft ActiveX Data Objects 6.1 	Libray】</strong></em></p>
-<img src="./../img/image-20230728143220859.png" alt="image-20230728143220859"  />
-
+<p><img src="/./../img/image-20230728143220859.png" alt="image-20230728143220859"></p>
 <ul>
 <li><strong>第二步：</strong>创建连接对对象</li>
 </ul>
@@ -396,7 +393,7 @@
     <script type="text/javascript">
         $(()=>{
             new QRCode("wechat-qr", {
-                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/07/28/excel-vba-%E9%94%80%E5%94%AE%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/",
+                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/07/28/excel-vba-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C%E6%96%B9%E5%BC%8F/",
                 width: 150,
                 height: 150,
                 correctLevel : QRCode.CorrectLevel.H
@@ -408,14 +405,12 @@
             const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
             const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
             const twitterBase   = "https://twitter.com/intent/tweet?";
-            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/07/28/excel-vba-%E9%94%80%E5%94%AE%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/";
+            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/07/28/excel-vba-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C%E6%96%B9%E5%BC%8F/";
             const title         = "「excel-vba 数据库操作方式」";
-            const excerpt       = `[TOC]
-一、卡点：
-
+            const excerpt       = `一、卡点：
 这个问题是用wps连接的OLEDB（access数据库）, 用excel打开就没有问题，如果用wps就需要用其他方式
 excel：
-12345Dim con As ADODB.ConnectionSet co...`;
+12345Dim con As ADODB.ConnectionSet con = New...`;
             let _URL;
             switch (dest) {
                 case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
@@ -437,7 +432,7 @@ excel：
                     <a class="tag-none-link" href="/tags/excel/" rel="tag">excel</a>, <a class="tag-none-link" href="/tags/vba/" rel="tag">vba</a>, <a class="tag-none-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a>
                 </div>
                 <div class="pull-date">
-                    <time datetime="2023-07-28T09:22:22.769Z" itemprop="dateModified">最后编辑：2023-07-28</time>
+                    <time datetime="2023-08-01T00:37:57.301Z" itemprop="dateModified">最后编辑：2023-08-01</time>
                 </div>
             </div>
         </footer>
@@ -529,7 +524,7 @@ excel：
         
           
           
-            <a class="list-group-item" href="/2023/07/28/excel-vba-%E9%94%80%E5%94%AE%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/"><i class="fa  fa-book"></i> excel-vba 数据库操作方式</a>
+            <a class="list-group-item" href="/2023/07/28/excel-vba-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C%E6%96%B9%E5%BC%8F/"><i class="fa  fa-book"></i> excel-vba 数据库操作方式</a>
             
           
         
