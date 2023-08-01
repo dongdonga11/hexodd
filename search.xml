@@ -162,6 +162,12 @@
 </ul>
 ]]></content>
       
+        <categories>
+            
+            <category> excel </category>
+            
+        </categories>
+        
         
         <tags>
             
@@ -231,6 +237,12 @@
 <p>​	&#x3D;&#x3D; 当前项目进展：&#x3D;&#x3D;</p>
 ]]></content>
       
+        <categories>
+            
+            <category> 项目日记 </category>
+            
+        </categories>
+        
         
         <tags>
             
@@ -322,6 +334,12 @@
 <p>如需下载本文所涉及的源码及素材包，请在关注公众号后发送：<strong>gpt</strong></p>
 ]]></content>
       
+        <categories>
+            
+            <category> chatgpt </category>
+            
+        </categories>
+        
         
         <tags>
             
@@ -526,6 +544,12 @@
 <p>而且它也不需要云服务器，不需要你购买任何东西，完全免费，任何人都可以轻松一键部署，所以赶紧尝试一下吧。</p>
 ]]></content>
       
+        <categories>
+            
+            <category> chatgpt </category>
+            
+        </categories>
+        
         
         <tags>
             
@@ -664,6 +688,12 @@
 <p>已经延后</p>
 ]]></content>
       
+        <categories>
+            
+            <category> 项目日记 </category>
+            
+        </categories>
+        
         
         <tags>
             
@@ -705,7 +735,7 @@
         
         <tags>
             
-            <tag> -pandas </tag>
+            <tag> pandas </tag>
             
         </tags>
         
@@ -772,15 +802,15 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">INFO  Validating config</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000/ . Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
 
 
-<p><img src="/...%5Cimg%5Cimage-20230530180853849.png" alt="image-20230530180853849"></p>
+<p><img src="/..%5Cimg%5Cimage-20230530180853849.png" alt="image-20230530180853849"></p>
 <p>以上就正式搭建完成 hexo 的博客程序了。</p>
 <h5 id="修改博客的基本信息"><a href="#修改博客的基本信息" class="headerlink" title="修改博客的基本信息"></a>修改博客的基本信息</h5><p>修改 博客的标题，副标题，描述，语言时区等信息</p>
-<p><img src="/...%5Cimg%5Ccf60858892fa440482540f548322cbfc.png" alt="在这里插入图片描述"></p>
+<p><img src="/..%5Cimg%5Ccf60858892fa440482540f548322cbfc.png" alt="在这里插入图片描述"></p>
 <p>修改博客地址</p>
-<p><img src="/...%5Cimg%5C5dce8878e1fd42228974ee532b328a31.png" alt="5dce8878e1fd42228974ee532b328a31"></p>
+<p><img src="/..%5Cimg%5C5dce8878e1fd42228974ee532b328a31.png" alt="5dce8878e1fd42228974ee532b328a31"></p>
 <p>创建 github 仓库<br>打开 <a href="https://github.com/">https://github.com/</a> 创建一个仓库用来存储我们的部署程序,创建后是这个样子的。</p>
-<p><img src="/...%5Cimg%5C87e34403497b4e8092b8e234b7d154aa.png" alt="在这里插入图片描述"></p>
-<p><img src="/...%5Cimg%5C2dce5d421d4a45ae8b2628b405f00c85.png" alt="在这里插入图片描述"></p>
+<p><img src="/..%5Cimg%5C87e34403497b4e8092b8e234b7d154aa.png" alt="在这里插入图片描述"></p>
+<p><img src="/..%5Cimg%5C2dce5d421d4a45ae8b2628b405f00c85.png" alt="在这里插入图片描述"></p>
 <h5 id="同步本地-Hexo-部署页面到-github-中"><a href="#同步本地-Hexo-部署页面到-github-中" class="headerlink" title="同步本地 Hexo 部署页面到 github 中"></a>同步本地 Hexo 部署页面到 github 中</h5><h5 id="初始化-git-项目"><a href="#初始化-git-项目" class="headerlink" title="初始化 git 项目"></a>初始化 git 项目</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git remote add origin https://github.com/runbrick/javier-blog.git</span><br></pre></td></tr></table></figure>
 
 
@@ -792,18 +822,18 @@
 
 
 <p>执行 <code>hexo g</code> 然后执行 <code>hexo d </code>将静态页面部署到 <strong>github</strong> 上，是这个样子的。</p>
-<p><img src="/...%5Cimg%5C1ee6f73b701249a483c8022e90aa6d6d-1685510451300-24.png" alt="在这里插入图片描述"></p>
+<p><img src="/..%5Cimg%5C1ee6f73b701249a483c8022e90aa6d6d-1685510451300-24.png" alt="在这里插入图片描述"></p>
 <h5 id="将项目部署到-vercel-上"><a href="#将项目部署到-vercel-上" class="headerlink" title="将项目部署到 vercel 上"></a>将项目部署到 vercel 上</h5><p>如果不需要部署到 vercel 上此步可以略过</p>
 <p>在 **dashboard **上 选择 <strong>Create a New Project</strong></p>
-<p><img src="/...%5Cimg%5C54ae8c862963400ea1c2b86c0bec2e79.png" alt="在这里插入图片描述"></p>
+<p><img src="/..%5Cimg%5C54ae8c862963400ea1c2b86c0bec2e79.png" alt="在这里插入图片描述"></p>
 <p>在关联的 **github **账户中，找到刚才的博客仓库，选择 import</p>
-<p><img src="/...%5Cimg%5C6a5b756f46bb4e3fb46a5d93bb32c5ca.png" alt="在这里插入图片描述"></p>
+<p><img src="/..%5Cimg%5C6a5b756f46bb4e3fb46a5d93bb32c5ca.png" alt="在这里插入图片描述"></p>
 <p>进入部署页面选择 deploy</p>
-<p><img src="/...%5Cimg%5Cd3f01706b7e84ac19d017b12b45cf23b.png" alt="在这里插入图片描述"></p>
+<p><img src="/..%5Cimg%5Cd3f01706b7e84ac19d017b12b45cf23b.png" alt="在这里插入图片描述"></p>
 <p>生成之后点击 Continue to Dashboard</p>
-<p><img src="/...%5Cimg%5C83a40d63337d4c02a6ac9d7d8a336ca6.png" alt="在这里插入图片描述"></p>
+<p><img src="/..%5Cimg%5C83a40d63337d4c02a6ac9d7d8a336ca6.png" alt="在这里插入图片描述"></p>
 <p>点击 Visit 就可以看到刚刚生成的博客程序了</p>
-<p><img src="/...%5Cimg%5C73fea79fe1634cf897df435520360cc0.png" alt="在这里插入图片描述"></p>
+<p><img src="/..%5Cimg%5C73fea79fe1634cf897df435520360cc0.png" alt="在这里插入图片描述"></p>
 <p>将项目资源文件放入同一个仓库中<br>在命令行创建一个新的分支并切换过去</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b source</span><br></pre></td></tr></table></figure>
 
