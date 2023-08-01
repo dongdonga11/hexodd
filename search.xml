@@ -3,6 +3,44 @@
   
     
     <entry>
+      <title><![CDATA[微信图文编辑器-Markdown]]></title>
+      <url>/2023/08/01/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E6%96%87%E7%BC%96%E8%BE%91%E5%99%A8-Markdown/</url>
+      <content type="html"><![CDATA[<p>今天推荐的开源项目可以将 Markdown 文档自动即时渲染为微信图文，还可以自动排版，支持自定义 CSS 样式，最终什么样式你可以自己定义。</p>
+<p>也就是说你只需要在 Markdown 编辑器上写文章，就能一键生成一篇样式简洁而又美观大方的微信图文，这就大大提高了你的效率，不用每天去排版了。</p>
+<p>图片怎么办？别担心，这个开源项目还支持 GitHub、阿里云、腾讯云、七牛云 等图床。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">开源地址：https://github.com/doocs/md</span><br></pre></td></tr></table></figure>
+
+<h2 id="功能特性"><a href="#功能特性" class="headerlink" title="功能特性"></a><strong>功能特性</strong></h2><ul>
+<li>支持 Markdown 所有基础语法</li>
+<li>支持浅色、暗黑两种主题模式</li>
+<li>支持 Ctrl + F 快速格式化文档</li>
+<li>支持色盘取色，快速替换文章整体色调</li>
+<li>支持多图上传，可自定义配置图床</li>
+<li>支持自定义上传逻辑</li>
+<li>支持在编辑框右键弹出功能选项卡</li>
+<li>支持批量转换本地图片为线上图片</li>
+</ul>
+<p><img src="/./../img/740.gif" alt="图片"><img src="/./../img/640-1690869329948-4.gif" alt="图片"><img src="/./../img/640-1690869352746-8.gif" alt="图片"></p>
+]]></content>
+      
+        <categories>
+            
+            <category> github </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> markdown </tag>
+            
+            <tag> github </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[excel-vba 数据库操作方式]]></title>
       <url>/2023/07/28/excel-vba-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C%E6%96%B9%E5%BC%8F/</url>
       <content type="html"><![CDATA[<h4 id="一、卡点："><a href="#一、卡点：" class="headerlink" title="一、卡点："></a>一、卡点：</h4><p><img src="/./../img/image-20230728134957123.png" alt="image-20230728134957123"></p>
@@ -802,15 +840,15 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">INFO  Validating config</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000/ . Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
 
 
-<p><img src="/..%5Cimg%5Cimage-20230530180853849.png" alt="image-20230530180853849"></p>
+<p><img src="/./../img/image-20230530180853849.png" alt="image-20230530180853849"></p>
 <p>以上就正式搭建完成 hexo 的博客程序了。</p>
 <h5 id="修改博客的基本信息"><a href="#修改博客的基本信息" class="headerlink" title="修改博客的基本信息"></a>修改博客的基本信息</h5><p>修改 博客的标题，副标题，描述，语言时区等信息</p>
-<p><img src="/..%5Cimg%5Ccf60858892fa440482540f548322cbfc.png" alt="在这里插入图片描述"></p>
+<p><img src="/../img/cf60858892fa440482540f548322cbfc.png" alt="../img/"></p>
 <p>修改博客地址</p>
-<p><img src="/..%5Cimg%5C5dce8878e1fd42228974ee532b328a31.png" alt="5dce8878e1fd42228974ee532b328a31"></p>
+<p><img src="/../img/5dce8878e1fd42228974ee532b328a31.png" alt="5dce8878e1fd42228974ee532b328a31"></p>
 <p>创建 github 仓库<br>打开 <a href="https://github.com/">https://github.com/</a> 创建一个仓库用来存储我们的部署程序,创建后是这个样子的。</p>
-<p><img src="/..%5Cimg%5C87e34403497b4e8092b8e234b7d154aa.png" alt="在这里插入图片描述"></p>
-<p><img src="/..%5Cimg%5C2dce5d421d4a45ae8b2628b405f00c85.png" alt="在这里插入图片描述"></p>
+<p><img src="/../img/87e34403497b4e8092b8e234b7d154aa.png" alt="../img/"></p>
+<p><img src="/../img/2dce5d421d4a45ae8b2628b405f00c85.png" alt="../img/"></p>
 <h5 id="同步本地-Hexo-部署页面到-github-中"><a href="#同步本地-Hexo-部署页面到-github-中" class="headerlink" title="同步本地 Hexo 部署页面到 github 中"></a>同步本地 Hexo 部署页面到 github 中</h5><h5 id="初始化-git-项目"><a href="#初始化-git-项目" class="headerlink" title="初始化 git 项目"></a>初始化 git 项目</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git remote add origin https://github.com/runbrick/javier-blog.git</span><br></pre></td></tr></table></figure>
 
 
@@ -822,18 +860,18 @@
 
 
 <p>执行 <code>hexo g</code> 然后执行 <code>hexo d </code>将静态页面部署到 <strong>github</strong> 上，是这个样子的。</p>
-<p><img src="/..%5Cimg%5C1ee6f73b701249a483c8022e90aa6d6d-1685510451300-24.png" alt="在这里插入图片描述"></p>
+<p><img src="/../img/1ee6f73b701249a483c8022e90aa6d6d-1685510451300-24.png" alt="../img/"></p>
 <h5 id="将项目部署到-vercel-上"><a href="#将项目部署到-vercel-上" class="headerlink" title="将项目部署到 vercel 上"></a>将项目部署到 vercel 上</h5><p>如果不需要部署到 vercel 上此步可以略过</p>
 <p>在 **dashboard **上 选择 <strong>Create a New Project</strong></p>
-<p><img src="/..%5Cimg%5C54ae8c862963400ea1c2b86c0bec2e79.png" alt="在这里插入图片描述"></p>
+<p><img src="/../img/54ae8c862963400ea1c2b86c0bec2e79.png" alt="../img/"></p>
 <p>在关联的 **github **账户中，找到刚才的博客仓库，选择 import</p>
-<p><img src="/..%5Cimg%5C6a5b756f46bb4e3fb46a5d93bb32c5ca.png" alt="在这里插入图片描述"></p>
+<p><img src="/../img/6a5b756f46bb4e3fb46a5d93bb32c5ca.png" alt="../img/"></p>
 <p>进入部署页面选择 deploy</p>
-<p><img src="/..%5Cimg%5Cd3f01706b7e84ac19d017b12b45cf23b.png" alt="在这里插入图片描述"></p>
+<p><img src="/../img/d3f01706b7e84ac19d017b12b45cf23b.png" alt="../img/"></p>
 <p>生成之后点击 Continue to Dashboard</p>
-<p><img src="/..%5Cimg%5C83a40d63337d4c02a6ac9d7d8a336ca6.png" alt="在这里插入图片描述"></p>
+<p><img src="/../img/83a40d63337d4c02a6ac9d7d8a336ca6.png" alt="../img/"></p>
 <p>点击 Visit 就可以看到刚刚生成的博客程序了</p>
-<p><img src="/..%5Cimg%5C73fea79fe1634cf897df435520360cc0.png" alt="在这里插入图片描述"></p>
+<p><img src="/../img/73fea79fe1634cf897df435520360cc0.png" alt="../img/"></p>
 <p>将项目资源文件放入同一个仓库中<br>在命令行创建一个新的分支并切换过去</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b source</span><br></pre></td></tr></table></figure>
 
