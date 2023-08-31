@@ -120,7 +120,7 @@
 <ol>
 <li>窗体展示：</li>
 </ol>
-<img src="./../img/image-20230829102036849.png" alt="image-20230829102036849" style="zoom:33%;" />
+<img src="./../img/image-20230829102036849-1693374381855-1.png" alt="image-20230829102036849" style="zoom:33%;" />
 
 <ul>
 <li><p>窗体设计的时候有个问题，就是viewList 这个在原本的设计中并没有，需要打开这个按钮：</p>
@@ -132,13 +132,13 @@
 <li><p>第二步：添加附件：</p>
 </li>
 </ul>
-<img src="./../img/image-20230829102323843.png" alt="image-20230829102323843" style="zoom:33%;" />
+<img src="./../img/image-20230829102323843-1693374393774-3.png" alt="image-20230829102323843" style="zoom:33%;" />
 
 <ol start="2">
 <li><p>代码–获取列表框中的默认数据</p>
 <p>这个部分的设计是这样的，想从设置中获取数据</p>
 <p>（1）先在设置中列出数据</p>
-<img src="./../img/image-20230829102901272.png" alt="image-20230829102901272" style="zoom:50%;" /></li>
+<img src="./../img/image-20230829102901272-1693374398266-5.png" alt="image-20230829102901272" style="zoom:50%;" /></li>
 </ol>
 <p>​		（2）具体代码</p>
 <p>在 <code>窗体USERFORM</code> 中双击窗体打开代码</p>
@@ -1045,35 +1045,35 @@
     
     <entry>
       <title><![CDATA[Access/VBA/Excel-15-表信息整体迁移]]></title>
-      <url>/2023/08/01/Access-VBA-Excel-15-%E8%A1%A8%E4%BF%A1%E6%81%AF%E6%95%B4%E4%BD%93%E8%BF%81%E7%A7%BB/</url>
+      <url>/2023/08/01/ACCESS-VBA/Access-VBA-Excel-15-%E8%A1%A8%E4%BF%A1%E6%81%AF%E6%95%B4%E4%BD%93%E8%BF%81%E7%A7%BB/</url>
       <content type="html"><![CDATA[<h2 id="Part-1：问题"><a href="#Part-1：问题" class="headerlink" title="Part 1：问题"></a>Part 1：问题</h2><ol>
 <li>有一个<strong>原信息</strong>表存储着学生的姓名和成绩信息，现在需要对信息进行扩容</li>
 <li>有一个<strong>新信息</strong>表，不仅有学生的姓名和成绩信息，还有一些其它信息</li>
 <li>问题：将<strong>原信息</strong>表中满足要求的信息复制到<strong>新信息</strong>表中去，示例复制张三的信息</li>
 </ol>
-<p><strong>原信息</strong>数据表<br><img src="/./../img/640-1690874446329-180.png" alt="图片"></p>
-<p><strong>新信息</strong>表<br><img src="/./../img/640-1690874446329-181.png" alt="图片"></p>
+<p><strong>原信息</strong>数据表<br><img src="/./../../img/640-1690874446329-180.png" alt="图片"></p>
+<p><strong>新信息</strong>表<br><img src="/./../../img/640-1690874446329-181.png" alt="图片"></p>
 <h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()        </span><br><span class="line">    <span class="keyword">Dim</span> adConn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset        </span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName        </span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\信息档案.accdb&quot;</span></span><br><span class="line">    tbl1Name = <span class="string">&quot;原信息&quot;</span></span><br><span class="line">    tbl2Name = <span class="string">&quot;新信息&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> adConn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr        </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    opFilds = <span class="string">&quot;*&quot;</span></span><br><span class="line">    searchC = <span class="string">&quot;姓名=&#x27;张三&#x27;&quot;</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;Insert Into &quot;</span> &amp; tbl2Name &amp; <span class="string">&quot; Select &quot;</span> &amp; opFilds &amp; <span class="string">&quot; From &quot;</span> &amp; tbl1Name &amp; <span class="string">&quot; Where (&quot;</span> &amp; searchC &amp; <span class="string">&quot;)&quot;</span></span><br><span class="line">    <span class="keyword">Set</span> rs = adConn.<span class="keyword">Execute</span>(SQL)<span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
 
-<p><strong>代码截图</strong><br><img src="/./../img/640-1690874446329-182.jpeg" alt="图片"></p>
-<p><strong>执行结果</strong><br><img src="/./../img/640-1690874446329-183.png" alt="图片"></p>
+<p><strong>代码截图</strong><br><img src="/./../../img/640-1690874446329-182.jpeg" alt="图片"></p>
+<p><strong>执行结果</strong><br><img src="/./../../img/640-1690874446329-183.png" alt="图片"></p>
 <h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
 <li>**核心*SQL***：<code>Insert Into 新信息 Select * From 原信息 Where (姓名=&#39;张三&#39;)</code></li>
 <li>上面<em><strong>SQL</strong></em>由两部分组成：<em><strong>Insert Into</strong></em> 加入新表部分，<em><strong>Select</strong></em> 查询获取拟加入新表的信息</li>
 <li>这种方法要求<strong>新信息</strong>表中必须有相同的字段</li>
 </ol>
-<p><strong>核心*SQL*</strong><br><img src="/./../img/640-1690874446329-184.png" alt="图片"></p>
+<p><strong>核心*SQL*</strong><br><img src="/./../../img/640-1690874446329-184.png" alt="图片"></p>
 <h2 id="Part-4：延伸"><a href="#Part-4：延伸" class="headerlink" title="Part 4：延伸"></a>Part 4：延伸</h2><ul>
 <li>只从<strong>旧信息</strong>表中获取2个字段：姓名，语文</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Insert Into 新信息 Select 姓名,语文 From 原信息 Where (姓名=&#x27;李四&#x27;)</span><br></pre></td></tr></table></figure>
 
-<p><strong>执行结果</strong><br><img src="/./../img/640-1690874446330-185.png" alt="图片"></p>
+<p><strong>执行结果</strong><br><img src="/./../../img/640-1690874446330-185.png" alt="图片"></p>
 <ul>
 <li><p>从<strong>旧信息</strong>表中获取所有字段所有记录</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Insert Into 新信息 Select * From 原信息</span><br></pre></td></tr></table></figure>
 
-<p><strong>执行结果</strong><br><img src="/./../img/640-1690874446330-186.png" alt="图片"></p>
+<p><strong>执行结果</strong><br><img src="/./../../img/640-1690874446330-186.png" alt="图片"></p>
 </li>
 </ul>
 <p><strong>思考</strong>：下面这句***SQL***的结果又是什么效果呢？</p>
@@ -1101,16 +1101,16 @@
     
     <entry>
       <title><![CDATA[Access/VBA/Excel-14-消除重复值]]></title>
-      <url>/2023/08/01/Access-VBA-Excel-14-%E6%B6%88%E9%99%A4%E9%87%8D%E5%A4%8D%E5%80%BC/</url>
+      <url>/2023/08/01/ACCESS-VBA/Access-VBA-Excel-14-%E6%B6%88%E9%99%A4%E9%87%8D%E5%A4%8D%E5%80%BC/</url>
       <content type="html"><![CDATA[<h2 id="Part-1：题目"><a href="#Part-1：题目" class="headerlink" title="Part 1：题目"></a>Part 1：题目</h2><ol>
 <li>从地址表中获取含有的省份信息，结果是：广东省，湖南省，安徽省</li>
 <li>那么怎么使用<em><strong>SQL</strong></em>实现呢</li>
 </ol>
-<p><strong>地址</strong>数据表<br><img src="/./../img/640-1690874333335-168.png" alt="图片"></p>
+<p><strong>地址</strong>数据表<br><img src="/./../../img/640-1690874333335-168.png" alt="图片"></p>
 <h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()        </span><br><span class="line">    <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset        </span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName        </span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\地址信息.accdb&quot;</span></span><br><span class="line">    tblName = <span class="string">&quot;地址&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr        </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    opFilds = <span class="string">&quot;省份&quot;</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;Select distinct &quot;</span> &amp; opFilds &amp; <span class="string">&quot; from &quot;</span> &amp; tblName </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)            </span><br><span class="line">    <span class="keyword">Dim</span> sht        </span><br><span class="line">    <span class="keyword">Dim</span> fildNum        </span><br><span class="line">    <span class="keyword">Set</span> sht = ThisWorkbook.Worksheets(<span class="string">&quot;示例&quot;</span>)</span><br><span class="line">    sht.Cells.ClearContents</span><br><span class="line"></span><br><span class="line">    fildNum = rs.Fields.Count        </span><br><span class="line">    <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> fildNum - <span class="number">1</span> <span class="keyword">Step</span> <span class="number">1</span></span><br><span class="line">        fildName = rs.Fields(j).Name</span><br><span class="line">        sht.Cells(<span class="number">1</span>, j + <span class="number">1</span>) = fildName        </span><br><span class="line">    <span class="keyword">Next</span> j</span><br><span class="line"></span><br><span class="line">    sht.Cells(<span class="number">2</span>, <span class="number">1</span>).CopyFromRecordset rs</span><br><span class="line"></span><br><span class="line">    cnn.Close        </span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = NothingEnd <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
 
-<p><strong>代码截图</strong><br><img src="/./../img/640-1690874333336-169.jpeg" alt="图片"></p>
-<p><strong>执行结果</strong><br><img src="/./../img/640-1690874333336-170.png" alt="图片"></p>
+<p><strong>代码截图</strong><br><img src="/./../../img/640-1690874333336-169.jpeg" alt="图片"></p>
+<p><strong>执行结果</strong><br><img src="/./../../img/640-1690874333336-170.png" alt="图片"></p>
 <h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
 <li><p>**核心*SQL***：<code>Select distinct 省份 from 地址</code></p>
 </li>
@@ -1122,7 +1122,7 @@
 </ul>
 </li>
 </ol>
-<p><strong>核心SQL</strong><br><img src="/./../img/640-1690874333336-171.png" alt="图片"></p>
+<p><strong>核心SQL</strong><br><img src="/./../../img/640-1690874333336-171.png" alt="图片"></p>
 ]]></content>
       
         <categories>
@@ -1146,18 +1146,18 @@
     
     <entry>
       <title><![CDATA[Access/VBA/Excel-13-嵌套查询]]></title>
-      <url>/2023/08/01/Access-VBA-Excel-13-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/</url>
+      <url>/2023/08/01/ACCESS-VBA/Access-VBA-Excel-13-%E5%B5%8C%E5%A5%97%E6%9F%A5%E8%AF%A2/</url>
       <content type="html"><![CDATA[<h2 id="Part-1：题目"><a href="#Part-1：题目" class="headerlink" title="Part 1：题目"></a>Part 1：题目</h2><ol>
 <li>获取<strong>张三</strong>，<strong>李四</strong>的数学成绩</li>
 <li>已知条件：数据库中有两个表（<strong>学生信息表</strong>，<strong>成绩表</strong>），如下图</li>
 <li>逻辑过程：从<strong>学生信息表</strong>中获取张三&#x2F;李四的学号，从<strong>成绩表</strong>中以<strong>学号</strong>查询满足条件的<strong>数学成绩</strong></li>
 </ol>
-<p><strong>学生信息表</strong><br><img src="/./../img/0-1690874160819-153.jpeg" alt="图片"></p>
-<p><strong>成绩表</strong><br><img src="/./../img/0-1690874160820-154.jpeg" alt="图片"></p>
+<p><strong>学生信息表</strong><br><img src="/./../../img/0-1690874160819-153.jpeg" alt="图片"></p>
+<p><strong>成绩表</strong><br><img src="/./../../img/0-1690874160820-154.jpeg" alt="图片"></p>
 <h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()        </span><br><span class="line">    <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset        </span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName        </span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\学生信息.accdb&quot;</span></span><br><span class="line">    tbl1Name = <span class="string">&quot;学生信息表&quot;</span></span><br><span class="line">    tbl2Name = <span class="string">&quot;成绩表&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr        </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    op1Filds = <span class="string">&quot;学号&quot;</span></span><br><span class="line">    search1C = <span class="string">&quot;姓名 in (&#x27;张三&#x27;,&#x27;李四&#x27;)&quot;</span></span><br><span class="line">    SQL1 = <span class="string">&quot;Select &quot;</span> &amp; op1Filds &amp; <span class="string">&quot; from &quot;</span> &amp; tbl1Name &amp; <span class="string">&quot; where (&quot;</span> &amp; search1C &amp; <span class="string">&quot;)&quot;</span></span><br><span class="line"></span><br><span class="line">    op2Filds = <span class="string">&quot;学号,年级,数学成绩&quot;</span></span><br><span class="line">    search2C = <span class="string">&quot;学号 in (&quot;</span> &amp; SQL1 &amp; <span class="string">&quot;)&quot;</span></span><br><span class="line">    SQL2 = <span class="string">&quot;Select &quot;</span> &amp; op2Filds &amp; <span class="string">&quot; from &quot;</span> &amp; tbl2Name &amp; <span class="string">&quot; where (&quot;</span> &amp; search2C &amp; <span class="string">&quot;) order by 学号 asc,年级 desc&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL2)            </span><br><span class="line">    <span class="keyword">Dim</span> sht        </span><br><span class="line">    <span class="keyword">Dim</span> fildNum        </span><br><span class="line">    <span class="keyword">Set</span> sht = ThisWorkbook.Worksheets(<span class="string">&quot;示例&quot;</span>)</span><br><span class="line">    sht.Cells.ClearContents</span><br><span class="line"></span><br><span class="line">    fildNum = rs.Fields.Count        </span><br><span class="line">    <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> fildNum - <span class="number">1</span> <span class="keyword">Step</span> <span class="number">1</span></span><br><span class="line">        fildName = rs.Fields(j).Name</span><br><span class="line">        sht.Cells(<span class="number">1</span>, j + <span class="number">1</span>) = fildName        </span><br><span class="line">    <span class="keyword">Next</span> j</span><br><span class="line"></span><br><span class="line">    sht.Cells(<span class="number">2</span>, <span class="number">1</span>).CopyFromRecordset rs</span><br><span class="line"></span><br><span class="line">    cnn.Close        </span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = NothingEnd <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
 
-<p><strong>代码截图</strong><br><img src="/./../img/0-1690874160820-155.jpeg" alt="图片"></p>
-<p><strong>执行结果</strong><br><img src="/./../img/0-1690874160820-156.jpeg" alt="图片"></p>
+<p><strong>代码截图</strong><br><img src="/./../../img/0-1690874160820-155.jpeg" alt="图片"></p>
+<p><strong>执行结果</strong><br><img src="/./../../img/0-1690874160820-156.jpeg" alt="图片"></p>
 <h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
 <li><p>**核心*SQL***：<code>Select 学号,年级,数学成绩 from 成绩表 where (学号 in (Select 学号 from 学生信息表 where (姓名 in (&#39;张三&#39;,&#39;李四&#39;)))) order by 学号 asc,年级 desc</code></p>
 </li>
@@ -1169,7 +1169,7 @@
 </ul>
 </li>
 </ol>
-<p><strong>核心SQL</strong><br><img src="/./../img/0-1690874160820-157.jpeg" alt="图片"></p>
+<p><strong>核心SQL</strong><br><img src="/./../../img/0-1690874160820-157.jpeg" alt="图片"></p>
 <p><strong>思考</strong>：输出的信息中不含有姓名信息，看起来不清晰，那么如何将姓名信息加进来呢？和之前的<strong>left join</strong>结合吗？</p>
 ]]></content>
       
@@ -1194,8 +1194,8 @@
     
     <entry>
       <title><![CDATA[Access/VBA/Excel-12-模糊查询]]></title>
-      <url>/2023/08/01/Access-VBA-Excel-12-%E6%A8%A1%E7%B3%8A%E6%9F%A5%E8%AF%A2/</url>
-      <content type="html"><![CDATA[<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><p><strong>商品清单</strong><br><img src="/./../img/640-1690874077454-129.png" alt="图片"></p>
+      <url>/2023/08/01/ACCESS-VBA/Access-VBA-Excel-12-%E6%A8%A1%E7%B3%8A%E6%9F%A5%E8%AF%A2/</url>
+      <content type="html"><![CDATA[<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><p><strong>商品清单</strong><br><img src="/./../../img/640-1690874077454-129.png" alt="图片"></p>
 <ol>
 <li><p>根据<strong>商品ID</strong>检索需要的商品</p>
 </li>
@@ -1216,8 +1216,8 @@
 </ol>
 <h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()        </span><br><span class="line">    <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset        </span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName        </span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\商品清单.accdb&quot;</span></span><br><span class="line">    tblName = <span class="string">&quot;商品清单&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr        </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    opFilds = <span class="string">&quot;商品ID,商品名称,厂家,数量&quot;</span></span><br><span class="line">    searchC = <span class="string">&quot;商品ID like &#x27;m%&#x27;&quot;</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;Select &quot;</span> &amp; opFilds &amp; <span class="string">&quot; from &quot;</span> &amp; tblName &amp; <span class="string">&quot; where (&quot;</span> &amp; searchC &amp; <span class="string">&quot;)&quot;</span></span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)            </span><br><span class="line">    <span class="keyword">Dim</span> sht        </span><br><span class="line">    <span class="keyword">Dim</span> fildNum        </span><br><span class="line">    <span class="keyword">Set</span> sht = ThisWorkbook.Worksheets(<span class="string">&quot;示例&quot;</span>)</span><br><span class="line">    sht.Cells.ClearContents</span><br><span class="line"></span><br><span class="line">    fildNum = rs.Fields.Count        </span><br><span class="line">    <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> fildNum - <span class="number">1</span> <span class="keyword">Step</span> <span class="number">1</span></span><br><span class="line">        fildName = rs.Fields(j).Name</span><br><span class="line">        sht.Cells(<span class="number">1</span>, j + <span class="number">1</span>) = fildName        </span><br><span class="line">    <span class="keyword">Next</span> j</span><br><span class="line"></span><br><span class="line">    sht.Cells(<span class="number">2</span>, <span class="number">1</span>).CopyFromRecordset rs</span><br><span class="line"></span><br><span class="line">    cnn.Close        </span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = NothingEnd <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
 
-<p><strong>代码截图</strong><br><img src="/./../img/640-1690874077454-130.jpeg" alt="图片"></p>
-<p><strong>执行结果</strong><br><img src="/./../img/640-1690874077454-131.png" alt="图片"></p>
+<p><strong>代码截图</strong><br><img src="/./../../../img/640-1690874077454-130.jpeg" alt="图片"></p>
+<p><strong>执行结果</strong><br><img src="/./../../img/640-1690874077454-131.png" alt="图片"></p>
 <h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
 <li><code>Select 商品ID,商品名称,厂家,数量 from 商品清单 where (商品ID like &#39;m%&#39;)</code></li>
 <li><strong>中文释义</strong>：选取满足<strong>商品ID</strong>第1位为字母*<strong>m*<strong>的商品信息，从结果看，</strong>没有区分</strong>大小写</li>
@@ -1228,23 +1228,23 @@
 <ul>
 <li><code>_</code>代表单一字符，<code>searchC = &quot;商品ID like &#39;____&#39;&quot;</code>，<strong>四个下划线</strong>，结果如下</li>
 </ul>
-<p><img src="/./../img/640-1690874077455-132.png" alt="图片"></p>
+<p><img src="/./../../img/640-1690874077455-132.png" alt="图片"></p>
 <ul>
 <li><code>[]</code>指定范围，<code>searchC = &quot;商品ID like &#39;[0-9]%&#39;&quot;</code>，表示***0-9***开头的字符串，结果如下</li>
 </ul>
-<p><img src="/./../img/640-1690874077455-133.png" alt="图片"></p>
+<p><img src="/./../../img/640-1690874077455-133.png" alt="图片"></p>
 <ul>
 <li><code>[ ]</code>指定范围，<code>searchC = &quot;商品ID like &#39;[a-z]%&#39;&quot;</code>，表示<em>a-z</em>开头的字符串，依然没有区分大小写，结果如下</li>
 </ul>
-<p><img src="/./../img/640-1690874077455-134.png" alt="图片"></p>
+<p><img src="/./../../img/640-1690874077455-134.png" alt="图片"></p>
 <ul>
 <li><p><code>[!]</code>指定范围之外，<code>searchC = &quot;商品ID like &#39;[!a-z]%&#39;&quot;</code>，表示不以***a-z***开头，结果如下</p>
-<p><img src="/./../img/640-1690874077455-135.png" alt="图片"></p>
+<p><img src="/./../../img/640-1690874077455-135.png" alt="图片"></p>
 </li>
 <li><p><code>not like</code>取反，<code>searchC = &quot;商品ID not like &#39;[a-z]%&#39;&quot;</code>，表示<strong>不满足a-z</strong>开头的字符串，依然<strong>没有区分</strong>大小写，结果如下</p>
 </li>
 </ul>
-<p><img src="/./../img/640-1690874077455-136.png" alt="图片"></p>
+<p><img src="/./../../img/640-1690874077455-136.png" alt="图片"></p>
 ]]></content>
       
         <categories>
@@ -1268,13 +1268,13 @@
     
     <entry>
       <title><![CDATA[Access/VBA/Excel-左连接-11]]></title>
-      <url>/2023/08/01/Access-VBA-Excel-%E5%B7%A6%E8%BF%9E%E6%8E%A5-11/</url>
+      <url>/2023/08/01/ACCESS-VBA/Access-VBA-Excel-%E5%B7%A6%E8%BF%9E%E6%8E%A5-11/</url>
       <content type="html"><![CDATA[<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><p><strong>成绩表</strong></p>
-<p><img src="/./../img/640-1690873974530-102.png" alt="图片"></p>
+<p><img src="/./../../img/640-1690873974530-102.png" alt="图片"></p>
 <p><strong>学生信息表</strong></p>
-<p><img src="/./../img/640-1690873974530-103.png" alt="图片"></p>
+<p><img src="/./../../img/640-1690873974530-103.png" alt="图片"></p>
 <p><strong>运行过程</strong></p>
-<p><img src="/./../img/0-1690873974530-104.gif" alt="图片"></p>
+<p><img src="/./../../img/0-1690873974530-104.gif" alt="图片"></p>
 <ol>
 <li><p>获取学号为<em><strong>1101</strong></em>学生在不同年级的<strong>语文成绩</strong>，输出信息包括：<strong>姓名，学号，性别，年级，语文成绩</strong></p>
 </li>
@@ -1303,10 +1303,10 @@
 <h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()        </span><br><span class="line">    <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset        </span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName        </span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\学生信息.accdb&quot;</span></span><br><span class="line">    tblName = <span class="string">&quot;学生信息表&quot;</span></span><br><span class="line">    tblNote = <span class="string">&quot;成绩表&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr        </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    opFilds = <span class="string">&quot;姓名,&quot;</span> &amp; tblNote &amp; <span class="string">&quot;.学号,性别,年级,语文成绩&quot;</span></span><br><span class="line">    searchC = tblNote &amp; <span class="string">&quot;.学号=1101&quot;</span></span><br><span class="line"></span><br><span class="line">    tbls = tblNote &amp; <span class="string">&quot; left join &quot;</span> &amp; tblName _</span><br><span class="line">    &amp; <span class="string">&quot; on &quot;</span> &amp; tblNote &amp; <span class="string">&quot;.学号=&quot;</span> &amp; tblName &amp; <span class="string">&quot;.学号&quot;</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;Select &quot;</span> &amp; opFilds &amp; <span class="string">&quot; from &quot;</span> &amp; <span class="string">&quot;(&quot;</span> &amp; tbls &amp; <span class="string">&quot;)&quot;</span> &amp; <span class="string">&quot; where (&quot;</span> &amp; searchC &amp; <span class="string">&quot;)&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)        </span><br><span class="line">    <span class="keyword">Dim</span> sht        </span><br><span class="line">    <span class="keyword">Dim</span> fildNum        </span><br><span class="line">    <span class="keyword">Set</span> sht = ThisWorkbook.Worksheets(<span class="string">&quot;示例&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    sht.Cells.ClearContents</span><br><span class="line"></span><br><span class="line">    fildNum = rs.Fields.Count        </span><br><span class="line">    <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> fildNum - <span class="number">1</span> <span class="keyword">Step</span> <span class="number">1</span></span><br><span class="line">        fildName = rs.Fields(j).Name</span><br><span class="line">        sht.Cells(<span class="number">1</span>, j + <span class="number">1</span>) = fildName       </span><br><span class="line">    <span class="keyword">Next</span> j</span><br><span class="line"></span><br><span class="line">    sht.Cells(<span class="number">2</span>, <span class="number">1</span>).CopyFromRecordset rs</span><br><span class="line"></span><br><span class="line">    cnn.Close        </span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = NothingEnd <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>代码截图</strong></p>
-<p><img src="/./../img/640-1690873974530-105.jpeg" alt="图片"></p>
-<p><img src="/./../img/640-1690873974531-106.jpeg" alt="图片"></p>
+<p><img src="/./../../img/640-1690873974530-105.jpeg" alt="图片"></p>
+<p><img src="/./../../img/640-1690873974531-106.jpeg" alt="图片"></p>
 <p><strong>执行结果</strong></p>
-<p><img src="/./../img/640-1690873974531-107.png" alt="图片"></p>
+<p><img src="/./../../img/640-1690873974531-107.png" alt="图片"></p>
 <h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
 <li><p><code>SQL = &quot;Select &quot; &amp; opFilds &amp; &quot; from &quot; &amp; &quot;(&quot; &amp; tbls &amp; &quot;)&quot; &amp; &quot; where (&quot; &amp; searchC &amp; &quot;)&quot;</code></p>
 </li>
@@ -1331,11 +1331,11 @@
 </li>
 </ol>
 <p><strong>例1</strong>：匹配多个，修改<strong>学生信息表</strong>，增加同样学号的</p>
-<p><img src="/./../img/640-1690873974531-108.png" alt="图片"></p>
+<p><img src="/./../../img/640-1690873974531-108.png" alt="图片"></p>
 <p><strong>查询结果</strong></p>
-<p><img src="/./../img/640-1690873974531-109.png" alt="图片"></p>
+<p><img src="/./../../img/640-1690873974531-109.png" alt="图片"></p>
 <p><strong>例2</strong>：若未匹配上，则对应信息为空</p>
-<p><img src="/./../img/640-1690873974532-110.png" alt="图片"></p>
+<p><img src="/./../../img/640-1690873974532-110.png" alt="图片"></p>
 ]]></content>
       
         <categories>
@@ -1355,8 +1355,8 @@
     
     <entry>
       <title><![CDATA[Access/VBA/Excel-多条件筛选数据-10]]></title>
-      <url>/2023/08/01/Access-VBA-Excel-%E5%A4%9A%E6%9D%A1%E4%BB%B6%E7%AD%9B%E9%80%89%E6%95%B0%E6%8D%AE-10/</url>
-      <content type="html"><![CDATA[<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><p><img src="/./../img/640-1690873872930-90.png" alt="图片"></p>
+      <url>/2023/08/01/ACCESS-VBA/Access-VBA-Excel-%E5%A4%9A%E6%9D%A1%E4%BB%B6%E7%AD%9B%E9%80%89%E6%95%B0%E6%8D%AE-10/</url>
+      <content type="html"><![CDATA[<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><p><img src="/./../../img/640-1690873872930-90.png" alt="图片"></p>
 <ol>
 <li><p>目标1：将数据库中数据表<strong>学生信息表</strong>中的语文成绩大于<strong>85分</strong>且学号<strong>大于</strong>4的人员信息读入当前工作簿<strong>示例</strong>工作表</p>
 </li>
@@ -1380,11 +1380,11 @@
 </ul>
 </li>
 </ol>
-<p><strong>目标1</strong><br><img src="/./../img/640-1690873872930-91.png" alt="图片"></p>
-<p><strong>目标2</strong><br><img src="/./../img/640-1690873872930-92.png" alt="图片"></p>
+<p><strong>目标1</strong><br><img src="/./../../img/640-1690873872930-91.png" alt="图片"></p>
+<p><strong>目标2</strong><br><img src="/./../../img/640-1690873872930-92.png" alt="图片"></p>
 <h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()        </span><br><span class="line">    <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset        </span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName        </span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\学生信息.accdb&quot;</span></span><br><span class="line">    tblName = <span class="string">&quot;学生信息表&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr        </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;Select * from &quot;</span> &amp; tblName &amp; <span class="string">&quot; where 语文成绩&gt;85 and 学号&gt;4&quot;</span><span class="comment">&#x27;   SQL = &quot;Select * from &quot; &amp; tblName &amp; &quot; where 姓名 in(&#x27;张三&#x27;,&#x27;小红&#x27;)&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)        </span><br><span class="line">    <span class="keyword">Dim</span> sht        </span><br><span class="line">    <span class="keyword">Dim</span> fildNum        </span><br><span class="line">    <span class="keyword">Set</span> sht = ThisWorkbook.Worksheets(<span class="string">&quot;示例&quot;</span>)</span><br><span class="line">    sht.Cells.ClearContents</span><br><span class="line"></span><br><span class="line">    fildNum = rs.Fields.Count        </span><br><span class="line">    <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> fildNum - <span class="number">1</span> <span class="keyword">Step</span> <span class="number">1</span></span><br><span class="line">        fildName = rs.Fields(j).Name</span><br><span class="line">        sht.Cells(<span class="number">1</span>, j + <span class="number">1</span>) = fildName        </span><br><span class="line">    <span class="keyword">Next</span> j</span><br><span class="line"></span><br><span class="line">    sht.Cells(<span class="number">2</span>, <span class="number">1</span>).CopyFromRecordset rs</span><br><span class="line"></span><br><span class="line">    cnn.Close        </span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = NothingEnd <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
 
-<p><strong>代码截图</strong><br><img src="/./../img/640-1690873872931-93.jpeg" alt="图片"></p>
+<p><strong>代码截图</strong><br><img src="/./../../img/640-1690873872931-93.jpeg" alt="图片"></p>
 <h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
 <li><p><code>SQL = &quot;Select * from &quot; &amp; tblName &amp; &quot; where 语文成绩&gt;85 and 学号&gt;4&quot;</code>，中文释义：从工作表中获取满足语文成绩&gt;85且学号&gt;4的所有信息</p>
 </li>
@@ -1418,7 +1418,7 @@
     
     <entry>
       <title><![CDATA[Access/VBA/Excel-单表筛选数据-09]]></title>
-      <url>/2023/08/01/Access-VBA-Excel-%E5%8D%95%E8%A1%A8%E7%AD%9B%E9%80%89%E6%95%B0%E6%8D%AE-09/</url>
+      <url>/2023/08/01/ACCESS-VBA/Access-VBA-Excel-%E5%8D%95%E8%A1%A8%E7%AD%9B%E9%80%89%E6%95%B0%E6%8D%AE-09/</url>
       <content type="html"><![CDATA[<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><p><img src="https://mmbiz.qpic.cn/mmbiz_png/OSQ4UFyzdeN92ZOSmM847ib3iadwibRoQTwozs3Amy6UfkK8HzM1rv85iagajyaofDkY1FVeaqibsEibribcILucCkZvg/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
 <ol>
 <li><p>将数据库中数据表<strong>学生信息表</strong>中的语文成绩<strong>大于85分</strong>的人员信息读入当前工作簿<strong>示例</strong>工作表</p>
@@ -1480,8 +1480,8 @@
     
     <entry>
       <title><![CDATA[Access/VBA/Excel-获取数据库数据-08]]></title>
-      <url>/2023/08/01/Access-VBA-Excel-%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE-08/</url>
-      <content type="html"><![CDATA[<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><p><img src="/./../img/640-1690873608593-70.jpeg" alt="图片"></p>
+      <url>/2023/08/01/ACCESS-VBA/Access-VBA-Excel-%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE-08/</url>
+      <content type="html"><![CDATA[<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><p><img src="/./../../img/640-1690873608593-70.jpeg" alt="图片"></p>
 <ol>
 <li><p>将<em><strong>Access*<strong>数据库中数据表</strong>学生信息表</strong>中的所有信息读入当前</em><strong>Excel*<strong>工作簿</strong>示例</strong>工作表</p>
 </li>
@@ -1499,11 +1499,11 @@
 <h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()        </span><br><span class="line">    <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset       </span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName        </span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\学生信息.accdb&quot;</span></span><br><span class="line">    tblName = <span class="string">&quot;学生信息表&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr        </span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;Select * from &quot;</span> &amp; tblName        </span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)        </span><br><span class="line">    <span class="keyword">Dim</span> sht        </span><br><span class="line">    <span class="keyword">Dim</span> fildNum        </span><br><span class="line">    <span class="keyword">Set</span> sht = ThisWorkbook.Worksheets(<span class="string">&quot;示例&quot;</span>)</span><br><span class="line"></span><br><span class="line">    fildNum = rs.Fields.Count        </span><br><span class="line">    <span class="keyword">For</span> j = <span class="number">0</span> <span class="keyword">To</span> fildNum - <span class="number">1</span> <span class="keyword">Step</span> <span class="number">1</span></span><br><span class="line">        fildName = rs.Fields(j).Name</span><br><span class="line">        sht.Cells(<span class="number">1</span>, j + <span class="number">1</span>) = fildName        </span><br><span class="line">    <span class="keyword">Next</span> j</span><br><span class="line"></span><br><span class="line">    sht.Cells(<span class="number">2</span>, <span class="number">1</span>).CopyFromRecordset rs</span><br><span class="line"></span><br><span class="line">    cnn.Close        </span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = NothingEnd <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>代码截图</strong></p>
-<p><img src="/./../img/640-1690873608593-71.jpeg" alt="图片"></p>
+<p><img src="/./../../img/640-1690873608593-71.jpeg" alt="图片"></p>
 <p>**运行过程<br>**</p>
-<p><img src="/./../img/0.gif" alt="图片"></p>
+<p><img src="/./../../img/0.gif" alt="图片"></p>
 <p><strong>Access与Excel数据对比</strong></p>
-<p><img src="/./../img/640-1690873608593-72.jpeg" alt="图片"></p>
+<p><img src="/./../../img/640-1690873608593-72.jpeg" alt="图片"></p>
 <h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
 <li><code>Select * from &quot; &amp; tblName</code>，中文释义：从工作表中获取所有信息</li>
 <li><code>rs.Fields.Count</code>获取字段数目</li>
@@ -1533,7 +1533,7 @@
     
     <entry>
       <title><![CDATA[Access/VBA/Excel-Access字段删除-07]]></title>
-      <url>/2023/08/01/Access-VBA-Excel-Access%E5%AD%97%E6%AE%B5%E5%88%A0%E9%99%A4-07/</url>
+      <url>/2023/08/01/ACCESS-VBA/Access-VBA-Excel-Access%E5%AD%97%E6%AE%B5%E5%88%A0%E9%99%A4-07/</url>
       <content type="html"><![CDATA[<blockquote>
 <ul>
 <li>这个系列开展一个新的篇章，重点关注Access数据库</li>
@@ -1542,7 +1542,7 @@
 <li>涉及知识：<code>ADO</code>，<code>SQL：Alter + drop</code></li>
 </ul>
 </blockquote>
-<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><p><img src="/./../img/640-1690872346770-61.png" alt="图片"></p>
+<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><p><img src="/./../../img/640-1690872346770-61.png" alt="图片"></p>
 <ol>
 <li><p>如上图所示，删除<strong>性别</strong>这一<strong>字段</strong>（列）</p>
 </li>
@@ -1559,9 +1559,9 @@
 <h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()        </span><br><span class="line">    <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset        </span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName        </span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\学生信息.accdb&quot;</span></span><br><span class="line">    tblName = <span class="string">&quot;学生信息表&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr        <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;Alter table &quot;</span> &amp; tblName &amp; <span class="string">&quot; drop Column 性别&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)</span><br><span class="line"></span><br><span class="line">    cnn.Close        </span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = NothingEnd <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
 
 <p>**代码截图<br>**</p>
-<p><img src="/./../img/640-1690872346771-62.jpeg" alt="图片"></p>
+<p><img src="/./../../img/640-1690872346771-62.jpeg" alt="图片"></p>
 <p><strong>执行后效果</strong></p>
-<p><img src="/./../img/640-1690872346771-63.png" alt="图片"></p>
+<p><img src="/./../../img/640-1690872346771-63.png" alt="图片"></p>
 <h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
 <li><code>Alter table &quot; &amp; tblName &amp; &quot; drop Column 性别</code></li>
 <li>中文释义：改变工作表，具体变化点为删除<strong>性别</strong>列（<strong>字段</strong>）</li>
@@ -1590,7 +1590,7 @@
     
     <entry>
       <title><![CDATA[Access/VBA/Excel-Access记录删除-06]]></title>
-      <url>/2023/08/01/Access-VBA-Excel-Access%E8%AE%B0%E5%BD%95%E5%88%A0%E9%99%A4-06/</url>
+      <url>/2023/08/01/ACCESS-VBA/Access-VBA-Excel-Access%E8%AE%B0%E5%BD%95%E5%88%A0%E9%99%A4-06/</url>
       <content type="html"><![CDATA[<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><ol>
 <li><p>删除姓名为<strong>张三</strong>的这一条记录</p>
 </li>
@@ -1605,11 +1605,11 @@
 </li>
 </ol>
 <p><strong>删除记录前</strong></p>
-<p><img src="/./../img/640-1690872280975-55.jpeg" alt="图片"></p>
+<p><img src="/./../../img/640-1690872280975-55.jpeg" alt="图片"></p>
 <h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()        <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset        <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName        <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\学生信息.accdb&quot;</span></span><br><span class="line">    tblName = <span class="string">&quot;学生信息表&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr        <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;delete from &quot;</span> &amp; tblName &amp; <span class="string">&quot; where 姓名=&#x27;张三&#x27;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)</span><br><span class="line"></span><br><span class="line">    cnn.Close        <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = NothingEnd <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>执行后效果</strong></p>
-<p><img src="/./../img/640-1690872280976-56.jpeg" alt="图片"></p>
+<p><img src="/./../../img/640-1690872280976-56.jpeg" alt="图片"></p>
 <h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
 <li><code>delete from &quot; &amp; tblName &amp; &quot; where 姓名=&#39;张三&#39;</code></li>
 <li>中文释义：从工作表中删除一条 <strong>姓名</strong>字段取值为<strong>张三</strong>的一条记录</li>
@@ -1638,7 +1638,7 @@
     
     <entry>
       <title><![CDATA[Access/VBA/Excel-Access记录修改-05]]></title>
-      <url>/2023/08/01/Access-VBA-Excel-Access%E8%AE%B0%E5%BD%95%E4%BF%AE%E6%94%B9-05/</url>
+      <url>/2023/08/01/ACCESS-VBA/Access-VBA-Excel-Access%E8%AE%B0%E5%BD%95%E4%BF%AE%E6%94%B9-05/</url>
       <content type="html"><![CDATA[<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><ol>
 <li><p>前文中，我们已经获取了一个工作表（学生信息表）和4个字段（ID，姓名，学号，性别），并输入了两行记录</p>
 </li>
@@ -1653,7 +1653,7 @@
 </li>
 </ol>
 <p><strong>结果如下</strong></p>
-<p><img src="/./../img/640-1690872173015-52.jpeg" alt="图片"></p>
+<p><img src="/./../../img/640-1690872173015-52.jpeg" alt="图片"></p>
 <h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()</span><br><span class="line">    <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset</span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName</span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\学生信息.accdb&quot;</span></span><br><span class="line">    tblName = <span class="string">&quot;学生信息表&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr</span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    field1 = <span class="string">&quot;籍贯 text(10)&quot;</span></span><br><span class="line">    field2 = <span class="string">&quot;语文成绩 single&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;增加字段</span></span><br><span class="line">    SQL = <span class="string">&quot;ALTER TABLE &quot;</span> &amp; tblName &amp; <span class="string">&quot; ADD &quot;</span> &amp; field1 &amp; <span class="string">&quot;,&quot;</span> &amp; field2</span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)</span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;补充记录</span></span><br><span class="line">    stuName = <span class="string">&quot;张三&quot;</span></span><br><span class="line">    jiGuan = <span class="string">&quot;广东省&quot;</span></span><br><span class="line">    yuWenNote = <span class="number">85</span></span><br><span class="line">    newXueHao = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;Update &quot;</span> &amp; tblName &amp; <span class="string">&quot; SET &quot;</span> _</span><br><span class="line">    &amp; <span class="string">&quot;籍贯=&quot;</span> &amp; <span class="built_in">Chr</span>(<span class="number">39</span>) &amp; jiGuan &amp; <span class="built_in">Chr</span>(<span class="number">39</span>) _</span><br><span class="line">    &amp; <span class="string">&quot;,语文成绩=&quot;</span> &amp; yuWenNote _</span><br><span class="line">    &amp; <span class="string">&quot;,学号=&quot;</span> &amp; newXueHao _</span><br><span class="line">    &amp; <span class="string">&quot; where 姓名=&quot;</span> &amp; <span class="built_in">Chr</span>(<span class="number">39</span>) &amp; stuName &amp; <span class="built_in">Chr</span>(<span class="number">39</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)</span><br><span class="line"></span><br><span class="line">    cnn.Close</span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = <span class="literal">Nothing</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="Part-3：部分代码解读"><a href="#Part-3：部分代码解读" class="headerlink" title="Part 3：部分代码解读"></a>Part 3：部分代码解读</h2><ol>
@@ -1685,7 +1685,7 @@
     
     <entry>
       <title><![CDATA[Access/VBA/Excel-Access记录创建-04]]></title>
-      <url>/2023/08/01/Access-VBA-Excel-Access%E8%AE%B0%E5%BD%95%E5%88%9B%E5%BB%BA-04/</url>
+      <url>/2023/08/01/ACCESS-VBA/Access-VBA-Excel-Access%E8%AE%B0%E5%BD%95%E5%88%9B%E5%BB%BA-04/</url>
       <content type="html"><![CDATA[<h2 id="Part-1：目标"><a href="#Part-1：目标" class="headerlink" title="Part 1：目标"></a>Part 1：目标</h2><ol>
 <li><p>从上一篇文章中，我们已经获取了一个工作表（<strong>学生信息表</strong>）和4个字段（<strong>ID</strong>，<strong>姓名</strong>，<strong>学号</strong>，<strong>性别</strong>）</p>
 </li>
@@ -1700,7 +1700,7 @@
 </li>
 </ol>
 <p><strong>结果如下</strong></p>
-<p><img src="/./../img/640-1690872060121-49.jpeg" alt="图片"></p>
+<p><img src="/./../../img/640-1690872060121-49.jpeg" alt="图片"></p>
 <h2 id="Part-2：代码"><a href="#Part-2：代码" class="headerlink" title="Part 2：代码"></a>Part 2：代码</h2><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()</span><br><span class="line">    <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection</span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset</span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName</span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\学生信息.accdb&quot;</span></span><br><span class="line">    tblName = <span class="string">&quot;学生信息表&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr</span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;记录1</span></span><br><span class="line">    stuName = <span class="string">&quot;张三&quot;</span></span><br><span class="line">    stuNum = <span class="number">11</span></span><br><span class="line">    stuGender = <span class="string">&quot;男&quot;</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;INSERT INTO &quot;</span> &amp; tblName &amp; <span class="string">&quot; (姓名,学号,性别) VALUES&quot;</span> _</span><br><span class="line">    &amp; <span class="string">&quot;(&quot;</span> &amp; <span class="built_in">Chr</span>(<span class="number">39</span>) &amp; stuName &amp; <span class="built_in">Chr</span>(<span class="number">39</span>) &amp; <span class="string">&quot;,&quot;</span> &amp; stuNum &amp; <span class="string">&quot;,&quot;</span> &amp; <span class="built_in">Chr</span>(<span class="number">39</span>) &amp; stuGender &amp; <span class="built_in">Chr</span>(<span class="number">39</span>) &amp; <span class="string">&quot;)&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)</span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;记录2</span></span><br><span class="line">    stuName = <span class="string">&quot;李四&quot;</span></span><br><span class="line">    stuNum = <span class="number">12</span></span><br><span class="line">    stuGender = <span class="string">&quot;男&quot;</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;INSERT INTO &quot;</span> &amp; tblName &amp; <span class="string">&quot; (姓名,学号,性别) VALUES&quot;</span> _</span><br><span class="line">    &amp; <span class="string">&quot;(&quot;</span> &amp; <span class="built_in">Chr</span>(<span class="number">39</span>) &amp; stuName &amp; <span class="built_in">Chr</span>(<span class="number">39</span>) &amp; <span class="string">&quot;,&quot;</span> &amp; stuNum &amp; <span class="string">&quot;,&quot;</span> &amp; <span class="built_in">Chr</span>(<span class="number">39</span>) &amp; stuGender &amp; <span class="built_in">Chr</span>(<span class="number">39</span>) &amp; <span class="string">&quot;)&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)</span><br><span class="line">    cnn.Close</span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = <span class="literal">Nothing</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="Part-3：部分代码解读s"><a href="#Part-3：部分代码解读s" class="headerlink" title="Part 3：部分代码解读s"></a>Part 3：部分代码解读s</h2><ol>
@@ -1794,7 +1794,7 @@
     
     <entry>
       <title><![CDATA[Access/VBA/Excel-Access表及字段创建-03]]></title>
-      <url>/2023/08/01/Access-VBA-Excel-Access%E8%A1%A8%E5%8F%8A%E5%AD%97%E6%AE%B5%E5%88%9B%E5%BB%BA-03/</url>
+      <url>/2023/08/01/ACCESS-VBA/Access-VBA-Excel-Access%E8%A1%A8%E5%8F%8A%E5%AD%97%E6%AE%B5%E5%88%9B%E5%BB%BA-03/</url>
       <content type="html"><![CDATA[<h2 id="Part-1：前面的话"><a href="#Part-1：前面的话" class="headerlink" title="Part 1：前面的话"></a>Part 1：前面的话</h2><ol>
 <li>对Access数据库的大部分操作都可以通过<code>SQL</code>语言来实现</li>
 <li><code>SQL:Structure Query Language</code>，结构化查询语言，语法简单，非常容易学</li>
@@ -1825,9 +1825,9 @@
 <figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> test()</span><br><span class="line">    <span class="keyword">Dim</span> cnn As <span class="keyword">New</span> ADODB.Connection <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Dim</span> rs As <span class="keyword">New</span> ADODB.Recordset</span><br><span class="line">    <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> tblName</span><br><span class="line">    <span class="keyword">Dim</span> dbAddr</span><br><span class="line"></span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\学生信息.accdb&quot;</span></span><br><span class="line">    tblName = <span class="string">&quot;学生信息表&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&#x27;连接数据库</span></span><br><span class="line">    <span class="keyword">With</span> cnn</span><br><span class="line">        .Provider = <span class="string">&quot;Microsoft.ACE.OLEDB.12.0&quot;</span></span><br><span class="line">        .Open <span class="string">&quot;Data Source=&quot;</span> &amp; dbAddr</span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;CREATE TABLE &quot;</span> &amp; tblName &amp; <span class="string">&quot; (ID AUTOINCREMENT primary key)&quot;</span></span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)</span><br><span class="line"></span><br><span class="line">    field1 = <span class="string">&quot;姓名  text(6)&quot;</span></span><br><span class="line">    field2 = <span class="string">&quot;学号  single&quot;</span></span><br><span class="line">    field3 = <span class="string">&quot;性别  text(1)&quot;</span></span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;ALTER TABLE &quot;</span> &amp; tblName &amp; <span class="string">&quot; ADD &quot;</span> &amp; field1 &amp; <span class="string">&quot;,&quot;</span> &amp; field2 &amp; <span class="string">&quot;,&quot;</span> &amp; field3</span><br><span class="line">    <span class="keyword">Set</span> rs = cnn.<span class="keyword">Execute</span>(SQL)</span><br><span class="line"></span><br><span class="line">    cnn.Close</span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> cnn = <span class="literal">Nothing</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>执行结果：新建表</strong></p>
-<p><img src="/./../img/640-1690871939017-40.jpeg" alt="图片"></p>
+<p><img src="/./../../img/640-1690871939017-40.jpeg" alt="图片"></p>
 <p><strong>执行结果：新建字段</strong></p>
-<p><img src="/./../img/640-1690871939017-41.jpeg" alt="图片"></p>
+<p><img src="/./../../img/640-1690871939017-41.jpeg" alt="图片"></p>
 <h2 id="Part-4：部分代码解读"><a href="#Part-4：部分代码解读" class="headerlink" title="Part 4：部分代码解读"></a>Part 4：部分代码解读</h2><ol>
 <li><p><code>ADO</code>连接不同数据库采用不同引擎</p>
 </li>
@@ -1855,7 +1855,7 @@
 </li>
 </ol>
 <p><strong>字段约束</strong></p>
-<p><img src="/./../img/640-1690871939018-42.jpeg" alt="图片"></p>
+<p><img src="/./../../img/640-1690871939018-42.jpeg" alt="图片"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">主键官方定义：</span><br><span class="line"></span><br><span class="line">主键是表中的一个字段或字段集，为每条记录提供一个唯一的标识符。</span><br><span class="line">在数据库中，请将信息划分到基于主题的不同表中。</span><br><span class="line">然后，使用表关系和主键以指示 Access 如何将信息再次组合起来。</span><br><span class="line">Access 使用主键字段将多个表中的数据迅速关联起来，并以一种有意义的方式将这些数据组合在一起。</span><br></pre></td></tr></table></figure>
 ]]></content>
       
@@ -1880,7 +1880,7 @@
     
     <entry>
       <title><![CDATA[Access/VBA/Excel-新建Access文件-02]]></title>
-      <url>/2023/08/01/Access-VBA-Excel-%E6%96%B0%E5%BB%BAAccess%E6%96%87%E4%BB%B6-02/</url>
+      <url>/2023/08/01/ACCESS-VBA/Access-VBA-Excel-%E6%96%B0%E5%BB%BAAccess%E6%96%87%E4%BB%B6-02/</url>
       <content type="html"><![CDATA[<h2 id="Part-1：逻辑过程"><a href="#Part-1：逻辑过程" class="headerlink" title="Part 1：逻辑过程"></a>Part 1：逻辑过程</h2><ol>
 <li><p>引用<code>Microsoft DAO 3.6 Object Library</code>（工具-引用）</p>
 </li>
@@ -1909,7 +1909,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set dbAccess = CreateDatabase(dbAddr2, dbLangChineseSimplified &amp; &quot;;pwd=xxx&quot;) </span><br></pre></td></tr></table></figure>
 
 <p><strong>输入密码界面</strong></p>
-<p><img src="/./../img/640-1690871843572-37.jpeg" alt="图片"></p>
+<p><img src="/./../../img/640-1690871843572-37.jpeg" alt="图片"></p>
 <h2 id="Part-4：部分代码解读"><a href="#Part-4：部分代码解读" class="headerlink" title="Part 4：部分代码解读"></a>Part 4：部分代码解读</h2><ol>
 <li><p><code>Dir(dbAddr1) = &quot;&quot;</code>判断文件是否存在，若成立表示不存在</p>
 </li>
@@ -1947,7 +1947,7 @@
     
     <entry>
       <title><![CDATA[Access/VBA/Excel-数据库-01]]></title>
-      <url>/2023/08/01/Access-VBA-Excel-%E6%95%B0%E6%8D%AE%E5%BA%93-01/</url>
+      <url>/2023/08/01/ACCESS-VBA/Access-VBA-Excel-%E6%95%B0%E6%8D%AE%E5%BA%93-01/</url>
       <content type="html"><![CDATA[<h2 id="Part-1：概览"><a href="#Part-1：概览" class="headerlink" title="Part 1：概览"></a>Part 1：概览</h2><ol>
 <li><p>在我们之前介绍种种<code>VBA</code>的使用，其实主要就是一个<strong>数据处理过程</strong>，类比我们的工作很多时候人承担的也是一个信息处理的角色</p>
 </li>
@@ -1990,9 +1990,9 @@
 </li>
 </ol>
 <p><strong>Access界面</strong></p>
-<p><img src="/./../img/640-1690871750266-28.jpeg" alt="图片"></p>
+<p><img src="/./../../img/640-1690871750266-28.jpeg" alt="图片"></p>
 <p><strong>Access规格</strong>（Access软件打开后F1按钮，输入<strong>规格</strong>得到对应帮助文件）</p>
-<p><img src="/./../img/640-1690871750267-29.jpeg" alt="图片"></p>
+<p><img src="/./../../img/640-1690871750267-29.jpeg" alt="图片"></p>
 <h2 id="Part-3：ADO-x2F-DAO"><a href="#Part-3：ADO-x2F-DAO" class="headerlink" title="Part 3：ADO&#x2F;DAO"></a>Part 3：<code>ADO</code>&#x2F;<code>DAO</code></h2><ol>
 <li><p><code>ADO</code>&#x2F;<code>DAO</code>类似于<code>FSO</code>使用前需先引用</p>
 </li>
@@ -2010,7 +2010,7 @@
 </li>
 </ol>
 <p><strong>引用</strong></p>
-<p><img src="/./../img/640-1690871750267-30.jpeg" alt="图片"></p>
+<p><img src="/./../../img/640-1690871750267-30.jpeg" alt="图片"></p>
 <h2 id="Part-3：SQL"><a href="#Part-3：SQL" class="headerlink" title="Part 3：SQL"></a>Part 3：<code>SQL</code></h2><ol>
 <li><strong>定义：</strong>结构化查询语言(Structured Query Language)简称SQL(发音：&#x2F;ˈes kjuː ˈel&#x2F; “S-Q-L”)，是一种特殊目的的编程语言，是一种数据库查询和程序设计语言，用于存取数据以及查询、更新和管理关系数据库系统；同时也是数据库脚本文件的扩展名（百度百科）</li>
 <li><code>SQL</code>不仅仅使用在<strong>Access</strong>这样的数据库，基本所有的关系型数据库都支持该语言，但是针对不同的数据库同一个操作写法上可能会有区别</li>
