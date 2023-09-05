@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   
   
-  <title>Access-控件解析-文本框-01-格式设置 | 栋栋的个人博客</title>
+  <title>分类: 爬虫逆向 | 栋栋的个人博客</title>
   
   <meta name="author" content="John DD" />
   <meta http-equiv="Cache-Control" content="no-transform" />
@@ -15,29 +15,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta name="format-detection" content="telphone=no, email=no" />
   
-    <meta name="keywords" content="access, excel, vba, 控件, 文本框" />
+    <meta name="keywords" content="得胜" />
   
-  <meta name="description" content="Part 1：本篇目标  本篇介绍的控件为：文本框。涉及功能为：文本框输入内容的格式限制 一般系统可以简单理解为有3个部分组成：输入-处理-输出 对于输入这部分往往会有些要求，例如要求输入日期。因为使用客户不同，如果希望由客户来主动规范化输入是不现实的，所以希望系统方面来限制  功能效果 Part 2：实现步骤  设计视图下，插入文本框 选中文本框，右键-属性，格式选项卡下，选择需求的格式 设置完">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Access-控件解析-文本框-01-格式设置">
-<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/08/01/ACCESS-VBA/Access-%E6%8E%A7%E4%BB%B6%E8%A7%A3%E6%9E%90-%E6%96%87%E6%9C%AC%E6%A1%86-01-%E6%A0%BC%E5%BC%8F%E8%AE%BE%E7%BD%AE/index.html">
+  <meta name="description" content="分享学习的文章分享基地">
+<meta property="og:type" content="website">
+<meta property="og:title" content="分类: 爬虫逆向">
+<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/index.html">
 <meta property="og:site_name" content="栋栋的个人博客">
-<meta property="og:description" content="Part 1：本篇目标  本篇介绍的控件为：文本框。涉及功能为：文本框输入内容的格式限制 一般系统可以简单理解为有3个部分组成：输入-处理-输出 对于输入这部分往往会有些要求，例如要求输入日期。因为使用客户不同，如果希望由客户来主动规范化输入是不现实的，所以希望系统方面来限制  功能效果 Part 2：实现步骤  设计视图下，插入文本框 选中文本框，右键-属性，格式选项卡下，选择需求的格式 设置完">
+<meta property="og:description" content="分享学习的文章分享基地">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1690879638307-298.png">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1690879638308-299.png">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1690879638309-300.png">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1690879638310-301.png">
-<meta property="article:published_time" content="2023-08-01T08:46:01.000Z">
-<meta property="article:modified_time" content="2023-08-31T11:30:13.163Z">
 <meta property="article:author" content="John DD">
-<meta property="article:tag" content="excel">
-<meta property="article:tag" content="vba">
-<meta property="article:tag" content="access">
-<meta property="article:tag" content="控件">
-<meta property="article:tag" content="文本框">
+<meta property="article:tag" content="得胜">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1690879638307-298.png">
   
   <!-- 站点验证相关 -->
   
@@ -152,176 +141,99 @@
 
         
 
-            <article itemscope itemtype="https://schema.org/Article">
-    
-    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/08/01/ACCESS-VBA/Access-%E6%8E%A7%E4%BB%B6%E8%A7%A3%E6%9E%90-%E6%96%87%E6%9C%AC%E6%A1%86-01-%E6%A0%BC%E5%BC%8F%E8%AE%BE%E7%BD%AE/">
-    <div class="kratos-hentry kratos-post-inner clearfix">
-        <header class="kratos-entry-header">
-            
-                <h1 class="kratos-entry-title text-center" itemprop="name headline">Access-控件解析-文本框-01-格式设置</h1>
-            
-            
-            <ul class="kratos-post-meta text-center">
-                <li><time datetime="2023-08-01T08:46:01.000Z" itemprop="datePublished"><i class="fa fa-calendar"></i> 2023-08-01</time></li>
-                <li itemprop="author" itemscope itemtype="https://schema.org/Person">
-                    <i class="fa fa-user"></i> 作者 <span itemprop="name">John DD</span>
-                </li>
-                
-                    <li>
-                        <i class="fa fa-edit"></i> 
-                        
-                        
-                            248
-                        
-                        字
-                    </li>
-                
-                
-            </ul>
-        </header>
-        <div class="kratos-post-content">
-            
-            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                <div class="icon"><i class="fa fa-warning"></i></div>
-                <div class="text"><p>本文最后编辑于 <time datetime="1693481413163"></time> 前，其中的内容可能需要更新。</p></div>
-            </div>
-            
-            
-            
-            <hr />
-            <div itemprop="articleBody"><p><strong>Part 1：本篇目标</strong></p>
-<ol>
-<li>本篇介绍的控件为：<strong>文本框</strong>。涉及功能为：文本框输入内容的<strong>格式</strong>限制</li>
-<li>一般系统可以简单理解为有3个部分组成：<strong>输入</strong>-<strong>处理</strong>-<strong>输出</strong></li>
-<li>对于输入这部分往往会有些要求，例如要求输入日期。因为使用客户不同，如果希望由客户来主动规范化输入是不现实的，所以希望系统方面来限制</li>
-</ol>
-<p>功能效果<br><img src="/./../../img/640-1690879638307-298.png" alt="图片"></p>
-<p><strong>Part 2：实现步骤</strong></p>
-<ol>
-<li><strong>设计视图</strong>下，插入文本框</li>
-<li>选中文本框，右键-属性，格式选项卡下，选择需求的格式</li>
-<li>设置完格式后，当用户输入不满足要求的数据时，系统会提示</li>
-</ol>
-<p>插入文本框</p>
-<p><img src="/./../../img/640-1690879638308-299.png" alt="图片"></p>
-<p>格式选项卡</p>
-<p><img src="/./../../img/640-1690879638309-300.png" alt="图片"></p>
-<p>输入格式错误</p>
-<p><img src="/./../../img/640-1690879638310-301.png" alt="图片"></p>
-</div>
-        </div>
-        
-            <div class="kratos-copyright text-center clearfix">
-                <h5 itemprop="copyrightNotice">本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
-            </div>
-        
-        <footer class="kratos-entry-footer clearfix">
-            
-                <div class="post-like-donate text-center clearfix" id="post-like-donate">
-                
-                
-                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
-                    <div class="share-wrap" style="display: none;">
-    <div class="share-group">
-        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
-            <div class="icon-wrap">
-                <i class="fa fa-qq"></i>
-            </div>
-        </a>
-        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
-            <div class="icon-wrap">
-                <i class="fa fa-star"></i>
-            </div>
-        </a>
-        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
-            <div class="icon-wrap">
-                <i class="fa fa-weixin"></i>
-            </div>
-            <div class="share-int">
-                <div class="qrcode" id="wechat-qr"></div>
-                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
-            </div>
-        </a>
-        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
-            <div class="icon-wrap">
-                <i class="fa fa-weibo"></i>
-            </div>
-        </a>
-        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
-            <div class="icon-wrap">
-                <i class="fa fa-facebook"></i>
-            </div>
-        </a>
-        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
-            <div class="icon-wrap">
-                <i class="fa fa-twitter"></i>
-            </div>
-        </a>
-    </div>
-    <script type="text/javascript">
-        $(()=>{
-            new QRCode("wechat-qr", {
-                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/08/01/ACCESS-VBA/Access-%E6%8E%A7%E4%BB%B6%E8%A7%A3%E6%9E%90-%E6%96%87%E6%9C%AC%E6%A1%86-01-%E6%A0%BC%E5%BC%8F%E8%AE%BE%E7%BD%AE/",
-                width: 150,
-                height: 150,
-                correctLevel : QRCode.CorrectLevel.H
-            });
-        });
-        function share(dest) {
-            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
-            const weiboBase     = "https://service.weibo.com/share/share.php?";
-            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
-            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
-            const twitterBase   = "https://twitter.com/intent/tweet?";
-            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/08/01/ACCESS-VBA/Access-%E6%8E%A7%E4%BB%B6%E8%A7%A3%E6%9E%90-%E6%96%87%E6%9C%AC%E6%A1%86-01-%E6%A0%BC%E5%BC%8F%E8%AE%BE%E7%BD%AE/";
-            const title         = "「Access-控件解析-文本框-01-格式设置」";
-            const excerpt       = `Part 1：本篇目标
+            <!-- Breadcrumb for tag & category page -->
 
-本篇介绍的控件为：文本框。涉及功能为：文本框输入内容的格式限制
-一般系统可以简单理解为有3个部分组成：输入-处理-输出
-对于输入这部分往往会有些要求，例如要求输入日期。因为使用客户不同，如果希望由客户来主动规...`;
-            let _URL;
-            switch (dest) {
-                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
-                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
-                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
-                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
-                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
-            }
-            window.open(_URL);
-        };
-    </script>
-</div>
+    <article class="kratos-hentry kratos-entry-border-new clearfix">
+        <div class="kratos-breadcrumb">
+            <a href="/">
+                <i class="fa fa-home"></i>
+            </a>
+            <i class="fa fa-angle-right"></i>
+            
+
+                <a href="/categories/">
+                    分类
+                </a>
+
                 
-                </div>
+                
+                    <i class="fa fa-angle-right"></i>
+                    <a href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">
+                        爬虫逆向
+                    </a>
+                
             
-            <div class="footer-tag clearfix">
-                <div class="pull-left">
-                <i class="fa fa-tags"></i>
-                    <a class="tag-none-link" href="/tags/access/" rel="tag">access</a>, <a class="tag-none-link" href="/tags/excel/" rel="tag">excel</a>, <a class="tag-none-link" href="/tags/vba/" rel="tag">vba</a>, <a class="tag-none-link" href="/tags/%E6%8E%A7%E4%BB%B6/" rel="tag">控件</a>, <a class="tag-none-link" href="/tags/%E6%96%87%E6%9C%AC%E6%A1%86/" rel="tag">文本框</a>
+            
+        </div>
+    </article>
+
+
+
+
+    
+    
+        <article class="kratos-hentry clearfix" itemscope itemtype="https://schema.org/Article">
+            <div class="kratos-entry-border-new clearfix">
+                
+                <div class="kratos-entry-thumb-new">
+                    <a href="/2023/06/14/%E9%AB%98%E8%80%83%E5%BF%97%E6%84%BF%E7%BD%91JS%E9%80%86%E5%90%91/">
+                        
+                            <img class="kratos-entry-thumb-new-img" alt="">
+                        
+                    </a>
                 </div>
-                <div class="pull-date">
-                    <time datetime="2023-08-31T11:30:13.163Z" itemprop="dateModified">最后编辑：2023-08-31</time>
+                <div class="kratos-post-inner-new">
+                    <header class="kratos-entry-header-new">
+                            <a class="label-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a>
+                        <h2 class="kratos-entry-title-new"><a href="/2023/06/14/%E9%AB%98%E8%80%83%E5%BF%97%E6%84%BF%E7%BD%91JS%E9%80%86%E5%90%91/" itemprop="mainEntityOfPage"><span itemprop="name headline">高考志愿网JS逆向</span></a>
+                    </header>
+                    <div class="kratos-entry-content-new">
+                        <p itemProp="description">
+                            
+                                
+起因：最近想出一个高考志愿填报的excel系统，想先从网上拿一些资源，最开始的设计是希望从网站上找到近5年的报考指南PDF，然后写代码OCR扫描PDF，摘取关键数据，后发现网站没有PDF,于是告吹。后来就找寻网站，看看有没有我想要的...
+                            
+                        </p>
+                    </div>
                 </div>
+                <footer class="kratos-post-meta-new">
+                    <span class="pull-left">
+                        <time datetime="2023-06-14T01:15:05.000Z" itemprop="datePublished">
+                            <a><i class="fa fa-calendar"></i> 2023-06-14</a>
+                        </time>
+                        <a>
+                            
+                                <i class="fa fa-tags"></i>
+                                <a class="tag-none-link" href="/tags/%E9%80%86%E5%90%91/" rel="tag">逆向</a>, <a class="tag-none-link" href="/tags/%E9%AB%98%E8%80%83%E7%BD%91%E7%AB%99/" rel="tag">高考网站</a>
+                            
+                        </a>
+                        
+                            <!-- 当前仅支持valine/waline自带的统计功能 -->
+                            
+                        
+                        
+                            <!-- 当前仅支持waline自带的统计功能 -->
+                            
+                        
+                    </span>
+                    <span class="pull-right">
+                        <a class="read-more" href="/2023/06/14/%E9%AB%98%E8%80%83%E5%BF%97%E6%84%BF%E7%BD%91JS%E9%80%86%E5%90%91/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
+                    </span>
+                </footer>
             </div>
-        </footer>
+        </article>
+    
+
+
+
+
+
+    <div class="hidden">
+        <!-- 加载文章阅读对应的统计功能，评论自带的那种 -->
+        
     </div>
-    
-        <nav class="navigation post-navigation clearfix" role="navigation">
-            
-            <div class="nav-previous clearfix">
-                <a title=" Access-控件解析-组合框-02-两个组合框联动" href="/2023/08/01/ACCESS-VBA/Access-控件解析-组合框-02-两个组合框联动/">&lt; 上一篇</a>
-            </div>
-            
-            
-            <div class="nav-next clearfix">
-                <a title=" Access-控件解析-按钮-01-关联代码" href="/2023/08/01/ACCESS-VBA/Access-控件解析-按钮-01-关联代码/">下一篇 &gt;</a>
-            </div>
-            
-        </nav>
-    
-    
-</article>
+
+
 
         
 
@@ -334,6 +246,8 @@
 
 <section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
     <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+        <div class="sticky-area">
     
     
                 <aside id="krw-about" class="widget widget-kratos-about clearfix">
@@ -374,8 +288,6 @@
     </div>
 </aside>
             
-                    <div class="sticky-area">
-                
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
     <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
