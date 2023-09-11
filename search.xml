@@ -962,7 +962,7 @@ End Sub<span aria-hidden="true" class="line-numbers-rows"><span></span><span></s
 <ol>
 <li>窗体展示：</li>
 </ol>
-<img src="./../../img/image-20230829102036849-1693374381855-1.png" alt="image-20230829102036849" style="zoom:33%;" />
+<img src="./../img/image-20230829102036849-1693374381855-1.png" alt="image-20230829102036849" style="zoom:33%;" />
 
 <ul>
 <li><p>窗体设计的时候有个问题，就是viewList 这个在原本的设计中并没有，需要打开这个按钮：</p>
@@ -970,17 +970,17 @@ End Sub<span aria-hidden="true" class="line-numbers-rows"><span></span><span></s
 <li><p>第一步：右击空白处，点击附加控件</p>
 </li>
 </ul>
-<p>​		<img src="./../../img/image-20230829102149445.png" alt="image-20230829102149445" style="zoom:50%;" /></p>
+<p>​		<img src="./../img/image-20230829102149445.png" alt="image-20230829102149445" style="zoom:50%;" /></p>
 <ul>
 <li>第二步：添加附件：</li>
 </ul>
-<img src="./../../img/image-20230829102323843-1693374393774-3.png" alt="image-20230829102323843" style="zoom:33%;" />
+<img src="./../img/image-20230829102323843-1693374393774-3.png" alt="image-20230829102323843" style="zoom:33%;" />
 
 <ol start="2">
 <li><p>代码–获取列表框中的默认数据</p>
 <p>这个部分的设计是这样的，想从设置中获取数据</p>
 <p>（1）先在设置中列出数据</p>
-<img src="./../../img/image-20230829102901272-1693374398266-5.png" alt="image-20230829102901272" style="zoom:50%;" /></li>
+<img src="./../img/image-20230829102901272-1693374398266-5.png" alt="image-20230829102901272" style="zoom:50%;" /></li>
 </ol>
 <p>​		（2）具体代码</p>
 <p>在 <code>窗体USERFORM</code> 中双击窗体打开代码</p>
