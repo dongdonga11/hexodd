@@ -3,6 +3,103 @@
   
     
     <entry>
+      <title><![CDATA[项目部署踩坑记录]]></title>
+      <url>/2023/09/11/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p>项目即将进入生产环境，部署在内部还需要一些操作。做了不少的踩坑。记录一下</p>
+</blockquote>
+<h4 id="一、首先是数据库"><a href="#一、首先是数据库" class="headerlink" title="一、首先是数据库"></a>一、首先是数据库</h4><ul>
+<li>SQLserver 安装踩坑</li>
+<li>SQLserver 远程连接踩坑</li>
+<li>安装wps宏插件【<a href="https://www.dongdonga11.eu.org/2023/07/28/%E8%AE%B0%E5%BD%95%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%BA%8C%E5%BC%B9/">我的项目-第二弹</a>】丢失问题踩坑</li>
+</ul>
+<h4 id="二、wps宏插件踩坑："><a href="#二、wps宏插件踩坑：" class="headerlink" title="二、wps宏插件踩坑："></a>二、wps宏插件踩坑：</h4><pre><code>     主要是“宏丢失”问题，因为用的宏插件不一致，所以读代码的时候 “left” “mid”....之类的函数不能用，这是因为`引用`  里有丢失的文件，给关闭就可以了。打开vb编辑器 -&gt;  引用 -&gt; 找到【丢失】 的引用包，-&gt; 关闭即可
+</code></pre>
+<h4 id="三、SQLserver-安装踩坑"><a href="#三、SQLserver-安装踩坑" class="headerlink" title="三、SQLserver 安装踩坑"></a>三、SQLserver 安装踩坑</h4><p>​		sql server 安装踩坑其实也比较大，主要在安装的时候不要图省事，还是需要 <code>自定义</code> 安装，可以看教程</p>
+<p><a href="https://www.dongdonga11.eu.org/2023/07/28/%E8%AE%B0%E5%BD%95%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%BA%8C%E5%BC%B9/">我的项目-第二弹</a>，这在后面可以省很多事</p>
+<h4 id="四、sql-server-远程连接踩坑最大"><a href="#四、sql-server-远程连接踩坑最大" class="headerlink" title="四、sql server 远程连接踩坑最大"></a>四、sql server 远程连接踩坑最大</h4><p>问题描述：SQL Serve [SQL Server无法连接到服务器]</p>
+<ul>
+<li><p>首先：在自定义安装的时候，一定要打开sqlserver windows身份验证 和SQL server 账户验证，很重要</p>
+</li>
+<li><p>然后是 <code>电脑需要打开远程访问</code>；<code>telnet</code>；  <code>入站规则</code>； <code>sqlserver 允许远程</code>； <code>tcp/ip 打开,设置</code> 等；</p>
+</li>
+<li><p>其次是设置账户和密码，“如何需要可以设置账户权限”</p>
+</li>
+<li><p>最后找到电脑的ip地址，需要用ip地址访问。</p>
+</li>
+</ul>
+<p><strong>结论：首先是上代码：</strong></p>
+<pre class="line-numbers language-visual-basic" data-language="visual-basic"><code class="language-visual-basic"><span class="token keyword">Public</span> <span class="token keyword">Sub</span> 连接数据库<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">Dim</span> serverIP <span class="token keyword">As</span> <span class="token keyword">String</span>
+    <span class="token keyword">Dim</span> serverName <span class="token keyword">As</span> <span class="token keyword">String</span>
+    <span class="token keyword">Dim</span> dbName <span class="token keyword">As</span> <span class="token keyword">String</span>
+    <span class="token keyword">Dim</span> userName <span class="token keyword">As</span> <span class="token keyword">String</span>
+    <span class="token keyword">Dim</span> password <span class="token keyword">As</span> <span class="token keyword">String</span>
+    <span class="token comment">'serverName = "DONGDONGA"</span>
+    serverIP <span class="token operator">=</span> <span class="token string">"192.168.38.167"</span>
+    dbName <span class="token operator">=</span> <span class="token string">"中台数据库"</span>
+    userName <span class="token operator">=</span> <span class="token string">"sa"</span>
+    password <span class="token operator">=</span> <span class="token string">"Zz5024784"</span>
+    <span class="token keyword">Set</span> cnn <span class="token operator">=</span> <span class="token keyword">New</span> ADODB<span class="token punctuation">.</span>Connection
+    cnn<span class="token punctuation">.</span>Open <span class="token string">"Provider=SQLOLEDB;Data Source="</span> <span class="token operator">&amp;</span> serverIP <span class="token operator">&amp;</span> <span class="token string">";Initial Catalog="</span> <span class="token operator">&amp;</span> dbName <span class="token operator">&amp;</span> <span class="token string">";User ID="</span> <span class="token operator">&amp;</span> userName <span class="token operator">&amp;</span> <span class="token string">";Password="</span> <span class="token operator">&amp;</span> password <span class="token operator">&amp;</span> <span class="token string">";"</span>
+
+<span class="token keyword">End</span> <span class="token keyword">Sub</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong>第一步：</strong>首先是确认下 SQL Server名称或IP地址拼写是否有误；</p>
+<p><strong>第二步：</strong>检查网络物理连接：</p>
+<blockquote>
+<p>ping ＜服务器IP地址＞或者 ping ＜服务器名称＞</p>
+<p>如果 ping ＜服务器IP地址＞ 失败，说明物理连接有问题，这时候要检查硬件设备，如网卡、HUB、路由器等。还有一种可能是由于客户端和服务器之间安装有防火墙软件造成的，比如 ISA Server。防火墙软件可能会屏蔽对 ping、telnet 等的响应，因此在检查连接问题的时候，我们要先把防火墙软件暂时关闭，或者打开所有被封闭的端口。</p>
+<p>如果ping ＜服务器IP地址＞ 成功而 ping ＜服务器名称＞ 失败，则说明名字解析有问题，这时候要检查 DNS 服务是否正常，有时候客户端和服务器不在同一个局域网里面，这时候很可能无法直接使用服务器名称来标识该服务器</p>
+</blockquote>
+<p><font color="red">这个部分我也没解决，所以没用实例名称，用的ip地址</font></p>
+<p><strong>第三步：</strong>检查SQL Server服务器工作状态：</p>
+<blockquote>
+<p>​	使用 telnet 命令， telnet ＜服务器IP地址＞ 1433；</p>
+<p>​	如果命令执行成功，可以看到屏幕一闪之后光标在左上角不停闪动，这说明 SQL Server 服务器工作正常，并且正在监听1433端口的 TCP&#x2F;IP 连接；如果命令返回”无法打开连接”的错误信息，则说明服务器端没有启动 SQL Server 服务，也可能服务器端没启用 TCP&#x2F;IP 协议，或者服务器端没有在 SQL Server 默认的端口1433上监听。</p>
+</blockquote>
+<p>​	</p>
+<ul>
+<li>解决办法：	启用TCP&#x2F;IP协议： 1、打开SQL配置管理器； 2、启用TCP&#x2F;IP服务； 3、打开端口（默认1433）4、重启服务</li>
+</ul>
+<p><img src="/./../img/363_485_20190325110219-422411939.png" alt="img"></p>
+<p><img src="/./../img/500_250_20190325110224-1378026421.png" alt="img"></p>
+<p>​	<img src="/./../img/500_327_20190325110226-1307456228.png" alt="img"></p>
+<p><img src="/./../img/500_318_20190325110232-593478683.png" alt="img"></p>
+<p><strong>第四步：</strong>在【连接】属性里面打开允许远程连接。</p>
+<p><img src="/./../img/363_481_20190325110245-372478881.png" alt="img"></p>
+<p><img src="/./../img/500_539_20190325110247-1463940198.png" alt="img"></p>
+<p><img src="/./../img/500_321_20190325110255-871410913.png" alt="img"></p>
+<p><strong>第五步：</strong>确认权限（这个部分我没用，用的Ip就行，这个部分我也不确定）</p>
+<p>1、确认是否有服务器读写权限？ 方法：a、客户端访问服务器共享文件夹；b、文件夹里面新建，确认是否有权限</p>
+<p><img src="/./../img/500_126_20190325110300-949671106.jpeg" alt="img"></p>
+<p><img src="/./../img/500_212_20190325110318-1485941175.jpeg" alt="img"></p>
+<p>2、修改默认用户名（sa）密码试试；</p>
+<p><img src="/./../img/500_232_20190325110329-1362241327.png" alt="img"></p>
+<h5 id="如果还没解决，就把SQL-server-重新安装一下，记得用自定义。然后再-SSMS-中查看下实例，把多余的那个关掉，然后再试一下。"><a href="#如果还没解决，就把SQL-server-重新安装一下，记得用自定义。然后再-SSMS-中查看下实例，把多余的那个关掉，然后再试一下。" class="headerlink" title="如果还没解决，就把SQL server 重新安装一下，记得用自定义。然后再 SSMS 中查看下实例，把多余的那个关掉，然后再试一下。"></a>如果还没解决，就把SQL server 重新安装一下，记得用自定义。然后再 SSMS 中查看下实例，把多余的那个关掉，然后再试一下。</h5>]]></content>
+      
+        <categories>
+            
+            <category> excel </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> excel </tag>
+            
+            <tag> vba </tag>
+            
+            <tag> 数据库 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[我的小项目-第三弹]]></title>
       <url>/2023/09/04/%E5%A4%A7%E9%BA%A6%E7%BD%91APP%E9%80%86%E5%90%91%E9%A1%B9%E7%9B%AE/%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E5%BC%B9/</url>
       <content type="html"><![CDATA[<p>一、项目起因：</p>
