@@ -17,15 +17,15 @@
   
     <meta name="keywords" content="excel, vba, 数据库" />
   
-  <meta name="description" content="最后一个章节就是调用所有的数据，这个部分很简单了，直接上代码 一、初始化数组 123456789101112131415161718192021222324252627&amp;#x27;初始化数组Sub InitTableFrom()    ReDim tableFrom(1 To 22) As Variant        tableFrom(1) &#x3D; &quot;数据总表.id&quot;    t">
+  <meta name="description" content="最后一个章节就是调用所有的数据，这个部分很简单了，直接上代码 一、初始化数组 &#39;初始化数组 Sub InitTableFrom()     ReDim tableFrom(1 To 22) As Variant          tableFrom(1) &#x3D; &quot;数据总表.id&quot;     tableFrom(2) &#x3D; &quot;数据总表.省份&quot;     tableFrom(3) &#x3D; &quot;数据总表.市&quot;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="销售系统搭建（二）">
 <meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/08/31/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/%E9%94%80%E5%94%AE%E7%B3%BB%E7%BB%9F%E6%90%AD%E5%BB%BA%EF%BC%88%E4%BA%8C%EF%BC%89/index.html">
 <meta property="og:site_name" content="栋栋的个人博客">
-<meta property="og:description" content="最后一个章节就是调用所有的数据，这个部分很简单了，直接上代码 一、初始化数组 123456789101112131415161718192021222324252627&amp;#x27;初始化数组Sub InitTableFrom()    ReDim tableFrom(1 To 22) As Variant        tableFrom(1) &#x3D; &quot;数据总表.id&quot;    t">
+<meta property="og:description" content="最后一个章节就是调用所有的数据，这个部分很简单了，直接上代码 一、初始化数组 &#39;初始化数组 Sub InitTableFrom()     ReDim tableFrom(1 To 22) As Variant          tableFrom(1) &#x3D; &quot;数据总表.id&quot;     tableFrom(2) &#x3D; &quot;数据总表.省份&quot;     tableFrom(3) &#x3D; &quot;数据总表.市&quot;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-08-31T12:04:18.000Z">
-<meta property="article:modified_time" content="2023-09-05T02:16:48.531Z">
+<meta property="article:modified_time" content="2023-09-11T01:03:38.263Z">
 <meta property="article:author" content="John DD">
 <meta property="article:tag" content="excel">
 <meta property="article:tag" content="vba">
@@ -168,7 +168,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~2.73K
+                            ~2.31K
                         
                         字
                     </li>
@@ -180,7 +180,7 @@
             
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
                 <div class="icon"><i class="fa fa-warning"></i></div>
-                <div class="text"><p>本文最后编辑于 <time datetime="1693880208531"></time> 前，其中的内容可能需要更新。</p></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1694394218263"></time> 前，其中的内容可能需要更新。</p></div>
             </div>
             
             
@@ -188,16 +188,107 @@
             <hr />
             <div itemprop="articleBody"><p>最后一个章节就是调用所有的数据，这个部分很简单了，直接上代码</p>
 <p>一、初始化数组</p>
-<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&#x27;初始化数组</span></span><br><span class="line"><span class="keyword">Sub</span> InitTableFrom()</span><br><span class="line">    <span class="keyword">ReDim</span> tableFrom(<span class="number">1</span> <span class="keyword">To</span> <span class="number">22</span>) <span class="keyword">As</span> Variant</span><br><span class="line">    </span><br><span class="line">    tableFrom(<span class="number">1</span>) = <span class="string">&quot;数据总表.id&quot;</span></span><br><span class="line">    tableFrom(<span class="number">2</span>) = <span class="string">&quot;数据总表.省份&quot;</span></span><br><span class="line">    tableFrom(<span class="number">3</span>) = <span class="string">&quot;数据总表.市&quot;</span></span><br><span class="line">    tableFrom(<span class="number">4</span>) = <span class="string">&quot;数据总表.[区/县]&quot;</span></span><br><span class="line">    tableFrom(<span class="number">5</span>) = <span class="string">&quot;数据总表.地址信息&quot;</span></span><br><span class="line">    tableFrom(<span class="number">6</span>) = <span class="string">&quot;数据总表.学校名称&quot;</span></span><br><span class="line">    tableFrom(<span class="number">7</span>) = <span class="string">&quot;数据总表.联系方式&quot;</span></span><br><span class="line">    tableFrom(<span class="number">8</span>) = <span class="string">&quot;数据总表.学校级别&quot;</span></span><br><span class="line">    tableFrom(<span class="number">9</span>) = <span class="string">&quot;数据总表.学校性质&quot;</span></span><br><span class="line">    tableFrom(<span class="number">10</span>) = <span class="string">&quot;数据总表.分配时间&quot;</span></span><br><span class="line">    tableFrom(<span class="number">11</span>) = <span class="string">&quot;cint(T.回访数据总数)&quot;</span></span><br><span class="line">    tableFrom(<span class="number">12</span>) = <span class="string">&quot;R.回访时间&quot;</span></span><br><span class="line">    tableFrom(<span class="number">13</span>) = <span class="string">&quot;R.触达结果&quot;</span></span><br><span class="line">    tableFrom(<span class="number">14</span>) = <span class="string">&quot;R.接通部门&quot;</span></span><br><span class="line">    tableFrom(<span class="number">15</span>) = <span class="string">&quot;R.情况说明&quot;</span></span><br><span class="line">    tableFrom(<span class="number">16</span>) = <span class="string">&quot;R.意向等级&quot;</span></span><br><span class="line">    tableFrom(<span class="number">17</span>) = <span class="string">&quot;R.是否与校长建联&quot;</span></span><br><span class="line">    tableFrom(<span class="number">18</span>) = <span class="string">&quot;跟进结果.加微信&quot;</span></span><br><span class="line">    tableFrom(<span class="number">19</span>) = <span class="string">&quot;跟进结果.加公众号&quot;</span></span><br><span class="line">    tableFrom(<span class="number">20</span>) = <span class="string">&quot;跟进结果.是否应约峰会&quot;</span></span><br><span class="line">    tableFrom(<span class="number">21</span>) = <span class="string">&quot;跟进结果.签约&quot;</span></span><br><span class="line">    tableFrom(<span class="number">22</span>) = <span class="string">&quot;销售.姓名&quot;</span></span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-visual-basic" data-language="visual-basic"><code class="language-visual-basic"><span class="token comment">'初始化数组</span>
+<span class="token keyword">Sub</span> InitTableFrom<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">ReDim</span> tableFrom<span class="token punctuation">(</span><span class="token number">1</span> <span class="token keyword">To</span> <span class="token number">22</span><span class="token punctuation">)</span> <span class="token keyword">As</span> <span class="token keyword">Variant</span>
+    
+    tableFrom<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"数据总表.id"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"数据总表.省份"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"数据总表.市"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"数据总表.[区/县]"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"数据总表.地址信息"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"数据总表.学校名称"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"数据总表.联系方式"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"数据总表.学校级别"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"数据总表.学校性质"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"数据总表.分配时间"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"cint(T.回访数据总数)"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"R.回访时间"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">13</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"R.触达结果"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">14</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"R.接通部门"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">15</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"R.情况说明"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">16</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"R.意向等级"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">17</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"R.是否与校长建联"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">18</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"跟进结果.加微信"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">19</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"跟进结果.加公众号"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"跟进结果.是否应约峰会"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">21</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"跟进结果.签约"</span>
+    tableFrom<span class="token punctuation">(</span><span class="token number">22</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"销售.姓名"</span>
+<span class="token keyword">End</span> <span class="token keyword">Sub</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
 
-<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&#x27;获取所有数据</span></span><br><span class="line"><span class="keyword">Sub</span> 客户跟进数据()</span><br><span class="line">    <span class="keyword">Dim</span> sql <span class="keyword">As</span> <span class="type">String</span></span><br><span class="line">    <span class="keyword">Dim</span> columsTitle <span class="keyword">As</span> <span class="type">String</span></span><br><span class="line">    <span class="keyword">Dim</span> salesName <span class="keyword">As</span> <span class="type">String</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">If</span> ActiveSheet.AutoFilterMode <span class="keyword">Then</span></span><br><span class="line">        ActiveSheet.AutoFilterMode = <span class="literal">False</span></span><br><span class="line">    <span class="keyword">End</span> <span class="keyword">If</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    salesName = asycSalerName</span><br><span class="line">    </span><br><span class="line">    <span class="comment">&#x27;salesName = &quot;孙阔&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">Call</span> 连接数据库</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    InitTableFrom <span class="comment">&#x27; 初始化数组</span></span><br><span class="line">    </span><br><span class="line">    columsTitle = <span class="keyword">Join</span>(tableFrom, <span class="string">&quot;, &quot;</span>) <span class="comment">&#x27; 构建新的列名部分</span></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    sql = <span class="string">&quot;SELECT &quot;</span> &amp; columsTitle &amp; <span class="string">&quot; &quot;</span> _</span><br><span class="line">    &amp; <span class="string">&quot;FROM ((((数据总表 &quot;</span> _</span><br><span class="line">    &amp; <span class="string">&quot;LEFT JOIN &quot;</span> _</span><br><span class="line">    &amp; <span class="string">&quot;(SELECT 回访.数据总表id, COUNT(回访.数据总表id) AS 回访数据总数, Max(回访.id) AS 最后回访数据 &quot;</span> _</span><br><span class="line">    &amp; <span class="string">&quot;FROM 回访 &quot;</span> _</span><br><span class="line">    &amp; <span class="string">&quot;GROUP BY 回访.数据总表id) AS T ON 数据总表.id = T.数据总表id) &quot;</span> _</span><br><span class="line">    &amp; <span class="string">&quot;LEFT JOIN 回访 AS R ON T.最后回访数据 = R.id) &quot;</span> _</span><br><span class="line">    &amp; <span class="string">&quot;LEFT JOIN 销售 ON 数据总表.跟进人id = 销售.id) &quot;</span> _</span><br><span class="line">    &amp; <span class="string">&quot;LEFT JOIN 跟进结果 ON 数据总表.id = 跟进结果.学校名称id) &quot;</span> _</span><br><span class="line">    &amp; <span class="string">&quot;WHERE 销售.姓名 = &#x27;&quot;</span> &amp; salesName &amp; <span class="string">&quot;&#x27;&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">Set</span> rs = <span class="built_in">New</span> ADODB.Recordset</span><br><span class="line">    rs.Open sql, cnn, adOpenKeyset, adLockOptimistic</span><br><span class="line">    </span><br><span class="line">    Sheets(<span class="string">&quot;客户跟进表&quot;</span>).Range(<span class="string">&quot;c15&quot;</span>).CopyFromRecordset rs</span><br><span class="line">    </span><br><span class="line">    <span class="comment">&#x27;释放对象变量空间</span></span><br><span class="line">    rs.Close: <span class="keyword">Set</span> rs = <span class="literal">Nothing</span></span><br><span class="line">    cnn.Close: <span class="keyword">Set</span> cnn = <span class="literal">Nothing</span></span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-visual-basic" data-language="visual-basic"><code class="language-visual-basic"><span class="token comment">'获取所有数据</span>
+<span class="token keyword">Sub</span> 客户跟进数据<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">Dim</span> sql <span class="token keyword">As</span> <span class="token keyword">String</span>
+    <span class="token keyword">Dim</span> columsTitle <span class="token keyword">As</span> <span class="token keyword">String</span>
+    <span class="token keyword">Dim</span> salesName <span class="token keyword">As</span> <span class="token keyword">String</span>
+    
+    <span class="token keyword">If</span> ActiveSheet<span class="token punctuation">.</span>AutoFilterMode <span class="token keyword">Then</span>
+        ActiveSheet<span class="token punctuation">.</span>AutoFilterMode <span class="token operator">=</span> <span class="token boolean">False</span>
+    <span class="token keyword">End</span> <span class="token keyword">If</span>
+    
+    
+    salesName <span class="token operator">=</span> asycSalerName
+    
+    <span class="token comment">'salesName = "孙阔"</span>
+    
+    <span class="token keyword">Call</span> 连接数据库
+    
+    
+    InitTableFrom <span class="token comment">' 初始化数组</span>
+    
+    columsTitle <span class="token operator">=</span> Join<span class="token punctuation">(</span>tableFrom<span class="token punctuation">,</span> <span class="token string">", "</span><span class="token punctuation">)</span> <span class="token comment">' 构建新的列名部分</span>
+    
+
+    sql <span class="token operator">=</span> <span class="token string">"SELECT "</span> <span class="token operator">&amp;</span> columsTitle <span class="token operator">&amp;</span> <span class="token string">" "</span> <span class="token operator">_</span>
+    <span class="token operator">&amp;</span> <span class="token string">"FROM ((((数据总表 "</span> <span class="token operator">_</span>
+    <span class="token operator">&amp;</span> <span class="token string">"LEFT JOIN "</span> <span class="token operator">_</span>
+    <span class="token operator">&amp;</span> <span class="token string">"(SELECT 回访.数据总表id, COUNT(回访.数据总表id) AS 回访数据总数, Max(回访.id) AS 最后回访数据 "</span> <span class="token operator">_</span>
+    <span class="token operator">&amp;</span> <span class="token string">"FROM 回访 "</span> <span class="token operator">_</span>
+    <span class="token operator">&amp;</span> <span class="token string">"GROUP BY 回访.数据总表id) AS T ON 数据总表.id = T.数据总表id) "</span> <span class="token operator">_</span>
+    <span class="token operator">&amp;</span> <span class="token string">"LEFT JOIN 回访 AS R ON T.最后回访数据 = R.id) "</span> <span class="token operator">_</span>
+    <span class="token operator">&amp;</span> <span class="token string">"LEFT JOIN 销售 ON 数据总表.跟进人id = 销售.id) "</span> <span class="token operator">_</span>
+    <span class="token operator">&amp;</span> <span class="token string">"LEFT JOIN 跟进结果 ON 数据总表.id = 跟进结果.学校名称id) "</span> <span class="token operator">_</span>
+    <span class="token operator">&amp;</span> <span class="token string">"WHERE 销售.姓名 = '"</span> <span class="token operator">&amp;</span> salesName <span class="token operator">&amp;</span> <span class="token string">"'"</span>
+
+
+    
+    <span class="token keyword">Set</span> rs <span class="token operator">=</span> <span class="token keyword">New</span> ADODB<span class="token punctuation">.</span>Recordset
+    rs<span class="token punctuation">.</span>Open sql<span class="token punctuation">,</span> cnn<span class="token punctuation">,</span> adOpenKeyset<span class="token punctuation">,</span> adLockOptimistic
+    
+    Sheets<span class="token punctuation">(</span><span class="token string">"客户跟进表"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Range<span class="token punctuation">(</span><span class="token string">"c15"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>CopyFromRecordset rs
+    
+    <span class="token comment">'释放对象变量空间</span>
+    rs<span class="token punctuation">.</span>Close<span class="token punctuation">:</span> <span class="token keyword">Set</span> rs <span class="token operator">=</span> <span class="token boolean">Nothing</span>
+    cnn<span class="token punctuation">.</span>Close<span class="token punctuation">:</span> <span class="token keyword">Set</span> cnn <span class="token operator">=</span> <span class="token boolean">Nothing</span>
+<span class="token keyword">End</span> <span class="token keyword">Sub</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
 
-<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&#x27;获取销售的名字</span></span><br><span class="line"><span class="keyword">Function</span> asycSalerName() <span class="keyword">As</span> Variant</span><br><span class="line"></span><br><span class="line">    <span class="keyword">Dim</span> ws <span class="keyword">As</span> Worksheet</span><br><span class="line">    <span class="keyword">Dim</span> dataValues <span class="keyword">As</span> Variant</span><br><span class="line">    </span><br><span class="line">    <span class="comment">&#x27; 设置工作表对象</span></span><br><span class="line">    <span class="keyword">Set</span> ws = ThisWorkbook.Sheets(<span class="string">&quot;客户跟进表&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">&#x27; 定义要获取数据的区域范围</span></span><br><span class="line">    dataValues = ws.Range(<span class="string">&quot;c8&quot;</span>).value</span><br><span class="line"></span><br><span class="line">    asycSalerName = dataValues</span><br><span class="line"></span><br><span class="line">    <span class="keyword">Set</span> ws = <span class="literal">Nothing</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Function</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-visual-basic" data-language="visual-basic"><code class="language-visual-basic"><span class="token comment">'获取销售的名字</span>
+<span class="token keyword">Function</span> asycSalerName<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">As</span> <span class="token keyword">Variant</span>
 
+    <span class="token keyword">Dim</span> ws <span class="token keyword">As</span> Worksheet
+    <span class="token keyword">Dim</span> dataValues <span class="token keyword">As</span> <span class="token keyword">Variant</span>
+    
+    <span class="token comment">' 设置工作表对象</span>
+    <span class="token keyword">Set</span> ws <span class="token operator">=</span> ThisWorkbook<span class="token punctuation">.</span>Sheets<span class="token punctuation">(</span><span class="token string">"客户跟进表"</span><span class="token punctuation">)</span>
+    
+    <span class="token comment">' 定义要获取数据的区域范围</span>
+    dataValues <span class="token operator">=</span> ws<span class="token punctuation">.</span>Range<span class="token punctuation">(</span><span class="token string">"c8"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>value
+
+    asycSalerName <span class="token operator">=</span> dataValues
+
+    <span class="token keyword">Set</span> ws <span class="token operator">=</span> <span class="token boolean">Nothing</span>
+    
+<span class="token keyword">End</span> <span class="token keyword">Function</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="具体实现："><a href="#具体实现：" class="headerlink" title="具体实现："></a>具体实现：</h4><p>​		<a target="_blank" rel="noopener" href="https://www.dongdonga11.eu.org/2023/08/28/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/excel-%E4%B8%AD%E5%8F%B0%E6%95%B0%E6%8D%AE%E5%BA%93%E6%90%AD%E5%BB%BA%EF%BC%88%E4%B8%80%EF%BC%89/">excel-中台数据库搭建（一）</a></p>
+<p>​		<a target="_blank" rel="noopener" href="https://www.dongdonga11.eu.org/2023/08/29/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/excel-%E4%B8%AD%E5%8F%B0%E6%95%B0%E6%8D%AE%E5%BA%93%E6%90%AD%E5%BB%BA%EF%BC%88%E4%BA%8C%EF%BC%89/">excel-中台数据库搭建（二）</a></p>
+<p>​		<a target="_blank" rel="noopener" href="https://www.dongdonga11.eu.org/2023/08/29/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/excel-%E4%B8%AD%E5%8F%B0%E6%95%B0%E6%8D%AE%E5%BA%93%E6%90%AD%E5%BB%BA%EF%BC%88%E4%B8%89%EF%BC%89/">excel-中台数据库搭建（三）</a></p>
+<p>​		<a target="_blank" rel="noopener" href="https://www.dongdonga11.eu.org/2023/08/29/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/excel-%E4%B8%AD%E5%8F%B0%E6%95%B0%E6%8D%AE%E5%BA%93%E6%90%AD%E5%BB%BA%EF%BC%88%E5%9B%9B%EF%BC%89/">excel-中台数据库搭建（四）</a></p>
+<p>​		<a target="_blank" rel="noopener" href="https://www.dongdonga11.eu.org/2023/08/31/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/%E9%94%80%E5%94%AE%E7%B3%BB%E7%BB%9F%E6%90%AD%E5%BB%BA%EF%BC%88%E4%B8%80%EF%BC%89/">销售系统搭建（一）</a></p>
 </div>
         </div>
         
@@ -267,7 +358,11 @@
             const title         = "「销售系统搭建（二）」";
             const excerpt       = `最后一个章节就是调用所有的数据，这个部分很简单了，直接上代码
 一、初始化数组
-123456789101112131415161718192021222324252627&#x27;初始化数组Sub InitTableFrom()   ...`;
+'初始化数组
+Sub InitTableFrom()
+    ReDim tableFrom(1 To 22) As Variant
+    
+    ta...`;
             let _URL;
             switch (dest) {
                 case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
@@ -289,7 +384,7 @@
                     <a class="tag-none-link" href="/tags/excel/" rel="tag">excel</a>, <a class="tag-none-link" href="/tags/vba/" rel="tag">vba</a>, <a class="tag-none-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a>
                 </div>
                 <div class="pull-date">
-                    <time datetime="2023-09-05T02:16:48.531Z" itemprop="dateModified">最后编辑：2023-09-05</time>
+                    <time datetime="2023-09-11T01:03:38.263Z" itemprop="dateModified">最后编辑：2023-09-11</time>
                 </div>
             </div>
         </footer>
