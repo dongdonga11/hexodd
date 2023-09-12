@@ -9,20 +9,19 @@
 <p>项目即将进入生产环境，部署在内部还需要一些操作。做了不少的踩坑。记录一下</p>
 </blockquote>
 <h4 id="一、首先是数据库"><a href="#一、首先是数据库" class="headerlink" title="一、首先是数据库"></a>一、首先是数据库</h4><ul>
-<li><p>安装wps宏插件【<a href="https://www.dongdonga11.eu.org/2023/07/28/%E8%AE%B0%E5%BD%95%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%BA%8C%E5%BC%B9/">我的项目-第二弹</a>】丢失问题踩坑</p>
-</li>
-<li><p>SQLserver 安装踩坑</p>
-</li>
-<li><p>SQLserver 远程连接踩坑</p>
-</li>
-<li><p>dns 静态IP</p>
-</li>
+<li>安装wps宏插件【<a href="https://www.dongdonga11.eu.org/2023/07/28/%E8%AE%B0%E5%BD%95%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%BA%8C%E5%BC%B9/">我的项目-第二弹</a>】丢失问题踩坑</li>
+<li>SQLserver 安装踩坑</li>
+<li>SQLserver 远程连接踩坑</li>
 </ul>
 <h4 id="二、wps宏插件踩坑："><a href="#二、wps宏插件踩坑：" class="headerlink" title="二、wps宏插件踩坑："></a>二、wps宏插件踩坑：</h4><pre><code>     主要是“宏丢失”问题，因为用的宏插件不一致，所以读代码的时候 “left” “mid”....之类的函数不能用，这是因为`引用`  里有丢失的文件，给关闭就可以了。打开vb编辑器 -&gt;  引用 -&gt; 找到【丢失】 的引用包，-&gt; 关闭即可
 </code></pre>
-<h4 id="三、SQLserver-安装踩坑"><a href="#三、SQLserver-安装踩坑" class="headerlink" title="三、SQLserver 安装踩坑"></a>三、SQLserver 安装踩坑</h4><p>​		sql server 安装踩坑其实也比较大，主要在安装的时候不要图省事，还是需要 <code>自定义</code> 安装，可以看教程</p>
+<h4 id="三、动态IP转静态IP"><a href="#三、动态IP转静态IP" class="headerlink" title="三、动态IP转静态IP"></a>三、动态IP转静态IP</h4><blockquote>
+<p>dns 静态IP：打开 <code>cmd</code>  利用<code>ipconfig- all</code> 获取ipv4 地址，获取 子掩码 ：255.255.255.0； 获取首选DNS服务器地址；获取备选DNS服务器地址：8.8.8.8。</p>
+<p>通过网络适配器更改iP</p>
+</blockquote>
+<h4 id="四、SQLserver-安装踩坑"><a href="#四、SQLserver-安装踩坑" class="headerlink" title="四、SQLserver 安装踩坑"></a>四、SQLserver 安装踩坑</h4><p>​		sql server 安装踩坑其实也比较大，主要在安装的时候不要图省事，还是需要 <code>自定义</code> 安装，可以看教程</p>
 <p><a href="https://www.dongdonga11.eu.org/2023/07/28/%E8%AE%B0%E5%BD%95%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%BA%8C%E5%BC%B9/">我的项目-第二弹</a>，这在后面可以省很多事</p>
-<h4 id="四、sql-server-远程连接踩坑最大"><a href="#四、sql-server-远程连接踩坑最大" class="headerlink" title="四、sql server 远程连接踩坑最大"></a>四、sql server 远程连接踩坑最大</h4><p>问题描述：SQL Serve [SQL Server无法连接到服务器]</p>
+<h4 id="五、sql-server-远程连接踩坑最大"><a href="#五、sql-server-远程连接踩坑最大" class="headerlink" title="五、sql server 远程连接踩坑最大"></a>五、sql server 远程连接踩坑最大</h4><p>问题描述：SQL Serve [SQL Server无法连接到服务器]</p>
 <ul>
 <li><p>首先：在自定义安装的时候，一定要打开sqlserver windows身份验证 和SQL server 账户验证，很重要</p>
 </li>
@@ -83,7 +82,7 @@
 <p><img src="/./../img/500_212_20190325110318-1485941175.jpeg" alt="img"></p>
 <p>2、修改默认用户名（sa）密码试试；</p>
 <p><img src="/./../img/500_232_20190325110329-1362241327.png" alt="img"></p>
-<h5 id="如果还没解决，就把SQL-server-重新安装一下，记得用自定义。然后再-SSMS-中查看下实例，把多余的那个关掉，然后再试一下。"><a href="#如果还没解决，就把SQL-server-重新安装一下，记得用自定义。然后再-SSMS-中查看下实例，把多余的那个关掉，然后再试一下。" class="headerlink" title="如果还没解决，就把SQL server 重新安装一下，记得用自定义。然后再 SSMS 中查看下实例，把多余的那个关掉，然后再试一下。"></a>如果还没解决，就把SQL server 重新安装一下，记得用自定义。然后再 SSMS 中查看下实例，把多余的那个关掉，然后再试一下。</h5><p>四、sql server 远程连接踩坑最大</p>
+<h5 id="如果还没解决，就把SQL-server-重新安装一下，记得用自定义。然后再-SSMS-中查看下实例，把多余的那个关掉，然后再试一下。"><a href="#如果还没解决，就把SQL-server-重新安装一下，记得用自定义。然后再-SSMS-中查看下实例，把多余的那个关掉，然后再试一下。" class="headerlink" title="如果还没解决，就把SQL server 重新安装一下，记得用自定义。然后再 SSMS 中查看下实例，把多余的那个关掉，然后再试一下。"></a>如果还没解决，就把SQL server 重新安装一下，记得用自定义。然后再 SSMS 中查看下实例，把多余的那个关掉，然后再试一下。</h5><hr>
 ]]></content>
       
         <categories>
