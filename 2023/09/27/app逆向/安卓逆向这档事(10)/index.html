@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  
+  
+  <title>吾爱破解安卓逆向入门教程《安卓逆向这档事》 | 栋栋的个人博客</title>
+  
+  <meta name="author" content="John DD" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="APP逆向, android逆向, 吾爱破解教程10节, 大麦网抢票, 逆向" />
+  
+  <meta name="description" content="由吾爱破解论坛移动安全区版主 正己录制的吾爱破解安卓逆向 0基础 小白入门教程《安卓逆向这档事》正式上线啦，如果你想学习安卓逆向，这是一个不错的机会呦！ 前情提要：《安卓逆向这档事》九、密码学基础、算法自吐、非标准加密对抗  一、课程目标 1.初识ELF文件格式、常见节区2.了解NDK开发，写一个简单的so3.学习IDA Pro工具的使用来分析so文件4.通过学习ARM基础知识，能进行简单的修改5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="吾爱破解安卓逆向入门教程《安卓逆向这档事》">
+<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B(10)/index.html">
+<meta property="og:site_name" content="栋栋的个人博客">
+<meta property="og:description" content="由吾爱破解论坛移动安全区版主 正己录制的吾爱破解安卓逆向 0基础 小白入门教程《安卓逆向这档事》正式上线啦，如果你想学习安卓逆向，这是一个不错的机会呦！ 前情提要：《安卓逆向这档事》九、密码学基础、算法自吐、非标准加密对抗  一、课程目标 1.初识ELF文件格式、常见节区2.了解NDK开发，写一个简单的so3.学习IDA Pro工具的使用来分析so文件4.通过学习ARM基础知识，能进行简单的修改5">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695700248553-3.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695700248553-4.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695700248553-5.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695700248553-6.png">
+<meta property="article:published_time" content="2023-09-27T00:33:49.000Z">
+<meta property="article:modified_time" content="2023-09-27T06:16:15.519Z">
+<meta property="article:author" content="John DD">
+<meta property="article:tag" content="逆向">
+<meta property="article:tag" content="APP逆向">
+<meta property="article:tag" content="android逆向">
+<meta property="article:tag" content="大麦网抢票">
+<meta property="article:tag" content="吾爱破解教程10节">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640.png">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" media="all"></script>
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-color-dark.min.css" media="(prefers-color-scheme: dark)"></script>
+    <script src="/js/kr-dark.min.js"></script>
+  
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" media="all"></script>
+  
+  <link rel="stylesheet" id="fontawe-css" href="/vendors/font-awesome@4.7.0/css/font-awesome.min.css" media="all"></script>
+  <link rel="stylesheet" id="nprogress-css" href="/vendors/nprogress@0.2.0/nprogress.css" media="all"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/aplayer@1.10.1/dist/APlayer.min.css"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"></script>
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="/vendors/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="/vendors/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+  
+  <style>
+    
+      .kratos-cover.kratos-cover-2 {
+        background-image: url('/images/banner.webp');
+      }
+    
+    
+  </style>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                    
+                                        
+                                            <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/friends/"><i class="fa fa-paw"></i>好伙伴</a></li>
+                                        
+                                    
+                                        
+                                            <li>
+                                                <a><i class="fa fa-link"></i>链接</a>
+                                                <ul class="sub-menu">
+                                                    
+                                                        
+                                                    
+                                                </ul>
+                                            </li>
+                                        
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">栋栋的个人博客</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>栋栋的个人博客</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article itemscope itemtype="https://schema.org/Article">
+    
+    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B(10)/">
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center" itemprop="name headline">吾爱破解安卓逆向入门教程《安卓逆向这档事》</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><time datetime="2023-09-27T00:33:49.000Z" itemprop="datePublished"><i class="fa fa-calendar"></i> 2023-09-27</time></li>
+                <li itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <i class="fa fa-user"></i> 作者 <span itemprop="name">John DD</span>
+                </li>
+                
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            ~9.84K
+                        
+                        字
+                    </li>
+                
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                <div class="icon"><i class="fa fa-warning"></i></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1695795375519"></time> 前，其中的内容可能需要更新。</p></div>
+            </div>
+            
+            
+            
+            <hr />
+            <div itemprop="articleBody"><p>由吾爱破解论坛移动安全区版主 正己录制的吾爱破解安卓逆向 <strong>0基础 小白入门教程</strong>《安卓逆向这档事》正式上线啦，如果你想学习安卓逆向，这是一个不错的机会呦！</p>
+<p>前情提要：<a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651139179&idx=1&sn=26e374dfb5776d41a7d3501770915a77&chksm=bd50bc3f8a2735293c12856cfabf63aa694a2c66b8846a83eb9e301ac60d31484ed1600b8e1c&scene=21#wechat_redirect">《安卓逆向这档事》九、密码学基础、算法自吐、非标准加密对抗</a></p>
+<p><img src="/./../img/640.png" alt="图片"></p>
+<h1 id="一、课程目标"><a href="#一、课程目标" class="headerlink" title="一、课程目标"></a>一、课程目标</h1><hr>
+<p>1.初识ELF文件格式、常见节区<br>2.了解NDK开发，写一个简单的so<br>3.学习IDA Pro工具的使用来分析so文件<br>4.通过学习ARM基础知识，能进行简单的修改<br>5.通过Chatgpt&amp;IDA快速分析二进制文件**</p>
+<h1 id="二、工具"><a href="#二、工具" class="headerlink" title="二、工具"></a>二、工具</h1><hr>
+<p>1.教程Demo(更新)<br>2.MT管理器&#x2F;NP管理器<br>3.IDA Pro<br>4.雷电模拟器<br>5.Android Studio</p>
+<h1 id="三、课程内容"><a href="#三、课程内容" class="headerlink" title="三、课程内容"></a>三、课程内容</h1><hr>
+<h2 id="1-初识ELF文件格式"><a href="#1-初识ELF文件格式" class="headerlink" title="1. 初识ELF文件格式"></a>1. 初识ELF文件格式</h2><p>ELF（Executable and Linkable Format）是一种可执行和可链接的文件格式，是linux底下二进制文件，可以理解为windows下的<code>PE文件</code>，在Android中可以比作<code>dll</code>，方便函数的移植，在常用于保护Android软件，增加逆向难度。</p>
+<p>ELF文件的主要组成部分包括：</p>
+<ul>
+<li>ELF Header：文件头，描述文件的基本信息</li>
+<li>Program Header Table：程序头表，描述进程映像的布局</li>
+<li>Section Header Table：节区头表，描述文件的各个节区</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">节区名</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">.text</td>
+<td align="left">代码段，存放程序的指令</td>
+</tr>
+<tr>
+<td align="left">.data</td>
+<td align="left">数据段，存放已初始化的全局变量和静态变量</td>
+</tr>
+<tr>
+<td align="left">.rodata</td>
+<td align="left">只读数据段，存放只读数据</td>
+</tr>
+<tr>
+<td align="left">.bss</td>
+<td align="left">未初始化数据段，存放未初始化的全局变量和静态变量</td>
+</tr>
+<tr>
+<td align="left">.symtab</td>
+<td align="left">符号表，存放符号信息</td>
+</tr>
+<tr>
+<td align="left">.strtab</td>
+<td align="left">字符串表，存放字符串数据</td>
+</tr>
+<tr>
+<td align="left">.dynsym</td>
+<td align="left">动态符号表，存放动态链接需要的符号信息</td>
+</tr>
+<tr>
+<td align="left">.dynamic</td>
+<td align="left">动态链接信息，存放动态链接器需要的信息</td>
+</tr>
+</tbody></table>
+<h2 id="2-NDK开发"><a href="#2-NDK开发" class="headerlink" title="2.NDK开发"></a>2.NDK开发</h2><p>NDK（Native Development Kit）是一套用于开发Android应用程序的工具集，它允许您在C&#x2F;C++中编写性能关键的部分代码，并将这些代码与Java代码进行连接。</p>
+<p>步骤：<br>1.下载NDK和CMake<br><img src="/./../img/640-1695700248553-3.png" alt="图片"><br><img src="/./../img/640-1695700248553-4.png" alt="图片"><br>2.新建一个项目,往下拉,找到”c++”这个选项<br>3.查看CMakeLists.txt和编写native-lib.cpp<br>下面是cmakelist.txt和native-lib.cpp文件的作用以及简要说明：</p>
+<table>
+<thead>
+<tr>
+<th align="left">文件名</th>
+<th align="left">作用</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">CMakeLists.txt</td>
+<td align="left">构建配置文件</td>
+<td align="left">CMakeLists.txt是用于配置NDK项目的构建系统的文件。它指定了构建所需的源文件、依赖项、编译选项等。在构建过程中，CMake会根据该文件的指示生成对应的构建脚本，用于编译本地代码并生成本地库。</td>
+</tr>
+<tr>
+<td align="left">native-lib.cpp</td>
+<td align="left">本地代码实现文件</td>
+<td align="left">native-lib.cpp是包含本地代码实现的文件。它定义了通过Java和本地代码之间进行通信的本地方法。该文件中的函数实现将被编译为本地库，供Java代码调用。</td>
+</tr>
+</tbody></table>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"> 复制代码 隐藏代码
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MainActivity</span> <span class="token keyword">extends</span> <span class="token class-name">AppCompatActivity</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token comment">// Used to load the 'ndkdemo' library on application startup.</span>
+    <span class="token keyword">static</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">loadLibrary</span><span class="token punctuation">(</span><span class="token string">"ndkdemo"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 加载名为"ndkdemo"的库</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">ActivityMainBinding</span> binding<span class="token punctuation">;</span> <span class="token comment">// 声明一个ActivityMainBinding变量</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">onCreate</span><span class="token punctuation">(</span><span class="token class-name">Bundle</span> savedInstanceState<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">onCreate</span><span class="token punctuation">(</span>savedInstanceState<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        binding <span class="token operator">=</span> <span class="token class-name">ActivityMainBinding</span><span class="token punctuation">.</span><span class="token function">inflate</span><span class="token punctuation">(</span><span class="token function">getLayoutInflater</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 使用ViewBinding将布局文件解析为一个ActivityMainBinding对象</span>
+        <span class="token function">setContentView</span><span class="token punctuation">(</span>binding<span class="token punctuation">.</span><span class="token function">getRoot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 将Activity的布局设置为根布局</span>
+
+        <span class="token comment">// Example of a call to a native method</span>
+        <span class="token class-name">TextView</span> tv <span class="token operator">=</span> binding<span class="token punctuation">.</span>sampleText<span class="token punctuation">;</span> <span class="token comment">// 获取布局文件中的TextView控件</span>
+        tv<span class="token punctuation">.</span><span class="token function">setText</span><span class="token punctuation">(</span><span class="token function">stringFromJNI</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 调用本地方法stringFromJNI()并将其返回的字符串设置为TextView的文本内容</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">/**
+     * A native method that is implemented by the 'ndkdemo' native library,
+     * which is packaged with this application.
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">native</span> <span class="token class-name">String</span> <span class="token function">stringFromJNI</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 声明一个native方法stringFromJNI()</span>
+<span class="token punctuation">&#125;</span>
+ 复制代码 隐藏代码
+# <span class="token class-name">For</span> more information about using <span class="token class-name">CMake</span> <span class="token keyword">with</span> <span class="token class-name">Android</span> <span class="token class-name">Studio</span><span class="token punctuation">,</span> read the
+# documentation<span class="token operator">:</span> https<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>d<span class="token punctuation">.</span>android<span class="token punctuation">.</span>com<span class="token operator">/</span>studio<span class="token operator">/</span>projects<span class="token operator">/</span>add<span class="token operator">-</span><span class="token keyword">native</span><span class="token operator">-</span>code<span class="token punctuation">.</span>html
+
+# 设置构建本地库所需的<span class="token class-name">CMake</span>的最小版本要求
+<span class="token function">cmake_minimum_required</span><span class="token punctuation">(</span><span class="token constant">VERSION</span> <span class="token number">3.22</span><span class="token number">.1</span><span class="token punctuation">)</span>
+
+# 声明和命名项目
+<span class="token function">project</span><span class="token punctuation">(</span><span class="token string">"ndkdemo"</span><span class="token punctuation">)</span>
+
+# 创建并命名一个库，设置其类型为<span class="token constant">STATIC</span>或<span class="token constant">SHARED</span>，并指定源代码的相对路径
+# 可以定义多个库，<span class="token class-name">CMake</span>会为您构建它们
+# <span class="token class-name">Gradle</span>会自动将共享库打包到<span class="token constant">APK</span>中
+<span class="token function">add_library</span><span class="token punctuation">(</span>
+        # 设置库的名称
+        ndkdemo
+
+        # 设置库类型为共享库
+        <span class="token constant">SHARED</span>
+
+        # 提供源文件的相对路径
+        <span class="token keyword">native</span><span class="token operator">-</span>lib<span class="token punctuation">.</span>cpp<span class="token punctuation">)</span>
+
+# 搜索指定的预构建库并将路径存储为变量。
+# 由于<span class="token class-name">CMake</span>默认在搜索路径中包含系统库，因此您只需指定要添加的公共<span class="token constant">NDK</span>库的名称。
+# <span class="token class-name">CMake</span>会在完成构建之前验证该库是否存在。
+<span class="token function">find_library</span><span class="token punctuation">(</span>
+        # 设置路径变量的名称
+        log<span class="token operator">-</span>lib
+
+        # 指定要让<span class="token class-name">CMake</span>定位的<span class="token constant">NDK</span>库的名称
+        log<span class="token punctuation">)</span>
+
+# 指定<span class="token class-name">CMake</span>应链接到目标库的库。
+# 您可以链接多个库，例如在此构建脚本中定义的库、预构建的第三方库或系统库。
+<span class="token function">target_link_libraries</span><span class="token punctuation">(</span>
+        # 指定目标库
+        ndkdemo
+
+        # 将目标库链接到<span class="token constant">NDK</span>中包含的log库
+        $<span class="token punctuation">&#123;</span>log<span class="token operator">-</span>lib<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+ 复制代码 隐藏代码
+#include <span class="token generics"><span class="token punctuation">&lt;</span>jni<span class="token punctuation">.</span>h<span class="token punctuation">></span></span> <span class="token comment">// JNI头文件，提供了JNI函数和数据类型的定义</span>
+#include <span class="token generics"><span class="token punctuation">&lt;</span>string<span class="token punctuation">></span></span> <span class="token comment">// C++标准库的string类</span>
+
+<span class="token comment">// 声明一个jni函数，该函数将会被Java代码调用</span>
+<span class="token comment">// JNIEXPORT表示这个函数是可导出的，并且可以被其他代码使用</span>
+<span class="token comment">// jstring表示这个函数返回的是一个Java字符串对象</span>
+<span class="token comment">// JNICALL是JNI函数的调用约定</span>
+<span class="token comment">// Java_com_example_ndkdemo_MainActivity_stringFromJNI是JNI函数的命名规则，与Java中对应的方法名对应</span>
+<span class="token comment">// Java打头，1包名,2类名,3方法名字;"_"号隔开</span>
+extern <span class="token string">"C"</span> <span class="token constant">JNIEXPORT</span> jstring <span class="token constant">JNICALL</span>
+<span class="token class-name">Java_com_example_ndkdemo_MainActivity_stringFromJNI</span><span class="token punctuation">(</span>
+        <span class="token class-name">JNIEnv</span><span class="token operator">*</span> env<span class="token punctuation">,</span> <span class="token comment">// JNIEnv是指向JNI环境的指针，可以用来访问JNI提供的功能</span>
+        jobject <span class="token comment">/* this */</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">// jobject是指向Java对象的指针，在本例中并没有使用</span>
+
+    std<span class="token operator">::</span><span class="token function">string</span> hello <span class="token operator">=</span> <span class="token string">"Hello from C++"</span><span class="token punctuation">;</span> <span class="token comment">// 创建一个C++字符串对象</span>
+    <span class="token keyword">return</span> env<span class="token operator">-></span><span class="token class-name">NewStringUTF</span><span class="token punctuation">(</span>hello<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 将C++字符串对象转换为Java字符串对象并返回</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="1-JNI的前世今生"><a href="#1-JNI的前世今生" class="headerlink" title="1.JNI的前世今生"></a>1.JNI的前世今生</h3><p>NDK是开发套件，JNI才是调用的框架。所以与其说是NDK开发，不如说是JNI的开发。不过NDK是Android提供的开发套件。JNI可不是，JNI全称Java Native Interface,即Java本地接口，JNI是Java调用Native 语言的一种特性。通过JNI可以使得Java与C&#x2F;C++机型交互。即可以在Java代码中调用C&#x2F;C++等语言的代码或者在C&#x2F;C++代码中调用Java代码。</p>
+<h3 id="2-JNI的两种注册方式"><a href="#2-JNI的两种注册方式" class="headerlink" title="2.JNI的两种注册方式"></a>2.JNI的两种注册方式</h3><h4 id="jni静态注册方式"><a href="#jni静态注册方式" class="headerlink" title="jni静态注册方式"></a>jni静态注册方式</h4><ul>
+<li><p>优点: 理解和使用方式简单, 属于傻瓜式操作, 使用相关工具按流程操作就行, 出错率低</p>
+</li>
+<li><p>缺点: 当需要更改类名,包名或者方法时, 需要按照之前方法重新生成头文件, 灵活性不高</p>
+<h4 id="jni动态注册方式"><a href="#jni动态注册方式" class="headerlink" title="jni动态注册方式"></a>jni动态注册方式</h4></li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none"> 复制代码 隐藏代码
+#include &lt;jni.h&gt;
+#include &lt;string&gt;
+
+extern &quot;C&quot; &#123;
+
+JNIEXPORT jstring JNICALL Java_com_example_ndkdemo_MainActivity_nativeGetStringFromJNI(JNIEnv* env, jobject obj) &#123;
+    std::string hello &#x3D; &quot;Hello wuaipojie&quot;;
+    return env-&gt;NewStringUTF(hello.c_str());
+&#125;
+
+&#x2F;&#x2F; 定义本地方法注册函数
+JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) &#123;
+    JNIEnv* env;
+    if (vm-&gt;GetEnv(reinterpret_cast&lt;void**&gt;(&amp;env), JNI_VERSION_1_6) !&#x3D; JNI_OK) &#123;
+        return -1;
+    &#125;
+
+    &#x2F;&#x2F; 定义要注册的本地方法
+    JNINativeMethod methods[] &#x3D; &#123;
+        &#123;&quot;nativeGetStringFromJNI&quot;, &quot;()Ljava&#x2F;lang&#x2F;String;&quot;, reinterpret_cast&lt;void*&gt;(Java_com_example_ndkdemo_MainActivity_nativeGetStringFromJNI)&#125;
+    &#125;;
+
+    &#x2F;&#x2F; 获取类引用
+    jclass clazz &#x3D; env-&gt;FindClass(&quot;com&#x2F;example&#x2F;ndkdemo&#x2F;MainActivity&quot;);
+    if (clazz &#x3D;&#x3D; nullptr) &#123;
+        return -1;
+    &#125;
+
+    &#x2F;&#x2F; 注册本地方法
+    if (env-&gt;RegisterNatives(clazz, methods, sizeof(methods) &#x2F; sizeof(methods[0])) &lt; 0) &#123;
+        return -1;
+    &#125;
+
+    return JNI_VERSION_1_6;
+&#125;
+
+&#125; &#x2F;&#x2F; extern &quot;C&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h4><p>下面是一些常见的C++数据类型和它们在Java中的对应关系，以及它们在JNI动态注册中的数据类型签名（signature）：</p>
+<table>
+<thead>
+<tr>
+<th align="left">C++ 数据类型</th>
+<th align="left">Java 数据类型</th>
+<th align="left">JNI 数据类型签名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">jint</td>
+<td align="left">int</td>
+<td align="left">“I”</td>
+</tr>
+<tr>
+<td align="left">jboolean</td>
+<td align="left">boolean</td>
+<td align="left">“Z”</td>
+</tr>
+<tr>
+<td align="left">jbyte</td>
+<td align="left">byte</td>
+<td align="left">“B”</td>
+</tr>
+<tr>
+<td align="left">jchar</td>
+<td align="left">char</td>
+<td align="left">“C”</td>
+</tr>
+<tr>
+<td align="left">jshort</td>
+<td align="left">short</td>
+<td align="left">“S”</td>
+</tr>
+<tr>
+<td align="left">jlong</td>
+<td align="left">long</td>
+<td align="left">“J”</td>
+</tr>
+<tr>
+<td align="left">jfloat</td>
+<td align="left">float</td>
+<td align="left">“F”</td>
+</tr>
+<tr>
+<td align="left">jdouble</td>
+<td align="left">double</td>
+<td align="left">“D”</td>
+</tr>
+<tr>
+<td align="left">jobject</td>
+<td align="left">Object</td>
+<td align="left">“Ljava&#x2F;lang&#x2F;Object;”</td>
+</tr>
+<tr>
+<td align="left">jstring</td>
+<td align="left">String</td>
+<td align="left">“Ljava&#x2F;lang&#x2F;String;”</td>
+</tr>
+<tr>
+<td align="left">jarray</td>
+<td align="left">Array</td>
+<td align="left">“[elementType”</td>
+</tr>
+<tr>
+<td align="left">jobjectArray</td>
+<td align="left">Object[]</td>
+<td align="left">“[Ljava&#x2F;lang&#x2F;Object;”</td>
+</tr>
+<tr>
+<td align="left">jbooleanArray</td>
+<td align="left">boolean[]</td>
+<td align="left">“[Z”</td>
+</tr>
+<tr>
+<td align="left">jbyteArray</td>
+<td align="left">byte[]</td>
+<td align="left">“[B”</td>
+</tr>
+<tr>
+<td align="left">jcharArray</td>
+<td align="left">char[]</td>
+<td align="left">“[C”</td>
+</tr>
+<tr>
+<td align="left">jshortArray</td>
+<td align="left">short[]</td>
+<td align="left">“[S”</td>
+</tr>
+<tr>
+<td align="left">jintArray</td>
+<td align="left">int[]</td>
+<td align="left">“[I”</td>
+</tr>
+<tr>
+<td align="left">jlongArray</td>
+<td align="left">long[]</td>
+<td align="left">“[J”</td>
+</tr>
+<tr>
+<td align="left">jfloatArray</td>
+<td align="left">float[]</td>
+<td align="left">“[F”</td>
+</tr>
+<tr>
+<td align="left">jdoubleArray</td>
+<td align="left">double[]</td>
+<td align="left">“[D”</td>
+</tr>
+</tbody></table>
+<p>在JNI动态注册中，需要使用正确的数据类型签名来声明本地方法。例如，如果你要注册一个返回<code>int</code>类型的本地方法，其数据类型签名应为<code>I</code>。</p>
+<h2 id="3-IDA-Pro使用技巧与Patch"><a href="#3-IDA-Pro使用技巧与Patch" class="headerlink" title="3.IDA Pro使用技巧与Patch"></a>3.IDA Pro使用技巧与Patch</h2><p>简介：<br>IDA Pro（Interactive Disassembler Professional）是一款功能强大的交互式反汇编和调试工具，广泛应用于软件逆向工程、漏洞分析和二进制代码分析。它支持多种处理器架构和可执行文件格式，包括但不限于x86、ARM、MIPS、PowerPC等。通过使用IDA Pro，可以对程序进行静态分析、动态调试和代码修改等操作。</p>
+<p>快捷键：</p>
+<table>
+<thead>
+<tr>
+<th align="left">快捷键</th>
+<th align="left">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Esc</td>
+<td align="left">回到上一个位置</td>
+</tr>
+<tr>
+<td align="left">Enter</td>
+<td align="left">跳转到当前光标处的地址</td>
+</tr>
+<tr>
+<td align="left">-</td>
+<td align="left">折叠代码</td>
+</tr>
+<tr>
+<td align="left">+</td>
+<td align="left">展开代码</td>
+</tr>
+<tr>
+<td align="left">*</td>
+<td align="left">创建一个结构</td>
+</tr>
+<tr>
+<td align="left">Alt + A</td>
+<td align="left">手动定义一个数组</td>
+</tr>
+<tr>
+<td align="left">Alt + F</td>
+<td align="left">寻找直接引用的函数</td>
+</tr>
+<tr>
+<td align="left">Alt + G</td>
+<td align="left">跳转到特定的地址</td>
+</tr>
+<tr>
+<td align="left">Alt + T</td>
+<td align="left">显示调用树</td>
+</tr>
+<tr>
+<td align="left">Alt + X</td>
+<td align="left">重命名</td>
+</tr>
+<tr>
+<td align="left">Ctrl + G</td>
+<td align="left">快速跳转到指定地址</td>
+</tr>
+<tr>
+<td align="left">Ctrl + J</td>
+<td align="left">显示引用列表</td>
+</tr>
+<tr>
+<td align="left">Ctrl + K</td>
+<td align="left">显示 XREF 到选中的函数&#x2F;数据</td>
+</tr>
+<tr>
+<td align="left">Ctrl + N</td>
+<td align="left">创建一个函数</td>
+</tr>
+<tr>
+<td align="left">Ctrl + Q</td>
+<td align="left">快速重命名</td>
+</tr>
+<tr>
+<td align="left">Ctrl + X</td>
+<td align="left">显示从选中的函数&#x2F;数据的 XREF</td>
+</tr>
+<tr>
+<td align="left">Ctrl + E</td>
+<td align="left">显示结构类型</td>
+</tr>
+<tr>
+<td align="left">Ctrl + R</td>
+<td align="left">手动定义一个数据结构</td>
+</tr>
+<tr>
+<td align="left">Ctrl + W</td>
+<td align="left">打开函数列表</td>
+</tr>
+<tr>
+<td align="left">Ctrl + D</td>
+<td align="left">以十进制显示当前值</td>
+</tr>
+<tr>
+<td align="left">Ctrl + B</td>
+<td align="left">以二进制显示当前值</td>
+</tr>
+<tr>
+<td align="left">Ctrl + H</td>
+<td align="left">以十六进制显示当前值</td>
+</tr>
+<tr>
+<td align="left">Space</td>
+<td align="left">在图形&#x2F;文本视图中切换</td>
+</tr>
+<tr>
+<td align="left">shift + f12</td>
+<td align="left">打开字符串窗口</td>
+</tr>
+<tr>
+<td align="left">F5</td>
+<td align="left">转伪C代码</td>
+</tr>
+</tbody></table>
+<h3 id="Patch方式"><a href="#Patch方式" class="headerlink" title="Patch方式"></a>Patch方式</h3><p>1.keypatch插件快速修补<br>快捷键：Ctrl+Alt+k<br>2.ARM TO Hex<br><a target="_blank" rel="noopener" href="https://armconverter.com/">https://armconverter.com/</a></p>
+<h2 id="4-ARM基础知识"><a href="#4-ARM基础知识" class="headerlink" title="4.ARM基础知识"></a>4.ARM基础知识</h2><h3 id="常见寻址方式"><a href="#常见寻址方式" class="headerlink" title="常见寻址方式"></a>常见寻址方式</h3><table>
+<thead>
+<tr>
+<th align="left">寻址方式</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">立即数寻址</td>
+<td align="left">直接使用立即数值作为操作数，例如：<code>MOV R0, #5</code></td>
+</tr>
+<tr>
+<td align="left">寄存器直接寻址</td>
+<td align="left">使用寄存器中的值作为操作数，例如：<code>MOV R0, R1</code></td>
+</tr>
+<tr>
+<td align="left">寄存器间接寻址</td>
+<td align="left">使用寄存器中的值作为内存地址，访问该地址中的数据，例如：<code>LDR R0, [R1]</code></td>
+</tr>
+<tr>
+<td align="left">寄存器相对寻址</td>
+<td align="left">使用寄存器中的值加上一个立即偏移量作为内存地址，例如：<code>LDR R0, [R1, #4]</code></td>
+</tr>
+<tr>
+<td align="left">寄存器变址寻址</td>
+<td align="left">使用两个寄存器中的值相加作为内存地址，例如：<code>LDR R0, [R1, R2]</code></td>
+</tr>
+<tr>
+<td align="left">带有变址寄存器的寄存器相对寻址</td>
+<td align="left">使用寄存器中的值加上另一个寄存器的值乘以一个比例因子作为内存地址，例如：<code>LDR R0, [R1, R2, LSL #2]</code></td>
+</tr>
+<tr>
+<td align="left">堆栈寻址</td>
+<td align="left">使用堆栈指针寄存器（如SP）进行操作，例如：<code>PUSH &#123;R0, R1&#125;</code> 或 <code>POP &#123;R0, R1&#125;</code></td>
+</tr>
+</tbody></table>
+<h3 id="压栈和出栈指令"><a href="#压栈和出栈指令" class="headerlink" title="压栈和出栈指令"></a>压栈和出栈指令</h3><table>
+<thead>
+<tr>
+<th align="left">指令类型</th>
+<th align="left">指令示例</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">压栈</td>
+<td align="left"><code>PUSH &#123;R0, R1&#125;</code></td>
+<td align="left">将寄存器R0和R1的内容压入堆栈中</td>
+</tr>
+<tr>
+<td align="left">压栈</td>
+<td align="left"><code>PUSH &#123;R0-R5&#125;</code></td>
+<td align="left">将寄存器R0到R5的内容压入堆栈中</td>
+</tr>
+<tr>
+<td align="left">压栈</td>
+<td align="left"><code>STMDB SP!, &#123;R0-R5&#125;</code></td>
+<td align="left">将寄存器R0到R5的内容压入堆栈中（与PUSH等效）</td>
+</tr>
+<tr>
+<td align="left">出栈</td>
+<td align="left"><code>POP &#123;R0, R1&#125;</code></td>
+<td align="left">从堆栈中弹出数据，恢复到寄存器R0和R1中</td>
+</tr>
+<tr>
+<td align="left">出栈</td>
+<td align="left"><code>POP &#123;R0-R5&#125;</code></td>
+<td align="left">从堆栈中弹出数据，恢复到寄存器R0到R5中</td>
+</tr>
+</tbody></table>
+<h3 id="跳转指令"><a href="#跳转指令" class="headerlink" title="跳转指令"></a>跳转指令</h3><table>
+<thead>
+<tr>
+<th align="left">指令类型</th>
+<th align="left">指令示例</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">无条件跳转</td>
+<td align="left"><code>B label</code></td>
+<td align="left">无条件跳转到标签<code>label</code>指向的位置</td>
+</tr>
+<tr>
+<td align="left">子程序调用</td>
+<td align="left"><code>BL label</code></td>
+<td align="left">调用子程序，将当前指令的下一条指令地址存入链接寄存器（LR），然后跳转到标签<code>label</code>指向的位置</td>
+</tr>
+<tr>
+<td align="left">子程序返回</td>
+<td align="left"><code>BX LR</code></td>
+<td align="left">返回子程序调用前的位置，跳转到链接寄存器（LR）中存储的地址</td>
+</tr>
+<tr>
+<td align="left">寄存器跳转</td>
+<td align="left"><code>BX Rn</code></td>
+<td align="left">跳转到寄存器Rn中存储的地址</td>
+</tr>
+</tbody></table>
+<h3 id="算术运算指令"><a href="#算术运算指令" class="headerlink" title="算术运算指令"></a>算术运算指令</h3><p>汇编中也可以进行算术运算， 比如加减乘除，常用的运算指令用法如表 所示：</p>
+<table>
+<thead>
+<tr>
+<th align="left">指令</th>
+<th align="left">计算公式</th>
+<th align="left">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">ADD Rd, Rn, Rm</td>
+<td align="left">Rd &#x3D; Rn + Rm</td>
+<td align="left">加法运算，指令为 ADD</td>
+</tr>
+<tr>
+<td align="left">ADD Rd, Rn, #immed</td>
+<td align="left">Rd &#x3D; Rn + #immed</td>
+<td align="left">加法运算，指令为 ADD</td>
+</tr>
+<tr>
+<td align="left">ADC Rd, Rn, Rm</td>
+<td align="left">Rd &#x3D; Rn + Rm + 进位</td>
+<td align="left">带进位的加法运算，指令为 ADC</td>
+</tr>
+<tr>
+<td align="left">ADC Rd, Rn, #immed</td>
+<td align="left">Rd &#x3D; Rn + #immed + 进位</td>
+<td align="left">带进位的加法运算，指令为 ADC</td>
+</tr>
+<tr>
+<td align="left">SUB Rd, Rn, Rm</td>
+<td align="left">Rd &#x3D; Rn - Rm</td>
+<td align="left">减法</td>
+</tr>
+<tr>
+<td align="left">SUB Rd, #immed</td>
+<td align="left">Rd &#x3D; Rd - #immed</td>
+<td align="left">减法</td>
+</tr>
+<tr>
+<td align="left">SUB Rd, Rn, #immed</td>
+<td align="left">Rd &#x3D; Rn - #immed</td>
+<td align="left">减法</td>
+</tr>
+<tr>
+<td align="left">SBC Rd, Rn, #immed</td>
+<td align="left">Rd &#x3D; Rn - #immed - 借位</td>
+<td align="left">带借位的减法</td>
+</tr>
+<tr>
+<td align="left">SBC Rd, Rn ,Rm</td>
+<td align="left">Rd &#x3D; Rn - Rm - 借位</td>
+<td align="left">带借位的减法</td>
+</tr>
+<tr>
+<td align="left">MUL Rd, Rn, Rm</td>
+<td align="left">Rd &#x3D; Rn * Rm</td>
+<td align="left">乘法 (32 位)</td>
+</tr>
+<tr>
+<td align="left">UDIV Rd, Rn, Rm</td>
+<td align="left">Rd &#x3D; Rn &#x2F; Rm</td>
+<td align="left">无符号除法</td>
+</tr>
+<tr>
+<td align="left">SDIV Rd, Rn, Rm</td>
+<td align="left">Rd &#x3D; Rn &#x2F; Rm</td>
+<td align="left">有符号除法</td>
+</tr>
+</tbody></table>
+<h3 id="逻辑运算"><a href="#逻辑运算" class="headerlink" title="逻辑运算"></a>逻辑运算</h3><p>汇编语言的时候也可以使用逻辑运算指令，常用的运算指令用法如表 所示：<br><img src="/./../img/640-1695700248553-5.png" alt="图片"></p>
+<h3 id="偷懒小插件"><a href="#偷懒小插件" class="headerlink" title="偷懒小插件"></a>偷懒小插件</h3><p>WPeChatGPT</p>
+<p><img src="/./../img/640-1695700248553-6.png" alt="图片"><br>api报错问题，可以参考仓库里的解决方法：</p>
+<pre class="line-numbers language-none"><code class="language-none"> 复制代码 隐藏代码
+pip uninstall urllib3
+pip install urllib3&#x3D;&#x3D;1.25.11<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>如果 urllib3 版本没错或重装 1.25 版本还是存在 API 访问问题的话，那么请下载最新版本，对插件指定代{过}{滤}理：</p>
+<ul>
+<li><p>将下面三行代码取消注释，然后把代{过}{滤}理地址及端口信息填入 <em><strong>proxies</strong></em> 变量即可：</p>
+</li>
+<li><pre><code> 复制代码 隐藏代码
+print(&quot;WPeChatGPT has appointed the proxy.&quot;)
+proxies = &#123;&#39;http&#39;: &quot;http://127.0.0.1:7890&quot;, &#39;https&#39;: &quot;http://127.0.0.1:7890&quot;&#125;
+openai.proxy = proxies
+</code></pre>
+</li>
+</ul>
+<h1 id="四、课后小作业"><a href="#四、课后小作业" class="headerlink" title="四、课后小作业"></a>四、课后小作业</h1><hr>
+<p>1.修改教程demo第五关里的native校验</p>
+<h1 id="五、答疑"><a href="#五、答疑" class="headerlink" title="五、答疑"></a>五、答疑</h1><hr>
+<p>待更新</p>
+<p>Obsidian主题：<br>Blue-topaz-example <a target="_blank" rel="noopener" href="https://github.com/PKM-er/Blue-topaz-example">https://github.com/PKM-er/Blue-topaz-example</a></p>
+<p>推荐书籍:<br>王爽老师的《汇编语言(第三版)》<br>《IDA Pro权威指南(第二版)》</p>
+<h1 id="六、视频及课件地址"><a href="#六、视频及课件地址" class="headerlink" title="六、视频及课件地址"></a>六、视频及课件地址</h1><hr>
+<p>百度云：</p>
+<p><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1cFWTLn14jeWfpXxlx3syYw?pwd=nqu9">https://pan.baidu.com/s/1cFWTLn14jeWfpXxlx3syYw?pwd=nqu9</a></p>
+<p>阿里云PS：</p>
+<p><a target="_blank" rel="noopener" href="https://www.aliyundrive.com/s/TJoKMK6du6x">https://www.aliyundrive.com/s/TJoKMK6du6x</a></p>
+<p>哔哩哔哩：</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1X24y1m7cj">https://www.bilibili.com/video/BV1X24y1m7cj</a></p>
+<p>PS:解压密码都是52pj，阿里云由于不能分享压缩包，所以下载exe文件，双击自解压</p>
+<h1 id="七、其他章节"><a href="#七、其他章节" class="headerlink" title="七、其他章节"></a>七、其他章节</h1><hr>
+<p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138475&idx=1&sn=e3c5242b7c51f022fcc0efb7f626ab61&chksm=bd50b9ff8a2730e9484df2faa08ed63c1980d5f230b69200450917b0daae1904505c878daca8&scene=21#wechat_redirect">《安卓逆向这档事》一、模拟器环境搭建</a></p>
+<p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138483&idx=1&sn=efa7eabbf0b0cc637a0ccdf8dd62abe5&chksm=bd50b9e78a2730f1f994976f36a60dd8390c4920396b8aec2052b4a666d91d18555096fc8172&scene=21#wechat_redirect">《安卓逆向这档事》二、初识APK文件结构、双开、汉化、基础修改</a><br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138541&idx=1&sn=c7482f59c3d830b2646e276761928941&chksm=bd50b9b98a2730af72e1f9e346663c12973821967c1ac002f5fcdabd0182af5f6106b36d6a01&scene=21#wechat_redirect">《安卓逆向这档事》三、初识smail，vip终结者</a><br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138554&idx=1&sn=be2fe7ffb0520ef17405a754ff0725c8&chksm=bd50b9ae8a2730b84d054c7bd903f8a066251266e16cb1438999759797383e6f20aa656fbbff&scene=21#wechat_redirect">《安卓逆向这档事》四、恭喜你获得广告&amp;弹窗静默卡</a><br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138674&idx=1&sn=17a3271b1771bdacf3392fb64dcc5dc3&chksm=bd50ba268a273330bea4fd1804afff15b9308ed53c88d9aa26a363da0bdeff63642fcce3a42b&scene=21#wechat_redirect">《安卓逆向这档事》五、1000-7&#x3D;？&amp;动态调试&amp;Log插桩</a><br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138693&idx=1&sn=a09896ce9c1aa5e7194600ff7ca011e9&chksm=bd50bad18a2733c7c536438f5181eb3d73a57c0349e010fda23d7973cb0ebf272f15b82be56a&scene=21#wechat_redirect">《安卓逆向这档事》六、校验的N次方-签名校验对抗、PM代{过}{滤}理、IO重定向</a><br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138779&idx=1&sn=7201ed7aca4cdd6954787022c7f26b81&chksm=bd50ba8f8a2733998f65348060f3f6202bea1bba2f61d27e259ecf5521425ccdfcbb93510d06&scene=21#wechat_redirect">《安卓逆向这档事》七、Sorry，会Hook真的可以为所欲为-Xposed快速上手(上)模块编写,常用Api</a></p>
+<p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138987&idx=1&sn=c36c67b952a02f676fcdd5fb5c42abbc&chksm=bd50bbff8a2732e9c5b256ec89ab50fe1df5158dfbcd4592f4440f564dec4d31e20387e0175b&scene=21#wechat_redirect">《安卓逆向这档事》八、Sorry，会Hook真的可以为所欲为-xposed快速上手(下)快速hook</a></p>
+<p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651139179&idx=1&sn=26e374dfb5776d41a7d3501770915a77&chksm=bd50bc3f8a2735293c12856cfabf63aa694a2c66b8846a83eb9e301ac60d31484ed1600b8e1c&scene=21#wechat_redirect">《安卓逆向这档事》九、密码学基础、算法自吐、非标准加密对抗</a></p>
+<h1 id="八、参考文档"><a href="#八、参考文档" class="headerlink" title="八、参考文档"></a>八、参考文档</h1><hr>
+<p>官方NDK入门案例<br>ARM汇编入门指南<br>ARM汇编基础详解<br>Android so(ELF)文件解析<br>小米学安卓逆向一 - NDK开发(1)<br>WPeChatGPT<br>工具使用-IDA从入门到理解<br>什么是NDK开发（一）</p>
+<p>详细文字介绍、视频原件下载、视频所用到的程序下载、课后作业和学习交流参看论坛原文：</p>
+<p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1787667-1-1.html">https://www.52pojie.cn/thread-1787667-1-1.html</a></p>
+</div>
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5 itemprop="copyrightNotice">本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B(10)/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B(10)/";
+            const title         = "「吾爱破解安卓逆向入门教程《安卓逆向这档事》」";
+            const excerpt       = `由吾爱破解论坛移动安全区版主 正己录制的吾爱破解安卓逆向 0基础 小白入门教程《安卓逆向这档事》正式上线啦，如果你想学习安卓逆向，这是一个不错的机会呦！
+前情提要：《安卓逆向这档事》九、密码学基础、算法自吐、非标准加密对抗
+
+一、课程...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/APP%E9%80%86%E5%90%91/" rel="tag">APP逆向</a>, <a class="tag-none-link" href="/tags/android%E9%80%86%E5%90%91/" rel="tag">android逆向</a>, <a class="tag-none-link" href="/tags/%E5%90%BE%E7%88%B1%E7%A0%B4%E8%A7%A3%E6%95%99%E7%A8%8B10%E8%8A%82/" rel="tag">吾爱破解教程10节</a>, <a class="tag-none-link" href="/tags/%E5%A4%A7%E9%BA%A6%E7%BD%91%E6%8A%A2%E7%A5%A8/" rel="tag">大麦网抢票</a>, <a class="tag-none-link" href="/tags/%E9%80%86%E5%90%91/" rel="tag">逆向</a>
+                </div>
+                <div class="pull-date">
+                    <time datetime="2023-09-27T06:16:15.519Z" itemprop="dateModified">最后编辑：2023-09-27</time>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" 吾爱破解安卓逆向入门教程《安卓逆向这档事》二、初识APK文件结构、双开、汉化、基础修改" href="/2023/09/27/app逆向/安卓逆向这档事(2)、初识APK文件结构、双开、汉化、基础修改/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" Android逆向-某麦网APK抢票接口加密参数分析" href="/2023/09/27/Android逆向-某麦网APK抢票接口加密参数分析/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/about.webp" loading="lazy" decoding="auto" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">分享学习的文章分享基地</p>
+    </div>
+    <div class="site-meta">
+        <a class="meta-item" href="/archives/">
+            <span class="title">
+                文章
+            </span>
+            <span class="count">
+                66
+            </span>
+        </a>
+        <a class="meta-item" href="/categories/">
+            <span class="title">
+                分类
+            </span>
+            <span class="count">
+                6
+            </span>
+        </a>
+        <a class="meta-item" href="/tags/">
+            <span class="title">
+                标签
+            </span>
+            <span class="count">
+                39
+            </span>
+        </a>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/chatgpt/">chatgpt</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/excel/">excel</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vba-access/">vba-access</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a><span class="category-list-count">3</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/APP%E9%80%86%E5%90%91/" style="font-size: 0.74em;">APP逆向</a> <a href="/tags/ChatGPT/" style="font-size: 0.63em;">ChatGPT</a> <a href="/tags/access/" style="font-size: 0.77em;">access</a> <a href="/tags/android%E9%80%86%E5%90%91/" style="font-size: 0.71em;">android逆向</a> <a href="/tags/chrom/" style="font-size: 0.6em;">chrom</a> <a href="/tags/excel/" style="font-size: 0.8em;">excel</a> <a href="/tags/excel-access-vba/" style="font-size: 0.6em;">excel - access - vba</a> <a href="/tags/github/" style="font-size: 0.63em;">github</a> <a href="/tags/hexo/" style="font-size: 0.6em;">hexo</a> <a href="/tags/ideas/" style="font-size: 0.63em;">ideas</a> <a href="/tags/markdown/" style="font-size: 0.6em;">markdown</a> <a href="/tags/pandas/" style="font-size: 0.6em;">pandas</a> <a href="/tags/vba/" style="font-size: 0.8em;">vba</a> <a href="/tags/vercel/" style="font-size: 0.6em;">vercel</a> <a href="/tags/vervel/" style="font-size: 0.6em;">vervel</a> <a href="/tags/%E5%88%97%E8%A1%A8%E6%A1%86/" style="font-size: 0.66em;">列表框</a> <a href="/tags/%E5%90%BE%E7%88%B1%E7%A0%B4%E8%A7%A3%E6%95%99%E7%A8%8B10%E8%8A%82/" style="font-size: 0.69em;">吾爱破解教程10节</a> <a href="/tags/%E5%9F%9F%E5%90%8D/" style="font-size: 0.6em;">域名</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2023/09/27/app%E9%80%86%E5%90%91/%E5%A4%A7%E9%BA%A6%E7%BD%91%E6%8A%A2%E7%A5%A8%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89/"><i class="fa  fa-book"></i> 大麦网抢票软件工具开发系列（一）</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/09/27/app%E9%80%86%E5%90%91/%E9%98%BF%E9%87%8C%E7%B3%BBApp%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89/"><i class="fa  fa-book"></i> 阿里系App抓包分析（一）</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/09/27/app%E9%80%86%E5%90%91/%E9%98%BF%E9%87%8C%E7%B3%BBApp%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%89%EF%BC%89/"><i class="fa  fa-book"></i> 阿里系App抓包分析（三）</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/09/27/app%E9%80%86%E5%90%91/%E9%98%BF%E9%87%8C%E7%B3%BBApp%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89/"><i class="fa  fa-book"></i> 阿里系App抓包分析（二）</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/09/27/Android%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91APK%E6%8A%A2%E7%A5%A8%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%AF%86%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/"><i class="fa  fa-book"></i> Android逆向-某麦网APK抢票接口加密参数分析</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        <!-- Keep for compatibility -->
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <!-- New links -->
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2023 栋栋的个人博客 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by John DD.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="/vendors/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="/vendors/nprogress@0.2.0/nprogress.js"></script>
+<script>
+    if (!window.kr) {
+        window.kr = {};
+    }
+    window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
+    window.kr.siteRoot = "/";
+</script>
+
+
+
+
+    <script defer src="/vendors/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="/vendors/meting@2.0.1/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>

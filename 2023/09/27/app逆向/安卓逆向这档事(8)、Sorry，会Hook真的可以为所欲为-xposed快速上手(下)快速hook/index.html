@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  
+  
+  <title>吾爱破解安卓逆向入门教程《安卓逆向这档事》八、会Hook真的可以为所欲为-xposed快速上手(下)快速hook | 栋栋的个人博客</title>
+  
+  <meta name="author" content="John DD" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="APP逆向, android逆向, 吾爱破解教程10节, 大麦网抢票, 逆向" />
+  
+  <meta name="description" content="一、课程目标 1.了解Xposed常用API2.借助lspatch实现免root注入3.SimpleHook快速hook 二、工具 1.教程Demo(更新)2.MT管理器&#x2F;NP管理器3.算法助手4.jadx-gui5.simplehook6.Android Studio 三、课程内容 虚拟机连接模拟器方法https:&#x2F;&#x2F;www.cnblogs.com&#x2F;voyage1969&#x2F;p&#x2F;1487">
+<meta property="og:type" content="article">
+<meta property="og:title" content="吾爱破解安卓逆向入门教程《安卓逆向这档事》八、会Hook真的可以为所欲为-xposed快速上手(下)快速hook">
+<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B(8)%E3%80%81Sorry%EF%BC%8C%E4%BC%9AHook%E7%9C%9F%E7%9A%84%E5%8F%AF%E4%BB%A5%E4%B8%BA%E6%89%80%E6%AC%B2%E4%B8%BA-xposed%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B(%E4%B8%8B)%E5%BF%AB%E9%80%9Fhook/index.html">
+<meta property="og:site_name" content="栋栋的个人博客">
+<meta property="og:description" content="一、课程目标 1.了解Xposed常用API2.借助lspatch实现免root注入3.SimpleHook快速hook 二、工具 1.教程Demo(更新)2.MT管理器&#x2F;NP管理器3.算法助手4.jadx-gui5.simplehook6.Android Studio 三、课程内容 虚拟机连接模拟器方法https:&#x2F;&#x2F;www.cnblogs.com&#x2F;voyage1969&#x2F;p&#x2F;1487">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695707005629-32.gif">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695707005630-35.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695707005630-36.png">
+<meta property="article:published_time" content="2023-09-27T00:33:49.000Z">
+<meta property="article:modified_time" content="2023-09-27T06:16:23.080Z">
+<meta property="article:author" content="John DD">
+<meta property="article:tag" content="逆向">
+<meta property="article:tag" content="APP逆向">
+<meta property="article:tag" content="android逆向">
+<meta property="article:tag" content="大麦网抢票">
+<meta property="article:tag" content="吾爱破解教程10节">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695707005629-32.gif">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" media="all"></script>
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-color-dark.min.css" media="(prefers-color-scheme: dark)"></script>
+    <script src="/js/kr-dark.min.js"></script>
+  
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" media="all"></script>
+  
+  <link rel="stylesheet" id="fontawe-css" href="/vendors/font-awesome@4.7.0/css/font-awesome.min.css" media="all"></script>
+  <link rel="stylesheet" id="nprogress-css" href="/vendors/nprogress@0.2.0/nprogress.css" media="all"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/aplayer@1.10.1/dist/APlayer.min.css"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"></script>
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="/vendors/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="/vendors/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+  
+  <style>
+    
+      .kratos-cover.kratos-cover-2 {
+        background-image: url('/images/banner.webp');
+      }
+    
+    
+  </style>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                    
+                                        
+                                            <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/friends/"><i class="fa fa-paw"></i>好伙伴</a></li>
+                                        
+                                    
+                                        
+                                            <li>
+                                                <a><i class="fa fa-link"></i>链接</a>
+                                                <ul class="sub-menu">
+                                                    
+                                                        
+                                                    
+                                                </ul>
+                                            </li>
+                                        
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">栋栋的个人博客</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>栋栋的个人博客</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article itemscope itemtype="https://schema.org/Article">
+    
+    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B(8)%E3%80%81Sorry%EF%BC%8C%E4%BC%9AHook%E7%9C%9F%E7%9A%84%E5%8F%AF%E4%BB%A5%E4%B8%BA%E6%89%80%E6%AC%B2%E4%B8%BA-xposed%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B(%E4%B8%8B)%E5%BF%AB%E9%80%9Fhook/">
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center" itemprop="name headline">吾爱破解安卓逆向入门教程《安卓逆向这档事》八、会Hook真的可以为所欲为-xposed快速上手(下)快速hook</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><time datetime="2023-09-27T00:33:49.000Z" itemprop="datePublished"><i class="fa fa-calendar"></i> 2023-09-27</time></li>
+                <li itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <i class="fa fa-user"></i> 作者 <span itemprop="name">John DD</span>
+                </li>
+                
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            ~8.57K
+                        
+                        字
+                    </li>
+                
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                <div class="icon"><i class="fa fa-warning"></i></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1695795383080"></time> 前，其中的内容可能需要更新。</p></div>
+            </div>
+            
+            
+            
+            <hr />
+            <div itemprop="articleBody"><p><img src="/./../img/640-1695707005629-32.gif" alt="图片"></p>
+<h1 id="一、课程目标"><a href="#一、课程目标" class="headerlink" title="一、课程目标"></a>一、课程目标</h1><hr>
+<p>1.了解Xposed常用API<br>2.借助lspatch实现免root注入<br>3.SimpleHook快速hook</p>
+<h1 id="二、工具"><a href="#二、工具" class="headerlink" title="二、工具"></a>二、工具</h1><hr>
+<p>1.教程Demo(更新)<br>2.MT管理器&#x2F;NP管理器<br>3.算法助手<br>4.jadx-gui<br>5.simplehook<br>6.Android Studio</p>
+<h1 id="三、课程内容"><a href="#三、课程内容" class="headerlink" title="三、课程内容"></a>三、课程内容</h1><hr>
+<p>虚拟机连接模拟器方法<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/voyage1969/p/14876449.html">https://www.cnblogs.com/voyage1969/p/14876449.html</a></p>
+<h2 id="Xposed常用API"><a href="#Xposed常用API" class="headerlink" title="Xposed常用API"></a>Xposed常用API</h2><h3 id="1-Hook变量"><a href="#1-Hook变量" class="headerlink" title="1.Hook变量"></a>1.Hook变量</h3><p>静态变量与实例变量：</p>
+<ul>
+<li>静态变量（static）：类被初始化，同步进行初始化</li>
+<li>非静态变量：类被实例化（产生一个对象的时候），进行初始化</li>
+</ul>
+<p>静态变量</p>
+<pre class="line-numbers language-none"><code class="language-none"> 复制代码 隐藏代码
+final Class clazz &#x3D; XposedHelpers.findClass(&quot;类名&quot;, classLoader);  
+XposedHelpers.setStaticIntField(clazz, &quot;变量名&quot;, 999);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>实例变量</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"> 复制代码 隐藏代码
+<span class="token keyword">final</span> <span class="token class-name">Class</span> clazz <span class="token operator">=</span> <span class="token class-name">XposedHelpers</span><span class="token punctuation">.</span><span class="token function">findClass</span><span class="token punctuation">(</span><span class="token string">"类名"</span><span class="token punctuation">,</span> classLoader<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span class="token class-name">XposedBridge</span><span class="token punctuation">.</span><span class="token function">hookAllConstructors</span><span class="token punctuation">(</span>clazz<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">XC_MethodHook</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+     <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">afterHookedMethod</span><span class="token punctuation">(</span><span class="token class-name">MethodHookParam</span> param<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Throwable</span> <span class="token punctuation">&#123;</span>  
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">afterHookedMethod</span><span class="token punctuation">(</span>param<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token comment">//param.thisObject获取当前所属的对象</span>
+        <span class="token class-name">Object</span> ob <span class="token operator">=</span> param<span class="token punctuation">.</span>thisObject<span class="token punctuation">;</span>  
+        <span class="token class-name">XposedHelpers</span><span class="token punctuation">.</span><span class="token function">setIntField</span><span class="token punctuation">(</span>ob<span class="token punctuation">,</span><span class="token string">"变量名"</span><span class="token punctuation">,</span><span class="token number">9999</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">&#125;</span>  
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-Hook构造函数"><a href="#2-Hook构造函数" class="headerlink" title="2.Hook构造函数"></a>2.Hook构造函数</h3><p>无参构造函数</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"> 复制代码 隐藏代码
+<span class="token class-name">XposedHelpers</span><span class="token punctuation">.</span><span class="token function">findAndHookConstructor</span><span class="token punctuation">(</span><span class="token string">"com.zj.wuaipojie.Demo"</span><span class="token punctuation">,</span> classLoader<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">XC_MethodHook</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">beforeHookedMethod</span><span class="token punctuation">(</span><span class="token class-name">MethodHookParam</span> param<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Throwable</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">beforeHookedMethod</span><span class="token punctuation">(</span>param<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">afterHookedMethod</span><span class="token punctuation">(</span><span class="token class-name">MethodHookParam</span> param<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Throwable</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">afterHookedMethod</span><span class="token punctuation">(</span>param<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>有参构造函数</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"> 复制代码 隐藏代码
+<span class="token class-name">XposedHelpers</span><span class="token punctuation">.</span><span class="token function">findAndHookConstructor</span><span class="token punctuation">(</span><span class="token string">"com.zj.wuaipojie.Demo"</span><span class="token punctuation">,</span> classLoader<span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">XC_MethodHook</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">beforeHookedMethod</span><span class="token punctuation">(</span><span class="token class-name">MethodHookParam</span> param<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Throwable</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">beforeHookedMethod</span><span class="token punctuation">(</span>param<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">afterHookedMethod</span><span class="token punctuation">(</span><span class="token class-name">MethodHookParam</span> param<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Throwable</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">afterHookedMethod</span><span class="token punctuation">(</span>param<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="3-Hook-multiDex方法"><a href="#3-Hook-multiDex方法" class="headerlink" title="3.Hook multiDex方法"></a>3.Hook multiDex方法</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"> 复制代码 隐藏代码
+<span class="token class-name">XposedHelpers</span><span class="token punctuation">.</span><span class="token function">findAndHookMethod</span><span class="token punctuation">(</span><span class="token class-name">Application</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token string">"attach"</span><span class="token punctuation">,</span> <span class="token class-name">Context</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">XC_MethodHook</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+    <span class="token annotation punctuation">@Override</span>  
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">afterHookedMethod</span><span class="token punctuation">(</span><span class="token class-name">MethodHookParam</span> param<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Throwable</span> <span class="token punctuation">&#123;</span>  
+        <span class="token class-name">ClassLoader</span> cl<span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">Context</span><span class="token punctuation">)</span>param<span class="token punctuation">.</span>args<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token class-name">Class</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">></span></span> hookclass<span class="token operator">=</span><span class="token keyword">null</span><span class="token punctuation">;</span>  
+        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>  
+            hookclass<span class="token operator">=</span>cl<span class="token punctuation">.</span><span class="token function">loadClass</span><span class="token punctuation">(</span><span class="token string">"类名"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token punctuation">&#125;</span><span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>  
+            <span class="token class-name">Log</span><span class="token punctuation">.</span><span class="token function">e</span><span class="token punctuation">(</span><span class="token string">"zj2595"</span><span class="token punctuation">,</span><span class="token string">"未找到类"</span><span class="token punctuation">,</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+            <span class="token keyword">return</span><span class="token punctuation">;</span>        
+        <span class="token punctuation">&#125;</span>  
+        <span class="token class-name">XposedHelpers</span><span class="token punctuation">.</span><span class="token function">findAndHookMethod</span><span class="token punctuation">(</span>hookclass<span class="token punctuation">,</span> <span class="token string">"方法名"</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">XC_MethodHook</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+            <span class="token annotation punctuation">@Override</span>  
+            <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">afterHookedMethod</span><span class="token punctuation">(</span><span class="token class-name">MethodHookParam</span> param<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Throwable</span> <span class="token punctuation">&#123;</span>  
+            <span class="token punctuation">&#125;</span>        
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">&#125;</span>  
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="4-主动调用"><a href="#4-主动调用" class="headerlink" title="4.主动调用"></a>4.主动调用</h3><p>静态方法:</p>
+<pre class="line-numbers language-none"><code class="language-none"> 复制代码 隐藏代码
+Class clazz &#x3D; XposedHelpers.findClass(&quot;类名&quot;,lpparam.classLoader);
+XposedHelpers.callStaticMethod(clazz,&quot;方法名&quot;,参数(非必须));<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>实例方法:</p>
+<pre class="line-numbers language-none"><code class="language-none"> 复制代码 隐藏代码
+Class clazz &#x3D; XposedHelpers.findClass(&quot;类名&quot;,lpparam.classLoader);
+XposedHelpers.callMethod(clazz.newInstance(),&quot;方法名&quot;,参数(非必须));<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="5-Hook内部类"><a href="#5-Hook内部类" class="headerlink" title="5.Hook内部类"></a>5.Hook内部类</h3><p>内部类:类里还有一个类class</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"> 复制代码 隐藏代码
+<span class="token class-name">XposedHelpers</span><span class="token punctuation">.</span><span class="token function">findAndHookMethod</span><span class="token punctuation">(</span><span class="token string">"com.zj.wuaipojie.Demo$InnerClass"</span><span class="token punctuation">,</span> lpparam<span class="token punctuation">.</span>classLoader<span class="token punctuation">,</span> <span class="token string">"innerFunc"</span><span class="token punctuation">,</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span>  <span class="token keyword">new</span> <span class="token class-name">XC_MethodHook</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+    <span class="token annotation punctuation">@Override</span>  
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">beforeHookedMethod</span><span class="token punctuation">(</span><span class="token class-name">MethodHookParam</span> param<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Throwable</span> <span class="token punctuation">&#123;</span>  
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">beforeHookedMethod</span><span class="token punctuation">(</span>param<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+
+    <span class="token punctuation">&#125;</span>  
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="6-反射大法"><a href="#6-反射大法" class="headerlink" title="6.反射大法"></a>6.反射大法</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"> 复制代码 隐藏代码
+<span class="token class-name">Class</span> clazz <span class="token operator">=</span> <span class="token class-name">XposedHelpers</span><span class="token punctuation">.</span><span class="token function">findClass</span><span class="token punctuation">(</span><span class="token string">"com.zj.wuaipojie.Demo"</span><span class="token punctuation">,</span> lpparam<span class="token punctuation">.</span>classLoader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">XposedHelpers</span><span class="token punctuation">.</span><span class="token function">findAndHookMethod</span><span class="token punctuation">(</span><span class="token string">"com.zj.wuaipojie.Demo$InnerClass"</span><span class="token punctuation">,</span> lpparam<span class="token punctuation">.</span>classLoader<span class="token punctuation">,</span> <span class="token string">"innerFunc"</span><span class="token punctuation">,</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span>  <span class="token keyword">new</span> <span class="token class-name">XC_MethodHook</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+    <span class="token annotation punctuation">@Override</span>  
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">beforeHookedMethod</span><span class="token punctuation">(</span><span class="token class-name">MethodHookParam</span> param<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Throwable</span> <span class="token punctuation">&#123;</span>  
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">beforeHookedMethod</span><span class="token punctuation">(</span>param<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token comment">//第一步找到类</span>
+        <span class="token comment">//找到方法，如果是私有方法就要setAccessible设置访问权限</span>
+        <span class="token comment">//invoke主动调用或者set修改值(变量)</span>
+        <span class="token class-name">Class</span> democlass <span class="token operator">=</span> <span class="token class-name">Class</span><span class="token punctuation">.</span><span class="token function">forName</span><span class="token punctuation">(</span><span class="token string">"com.zj.wuaipojie.Demo"</span><span class="token punctuation">,</span><span class="token boolean">false</span><span class="token punctuation">,</span>lpparam<span class="token punctuation">.</span>classLoader<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token class-name">Method</span> demomethod <span class="token operator">=</span> democlass<span class="token punctuation">.</span><span class="token function">getDeclaredMethod</span><span class="token punctuation">(</span><span class="token string">"refl"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        demomethod<span class="token punctuation">.</span><span class="token function">setAccessible</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        demomethod<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span>clazz<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">&#125;</span>  
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="7-遍历所有类下的所有方法"><a href="#7-遍历所有类下的所有方法" class="headerlink" title="7.遍历所有类下的所有方法"></a>7.遍历所有类下的所有方法</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"> 复制代码 隐藏代码
+<span class="token class-name">XposedHelpers</span><span class="token punctuation">.</span><span class="token function">findAndHookMethod</span><span class="token punctuation">(</span><span class="token class-name">ClassLoader</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token string">"loadClass"</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">XC_MethodHook</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+    <span class="token annotation punctuation">@Override</span>  
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">afterHookedMethod</span><span class="token punctuation">(</span><span class="token class-name">MethodHookParam</span> param<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Throwable</span> <span class="token punctuation">&#123;</span>  
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">afterHookedMethod</span><span class="token punctuation">(</span>param<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token class-name">Class</span> clazz <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">Class</span><span class="token punctuation">)</span> param<span class="token punctuation">.</span><span class="token function">getResult</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token class-name">String</span> clazzName <span class="token operator">=</span> clazz<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token comment">//排除非包名的类  </span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>clazzName<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span><span class="token string">"com.zj.wuaipojie"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>  
+            <span class="token class-name">Method</span><span class="token punctuation">[</span><span class="token punctuation">]</span> mds <span class="token operator">=</span> clazz<span class="token punctuation">.</span><span class="token function">getDeclaredMethods</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+            <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>mds<span class="token punctuation">.</span>length<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>  
+                <span class="token keyword">final</span> <span class="token class-name">Method</span> md <span class="token operator">=</span> mds<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>  
+                <span class="token keyword">int</span> mod <span class="token operator">=</span> mds<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">getModifiers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+                <span class="token comment">//去除抽象、native、接口方法  </span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token class-name">Modifier</span><span class="token punctuation">.</span><span class="token function">isAbstract</span><span class="token punctuation">(</span>mod<span class="token punctuation">)</span>  
+                    <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span><span class="token class-name">Modifier</span><span class="token punctuation">.</span><span class="token function">isNative</span><span class="token punctuation">(</span>mod<span class="token punctuation">)</span>  
+                    <span class="token operator">&amp;&amp;</span><span class="token operator">!</span><span class="token class-name">Modifier</span><span class="token punctuation">.</span><span class="token function">isAbstract</span><span class="token punctuation">(</span>mod<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>  
+                    <span class="token class-name">XposedBridge</span><span class="token punctuation">.</span><span class="token function">hookMethod</span><span class="token punctuation">(</span>mds<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">XC_MethodHook</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+                        <span class="token annotation punctuation">@Override</span>  
+                        <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">beforeHookedMethod</span><span class="token punctuation">(</span><span class="token class-name">MethodHookParam</span> param<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Throwable</span> <span class="token punctuation">&#123;</span>  
+                            <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">beforeHookedMethod</span><span class="token punctuation">(</span>param<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+                            <span class="token class-name">Log</span><span class="token punctuation">.</span><span class="token function">d</span><span class="token punctuation">(</span><span class="token string">"zj2595"</span><span class="token punctuation">,</span>md<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+                        <span class="token punctuation">&#125;</span>  
+                    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+                <span class="token punctuation">&#125;</span>  
+
+           <span class="token punctuation">&#125;</span>  
+        <span class="token punctuation">&#125;</span>  
+
+    <span class="token punctuation">&#125;</span>  
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="8-Xposed妙用"><a href="#8-Xposed妙用" class="headerlink" title="8.Xposed妙用"></a>8.Xposed妙用</h3><p>字符串赋值定位:</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"> 复制代码 隐藏代码
+<span class="token class-name">XposedHelpers</span><span class="token punctuation">.</span><span class="token function">findAndHookMethod</span><span class="token punctuation">(</span><span class="token string">"android.widget.TextView"</span><span class="token punctuation">,</span> lpparam<span class="token punctuation">.</span>classLoader<span class="token punctuation">,</span> <span class="token string">"setText"</span><span class="token punctuation">,</span> <span class="token class-name">CharSequence</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">XC_MethodHook</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+    <span class="token annotation punctuation">@Override</span>  
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">beforeHookedMethod</span><span class="token punctuation">(</span><span class="token class-name">MethodHookParam</span> param<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Throwable</span> <span class="token punctuation">&#123;</span>  
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">beforeHookedMethod</span><span class="token punctuation">(</span>param<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token class-name">Log</span><span class="token punctuation">.</span><span class="token function">d</span><span class="token punctuation">(</span><span class="token string">"zj2595"</span><span class="token punctuation">,</span>param<span class="token punctuation">.</span>args<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+                <span class="token keyword">if</span><span class="token punctuation">(</span>param<span class="token punctuation">.</span>args<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"已过期"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>  
+                    <span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+                <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>  
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+    <span class="token class-name">Throwable</span> ex <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Throwable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token class-name">StackTraceElement</span><span class="token punctuation">[</span><span class="token punctuation">]</span> stackElements <span class="token operator">=</span> ex<span class="token punctuation">.</span><span class="token function">getStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> stackElements<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+        <span class="token class-name">StackTraceElement</span> element <span class="token operator">=</span> stackElements<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>  
+        <span class="token class-name">Log</span><span class="token punctuation">.</span><span class="token function">d</span><span class="token punctuation">(</span><span class="token string">"zj2595"</span><span class="token punctuation">,</span><span class="token string">"at "</span> <span class="token operator">+</span> element<span class="token punctuation">.</span><span class="token function">getClassName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"."</span> <span class="token operator">+</span> element<span class="token punctuation">.</span><span class="token function">getMethodName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"("</span> <span class="token operator">+</span> element<span class="token punctuation">.</span><span class="token function">getFileName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">":"</span> <span class="token operator">+</span> element<span class="token punctuation">.</span><span class="token function">getLineNumber</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">")"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">&#125;</span>  
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>点击事件监听:</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"> 复制代码 隐藏代码
+<span class="token class-name">Class</span> clazz <span class="token operator">=</span> <span class="token class-name">XposedHelpers</span><span class="token punctuation">.</span><span class="token function">findClass</span><span class="token punctuation">(</span><span class="token string">"android.view.View"</span><span class="token punctuation">,</span> lpparam<span class="token punctuation">.</span>classLoader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">XposedBridge</span><span class="token punctuation">.</span><span class="token function">hookAllMethods</span><span class="token punctuation">(</span>clazz<span class="token punctuation">,</span> <span class="token string">"performClick"</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">XC_MethodHook</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+    <span class="token annotation punctuation">@Override</span>  
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">afterHookedMethod</span><span class="token punctuation">(</span><span class="token class-name">MethodHookParam</span> param<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Throwable</span> <span class="token punctuation">&#123;</span>  
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">afterHookedMethod</span><span class="token punctuation">(</span>param<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token class-name">Object</span> listenerInfoObject <span class="token operator">=</span> <span class="token class-name">XposedHelpers</span><span class="token punctuation">.</span><span class="token function">getObjectField</span><span class="token punctuation">(</span>param<span class="token punctuation">.</span>thisObject<span class="token punctuation">,</span> <span class="token string">"mListenerInfo"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token class-name">Object</span> mOnClickListenerObject <span class="token operator">=</span> <span class="token class-name">XposedHelpers</span><span class="token punctuation">.</span><span class="token function">getObjectField</span><span class="token punctuation">(</span>listenerInfoObject<span class="token punctuation">,</span> <span class="token string">"mOnClickListener"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token class-name">String</span> callbackType <span class="token operator">=</span> mOnClickListenerObject<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token class-name">Log</span><span class="token punctuation">.</span><span class="token function">d</span><span class="token punctuation">(</span><span class="token string">"zj2595"</span><span class="token punctuation">,</span>callbackType<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">&#125;</span>  
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>改写布局:</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"> 复制代码 隐藏代码
+<span class="token class-name">XposedHelpers</span><span class="token punctuation">.</span><span class="token function">findAndHookMethod</span><span class="token punctuation">(</span><span class="token string">"com.zj.wuaipojie.ui.ChallengeSixth"</span><span class="token punctuation">,</span> lpparam<span class="token punctuation">.</span>classLoader<span class="token punctuation">,</span>  
+        <span class="token string">"onCreate"</span><span class="token punctuation">,</span> <span class="token class-name">Bundle</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">XC_MethodHook</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+    <span class="token annotation punctuation">@Override</span>  
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">afterHookedMethod</span><span class="token punctuation">(</span><span class="token class-name">MethodHookParam</span> param<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Throwable</span> <span class="token punctuation">&#123;</span>  
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">afterHookedMethod</span><span class="token punctuation">(</span>param<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token class-name">View</span> img <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">View</span><span class="token punctuation">)</span><span class="token class-name">XposedHelpers</span><span class="token punctuation">.</span><span class="token function">callMethod</span><span class="token punctuation">(</span>param<span class="token punctuation">.</span>thisObject<span class="token punctuation">,</span>  
+                <span class="token string">"findViewById"</span><span class="token punctuation">,</span> <span class="token number">0x7f0800de</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        img<span class="token punctuation">.</span><span class="token function">setVisibility</span><span class="token punctuation">(</span><span class="token class-name">View</span><span class="token punctuation">.</span><span class="token constant">GONE</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+
+    <span class="token punctuation">&#125;</span>  
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="Xposed模块patch"><a href="#Xposed模块patch" class="headerlink" title="Xposed模块patch"></a>Xposed模块patch</h2><p>LSPatch：<a target="_blank" rel="noopener" href="https://github.com/LSPosed/img/640-1695707005630-33.png)">https://github.com/LSPosed/LSPatch![图片](./../img/640-1695707005630-33.png)</a></p>
+<p>PS:最低支持安卓9</p>
+<h2 id="Xposed快速Hook"><a href="#Xposed快速Hook" class="headerlink" title="Xposed快速Hook"></a>Xposed快速Hook</h2><p>SimpleHook：<a target="_blank" rel="noopener" href="https://github.com/littleWhiteDuck/img/640-1695707005630-34.png)">https://github.com/littleWhiteDuck/SimpleHook![图片](./../img/640-1695707005630-34.png)</a></p>
+<p>jshook：<a target="_blank" rel="noopener" href="https://github.com/Xposed-Modules-Repo/me.jsonet.jshook">https://github.com/Xposed-Modules-Repo/me.jsonet.jshook</a></p>
+<h2 id="Xpsoed源码"><a href="#Xpsoed源码" class="headerlink" title="Xpsoed源码"></a>Xpsoed源码</h2><p>XPOSED魔改一：获取特征<br>Lsposed 技术原理探讨 &amp;&amp; 基本安装使用<br>[原创]源码编译（2）——Xopsed源码编译详解</p>
+<h1 id="四、课后小作业"><a href="#四、课后小作业" class="headerlink" title="四、课后小作业"></a>四、课后小作业</h1><hr>
+<p>让我想想</p>
+<h1 id="五、答疑"><a href="#五、答疑" class="headerlink" title="五、答疑"></a>五、答疑</h1><hr>
+<p>提一嘴，我感觉肯定会有人问我的as怎么跟他的不一样，那是因为我用了一些插件。插件入口：左上角File-&gt;Settings-&gt;Plugins，在这里可以搜索并安装你想安装的插件，以下是我用的插件<br><img src="/./../img/640-1695707005630-35.png" alt="图片"></p>
+<p><img src="/./../img/640-1695707005630-36.png" alt="图片"></p>
+<h1 id="六、视频及课件地址"><a href="#六、视频及课件地址" class="headerlink" title="六、视频及课件地址"></a>六、视频及课件地址</h1><hr>
+<p>百度云：</p>
+<p><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1cFWTLn14jeWfpXxlx3syYw?pwd=nqu9">https://pan.baidu.com/s/1cFWTLn14jeWfpXxlx3syYw?pwd=nqu9</a></p>
+<p>阿里云PS：</p>
+<p><a target="_blank" rel="noopener" href="https://www.aliyundrive.com/s/TJoKMK6du6x">https://www.aliyundrive.com/s/TJoKMK6du6x</a></p>
+<p>哔哩哔哩：</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1X24y1m7cj">https://www.bilibili.com/video/BV1X24y1m7cj</a></p>
+<p>PS:解压密码都是52pj，阿里云由于不能分享压缩包，所以下载exe文件，双击自解压</p>
+<h1 id="七、其他章节"><a href="#七、其他章节" class="headerlink" title="七、其他章节"></a>七、其他章节</h1><hr>
+<p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138475&idx=1&sn=e3c5242b7c51f022fcc0efb7f626ab61&chksm=bd50b9ff8a2730e9484df2faa08ed63c1980d5f230b69200450917b0daae1904505c878daca8&scene=21#wechat_redirect">《安卓逆向这档事》一、模拟器环境搭建</a><br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138483&idx=1&sn=efa7eabbf0b0cc637a0ccdf8dd62abe5&chksm=bd50b9e78a2730f1f994976f36a60dd8390c4920396b8aec2052b4a666d91d18555096fc8172&scene=21#wechat_redirect">《安卓逆向这档事》二、初识APK文件结构、双开、汉化、基础修改</a><br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138541&idx=1&sn=c7482f59c3d830b2646e276761928941&chksm=bd50b9b98a2730af72e1f9e346663c12973821967c1ac002f5fcdabd0182af5f6106b36d6a01&scene=21#wechat_redirect">《安卓逆向这档事》三、初识smail，vip终结者</a><br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138554&idx=1&sn=be2fe7ffb0520ef17405a754ff0725c8&chksm=bd50b9ae8a2730b84d054c7bd903f8a066251266e16cb1438999759797383e6f20aa656fbbff&scene=21#wechat_redirect">《安卓逆向这档事》四、恭喜你获得广告&amp;弹窗静默卡</a><br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138674&idx=1&sn=17a3271b1771bdacf3392fb64dcc5dc3&chksm=bd50ba268a273330bea4fd1804afff15b9308ed53c88d9aa26a363da0bdeff63642fcce3a42b&scene=21#wechat_redirect">《安卓逆向这档事》五、1000-7&#x3D;？&amp;动态调试&amp;Log插桩</a><br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138693&idx=1&sn=a09896ce9c1aa5e7194600ff7ca011e9&chksm=bd50bad18a2733c7c536438f5181eb3d73a57c0349e010fda23d7973cb0ebf272f15b82be56a&scene=21#wechat_redirect">《安卓逆向这档事》六、校验的N次方-签名校验对抗、PM代{过}{滤}理、IO重定向</a><br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138779&idx=1&sn=7201ed7aca4cdd6954787022c7f26b81&chksm=bd50ba8f8a2733998f65348060f3f6202bea1bba2f61d27e259ecf5521425ccdfcbb93510d06&scene=21#wechat_redirect">《安卓逆向这档事》七、Sorry，会Hook真的可以为所欲为-Xposed快速上手(上)模块编写,常用Api</a></p>
+<p>详细文字介绍、视频原件下载、视频所用到的程序下载、课后作业和学习交流参看论坛原文：</p>
+<p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1748081-1-1.html">https://www.52pojie.cn/thread-1748081-1-1.html</a></p>
+</div>
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5 itemprop="copyrightNotice">本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B(8)%E3%80%81Sorry%EF%BC%8C%E4%BC%9AHook%E7%9C%9F%E7%9A%84%E5%8F%AF%E4%BB%A5%E4%B8%BA%E6%89%80%E6%AC%B2%E4%B8%BA-xposed%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B(%E4%B8%8B)%E5%BF%AB%E9%80%9Fhook/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B(8)%E3%80%81Sorry%EF%BC%8C%E4%BC%9AHook%E7%9C%9F%E7%9A%84%E5%8F%AF%E4%BB%A5%E4%B8%BA%E6%89%80%E6%AC%B2%E4%B8%BA-xposed%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B(%E4%B8%8B)%E5%BF%AB%E9%80%9Fhook/";
+            const title         = "「吾爱破解安卓逆向入门教程《安卓逆向这档事》八、会Hook真的可以为所欲为-xposed快速上手(下)快速hook」";
+            const excerpt       = `
+一、课程目标
+1.了解Xposed常用API2.借助lspatch实现免root注入3.SimpleHook快速hook
+二、工具
+1.教程Demo(更新)2.MT管理器&#x2F;NP管理器3.算法助手4.jadx-gui5.si...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/APP%E9%80%86%E5%90%91/" rel="tag">APP逆向</a>, <a class="tag-none-link" href="/tags/android%E9%80%86%E5%90%91/" rel="tag">android逆向</a>, <a class="tag-none-link" href="/tags/%E5%90%BE%E7%88%B1%E7%A0%B4%E8%A7%A3%E6%95%99%E7%A8%8B10%E8%8A%82/" rel="tag">吾爱破解教程10节</a>, <a class="tag-none-link" href="/tags/%E5%A4%A7%E9%BA%A6%E7%BD%91%E6%8A%A2%E7%A5%A8/" rel="tag">大麦网抢票</a>, <a class="tag-none-link" href="/tags/%E9%80%86%E5%90%91/" rel="tag">逆向</a>
+                </div>
+                <div class="pull-date">
+                    <time datetime="2023-09-27T06:16:23.080Z" itemprop="dateModified">最后编辑：2023-09-27</time>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" 吾爱破解安卓逆向入门教程《安卓逆向这档事》九、密码学基础、算法自吐、非标准加密对抗" href="/2023/09/27/app逆向/安卓逆向这档事(9)、密码学基础、算法自吐、非标准加密对抗/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" 吾爱破解安卓逆向入门教程《安卓逆向这档事》七、会Hook真的可以为所欲为-xposed快速上手(上)模块编写" href="/2023/09/27/app逆向/安卓逆向这档事(7)、Sorry，会Hook真的可以为所欲为-xposed快速上手(上)模块编写/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/about.webp" loading="lazy" decoding="auto" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">分享学习的文章分享基地</p>
+    </div>
+    <div class="site-meta">
+        <a class="meta-item" href="/archives/">
+            <span class="title">
+                文章
+            </span>
+            <span class="count">
+                66
+            </span>
+        </a>
+        <a class="meta-item" href="/categories/">
+            <span class="title">
+                分类
+            </span>
+            <span class="count">
+                6
+            </span>
+        </a>
+        <a class="meta-item" href="/tags/">
+            <span class="title">
+                标签
+            </span>
+            <span class="count">
+                39
+            </span>
+        </a>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/chatgpt/">chatgpt</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/excel/">excel</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vba-access/">vba-access</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a><span class="category-list-count">3</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/APP%E9%80%86%E5%90%91/" style="font-size: 0.74em;">APP逆向</a> <a href="/tags/ChatGPT/" style="font-size: 0.63em;">ChatGPT</a> <a href="/tags/access/" style="font-size: 0.77em;">access</a> <a href="/tags/android%E9%80%86%E5%90%91/" style="font-size: 0.71em;">android逆向</a> <a href="/tags/chrom/" style="font-size: 0.6em;">chrom</a> <a href="/tags/excel/" style="font-size: 0.8em;">excel</a> <a href="/tags/excel-access-vba/" style="font-size: 0.6em;">excel - access - vba</a> <a href="/tags/github/" style="font-size: 0.63em;">github</a> <a href="/tags/hexo/" style="font-size: 0.6em;">hexo</a> <a href="/tags/ideas/" style="font-size: 0.63em;">ideas</a> <a href="/tags/markdown/" style="font-size: 0.6em;">markdown</a> <a href="/tags/pandas/" style="font-size: 0.6em;">pandas</a> <a href="/tags/vba/" style="font-size: 0.8em;">vba</a> <a href="/tags/vercel/" style="font-size: 0.6em;">vercel</a> <a href="/tags/vervel/" style="font-size: 0.6em;">vervel</a> <a href="/tags/%E5%88%97%E8%A1%A8%E6%A1%86/" style="font-size: 0.66em;">列表框</a> <a href="/tags/%E5%90%BE%E7%88%B1%E7%A0%B4%E8%A7%A3%E6%95%99%E7%A8%8B10%E8%8A%82/" style="font-size: 0.69em;">吾爱破解教程10节</a> <a href="/tags/%E5%9F%9F%E5%90%8D/" style="font-size: 0.6em;">域名</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2023/09/27/app%E9%80%86%E5%90%91/%E5%A4%A7%E9%BA%A6%E7%BD%91%E6%8A%A2%E7%A5%A8%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89/"><i class="fa  fa-book"></i> 大麦网抢票软件工具开发系列（一）</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/09/27/app%E9%80%86%E5%90%91/%E9%98%BF%E9%87%8C%E7%B3%BBApp%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89/"><i class="fa  fa-book"></i> 阿里系App抓包分析（一）</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/09/27/app%E9%80%86%E5%90%91/%E9%98%BF%E9%87%8C%E7%B3%BBApp%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%89%EF%BC%89/"><i class="fa  fa-book"></i> 阿里系App抓包分析（三）</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/09/27/app%E9%80%86%E5%90%91/%E9%98%BF%E9%87%8C%E7%B3%BBApp%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89/"><i class="fa  fa-book"></i> 阿里系App抓包分析（二）</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/09/27/Android%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91APK%E6%8A%A2%E7%A5%A8%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%AF%86%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/"><i class="fa  fa-book"></i> Android逆向-某麦网APK抢票接口加密参数分析</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        <!-- Keep for compatibility -->
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <!-- New links -->
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2023 栋栋的个人博客 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by John DD.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="/vendors/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="/vendors/nprogress@0.2.0/nprogress.js"></script>
+<script>
+    if (!window.kr) {
+        window.kr = {};
+    }
+    window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
+    window.kr.siteRoot = "/";
+</script>
+
+
+
+
+    <script defer src="/vendors/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="/vendors/meting@2.0.1/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>
