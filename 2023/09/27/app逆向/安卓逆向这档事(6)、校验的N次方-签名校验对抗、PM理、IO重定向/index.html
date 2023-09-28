@@ -24,16 +24,16 @@
 <meta property="og:site_name" content="栋栋的个人博客">
 <meta property="og:description" content="一、课程目标 1.了解APK文件签名2.了解APK常见校验及校验对抗方法3.了解PM代理和IO重定向4.smali语法之赋值 二、工具 1.教程Demo(更新)2.MT管理器&#x2F;NP管理器3.雷电模拟器4.Jadx-gui(第三课课件里有)5.算法助手(第四课课件里有) 三、课程内容 1.什么是校验是开发者在数据传送时采用的一种校正数据的一种方式常见的校验有:签名校验(最常见)、dexc">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695707504004-65.gif">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695707504005-66.png">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695707504005-67.png">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695707504005-68.png">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695707504005-69.png">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695707504006-70.png">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695707504006-71.png">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695707504006-72.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695707504004-65.gif">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695707504005-66.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695707504005-67.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695707504005-68.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695707504005-69.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695707504006-70.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695707504006-71.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695707504006-72.png">
 <meta property="article:published_time" content="2023-09-27T00:33:49.000Z">
-<meta property="article:modified_time" content="2023-09-27T06:16:29.946Z">
+<meta property="article:modified_time" content="2023-09-28T01:27:05.169Z">
 <meta property="article:author" content="John DD">
 <meta property="article:tag" content="逆向">
 <meta property="article:tag" content="APP逆向">
@@ -41,7 +41,7 @@
 <meta property="article:tag" content="大麦网抢票">
 <meta property="article:tag" content="吾爱破解教程10节">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695707504004-65.gif">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695707504004-65.gif">
   
   <!-- 站点验证相关 -->
   
@@ -191,13 +191,13 @@
             
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
                 <div class="icon"><i class="fa fa-warning"></i></div>
-                <div class="text"><p>本文最后编辑于 <time datetime="1695795389946"></time> 前，其中的内容可能需要更新。</p></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1695864425169"></time> 前，其中的内容可能需要更新。</p></div>
             </div>
             
             
             
             <hr />
-            <div itemprop="articleBody"><p><img src="/./../img/640-1695707504004-65.gif" alt="图片"></p>
+            <div itemprop="articleBody"><p><img src="/./../../img/img/640-1695707504004-65.gif" alt="图片"></p>
 <h1 id="一、课程目标"><a href="#一、课程目标" class="headerlink" title="一、课程目标"></a>一、课程目标</h1><hr>
 <p>1.了解APK文件签名<br>2.了解APK常见校验及校验对抗方法<br>3.了解PM代理和IO重定向<br>4.smali语法之赋值</p>
 <h1 id="二、工具"><a href="#二、工具" class="headerlink" title="二、工具"></a>二、工具</h1><hr>
@@ -211,8 +211,8 @@
 <li>允许 Android 市场和设备校验 APK 的正确性。</li>
 </ol>
 <p>Android 目前支持以下四种应用签名方案：<br>v1 方案：基于 JAR 签名。<br>v2 方案：APK 签名方案 v2（在 Android 7.0 中引入）<br>v3 方案：APK 签名方案 v3（在 Android 9 中引入）<br>v4 方案：APK 签名方案 v4（在 Android 11 中引入）</p>
-<p>V1 签名的机制主要就在 META-INF 目录下的三个文件，MANIFEST.MF，ANDROID.SF，ANDROID.RSA，他们都是 V1 签名的产物。<br>（1）MANIFEST.MF：这是摘要文件。程序遍历Apk包中的所有文件(entry)，对非文件夹非签名文件的文件，逐个用SHA1(安全哈希算法)生成摘要信息，再用Base64进行编码。如果你改变了apk包中的文件，那么在apk安装校验时，改变后的文件摘要信息与MANIFEST.MF的检验信息不同，于是程序就不能成功安装。<br><img src="/./../img/640-1695707504005-66.png" alt="图片"></p>
-<p>（2）c.SF：这是对摘要的签名文件。对前一步生成的MANIFEST.MF，使用SHA1-RSA算法，用开发者的私钥进行签名。在安装时只能使用公钥才能解密它。解密之后，将它与未加密的摘要信息（即，MANIFEST.MF文件）进行对比，如果相符，则表明内容没有被异常修改。<br><img src="/./../img/640-1695707504005-67.png" alt="图片"><br>（3）ANDROID.RSA文件中保存了公钥、所采用的加密算法等信息。<br><img src="/./../img/640-1695707504005-68.png" alt="图片"><br>在某些情况下，直接对apk进行v1签名可以绕过apk的签名校验</p>
+<p>V1 签名的机制主要就在 META-INF 目录下的三个文件，MANIFEST.MF，ANDROID.SF，ANDROID.RSA，他们都是 V1 签名的产物。<br>（1）MANIFEST.MF：这是摘要文件。程序遍历Apk包中的所有文件(entry)，对非文件夹非签名文件的文件，逐个用SHA1(安全哈希算法)生成摘要信息，再用Base64进行编码。如果你改变了apk包中的文件，那么在apk安装校验时，改变后的文件摘要信息与MANIFEST.MF的检验信息不同，于是程序就不能成功安装。<br><img src="/./../../img/img/640-1695707504005-66.png" alt="图片"></p>
+<p>（2）c.SF：这是对摘要的签名文件。对前一步生成的MANIFEST.MF，使用SHA1-RSA算法，用开发者的私钥进行签名。在安装时只能使用公钥才能解密它。解密之后，将它与未加密的摘要信息（即，MANIFEST.MF文件）进行对比，如果相符，则表明内容没有被异常修改。<br><img src="/./../../img/img/640-1695707504005-67.png" alt="图片"><br>（3）ANDROID.RSA文件中保存了公钥、所采用的加密算法等信息。<br><img src="/./../../img/img/640-1695707504005-68.png" alt="图片"><br>在某些情况下，直接对apk进行v1签名可以绕过apk的签名校验</p>
 <p>v2方案会将 APK 文件视为 blob，并对整个文件进行签名检查。对 APK 进行的任何修改（包括对 ZIP 元数据进行的修改）都会使 APK 签名作废。这种形式的 APK 验证不仅速度要快得多，而且能够发现更多种未经授权的修改。</p>
 <h2 id="3-什么是签名校验"><a href="#3-什么是签名校验" class="headerlink" title="3.什么是签名校验"></a>3.什么是签名校验</h2><p>如何判断是否有签名校验？<br>不做任何修改，直接签名安装，应用闪退则说明大概率有签名校验</p>
 <p>一般来说，普通的签名校验会导致软件的闪退，黑屏，卡启动页等<br>当然，以上都算是比较好的，有一些比较狠的作者，则会直接rm -rf &#x2F;，把基带都格掉的一键变砖。</p>
@@ -223,7 +223,7 @@ system.exit-----杀死了整个进程，这时候活动所占的资源也会被�
 finish----------仅仅针对Activity，当调用finish<span class="token punctuation">(</span><span class="token punctuation">)</span>时，只是将活动推向后台，并没有立即释放内存，活动的资源并没有被清理<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>在我个人见过最恶心的签名校验中，当属三角校验(低调大佬教的)最烦人。<br>所谓三角校验，就是so检测dex，动态加载的dex(在软件运行时会解压释放一段dex文件，检测完后就删除)检测so，dex检测动态加载的dex</p>
-<p><img src="/./../img/640-1695707504005-69.png" alt="图片"></p>
+<p><img src="/./../../img/img/640-1695707504005-69.png" alt="图片"></p>
 <p>普通获取签名校验代码：</p>
 <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">boolean</span> <span class="token class-name">SignCheck</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
     <span class="token class-name">String</span> trueSignMD5 <span class="token operator">=</span> <span class="token string">"d0add9987c7c84aeb7198c3ff26ca152"</span><span class="token punctuation">;</span>
@@ -761,15 +761,15 @@ check<span class="token operator">-</span>cast p0<span class="token punctuation"
 
 invoke<span class="token operator">-</span>virtual <span class="token punctuation">&#123;</span>p3<span class="token punctuation">,</span> p0<span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token class-name">Landroid</span><span class="token operator">/</span>widget<span class="token operator">/</span><span class="token class-name">TextView</span><span class="token punctuation">;</span><span class="token operator">-></span><span class="token function">setText</span><span class="token punctuation">(</span><span class="token class-name">Ljava</span><span class="token operator">/</span>lang<span class="token operator">/</span><span class="token class-name">CharSequence</span><span class="token punctuation">;</span><span class="token punctuation">)</span><span class="token class-name">V</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p><img src="/./../img/640-1695707504006-70.png" alt="图片"></p>
+<p><img src="/./../../img/img/640-1695707504006-70.png" alt="图片"></p>
 <pre class="line-numbers language-none"><code class="language-none">(.*) .*
 const&#x2F;4 $1 0x1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <h2 id="9-反思"><a href="#9-反思" class="headerlink" title="9.反思"></a>9.反思</h2><p>签名的博弈日新月异，善用工具，拥抱开源！！！</p>
-<p>通过系统自带的api去获取签名很容易被伪造，不妨试试通过SVC的方式去获取(参考MT开源的方法)<br>隐式签名校验<br>有一些则比较隐晦，在发现apk被修改后，会偷偷修改apk的部分功能，例如在某些多开定位软件中，会暗改ip的经纬网等，跟实际产生一定的偏差。<br>PS:推荐学习芽衣大神的手撕签名校验教程<br><img src="/./../img/640-1695707504006-71.png" alt="图片"></p>
+<p>通过系统自带的api去获取签名很容易被伪造，不妨试试通过SVC的方式去获取(参考MT开源的方法)<br>隐式签名校验<br>有一些则比较隐晦，在发现apk被修改后，会偷偷修改apk的部分功能，例如在某些多开定位软件中，会暗改ip的经纬网等，跟实际产生一定的偏差。<br>PS:推荐学习芽衣大神的手撕签名校验教程<br><img src="/./../../img/img/640-1695707504006-71.png" alt="图片"></p>
 <p>点击学习</p>
 <h1 id="四、课后小作业"><a href="#四、课后小作业" class="headerlink" title="四、课后小作业"></a>四、课后小作业</h1><hr>
-<p>1.手动实现PM代理<br>2.移植我的重定向代码(要学会偷代码！)<br><img src="/./../img/640-1695707504006-72.png" alt="图片"></p>
+<p>1.手动实现PM代理<br>2.移植我的重定向代码(要学会偷代码！)<br><img src="/./../../img/img/640-1695707504006-72.png" alt="图片"></p>
 <p>3.完成作业demo<br><a target="_blank" rel="noopener" href="https://wwqi.lanzoub.com/iKt5G0jkvhtc">https://wwqi.lanzoub.com/iKt5G0jkvhtc</a></p>
 <p>作业反馈贴（前50名交作业有奖励）</p>
 <p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1731203-1-1.html">https://www.52pojie.cn/thread-1731203-1-1.html</a></p>
@@ -882,7 +882,7 @@ const&#x2F;4 $1 0x1<span aria-hidden="true" class="line-numbers-rows"><span></sp
                     <a class="tag-none-link" href="/tags/APP%E9%80%86%E5%90%91/" rel="tag">APP逆向</a>, <a class="tag-none-link" href="/tags/android%E9%80%86%E5%90%91/" rel="tag">android逆向</a>, <a class="tag-none-link" href="/tags/%E5%90%BE%E7%88%B1%E7%A0%B4%E8%A7%A3%E6%95%99%E7%A8%8B10%E8%8A%82/" rel="tag">吾爱破解教程10节</a>, <a class="tag-none-link" href="/tags/%E5%A4%A7%E9%BA%A6%E7%BD%91%E6%8A%A2%E7%A5%A8/" rel="tag">大麦网抢票</a>, <a class="tag-none-link" href="/tags/%E9%80%86%E5%90%91/" rel="tag">逆向</a>
                 </div>
                 <div class="pull-date">
-                    <time datetime="2023-09-27T06:16:29.946Z" itemprop="dateModified">最后编辑：2023-09-27</time>
+                    <time datetime="2023-09-28T01:27:05.169Z" itemprop="dateModified">最后编辑：2023-09-28</time>
                 </div>
             </div>
         </footer>
@@ -933,7 +933,7 @@ const&#x2F;4 $1 0x1<span aria-hidden="true" class="line-numbers-rows"><span></sp
                 文章
             </span>
             <span class="count">
-                66
+                69
             </span>
         </a>
         <a class="meta-item" href="/categories/">
@@ -960,7 +960,7 @@ const&#x2F;4 $1 0x1<span aria-hidden="true" class="line-numbers-rows"><span></sp
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
     <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/chatgpt/">chatgpt</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/excel/">excel</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vba-access/">vba-access</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/chatgpt/">chatgpt</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/excel/">excel</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vba-access/">vba-access</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a><span class="category-list-count">3</span></li></ul>
   </aside>
 
 
@@ -1011,6 +1011,12 @@ const&#x2F;4 $1 0x1<span aria-hidden="true" class="line-numbers-rows"><span></sp
             
           
         
+          
+            
+          
+            
+          
+            
           
             
           

@@ -24,18 +24,18 @@
 <meta property="og:site_name" content="栋栋的个人博客">
 <meta property="og:description" content="继续上次的话题，完成了新增的功能  一、第二个部分是需要完成线索分配的功能 功能设计： 点击线索分配 –&gt; 弹出弹窗 –&gt; 选择分配数据类型 –&gt; 选择分配数量 –&gt; 选择查询方式 –&gt; 选择分配人–&gt; 更新分配时间 –&gt; 提交数据  遇到的卡点：   ​	这个部分做起来相对容易一些，主要遇到的是数据库设计的问题，access数据库没有动态生成id的功能，">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/08/29/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/img/image-20230829102036849-1693374381855-1.png">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/08/29/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/img/image-20230829102149445.png">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/08/29/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/img/image-20230829102323843-1693374393774-3.png">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/08/29/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/img/image-20230829102901272-1693374398266-5.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/image-20230829102036849-1693374381855-1.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/image-20230829102149445.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/image-20230829102323843-1693374393774-3.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/image-20230829102901272-1693374398266-5.png">
 <meta property="article:published_time" content="2023-08-29T00:43:25.000Z">
-<meta property="article:modified_time" content="2023-09-11T01:25:07.718Z">
+<meta property="article:modified_time" content="2023-09-28T01:18:34.935Z">
 <meta property="article:author" content="John DD">
 <meta property="article:tag" content="excel">
 <meta property="article:tag" content="vba">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/08/29/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/img/image-20230829102036849-1693374381855-1.png">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/image-20230829102036849-1693374381855-1.png">
   
   <!-- 站点验证相关 -->
   
@@ -185,7 +185,7 @@
             
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
                 <div class="icon"><i class="fa fa-warning"></i></div>
-                <div class="text"><p>本文最后编辑于 <time datetime="1694395507718"></time> 前，其中的内容可能需要更新。</p></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1695863914935"></time> 前，其中的内容可能需要更新。</p></div>
             </div>
             
             
@@ -206,25 +206,24 @@
 <ol>
 <li>窗体展示：</li>
 </ol>
-<img src="./../img/image-20230829102036849-1693374381855-1.png" alt="image-20230829102036849" style="zoom:33%;" />
-
+<p><img src="/./../../img/image-20230829102036849-1693374381855-1.png" alt="img"></p>
 <ul>
 <li><p>窗体设计的时候有个问题，就是viewList 这个在原本的设计中并没有，需要打开这个按钮：</p>
 </li>
 <li><p>第一步：右击空白处，点击附加控件</p>
 </li>
 </ul>
-<p>​		<img src="./../img/image-20230829102149445.png" alt="image-20230829102149445" style="zoom:50%;" /></p>
+<p><img src="/./../../img/image-20230829102149445.png"></p>
 <ul>
 <li>第二步：添加附件：</li>
 </ul>
-<img src="./../img/image-20230829102323843-1693374393774-3.png" alt="image-20230829102323843" style="zoom:33%;" />
-
+<p><img src="/./../../img/image-20230829102323843-1693374393774-3.png" alt="img"></p>
 <ol start="2">
 <li><p>代码–获取列表框中的默认数据</p>
 <p>这个部分的设计是这样的，想从设置中获取数据</p>
 <p>（1）先在设置中列出数据</p>
-<img src="./../img/image-20230829102901272-1693374398266-5.png" alt="image-20230829102901272" style="zoom:50%;" /></li>
+<p><img src="/./../../img/image-20230829102901272-1693374398266-5.png" alt="img"></p>
+</li>
 </ol>
 <p>​		（2）具体代码</p>
 <p>在 <code>窗体USERFORM</code> 中双击窗体打开代码</p>
@@ -588,7 +587,7 @@
                     <a class="tag-none-link" href="/tags/excel/" rel="tag">excel</a>, <a class="tag-none-link" href="/tags/vba/" rel="tag">vba</a>, <a class="tag-none-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a>
                 </div>
                 <div class="pull-date">
-                    <time datetime="2023-09-11T01:25:07.718Z" itemprop="dateModified">最后编辑：2023-09-11</time>
+                    <time datetime="2023-09-28T01:18:34.935Z" itemprop="dateModified">最后编辑：2023-09-28</time>
                 </div>
             </div>
         </footer>
@@ -639,7 +638,7 @@
                 文章
             </span>
             <span class="count">
-                66
+                69
             </span>
         </a>
         <a class="meta-item" href="/categories/">
@@ -666,7 +665,7 @@
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
     <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/chatgpt/">chatgpt</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/excel/">excel</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vba-access/">vba-access</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/chatgpt/">chatgpt</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/excel/">excel</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vba-access/">vba-access</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a><span class="category-list-count">3</span></li></ul>
   </aside>
 
 
@@ -717,6 +716,12 @@
             
           
         
+          
+            
+          
+            
+          
+            
           
             
           

@@ -24,10 +24,10 @@
 <meta property="og:site_name" content="栋栋的个人博客">
 <meta property="og:description" content="一、课程目标 1.了解JVM、Dalvik、ART2.初识smali语法3.实战修改smali 二、工具 1.教程Demo(更新)2.MT管理器&#x2F;NP管理器3.雷电模拟器4.jadx-gui5.核心破解 三、课程内容 1.什么是JVM、Dalvik、ARTJVM是JAVA虚拟机，运行JAVA字节码程序Dalvik是Google专门为Android设计的一个虚拟机，Dalvik有专属的文">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695708361134-104.png">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695708361135-105.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695708361134-104.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695708361135-105.png">
 <meta property="article:published_time" content="2023-09-27T00:33:49.000Z">
-<meta property="article:modified_time" content="2023-09-27T06:16:39.227Z">
+<meta property="article:modified_time" content="2023-09-28T01:50:33.234Z">
 <meta property="article:author" content="John DD">
 <meta property="article:tag" content="逆向">
 <meta property="article:tag" content="APP逆向">
@@ -35,7 +35,7 @@
 <meta property="article:tag" content="大麦网抢票">
 <meta property="article:tag" content="吾爱破解教程10节">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695708361134-104.png">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695708361134-104.png">
   
   <!-- 站点验证相关 -->
   
@@ -185,13 +185,13 @@
             
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
                 <div class="icon"><i class="fa fa-warning"></i></div>
-                <div class="text"><p>本文最后编辑于 <time datetime="1695795399227"></time> 前，其中的内容可能需要更新。</p></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1695865833234"></time> 前，其中的内容可能需要更新。</p></div>
             </div>
             
             
             
             <hr />
-            <div itemprop="articleBody"><p><img src="/./../img/640-1695708361134-104.png" alt="图片"></p>
+            <div itemprop="articleBody"><p><img src="/./../../img/img/640-1695708361134-104.png" alt="图片"></p>
 <h1 id="一、课程目标"><a href="#一、课程目标" class="headerlink" title="一、课程目标"></a>一、课程目标</h1><hr>
 <p>1.了解JVM、Dalvik、ART<br>2.初识smali语法<br>3.实战修改smali</p>
 <h1 id="二、工具"><a href="#二、工具" class="headerlink" title="二、工具"></a>二、工具</h1><hr>
@@ -483,7 +483,7 @@
 <span class="token punctuation">.</span>end method<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>修改方法：修改判断、强制跳转、修改寄存器的值</p>
-<p><img src="/./../img/640-1695708361135-105.png" alt="图片"></p>
+<p><img src="/./../../img/img/640-1695708361135-105.png" alt="图片"></p>
 <h2 id="3-寄存器"><a href="#3-寄存器" class="headerlink" title="3.寄存器"></a>3.寄存器</h2><p>在smali里的所有操作都必须经过寄存器来进行:本地寄存器用v开头数字结尾的符号来表示，如v0、 v1、v2。参数寄存器则使用p开头数字结尾的符号来表示，如p0、p1、p2。特别注意的是，p0不一定是函数中的第一个参数，在非static函数中，p0代指“this”，p1表示函数的第一个 参数，p2代表函数中的第二个参数。而在static函数中p0才对应第一个参数(因为Java的static方法中没有this方法）</p>
 <h1 id="四、课后小作业"><a href="#四、课后小作业" class="headerlink" title="四、课后小作业"></a>四、课后小作业</h1><hr>
 <p>1.关掉视频自己复现三种方法<br>2.完成这个作业demo(因为最近实在是太太太忙了，绝对不是因为我懒，咕咕咕。搞懂这个demo那也基本上能理解本节课的内容)<br>丑小鸭师傅的demo<br>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1cUInoi">https://pan.baidu.com/s/1cUInoi</a> 密码：07p9<br>原文链接：<a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651132903&idx=1&sn=8e4b13e303a804a16b25758e187aa5d4&chksm=bd5083b38a270aa53fc2f299f8294cdb78602c7643620980268018100e33f8e7879244cfe852&scene=21#wechat_redirect">教我兄弟学Android逆向02 破解第一个Android程序</a></p>
@@ -600,7 +600,7 @@
                     <a class="tag-none-link" href="/tags/APP%E9%80%86%E5%90%91/" rel="tag">APP逆向</a>, <a class="tag-none-link" href="/tags/android%E9%80%86%E5%90%91/" rel="tag">android逆向</a>, <a class="tag-none-link" href="/tags/%E5%90%BE%E7%88%B1%E7%A0%B4%E8%A7%A3%E6%95%99%E7%A8%8B10%E8%8A%82/" rel="tag">吾爱破解教程10节</a>, <a class="tag-none-link" href="/tags/%E5%A4%A7%E9%BA%A6%E7%BD%91%E6%8A%A2%E7%A5%A8/" rel="tag">大麦网抢票</a>, <a class="tag-none-link" href="/tags/%E9%80%86%E5%90%91/" rel="tag">逆向</a>
                 </div>
                 <div class="pull-date">
-                    <time datetime="2023-09-27T06:16:39.227Z" itemprop="dateModified">最后编辑：2023-09-27</time>
+                    <time datetime="2023-09-28T01:50:33.234Z" itemprop="dateModified">最后编辑：2023-09-28</time>
                 </div>
             </div>
         </footer>
@@ -651,7 +651,7 @@
                 文章
             </span>
             <span class="count">
-                66
+                69
             </span>
         </a>
         <a class="meta-item" href="/categories/">
@@ -678,7 +678,7 @@
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
     <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/chatgpt/">chatgpt</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/excel/">excel</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vba-access/">vba-access</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/chatgpt/">chatgpt</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/excel/">excel</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vba-access/">vba-access</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a><span class="category-list-count">3</span></li></ul>
   </aside>
 
 
@@ -729,6 +729,12 @@
             
           
         
+          
+            
+          
+            
+          
+            
           
             
           

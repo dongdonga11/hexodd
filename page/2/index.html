@@ -440,404 +440,45 @@
 
     
     
-        <article class="kratos-hentry kratos-entry-border-new clearfix" itemscope itemtype="https://schema.org/Article">
-            <div class="kratos-status">
+        <article class="kratos-hentry clearfix" itemscope itemtype="https://schema.org/Article">
+            <div class="kratos-entry-border-new clearfix">
                 
-                    <i class="fa fa-refresh"></i>
-                
-                <div class="kratos-status-inner">
-                    <div class="kratos-status-content" itemprop="articleBody">
+                <div class="kratos-entry-thumb-new">
+                    <a href="/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B(12)%E3%80%81%E5%A4%A7%E4%BD%AC%E5%B8%AE%E6%88%91%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%8B/">
                         
-                            <h1 id="Android逆向-某麦网APK抢票接口加密参数分析"><a href="#Android逆向-某麦网APK抢票接口加密参数分析" class="headerlink" title="[Android逆向] 某麦网APK抢票接口加密参数分析"></a>[Android逆向] 某麦网APK抢票接口加密参数分析</h1><h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>针对某麦网部分演唱会门票仅能在app渠道抢票的问题，本文研究了APK的抢票接口并编写了抢票工具。本文介绍的顺序为环境搭建、抓包、trace分析、接口参数获取、rpc调用实现，以及最终的功能实现。通过阅读本文，你将学到反抓包技术破解、Frida hook、jadx apk逆向技术，并能对淘系APP的运行逻辑有所了解。本文仅用于学习交流，严禁用于非法用途。</p>
-<p>关键词：frida, damai.cn, Android逆向<br>先放成功截图：<img src="/./../img/640-1695709905537-127.png" alt="图片"></p>
-<h3 id="二、环境搭建"><a href="#二、环境搭建" class="headerlink" title="二、环境搭建"></a>二、环境搭建</h3><p>目前Android模拟器竞品很多，选择Bluestacks <strong>5</strong>是因为它能和windows的hyper-v完美兼容，root过程也相对简单。</p>
-<ol>
-<li><p>下载安装Bluestacks。</p>
-</li>
-<li><p>运行Bluestacks Multi-instance Manager，发现默认安装的版本为Android Pie 64bit版本，即Android 9.0。此时退出bluestack所有程序。<br><img src="/./../img/640-1695709905538-129.png" alt="图片"></p>
-</li>
-<li><p>关闭bluestack后编辑bluestacks配置文件， <code>%programdata%\BlueStacks_nxt\bluestacks.conf</code><br>&gt; 由于作者安装时C盘空间不足，真实的<code>bluestacks.conf</code>在<code>D:\BlueStacks_nxt\bluestacks.conf</code>，大家也根据实际情况调整<br><img src="/./../img/640-1695709905538-130.png" alt="图片"></p>
-</li>
-<li><p>在配置文件中查找root关键词，对应值修改为1，共两处。</p>
-<pre class="line-numbers language-none"><code class="language-none">bst.feature.rooting&#x3D;&quot;1&quot;
-bst.instance.Pie64.enable_root_access&#x3D;&quot;1&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-</li>
-<li><p>启动bluestack模拟器，安装 <code>Root Checker</code> APP，点击验证root，即可发现root已开启<img src="/./../img/640-1695709905538-131.png" alt="图片"></p>
-</li>
-</ol>
-<h3 id="三、adb调试"><a href="#三、adb调试" class="headerlink" title="三、adb调试"></a>三、adb调试</h3><ol>
-<li>bluestack设置-高级中打开Adb调试，并记录下端口</li>
-</ol>
-<p><img src="/./../img/640-1695709905538-133.png" alt="图片"></p>
-<ol>
-<li>打开主机命令行，运行 <code>adb connect localhost:6652</code>，端口号修改为上一步的端口号，即可连接。再运行<code>adb devices</code>，如有对应设备则连接成功。</li>
-<li>进入adb shell，执行su进入root权限，命令行标识由<code>$</code>变为<code>#</code>，即表示adb 进入root权限成功</li>
-</ol>
-<p>frida环境</p>
-<p>frida是大名鼎鼎的动态分析的hook神器，用它可以直接访问修改二进制的内存、函数和对象，非常方便。它对于Android的支持也是很完美。</p>
-<p>frida的运行采用C&#x2F;S架构，客户端为电脑端的开发环境，服务器端为Android，均需对应部署搭建。</p>
-<h3 id="客户端环境搭建-Windows"><a href="#客户端环境搭建-Windows" class="headerlink" title="客户端环境搭建(Windows)"></a>客户端环境搭建(Windows)</h3><p>firda客户端基于python3开发，因此首先需要配置好python3的运行环境，然后执行 <code>pip install frida-tools</code>即可完成安装。运行 <code>frida --version</code>可验证frida版本。</p>
-<pre class="line-numbers language-none"><code class="language-none">(py3) PS E:\TEMP\damai&gt; frida --version
-16.0.19<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h3 id="服务器-环境搭建-Android"><a href="#服务器-环境搭建-Android" class="headerlink" title="服务器 环境搭建(Android)"></a>服务器 环境搭建(Android)</h3><p>环境搭建第二步是在Android模拟器中运行frida-server。这样可以让Frida通过ADB&#x2F;USB调试与我们的Android模拟器连接。</p>
-<ol>
-<li>下载frida-server<br>最新的frida-server可以从 <a target="_blank" rel="noopener" href="https://github.com/frida/frida/releases">https://github.com/frida/frida/releases</a> 下载。请注意下载与设备匹配的架构。如果您的模拟器是x86_64，请下载相应版本的frida-server。本文使用的版本为 frida-server-16.0.18-android-x86_64.xz<br><img src="/./../img/640-1695709905538-134.png" alt="图片"></li>
-<li>传入Android模拟器。</li>
-</ol>
-<p>将下载后的.xz文件解压，将<code>frida-server</code>传入Android模拟器</p>
-<pre class="line-numbers language-none"><code class="language-none">adb push frida-server &#x2F;data&#x2F;local&#x2F;tmp&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<ol>
-<li>运行 frida-server</li>
-</ol>
-<p>使用adb root以root模式重新启动ADB，并通过adb shell重新进入shell的访问。进入shell后，进入我们放置frida-server的目录并为其授予执行权限：</p>
-<pre class="line-numbers language-none"><code class="language-none">cd &#x2F;data&#x2F;local&#x2F;tmp&#x2F;
-chmod +x frida-server<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>执行：<code>./frida-server </code>，运行frida-server，并保持本shell窗口开启。</p>
-<p>成功截图：</p>
-<p><img src="/./../img/640-1695709905538-135.png" alt="图片"></p>
-<blockquote>
-<p>有些情况下，应用程序会检测在是否在模拟器中运行，但对某麦网app的分析暂无影响。</p>
-</blockquote>
-<ol>
-<li>测试是否连接成功</li>
-</ol>
-<p>在window端运行frida-ps命令：</p>
-<p><img src="/./../img/640-1695709905539-136.png" alt="图片"></p>
-<p>看到一堆熟悉的Android进程，我们就连接成功啦</p>
-<ol>
-<li>转发frida-server端口 (可选)</li>
-</ol>
-<p>frida-server跑在Android端，frida需要通过连接frida-server。上一步使用adb的方式连接，frida认为是USB模式，需要<code>-U</code>命令。frida也支持依赖端口的远程连接模式，在某些场景下更加灵活。可以通过端口转发的方式实现此功能。</p>
-<pre class="line-numbers language-none"><code class="language-none">adb forward tcp:27042 tcp:27042
-adb forward tcp:27043 tcp:27043<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>抓包</p>
-<h3 id="1-搞定tcpdump"><a href="#1-搞定tcpdump" class="headerlink" title="1. 搞定tcpdump"></a>1. 搞定tcpdump</h3><p>本文基于termux安装使用tcpdump。</p>
-<p>首先安装termux apk。</p>
-<p><img src="/./../img/640-1695709905539-137.png" alt="图片"></p>
-<p>打开termux运行：</p>
-<ul>
-<li>挂载存储</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">termux-setup-storage
-## 会弹出授权框，点允许
-ls ~&#x2F;storage&#x2F;
-## 如果出现dcim, downloads等目录，即表示成功<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<ul>
-<li>安装tcpdump</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">pkg install root-repo
-pkg install sudo tcpdump<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<ul>
-<li>运行抓包</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">sudo tcpdump -i any -s 0 -w ~&#x2F;storage&#x2F;downloads&#x2F;capture.pcap<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<ul>
-<li>tcpdump 成功截图:<br><img src="/./../img/640-1695709905539-138.png" alt="图片"></li>
-</ul>
-<p>之后就可以把downloads目录下的抓包文件拷贝到电脑上，用wireshark打开做进一步分析。</p>
-<h3 id="2-解密https流量"><a href="#2-解密https流量" class="headerlink" title="2. 解密https流量"></a>2. 解密https流量</h3><p>Wireshark解密https流量的方法和原理介绍有很多，可参考以下文章，本文不再赘述。</p>
-<blockquote>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://unit42.paloaltonetworks.com/wireshark-tutorial-decrypting-https-traffic/">https://unit42.paloaltonetworks.com/wireshark-tutorial-decrypting-https-traffic/</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/36669377">https://zhuanlan.zhihu.com/p/36669377</a></li>
-</ul>
-</blockquote>
-<p>wireshark解密技术的重点在于拿到客户端通信的密钥日志文件(ssl key log)，像下面这种：</p>
-<p><img src="/./../img/640-1695709905539-139.png" alt="图片"></p>
-<p>在Android中实现抓取ssl key log需要hook系统的SSL相关函数，可以用frida实现。</p>
-<ul>
-<li>首先将下面的hook代码保存为<code>sslkeyfilelog.js</code></li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; sslkeyfilelog.js
-function startTLSKeyLogger(SSL_CTX_new, SSL_CTX_set_keylog_callback) &#123;
-    console.log(&quot;start----&quot;)
-    function keyLogger(ssl, line) &#123;
-        console.log(new NativePointer(line).readCString());
-    &#125;
-    const keyLogCallback &#x3D; new NativeCallback(keyLogger, &#39;void&#39;, [&#39;pointer&#39;, &#39;pointer&#39;]);
-
-    Interceptor.attach(SSL_CTX_new, &#123;
-        onLeave: function(retval) &#123;
-            const ssl &#x3D; new NativePointer(retval);
-            const SSL_CTX_set_keylog_callbackFn &#x3D; new NativeFunction(SSL_CTX_set_keylog_callback, &#39;void&#39;, [&#39;pointer&#39;, &#39;pointer&#39;]);
-            SSL_CTX_set_keylog_callbackFn(ssl, keyLogCallback);
-        &#125;
-    &#125;);
-&#125;
-startTLSKeyLogger(
-    Module.findExportByName(&#39;libssl.so&#39;, &#39;SSL_CTX_new&#39;),
-    Module.findExportByName(&#39;libssl.so&#39;, &#39;SSL_CTX_set_keylog_callback&#39;)
-)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<ul>
-<li>然后用frida加载运行hook</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">frida -U -l .\sslkeyfilelog.js  -f cn.damai<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p><img src="/./../img/640-1695709905539-140.png" alt="图片"></p>
-<ul>
-<li>最后，抓包结束后将得到的key保存到sslkey.txt，格式是下面这样的，不要掺杂别的。</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">CLIENT_RANDOM 557e6dc49faec93dddd41d8c55d3a0084c44031f14d66f68e3b7fb53d3f9586d 886de4677511305bfeaee5ffb072652cbfba626af1465d09dc1f29103fd947c997f6f28962189ee809944887413d8a20
-CLIENT_RANDOM e66fb5d6735f0b803426fa88c3692e8b9a1f4dca37956187b22de11f1797e875 65a07797c144ecc86026a44bbc85b5c57873218ce5684dc22d4d4ee9b754eb1961a0789e2086601f5b0441c35d76c448<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>在运行Frida Hook获取sslkey的同时，运行tcpdump抓包。抓包中依次测试获取详情页、选择价位、提交订单等操作，并对应记录下执行操作的时间，方便后续分析。</p>
-<p>抓包完成后，用wireshark打开tcpdump抓包获得的pcap文件，在wireshark首选项-protocols-TLS中，设置 (Pre)-Master-Secret log filename为上述sslkey.txt。</p>
-<p><img src="/./../img/640-1695709905539-141.png" alt="图片"></p>
-<p>即可实现https流量的解密。</p>
-<p>流量分析</p>
-<h3 id="某麦网的API流"><a href="#某麦网的API流" class="headerlink" title="某麦网的API流"></a>某麦网的API流</h3><p>在此铺垫一下，通过前期对某麦网PC端和移动端H5的分析，某麦网购票的工作流程大概为：</p>
-<ol>
-<li>获得详情：接口为<code>mtop.alibaba.damai.detail.getdetail</code>。基于某演出的id(itemId)获得演出的详细信息，包括详情、场次、票档(SkuId)价位及状态信息，</li>
-<li>构建订单：接口为<code>mtop.trade.order.build.h5</code>。发送 演出id+数量+票档id(<code>itemId_count_skuId</code>)，得到提交订单所需的表单信息，包括观众、收货地址等。</li>
-<li>提交订单：接口为<code>mtop.trade.order.create.h5</code>。对上一步构建订单得到的表单参数作出修改后，发送给服务器，得到最后的订单提交结果和支付信息。</li>
-</ol>
-<h3 id="apk流量分析"><a href="#apk流量分析" class="headerlink" title="apk流量分析"></a>apk流量分析</h3><p>首先用过滤器<code>http &amp;&amp; tcp.dstport==443</code>，得到向服务器发送的https包，如下图：</p>
-<p><img src="/./../img/640-1695710781461-184.png" alt="图片"></p>
-<p>可以看到大量向服务器请求的数据包，但其中有很多干扰的图片请求，因为修改过滤器把图片过滤一下。过滤器：<code>http &amp;&amp; tcp.dstport==443 and !(http.request.uri contains &quot;.webp&quot; or http.request.uri contains &quot;.jpg&quot; or http.request.uri contains &quot;.png&quot;)</code></p>
-<p>结果清爽了很多。</p>
-<h4 id="订单构建-order-build"><a href="#订单构建-order-build" class="headerlink" title="订单构建(order.build)"></a>订单构建(order.build)</h4><p>根据之前记录的操作的时间，以及对网页版的分析结果，笔者注意到了下图的这条流量：</p>
-<p><img src="/./../img/640-1695710830581-188.png" alt="图片"></p>
-<p>然后我们右键选择这条流量包，点击追踪http流，可以看到对应的响应包。</p>
-<p><img src="/./../img/640-1695709905539-142.png" alt="图片"></p>
-<p><img src="/./../img/640-1695710854410-191.png" alt="图片"></p>
-<p>响应包里有些中文使用了UTF-8编码，可以点击右下角的<code>Show data as</code>，选择UTF-8，便可以正常显示。此时可以点击另存为，保存为txt文件，方便后续分析。</p>
-<p><img src="/./../img/640-1695710869889-194.png" alt="图片"></p>
-<p>订单构建的请求包中核心的数据部分为图中青色圈出来的部分，使用URL解码后为：</p>
-<pre class="line-numbers language-none"><code class="language-none">&#123;&quot;buyNow&quot;:&quot;true&quot;,&quot;buyParam&quot;:&quot;716435462268_2_5005943905715&quot;,&quot;exParams&quot;:&quot;&#123;\&quot;atomSplit\&quot;:\&quot;1\&quot;,\&quot;channel\&quot;:\&quot;damai_app\&quot;,\&quot;coVersion\&quot;:\&quot;2.0\&quot;,\&quot;coupon\&quot;:\&quot;true\&quot;,\&quot;seatInfo\&quot;:\&quot;\&quot;,\&quot;umpChannel\&quot;:\&quot;10001\&quot;,\&quot;websiteLanguage\&quot;:\&quot;zh_CN_#Hans\&quot;&#125;&quot;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>buyParam为最核心的部分，拼接方式为演出id+数量+票档id。其他部分只需照抄。</p>
-<p>请求包中还包含大量的各种加密参数、ID，而破解实现自动购票脚本的关键就在于如何通过代码的方式拿到这些加密参数。</p>
-<p>订单构建的响应包为订单提交表单的各项参数，用于生成“确认订单”的表单。</p>
-<p><img src="/./../img/640-1695710884589-197.png" alt="图片"></p>
-<p><img src="/./../img/640-1695709905539-143.png" alt="图片"></p>
-<h4 id="订单提交-order-create"><a href="#订单提交-order-create" class="headerlink" title="订单提交(order.create)"></a>订单提交(order.create)</h4><p>按照同样的方式可以找到订单提交包，订单提交包的API路径为<code>/gw/mtop.trade.order.create</code>，</p>
-<p><img src="/./../img/640-1695710902075-200.png" alt="图片"></p>
-<p>其中青色圈出来的部分为data发送的核心数据，对数据用URL解码后为：</p>
-<pre class="line-numbers language-none"><code class="language-none">&#123;&quot;feature&quot;:&quot;&#123;\&quot;gzip\&quot;:\&quot;true\&quot;&#125;&quot;,&quot;params&quot;:&quot;H4sIAAAAAAA.................AAWk3NKAAA\n&quot;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>看起来像是把原始数据用gzip压缩后又使用了base64编码，尝试解码：</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> base64
-<span class="token keyword">import</span> gzip
-<span class="token keyword">import</span> json
-
-<span class="token comment"># 解码后变为python dict</span>
-decode_data<span class="token operator">=</span>base64<span class="token punctuation">.</span>b64decode<span class="token punctuation">(</span>params_str<span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">"\\n"</span><span class="token punctuation">,</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-decompressed_data<span class="token operator">=</span>gzip<span class="token punctuation">.</span>decompress<span class="token punctuation">(</span>decode_data<span class="token punctuation">)</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">"utf-8"</span><span class="token punctuation">)</span>
-params<span class="token operator">=</span>json<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>decompressed_data<span class="token punctuation">)</span>
-
-<span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"reverse\order.create-params.json"</span><span class="token punctuation">,</span><span class="token string">"w"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
-    json<span class="token punctuation">.</span>dump<span class="token punctuation">(</span>params<span class="token punctuation">,</span>f<span class="token punctuation">,</span>indent<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>解码成功，存到<code>order.create-params.json</code>,</p>
-<p><img src="/./../img/640-1695710924419-203.png" alt="图片"></p>
-<p>解码后发现order.create发送的data参数和order.build请求返回的结果很相似，增加了一些用户对表单操作的记录。</p>
-<p><img src="/./../img/640-1695709905539-144.png" alt="图片"></p>
-<p>order.create请求的header中的各种加密参数和order.build一致。</p>
-<p>order.create请求的返回结果中包含了订单创建是否成功的结果以及支付链接.</p>
-<p>TRACE分析</p>
-<p>通过前面对流量的分析，我们已经知道客户端向服务器发送的核心数据和加密参数，核心数据的拼接相对简单，但加密参数怎么获得还比较困难。因此，下面要开始分析加密参数的生成方法。本章节主要采用frida trace动态分析和jadx静态分析相结合的方式，旨在找到加密参数生成的核心函数和输入输出数据的格式。</p>
-<p>根据文章 ( app安卓逆向x-sign，x-sgext，x_mini_wua，x_umt加密参数解析 )，其中数据包的加密参数和本文的某麦网很类似，而且提到了 mtopsdk.security.InnerSignImpl 生成的加密函数，本文也参考了这篇文章的思路进行分析。</p>
-<h2 id="跟踪-InnerSignImpl"><a href="#跟踪-InnerSignImpl" class="headerlink" title="跟踪 InnerSignImpl"></a>跟踪 InnerSignImpl</h2><p>运行<code>frida-trace -U -j &quot;*InnerSignImpl*!*&quot; 大麦</code>，执行选座提交订单的操作，发现确实有结果输出：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">(</span>py3<span class="token punctuation">)</span> PS E:<span class="token punctuation">\</span>TEMP<span class="token punctuation">\</span>damai<span class="token operator">></span> frida-trace <span class="token parameter variable">-U</span> <span class="token parameter variable">-j</span> <span class="token string">"*InnerSignImpl*!*"</span> 大麦
-Instrumenting<span class="token punctuation">..</span>.
-InnerSignImpl<span class="token variable">$1</span><span class="token builtin class-name">.</span><span class="token variable">$init</span><span class="token builtin class-name">:</span> Loaded handler at <span class="token string">"E:<span class="token entity" title="\\">\\</span>TEMP<span class="token entity" title="\\">\\</span>damai<span class="token entity" title="\\">\\</span>__handlers__<span class="token entity" title="\\">\\</span>mtopsdk.security.InnerSignImpl_1<span class="token entity" title="\\">\\</span>_init.js"</span>
-<span class="token punctuation">..</span><span class="token punctuation">..</span>此处省略<span class="token punctuation">..</span>.
-InnerSignImpl.init: Loaded handler at <span class="token string">"E:<span class="token entity" title="\\">\\</span>TEMP<span class="token entity" title="\\">\\</span>damai<span class="token entity" title="\\">\\</span>__handlers__<span class="token entity" title="\\">\\</span>mtopsdk.security.InnerSignImpl<span class="token entity" title="\\">\\</span>init.js"</span>
-Started tracing <span class="token number">27</span> functions. Press Ctrl+C to stop.
-           /* TID 0x144f */
-  <span class="token number">6725</span> ms  InnerSignImpl.getUnifiedSign<span class="token punctuation">(</span><span class="token string">"&lt;instance: java.util.HashMap>"</span>, <span class="token string">"&lt;instance: java.util.HashMap>"</span>, <span class="token string">"23781390"</span>, null, <span class="token boolean">true</span><span class="token punctuation">)</span>
-  <span class="token number">6726</span> ms     <span class="token operator">|</span> InnerSignImpl.convertInnerBaseStrMap<span class="token punctuation">(</span><span class="token string">"&lt;instance: java.util.Map, <span class="token variable">$className</span>: java.util.HashMap>"</span>, <span class="token string">"23781390"</span>, <span class="token boolean">true</span><span class="token punctuation">)</span>
-  <span class="token number">6726</span> ms     <span class="token operator">|</span> <span class="token operator">&lt;=</span> <span class="token string">"&lt;instance: java.util.Map, <span class="token variable">$className</span>: java.util.HashMap>"</span>
-  <span class="token number">6727</span> ms     <span class="token operator">|</span> InnerSignImpl.getMiddleTierEnv<span class="token punctuation">(</span><span class="token punctuation">)</span>
-  <span class="token number">6727</span> ms     <span class="token operator">|</span> <span class="token operator">&lt;=</span> <span class="token number">0</span>
-  <span class="token number">6737</span> ms  <span class="token operator">&lt;=</span> <span class="token string">"&lt;instance: java.util.HashMap>"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>点击发送请求时，调用了InnerSignImpl.getUnifiedSign函数。但是输入参数和数据参数均为HashMap类型，结果中未显示具体内容。从结果输出中猜测frida-trace是通过对需要hook的函数在__handlers__下生成js文件，并调用js文件进行hook操作的，因此笔者修改了“handlers\mtopsdk.security.InnerSignImpl\getUnifiedSign.js”，使其能正确输出HashMap类型。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">// __handlers__<span class="token punctuation">\</span>mtopsdk.security.InnerSignImpl<span class="token punctuation">\</span>getUnifiedSign.js
-
-<span class="token punctuation">&#123;</span>onEnter<span class="token punctuation">(</span>log, args, state<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
- // 增加了HashMap2Str函数，将HashMap类型转换为字符串
-    <span class="token keyword">function</span> HashMap2Str<span class="token punctuation">(</span>params_hm<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-      var <span class="token assign-left variable">HashMap</span><span class="token operator">=</span>Java.use<span class="token punctuation">(</span><span class="token string">'java.util.HashMap'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      var <span class="token assign-left variable">args_map</span><span class="token operator">=</span>Java.cast<span class="token punctuation">(</span>params_hm,HashMap<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token builtin class-name">return</span> args_map.toString<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-     // 当调用函数时，输出函数参数
-    log<span class="token punctuation">(</span><span class="token variable"><span class="token variable">`</span>InnerSignImpl.getUnifiedSign<span class="token punctuation">(</span>$<span class="token punctuation">&#123;</span>HashMap2Str<span class="token punctuation">(</span>args<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span>,$<span class="token punctuation">&#123;</span>HashMap2Str<span class="token punctuation">(</span>args<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span>,$<span class="token punctuation">&#123;</span>args<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span>,$<span class="token punctuation">&#123;</span>args<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token variable">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span>, onLeave<span class="token punctuation">(</span>log, retval, state<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-      <span class="token keyword">function</span> HashMap2Str<span class="token punctuation">(</span>params_hm<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        var <span class="token assign-left variable">HashMap</span><span class="token operator">=</span>Java.use<span class="token punctuation">(</span><span class="token string">'java.util.HashMap'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        var <span class="token assign-left variable">args_map</span><span class="token operator">=</span>Java.cast<span class="token punctuation">(</span>params_hm,HashMap<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token builtin class-name">return</span> args_map.toString<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>	<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>retval <span class="token operator">!=</span><span class="token operator">=</span> undefined<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-     // 当函数运行结束时，输出函数结果
-      log<span class="token punctuation">(</span><span class="token variable"><span class="token variable">`</span><span class="token operator">&lt;=</span> $<span class="token punctuation">&#123;</span>HashMap2Str<span class="token punctuation">(</span>retval<span class="token punctuation">)</span><span class="token punctuation">&#125;</span><span class="token variable">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span> <span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>再次运行frida-trace，输出的结果已经可以看到具体内容了：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">(</span>py3<span class="token punctuation">)</span> PS E:<span class="token punctuation">\</span>TEMP<span class="token punctuation">\</span>damai<span class="token operator">></span> frida-trace <span class="token parameter variable">-U</span> <span class="token parameter variable">-j</span> <span class="token string">"*InnerSignImpl*!*"</span> 大麦
-        <span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
-Started tracing <span class="token number">27</span> functions. Press Ctrl+C to stop.
-           /* TID 0x15ab */
-  <span class="token number">2653</span> ms  InnerSignImpl.getUnifiedSign<span class="token punctuation">(</span><span class="token punctuation">&#123;</span>data<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"itemId"</span><span class="token builtin class-name">:</span><span class="token string">"719193771661"</span>,<span class="token string">"performId"</span><span class="token builtin class-name">:</span><span class="token string">"211232892"</span>,<span class="token string">"skuParamListJson"</span><span class="token builtin class-name">:</span><span class="token string">"[&#123;<span class="token entity" title="\&quot;">\"</span>count<span class="token entity" title="\&quot;">\"</span>:1,<span class="token entity" title="\&quot;">\"</span>price<span class="token entity" title="\&quot;">\"</span>:36000,<span class="token entity" title="\&quot;">\"</span>priceId<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>251592963<span class="token entity" title="\&quot;">\"</span>&#125;]"</span>,<span class="token string">"dmChannel"</span><span class="token builtin class-name">:</span><span class="token string">"*@damai_android_*"</span>,<span class="token string">"channel_from"</span><span class="token builtin class-name">:</span><span class="token string">"damai_market"</span>,<span class="token string">"appType"</span><span class="token builtin class-name">:</span><span class="token string">"1"</span>,<span class="token string">"osType"</span><span class="token builtin class-name">:</span><span class="token string">"2"</span>,<span class="token string">"calculateTag"</span><span class="token builtin class-name">:</span><span class="token string">"0_0_0_0"</span>,<span class="token string">"source"</span><span class="token builtin class-name">:</span><span class="token string">"10101"</span>,<span class="token string">"version"</span><span class="token builtin class-name">:</span><span class="token string">"6000168"</span><span class="token punctuation">&#125;</span>, <span class="token assign-left variable">deviceId</span><span class="token operator">=</span>null, <span class="token assign-left variable">sid</span><span class="token operator">=</span>13abe677c5076a4fa3382afc38a96a04, <span class="token assign-left variable">uid</span><span class="token operator">=</span><span class="token number">2215803849550</span>, x-features<span class="token operator">=</span><span class="token number">27</span>, <span class="token assign-left variable">appKey</span><span class="token operator">=</span><span class="token number">23781390</span>, <span class="token assign-left variable">api</span><span class="token operator">=</span>mtop.damai.item.calcticketprice, <span class="token assign-left variable">utdid</span><span class="token operator">=</span>ZF3KUN8khtQDAIlImefp4RYz, <span class="token assign-left variable">ttid</span><span class="token operator">=</span><span class="token number">10005890</span>@damai_android_8.5.4, <span class="token assign-left variable">t</span><span class="token operator">=</span><span class="token number">1684828096</span>, <span class="token assign-left variable">v</span><span class="token operator">=</span><span class="token number">2.0</span><span class="token punctuation">&#125;</span>,<span class="token punctuation">&#123;</span>pageId<span class="token operator">=</span>, <span class="token assign-left variable">pageName</span><span class="token operator">=</span><span class="token punctuation">&#125;</span>,23781390,null<span class="token punctuation">)</span>
-  <span class="token number">2654</span> ms     <span class="token operator">|</span> InnerSignImpl.convertInnerBaseStrMap<span class="token punctuation">(</span><span class="token string">"&lt;instance: java.util.Map, <span class="token variable">$className</span>: java.util.HashMap>"</span>, <span class="token string">"23781390"</span>, <span class="token boolean">true</span><span class="token punctuation">)</span>
-  <span class="token number">2655</span> ms     <span class="token operator">|</span> <span class="token operator">&lt;=</span> <span class="token string">"&lt;instance: java.util.Map, <span class="token variable">$className</span>: java.util.HashMap>"</span>
-  <span class="token number">2655</span> ms     <span class="token operator">|</span> InnerSignImpl.getMiddleTierEnv<span class="token punctuation">(</span><span class="token punctuation">)</span>
-  <span class="token number">2655</span> ms     <span class="token operator">|</span> <span class="token operator">&lt;=</span> <span class="token number">0</span>
-  <span class="token number">2662</span> ms  <span class="token operator">&lt;=</span> <span class="token punctuation">&#123;</span>x-sgext<span class="token operator">=</span>JA2qmBOxRVDxFRzca3r9BZibqJqvn7uerZOriayYu4mpnKCeoJiunKGZu5qqyfmaqJqhmvqYr5n8zPyJqImpmbvLrImomqidu5m7m7uYu5u7mLuYu5u7m7ubqYmtiaiJqImoiaiJqImoiaiJu8+7iaCf/cypnruaqJqomruau5j8y7uau4mgiaiJqInf6fDIu5o<span class="token operator">=</span>, x-umt<span class="token operator">=</span>+D0B/05LPEvOgwKIQ1x+SeV5wNE6NzOo, x-mini-wua<span class="token operator">=</span>atASnVJw3vGX1Tw3Y/zDaVZkDUbLxOxtlUmgDOnIjMTBcMPMqQJLpnxoOWEL53Fq/OPcQZiMpDXWNvDz8UQkI5mtkZvIcDN1oxZnuH0M22LHKar4rnO/xm4LtAiniKgYtfgMGK3stXuCmvtE4raIhROimslSk7hCkxaL/DYuLzBLYwXmNyr9UZi1g, x-sign<span class="token operator">=</span>azG34N002xAAK0H9KwNr3txWFMxzW0H7ROfkLQK+Db7ueJHktR/yP/0TcdPFzoYf36zd9lJYMsHCmYX3EcoFnJPMk2pxu0H7QbtB+0<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>可以看到返回结果中包含了 <code>x-sgext</code>,<code>x-umt</code>,<code>x-mini-wua</code>,<code>x-sign</code> 等加密参数。至此，前面的一大堆分析也算有了小的收获。但对比流量分析结果中的发送参数，还是缺失了很多参数。下面我们继续跟踪，找出剩下的参数。</p>
-<h2 id="跟踪-mtopsdk"><a href="#跟踪-mtopsdk" class="headerlink" title="跟踪 mtopsdk"></a>跟踪 mtopsdk</h2><p>调研发现淘系的apk都包含mtopsdk，猜想会不会有公开的官方文档描述mtopsdk的使用方法，因此我们就找到了 【阿里云mtopsdk Android接入文档】 。其中介绍了请求构建的流程为，笔者重点关注了请求构建和发送的部分：</p>
-<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 3. 请求构建
-&#x2F;&#x2F; 3.1生成MtopRequest实例
-MtopRequest request &#x3D; new MtopRequest();
-&#x2F;&#x2F; 3.2 生成MtopBuilder实例
-MtopBuilder builder &#x3D; instance.build(MtopRequest request, String ttid);
-&#x2F;&#x2F; 4. 请求发送
-&#x2F;&#x2F; 4.2 异步调用
-ApiID apiId &#x3D; builder.addListener(new MyListener).asyncRequest();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>因此我们不妨大胆一些，直接跟踪所有对mtopsdk中函数的调用。</p>
-<pre class="line-numbers language-none"><code class="language-none">(py3) PS E:\TEMP\damai&gt; frida-trace -U -j &quot;*mtopsdk*!*&quot; 大麦<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p><img src="/./../img/640-1695710996524-206.png" alt="图片"></p>
-<p>输出的结果大概有2000行，直接看太费劲，我们复制到文本编辑器里做进一步分析。</p>
-<p>我们按照阿里的官方文档介绍的流程，对应可以找到在输出的trace中找到一些关键的日志。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># MtopRequest初始化</span>
-  <span class="token number">3249</span> ms  MtopRequest.<span class="token variable">$init</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  <span class="token number">3249</span> ms  MtopRequest.setApiName<span class="token punctuation">(</span><span class="token string">"mtop.trade.order.build"</span><span class="token punctuation">)</span>
-  <span class="token number">3249</span> ms  MtopRequest.setVersion<span class="token punctuation">(</span><span class="token string">"4.0"</span><span class="token punctuation">)</span>
-  <span class="token number">3249</span> ms  MtopRequest.setNeedSession<span class="token punctuation">(</span>true<span class="token punctuation">)</span>
-  <span class="token number">3249</span> ms  MtopRequest.setNeedEcode<span class="token punctuation">(</span>true<span class="token punctuation">)</span>
-  <span class="token number">3249</span> ms  MtopRequest.setData<span class="token punctuation">(</span><span class="token string">"&#123;<span class="token entity" title="\&quot;">\"</span>buyNow<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>true<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>buyParam<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>7191937661_1_51826442779<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>exParams<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>&#123;<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>atomSplit<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>1<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>channel<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>damai_app<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>coVersion<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>2.0<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>coupon<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>true<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>seatInfo<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span><span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>umpChannel<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>10001<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>websiteLanguage<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>zh_CN_#Hans<span class="token entity" title="\\">\\</span><span class="token entity" title="\&quot;">\"</span>&#125;<span class="token entity" title="\&quot;">\"</span>&#125;"</span><span class="token punctuation">)</span>
-
-<span class="token comment"># MtopBuilder初始化</span>
-  <span class="token number">3251</span> ms  MtopBuilder.<span class="token variable">$init</span><span class="token punctuation">(</span><span class="token string">"&lt;instance: mtopsdk.mtop.intf.Mtop>"</span>, <span class="token string">"&lt;instance: mtopsdk.mtop.domain.MtopRequest>"</span>, null<span class="token punctuation">)</span>
-
-<span class="token comment"># MtopBuilder发送异步请求</span>
-<span class="token number">3268</span> ms  MtopBuilder.asyncRequest<span class="token punctuation">(</span><span class="token punctuation">)</span>
-
-<span class="token comment"># 参数构建</span>
-<span class="token number">3301</span> ms     <span class="token operator">|</span>    <span class="token operator">|</span>    <span class="token operator">|</span> InnerProtocolParamBuilderImpl.buildParams<span class="token punctuation">(</span><span class="token string">"&lt;instance: mtopsdk.framework.domain.MtopContext>"</span><span class="token punctuation">)</span>
-<span class="token number">3391</span> ms     <span class="token operator">|</span>    <span class="token operator">|</span>    <span class="token operator">|</span> <span class="token operator">&lt;=</span> <span class="token string">"&lt;instance: java.util.Map, <span class="token variable">$className</span>: java.util.HashMap>"</span>,<span class="token punctuation">&#123;</span>wua<span class="token operator">=</span>CofS_+7HCuvRCdz1EN8ICI6A4ZBCJwgY1hi+Bsivjcijs8GggmUxLQQUVTEQ5mYYtPuV7R2QNG5JEONIJRfmzjxFXMrs9AHdepIuqoJJJAyewWALprRnjIAu75t47Tm/RU9xRi7IEo9w0P2aCquLzf7uhiO8JEDSRK/ZdVhURBbof7reFtzEBoYYeIPgnwz7CL3kRlbyqyJcYKxO7ZmmVq1PtMXF2HGJqRSDjdv9l4mySJljIQzBmpX393L6eO1ZQVG1fpp6RaCRcFF+UgfjJXaeMFziHzfQF7KfUQZIeAJV/4GyVEE2f55RwPluOTuQubXQnq+qu41a0V5oyEOFXMoQRYFZzLOv3CjwkiIXsqJFeIHc<span class="token operator">=</span>, x-sgext<span class="token operator">=</span>JA0VLKcO8e9Fqqhj38VJuiwkHCUbIA8jGCwUNh0mDzYdIxQhFCcVJxskDyUedk0lHCUVJU4nGyZIc0g2HDYdJg90GDYcJRwiDyYPJA8kDyQPJA8kDyQPJA8nDyQPJQ8lDyUPJQ8lDyUPJQ82STYPLRlwSiUcNhwlHCUcNhw2HnFNNhw2Dy0PJQ8lD1JvfU42HA<span class="token operator">==</span>, <span class="token assign-left variable">nq</span><span class="token operator">=</span>WIFI, <span class="token assign-left variable">data</span><span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"buyNow"</span><span class="token builtin class-name">:</span><span class="token string">"true"</span>,<span class="token string">"buyParam"</span><span class="token builtin class-name">:</span><span class="token string">"719193771661_1_5182956442779"</span>,<span class="token string">"exParams"</span><span class="token builtin class-name">:</span><span class="token string">"&#123;<span class="token entity" title="\&quot;">\"</span>atomSplit<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>1<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>channel<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>damai_app<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>coVersion<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>2.0<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>coupon<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>true<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>seatInfo<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span><span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>umpChannel<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>10001<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>websiteLanguage<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>zh_CN_#Hans<span class="token entity" title="\&quot;">\"</span>&#125;"</span><span class="token punctuation">&#125;</span>, <span class="token assign-left variable">pv</span><span class="token operator">=</span><span class="token number">6.3</span>, <span class="token assign-left variable">sign</span><span class="token operator">=</span>azG34N002xAAKiYA2sv237H04abW2iYKIxaD3GVPak+JifYV0u6VzpriFiKiP+HuuF26BzWpVTClaOIGdjtibfQ99JomGiYKJhomCi, <span class="token assign-left variable">deviceId</span><span class="token operator">=</span>null, <span class="token assign-left variable">sid</span><span class="token operator">=</span>13abe677c5076a4fa3382afc38a96a04, <span class="token assign-left variable">uid</span><span class="token operator">=</span><span class="token number">2215803849550</span>, x-features<span class="token operator">=</span><span class="token number">27</span>, x-app-conf-v<span class="token operator">=</span><span class="token number">0</span>, x-mini-wua<span class="token operator">=</span>a3gSvx5K5/NRy/W8+fDouCSQ6VSmMK3awHwo5X+IayY7JL5SwHtiL0soynSAvCobk01qRQ2fQcTvZWakhmhA9xlNOKdwvxdA5nZ4Tno2asO5e7EvSMj6yqVYAXZZUBjZPUOBw3vpH8L2GUq9Gi6MTszU57a58+hJE2BCGTVsxhRonDw1Nnxp74Ffm, <span class="token assign-left variable">appKey</span><span class="token operator">=</span><span class="token number">23781390</span>, <span class="token assign-left variable">api</span><span class="token operator">=</span>mtop.trade.order.build, <span class="token assign-left variable">umt</span><span class="token operator">=</span>+D0B/05LPEvOgwKIQ1x+SeV5wNE6NzOo, f-refer<span class="token operator">=</span>mtop, <span class="token assign-left variable">utdid</span><span class="token operator">=</span>ZF3KUN8khtQDAIlImefp4RYz, <span class="token assign-left variable">netType</span><span class="token operator">=</span>WIFI, x-app-ver<span class="token operator">=</span><span class="token number">8.5</span>.4, x-c-traceid<span class="token operator">=</span>ZF3KUN8khtQDAIlImefp4RYz1684829318230001316498, <span class="token assign-left variable">ttid</span><span class="token operator">=</span><span class="token number">10005890</span>@damai_android_8.5.4, <span class="token assign-left variable">t</span><span class="token operator">=</span><span class="token number">1684829318</span>, <span class="token assign-left variable">v</span><span class="token operator">=</span><span class="token number">4.0</span>, user-agent<span class="token operator">=</span>MTOPSDK/3.1.1.7 <span class="token punctuation">(</span>Android<span class="token punctuation">;</span><span class="token number">9</span><span class="token punctuation">;</span>samsung<span class="token punctuation">;</span>SM-S908E<span class="token punctuation">)</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>笔者注意到了InnerProtocolParamBuilderImpl.buildParams函数的输出结果完全覆盖了需要的各类加密参数，其输入类型是MtopContext。从jadx逆向的apk代码中可以找到MtopContext类，即包含Mtop生命周期的各个类的一个容器。</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MtopContext</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">public</span> <span class="token class-name">ApiID</span> apiId<span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token class-name">String</span> baseUrl<span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token class-name">MtopBuilder</span> mtopBuilder<span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token class-name">Mtop</span> mtopInstance<span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token class-name">MtopListener</span> mtopListener<span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token class-name">MtopRequest</span> mtopRequest<span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token class-name">MtopResponse</span> mtopResponse<span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token class-name">Request</span> networkRequest<span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token class-name">Response</span> networkResponse<span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token class-name">MtopNetworkProp</span> property <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MtopNetworkProp</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">></span></span> protocolParams<span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">></span></span> queryParams<span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token class-name">ResponseSource</span> responseSource<span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token class-name">String</span> seqNo<span class="token punctuation">;</span>
-    <span class="token annotation punctuation">@NonNull</span>
-    <span class="token keyword">public</span> <span class="token class-name">MtopStatistics</span> stats<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>所以现在的问题变为如何能够构建出来MtopContext，然后调用buildParams函数生成各类加密参数。</p>
-<h2 id="分析业务模块与mtopsdk的交互过程"><a href="#分析业务模块与mtopsdk的交互过程" class="headerlink" title="分析业务模块与mtopsdk的交互过程"></a>分析业务模块与mtopsdk的交互过程</h2><p>在写本文复盘分析过程的时候，笔者发现仅依赖mtopsdk的调用过程其实已经可以得到MtopContext的全部生成逻辑了。但所谓当局者迷，笔者在当时分析的时候还是一头雾水。因此在此也介绍一下笔者的思考逻辑。</p>
-<p>当时看着mtopsdk的调用过程，感觉很复杂。但是猜想从用户点击操作-&gt;业务代码-&gt;mtopsdk的数据流，以及模块间高内聚低耦合的原则，所以猜想模块间的调用不会很复杂，所以笔者就想分析业务代码与mtopsdk的调用逻辑。所以就想跟踪主要业务代码的trace。所以笔者继续跟踪trace，运行<code>frida-trace -U -j &quot;*cn.damai*!*&quot; 大麦 </code>，以分析<code>cn.damai</code>包的调用过程，在其中发现了 <code>NcovSkuFragment.buyNow()</code> 函数，看起来是和购买紧密相关的函数。又找到DMBaseMtopRequest类。</p>
-<p><img src="/./../img/640-1695711024923-209.png" alt="图片"></p>
-<p>但是在这里有点卡住了，因为只找到了构建MtopRequest，并未在cn.damai的trace日志中并未发现其他对mtop的调用。</p>
-<p>然后笔者又尝试搜索和api(order.build)相关的代码，找到了：</p>
-<p><img src="/./../img/640-1695711036345-212.png" alt="图片"></p>
-<p>然而并没有多大用处。</p>
-<p>然后，作者又读了大量的源代码，终于定位到了 <code>com.taobao.tao.remotebusiness.MtopBussiness</code>这个关键类。</p>
-<p><img src="/./../img/640-1695711055192-215.png" alt="图片"></p>
-<p>笔者本以为com.taobao开头的代码不是那么重要，所以最开始把这个类完全忽略了。但通过对源码的阅读，发现这个类是motpsdk中MtopBuilder类的子类，主要负责管理业务代码和Mtopsdk的交互。</p>
-<p>因此我们继续通过trace跟踪MtopBussiness类。运行<code>frida-trace -U -j &quot;*!*buyNow*&quot; -j &quot;com.taobao.tao.remotebusiness.MtopBusiness!*&quot; -j &quot;*MtopContext!*&quot; -j &quot;*mtopsdk.mtop.intf.MtopBuilder!*&quot; 大麦</code></p>
-<p><img src="/./../img/640-1695711068918-218.png" alt="图片"></p>
-<p>现在业务代码和mtopsdk的交互就很清晰了，红色的部分是业务代码的函数，绿色的部分是mtopsdk的函数。</p>
-<h1 id="0x06-hook得到接口参数"><a href="#0x06-hook得到接口参数" class="headerlink" title="0x06 hook得到接口参数"></a>0x06 hook得到接口参数</h1><p>通过以上对trace的分析，已经知道了具体执行的操作，因此我们可以使用frida编写js代码，直接调用APK中的类，实现功能调用。</p>
-<p>先展示一个简单的示例，用于构建一个自定义的MtopRequest 类:</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// new_request.js</span>
-<span class="token class-name">Java</span><span class="token punctuation">.</span><span class="token function">perform</span><span class="token punctuation">(</span>function <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">const</span> <span class="token class-name">MtopRequest</span> <span class="token operator">=</span> <span class="token class-name">Java</span><span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"mtopsdk.mtop.domain.MtopRequest"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    let myMtopRequest <span class="token operator">=</span> <span class="token class-name">MtopRequest</span><span class="token punctuation">.</span>$<span class="token keyword">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    myMtopRequest<span class="token punctuation">.</span><span class="token function">setApiName</span><span class="token punctuation">(</span><span class="token string">"mtop.trade.order.build"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment">//item_id + count + ski_id  716435462268_1_5005943905715</span>
-    myMtopRequest<span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token string">"&#123;\"buyNow\":\"true\",\"buyParam\":\"716435462268_1_5005943905715\",\"exParams\":\"&#123;\\\"atomSplit\\\":\\\"1\\\",\\\"channel\\\":\\\"damai_app\\\",\\\"coVersion\\\":\\\"2.0\\\",\\\"coupon\\\":\\\"true\\\",\\\"seatInfo\\\":\\\"\\\",\\\"umpChannel\\\":\\\"10001\\\",\\\"websiteLanguage\\\":\\\"zh_CN_#Hans\\\"&#125;\"&#125;"</span><span class="token punctuation">)</span>
-    myMtopRequest<span class="token punctuation">.</span><span class="token function">setNeedEcode</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    myMtopRequest<span class="token punctuation">.</span><span class="token function">setNeedSession</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    myMtopRequest<span class="token punctuation">.</span><span class="token function">setVersion</span><span class="token punctuation">(</span><span class="token string">"4.0"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>`$<span class="token punctuation">&#123;</span>myMtopRequest<span class="token punctuation">&#125;</span>`<span class="token punctuation">)</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>再使用运行命令 <code>frida -U -l .\reverse\new_request.js 大麦</code>，以在某麦Apk中执行js hook代码。运行之后即可输出笔者自己构建的MtopRequest实例。（frida真的很奇妙！）</p>
-<p><img src="/./../img/640-1695711086636-221.png" alt="图片"></p>
-<p>有了上面的结果，下面继续完善这个示例，添加MtopBussiness的构建过程和输出过程</p>
-<pre class="line-numbers language-none"><code class="language-none">       &#x2F;&#x2F;引入Java中的类
-const MtopBusiness &#x3D; Java.use(&quot;com.taobao.tao.remotebusiness.MtopBusiness&quot;);
-const MtopBuilder &#x3D; Java.use(&quot;mtopsdk.mtop.intf.MtopBuilder&quot;);
-&#x2F;&#x2F; let RemoteBusiness &#x3D; Java.use(&quot;com.taobao.tao.remotebusiness.RemoteBusiness&quot;);
-const MethodEnum &#x3D; Java.use(&quot;mtopsdk.mtop.domain.MethodEnum&quot;);
-const MtopListenerProxyFactory &#x3D; Java.use(&quot;com.taobao.tao.remotebusiness.listener.MtopListenerProxyFactory&quot;);
-const System &#x3D; Java.use(&#39;java.lang.System&#39;);
-const ApiID &#x3D; Java.use(&quot;mtopsdk.mtop.common.ApiID&quot;);
-const MtopStatistics &#x3D; Java.use(&quot;mtopsdk.mtop.util.MtopStatistics&quot;);
-const InnerProtocolParamBuilderImpl &#x3D; Java.use(&#39;mtopsdk.mtop.protocol.builder.impl.InnerProtocolParamBuilderImpl&#39;);
-
-&#x2F;&#x2F; create MtopBusiness
-let myMtopBusiness &#x3D; MtopBusiness.build(myMtopRequest);
-myMtopBusiness.useWua();
-myMtopBusiness.reqMethod(MethodEnum.POST.value);
-myMtopBusiness.setCustomDomain(&quot;mtop.damai.cn&quot;);
-myMtopBusiness.setBizId(24);
-myMtopBusiness.setErrorNotifyAfterCache(true);
-myMtopBusiness.reqStartTime &#x3D; System.currentTimeMillis();
-myMtopBusiness.isCancelled &#x3D; false;
-myMtopBusiness.isCached &#x3D; false;
-myMtopBusiness.clazz &#x3D; null;
-myMtopBusiness.requestType &#x3D; 0;
-myMtopBusiness.requestContext &#x3D; null;
-myMtopBusiness.mtopCommitStatData(false);
-myMtopBusiness.sendStartTime &#x3D; System.currentTimeMillis();
-
-let createListenerProxy &#x3D; myMtopBusiness.$super.createListenerProxy(myMtopBusiness.$super.listener.value);
-let createMtopContext &#x3D; myMtopBusiness.createMtopContext(createListenerProxy);
-let myMtopStatistics &#x3D; MtopStatistics.$new(null, null); &#x2F;&#x2F;创建一个空的统计类
-createMtopContext.stats.value &#x3D; myMtopStatistics;
-myMtopBusiness.$super.mtopContext.value &#x3D; createMtopContext;
-createMtopContext.apiId.value &#x3D; ApiID.$new(null, createMtopContext);
-
-let myMtopContext &#x3D; createMtopContext;
-myMtopContext.mtopRequest.value &#x3D; myMtopRequest;
-let myInnerProtocolParamBuilderImpl &#x3D; InnerProtocolParamBuilderImpl.$new();
-let res &#x3D; myInnerProtocolParamBuilderImpl.buildParams(myMtopContext);
-console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;HashMap2Str(res)&#125;&#96;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>再次执行<code>frida -U -l .\reverse\new_request.js 大麦</code>，输出结果如下图，此时已能根据笔者任意构建的请求data输出其他加密参数：</p>
-<p><img src="/./../img/640-1695711110159-224.png" alt="图片"></p>
-<p>对于order.create的原理类似，此处不再赘述。</p>
-<p>![图片](data:image&#x2F;svg+xml,%3C%3Fxml version&#x3D;’1.0’ encoding&#x3D;’UTF-8’%3F%3E%3Csvg width&#x3D;’1px’ height&#x3D;’1px’ viewBox&#x3D;’0 0 1 1’ version&#x3D;’1.1’ xmlns&#x3D;’<a target="_blank" rel="noopener" href="http://www.w3.org/2000/svg">http://www.w3.org/2000/svg</a>‘ xmlns:xlink&#x3D;’<a target="_blank" rel="noopener" href="http://www.w3.org/1999/xlink'%3E%3Ctitle%3E%3C/title%3E%3Cg">http://www.w3.org/1999/xlink&#39;%3E%3Ctitle%3E%3C/title%3E%3Cg</a> stroke&#x3D;’none’ stroke-width&#x3D;’1’ fill&#x3D;’none’ fill-rule&#x3D;’evenodd’ fill-opacity&#x3D;’0’%3E%3Cg transform&#x3D;’translate(-249.000000, -126.000000)’ fill&#x3D;’%23FFFFFF’%3E%3Crect x&#x3D;’249’ y&#x3D;’126’ width&#x3D;’1’ height&#x3D;’1’%3E%3C&#x2F;rect%3E%3C&#x2F;g%3E%3C&#x2F;g%3E%3C&#x2F;svg%3E)</p>
-<p>原文链接：<a target="_blank" rel="noopener" href="https://github.com/m2kar/m2kar.github.io/issues/21">https://github.com/m2kar/m2kar.github.io/issues/21</a></p>
-
+                            <img class="kratos-entry-thumb-new-img" alt="">
                         
+                    </a>
+                </div>
+                <div class="kratos-post-inner-new">
+                    <header class="kratos-entry-header-new">
+                            <a class="label-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a>
+                        <h2 class="kratos-entry-title-new"><a href="/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B(12)%E3%80%81%E5%A4%A7%E4%BD%AC%E5%B8%AE%E6%88%91%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%8B/" itemprop="mainEntityOfPage"><span itemprop="name headline">吾爱破解安卓逆向入门教程《安卓逆向这档事》十二、大佬帮我分析一下</span></a>
+                    </header>
+                    <div class="kratos-entry-content-new">
+                        <p itemProp="description">
+                            
+                                前情提要：吾爱破解安卓逆向入门教程《安卓逆向这档事》十、不是我说，有了IDA还要什么女朋友？
+
+一、课程目标
+1.了解汇编寄存器知识、so加载流程2.了解常见so防护手段，以ollvm为例3.学习动态调试技巧以及常见反调试
+二、工具
+...
+                            
+                        </p>
                     </div>
                 </div>
-            </div>
-            
                 <footer class="kratos-post-meta-new">
                     <span class="pull-left">
-                        <time datetime="2023-09-26T06:31:20.188Z" itemprop="datePublished">
-                            <a><i class="fa fa-calendar"></i> 2023-09-26</a>
+                        <time datetime="2023-09-27T00:33:49.000Z" itemprop="datePublished">
+                            <a><i class="fa fa-calendar"></i> 2023-09-27</a>
                         </time>
-                        
+                        <a>
+                            
+                                <i class="fa fa-tags"></i>
+                                <a class="tag-none-link" href="/tags/APP%E9%80%86%E5%90%91/" rel="tag">APP逆向</a>, <a class="tag-none-link" href="/tags/android%E9%80%86%E5%90%91/" rel="tag">android逆向</a>, <a class="tag-none-link" href="/tags/%E5%90%BE%E7%88%B1%E7%A0%B4%E8%A7%A3%E6%95%99%E7%A8%8B10%E8%8A%82/" rel="tag">吾爱破解教程10节</a>
+                            
+                        </a>
                         
                             <!-- 当前仅支持valine/waline自带的统计功能 -->
                             
@@ -847,15 +488,182 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
                             
                         
                     </span>
-                    
-                    
-                        <span class="pull-right">
-                            <a class="read-more" href="/2023/09/26/app%E9%80%86%E5%90%91/Android%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91APK%E6%8A%A2%E7%A5%A8%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%AF%86%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/" title="留言">留言<i class="fa fa-chevron-circle-right"></i></a>
-                        </span>
-                    
-
+                    <span class="pull-right">
+                        <a class="read-more" href="/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B(12)%E3%80%81%E5%A4%A7%E4%BD%AC%E5%B8%AE%E6%88%91%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%8B/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
+                    </span>
                 </footer>
-            
+            </div>
+        </article>
+    
+
+    
+    
+        <article class="kratos-hentry clearfix" itemscope itemtype="https://schema.org/Article">
+            <div class="kratos-entry-border-new clearfix">
+                
+                <div class="kratos-entry-thumb-new">
+                    <a href="/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B(13)%E3%80%81%E6%98%AF%E6%97%B6%E5%80%99%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%B8%8BFrida%E4%B8%80%E6%8A%8A%E6%A2%AD%E4%BA%86(%E4%B8%8A)/">
+                        
+                            <img class="kratos-entry-thumb-new-img" alt="">
+                        
+                    </a>
+                </div>
+                <div class="kratos-post-inner-new">
+                    <header class="kratos-entry-header-new">
+                            <a class="label-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a>
+                        <h2 class="kratos-entry-title-new"><a href="/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B(13)%E3%80%81%E6%98%AF%E6%97%B6%E5%80%99%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%B8%8BFrida%E4%B8%80%E6%8A%8A%E6%A2%AD%E4%BA%86(%E4%B8%8A)/" itemprop="mainEntityOfPage"><span itemprop="name headline">吾爱破解安卓逆向入门教程《安卓逆向这档事》十三、是时候学习一下Frida一把梭了(上)</span></a>
+                    </header>
+                    <div class="kratos-entry-content-new">
+                        <p itemProp="description">
+                            
+                                前情提要：吾爱破解安卓逆向入门教程《安卓逆向这档事》番外实战篇1-某电影视全家桶
+
+一、课程目标
+1.配置frida环境，了解frida原理2.从0到1编写frida脚本3.了解frida的常用Api
+二、工具
+1.教程Demo(更新...
+                            
+                        </p>
+                    </div>
+                </div>
+                <footer class="kratos-post-meta-new">
+                    <span class="pull-left">
+                        <time datetime="2023-09-27T00:33:49.000Z" itemprop="datePublished">
+                            <a><i class="fa fa-calendar"></i> 2023-09-27</a>
+                        </time>
+                        <a>
+                            
+                                <i class="fa fa-tags"></i>
+                                <a class="tag-none-link" href="/tags/APP%E9%80%86%E5%90%91/" rel="tag">APP逆向</a>, <a class="tag-none-link" href="/tags/android%E9%80%86%E5%90%91/" rel="tag">android逆向</a>, <a class="tag-none-link" href="/tags/%E5%90%BE%E7%88%B1%E7%A0%B4%E8%A7%A3%E6%95%99%E7%A8%8B10%E8%8A%82/" rel="tag">吾爱破解教程10节</a>
+                            
+                        </a>
+                        
+                            <!-- 当前仅支持valine/waline自带的统计功能 -->
+                            
+                        
+                        
+                            <!-- 当前仅支持waline自带的统计功能 -->
+                            
+                        
+                    </span>
+                    <span class="pull-right">
+                        <a class="read-more" href="/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B(13)%E3%80%81%E6%98%AF%E6%97%B6%E5%80%99%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%B8%8BFrida%E4%B8%80%E6%8A%8A%E6%A2%AD%E4%BA%86(%E4%B8%8A)/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
+                    </span>
+                </footer>
+            </div>
+        </article>
+    
+
+    
+    
+        <article class="kratos-hentry clearfix" itemscope itemtype="https://schema.org/Article">
+            <div class="kratos-entry-border-new clearfix">
+                
+                <div class="kratos-entry-thumb-new">
+                    <a href="/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B(14)%E3%80%81%E6%98%AF%E6%97%B6%E5%80%99%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%B8%8BFrida%E4%B8%80%E6%8A%8A%E6%A2%AD%E4%BA%86(%E4%B8%AD)/">
+                        
+                            <img class="kratos-entry-thumb-new-img" alt="">
+                        
+                    </a>
+                </div>
+                <div class="kratos-post-inner-new">
+                    <header class="kratos-entry-header-new">
+                            <a class="label-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a>
+                        <h2 class="kratos-entry-title-new"><a href="/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B(14)%E3%80%81%E6%98%AF%E6%97%B6%E5%80%99%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%B8%8BFrida%E4%B8%80%E6%8A%8A%E6%A2%AD%E4%BA%86(%E4%B8%AD)/" itemprop="mainEntityOfPage"><span itemprop="name headline">吾爱破解安卓逆向入门教程《安卓逆向这档事》十四、是时候学习一下Frida一把梭了(中)</span></a>
+                    </header>
+                    <div class="kratos-entry-content-new">
+                        <p itemProp="description">
+                            
+                                前情提要：吾爱破解安卓逆向入门教程《安卓逆向这档事》十三、是时候学习一下Frida一把梭了(上)
+
+一、课程目标1.配置objection环境2.了解objection常用Api3.了解frida_java_trace工具分析控制流混...
+                            
+                        </p>
+                    </div>
+                </div>
+                <footer class="kratos-post-meta-new">
+                    <span class="pull-left">
+                        <time datetime="2023-09-27T00:33:49.000Z" itemprop="datePublished">
+                            <a><i class="fa fa-calendar"></i> 2023-09-27</a>
+                        </time>
+                        <a>
+                            
+                                <i class="fa fa-tags"></i>
+                                <a class="tag-none-link" href="/tags/APP%E9%80%86%E5%90%91/" rel="tag">APP逆向</a>, <a class="tag-none-link" href="/tags/android%E9%80%86%E5%90%91/" rel="tag">android逆向</a>, <a class="tag-none-link" href="/tags/%E5%90%BE%E7%88%B1%E7%A0%B4%E8%A7%A3%E6%95%99%E7%A8%8B10%E8%8A%82/" rel="tag">吾爱破解教程10节</a>
+                            
+                        </a>
+                        
+                            <!-- 当前仅支持valine/waline自带的统计功能 -->
+                            
+                        
+                        
+                            <!-- 当前仅支持waline自带的统计功能 -->
+                            
+                        
+                    </span>
+                    <span class="pull-right">
+                        <a class="read-more" href="/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B(14)%E3%80%81%E6%98%AF%E6%97%B6%E5%80%99%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%B8%8BFrida%E4%B8%80%E6%8A%8A%E6%A2%AD%E4%BA%86(%E4%B8%AD)/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
+                    </span>
+                </footer>
+            </div>
+        </article>
+    
+
+    
+    
+        <article class="kratos-hentry clearfix" itemscope itemtype="https://schema.org/Article">
+            <div class="kratos-entry-border-new clearfix">
+                
+                <div class="kratos-entry-thumb-new">
+                    <a href="/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B%E7%95%AA%E5%A4%96%E5%AE%9E%E6%88%98%E7%AF%871-%E6%9F%90%E7%94%B5%E5%BD%B1%E8%A7%86%E5%85%A8%E5%AE%B6%E6%A1%B6/">
+                        
+                            <img class="kratos-entry-thumb-new-img" alt="">
+                        
+                    </a>
+                </div>
+                <div class="kratos-post-inner-new">
+                    <header class="kratos-entry-header-new">
+                            <a class="label-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a>
+                        <h2 class="kratos-entry-title-new"><a href="/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B%E7%95%AA%E5%A4%96%E5%AE%9E%E6%88%98%E7%AF%871-%E6%9F%90%E7%94%B5%E5%BD%B1%E8%A7%86%E5%85%A8%E5%AE%B6%E6%A1%B6/" itemprop="mainEntityOfPage"><span itemprop="name headline">吾爱破解安卓逆向入门教程《安卓逆向这档事》番外实战篇1-某电影视全家桶</span></a>
+                    </header>
+                    <div class="kratos-entry-content-new">
+                        <p itemProp="description">
+                            
+                                前情提要：吾爱破解安卓逆向入门教程《安卓逆向这档事》十二、大佬帮我分析一下
+
+一、课程目标
+借助已学知识完成样本软件的去除签名校验、去广告与更新、布局优化
+二、工具
+1.样本软件2.jadx-gui3.MT管理器&#x2F;NP管理器...
+                            
+                        </p>
+                    </div>
+                </div>
+                <footer class="kratos-post-meta-new">
+                    <span class="pull-left">
+                        <time datetime="2023-09-27T00:33:49.000Z" itemprop="datePublished">
+                            <a><i class="fa fa-calendar"></i> 2023-09-27</a>
+                        </time>
+                        <a>
+                            
+                                <i class="fa fa-tags"></i>
+                                <a class="tag-none-link" href="/tags/APP%E9%80%86%E5%90%91/" rel="tag">APP逆向</a>, <a class="tag-none-link" href="/tags/android%E9%80%86%E5%90%91/" rel="tag">android逆向</a>, <a class="tag-none-link" href="/tags/%E5%90%BE%E7%88%B1%E7%A0%B4%E8%A7%A3%E6%95%99%E7%A8%8B10%E8%8A%82/" rel="tag">吾爱破解教程10节</a>
+                            
+                        </a>
+                        
+                            <!-- 当前仅支持valine/waline自带的统计功能 -->
+                            
+                        
+                        
+                            <!-- 当前仅支持waline自带的统计功能 -->
+                            
+                        
+                    </span>
+                    <span class="pull-right">
+                        <a class="read-more" href="/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B%E7%95%AA%E5%A4%96%E5%AE%9E%E6%88%98%E7%AF%871-%E6%9F%90%E7%94%B5%E5%BD%B1%E8%A7%86%E5%85%A8%E5%AE%B6%E6%A1%B6/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
+                    </span>
+                </footer>
+            </div>
         </article>
     
 
@@ -920,177 +728,6 @@ SQLserver 远程连接踩坑
         </article>
     
 
-    
-    
-        <article class="kratos-hentry clearfix" itemscope itemtype="https://schema.org/Article">
-            <div class="kratos-entry-border-new clearfix">
-                
-                <div class="kratos-entry-thumb-new">
-                    <a href="/2023/09/04/%E5%A4%A7%E9%BA%A6%E7%BD%91APP%E9%80%86%E5%90%91%E9%A1%B9%E7%9B%AE/%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E5%BC%B9/">
-                        
-                            <img class="kratos-entry-thumb-new-img" alt="">
-                        
-                    </a>
-                </div>
-                <div class="kratos-post-inner-new">
-                    <header class="kratos-entry-header-new">
-                            <a class="label-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a>
-                        <h2 class="kratos-entry-title-new"><a href="/2023/09/04/%E5%A4%A7%E9%BA%A6%E7%BD%91APP%E9%80%86%E5%90%91%E9%A1%B9%E7%9B%AE/%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E5%BC%B9/" itemprop="mainEntityOfPage"><span itemprop="name headline">我的小项目-第三弹</span></a>
-                    </header>
-                    <div class="kratos-entry-content-new">
-                        <p itemProp="description">
-                            
-                                一、项目起因：
-
-停滞挺久了，最近这段时间感觉各处不顺，工作没思路，干什么都提不起精神，这2年都没什么成长，有时候想自己不能这样下去，但是也不知道该做什么，怎么做，感觉很焦虑。
-最近思考了很多，但是一下子又想不起来自己想了些什么，就是...
-                            
-                        </p>
-                    </div>
-                </div>
-                <footer class="kratos-post-meta-new">
-                    <span class="pull-left">
-                        <time datetime="2023-09-04T09:30:29.000Z" itemprop="datePublished">
-                            <a><i class="fa fa-calendar"></i> 2023-09-04</a>
-                        </time>
-                        <a>
-                            
-                                <i class="fa fa-tags"></i>
-                                <a class="tag-none-link" href="/tags/APP%E9%80%86%E5%90%91/" rel="tag">APP逆向</a>, <a class="tag-none-link" href="/tags/ideas/" rel="tag">ideas</a>, <a class="tag-none-link" href="/tags/%E5%B0%8F%E7%88%AC%E8%99%AB/" rel="tag">小爬虫</a>
-                            
-                        </a>
-                        
-                            <!-- 当前仅支持valine/waline自带的统计功能 -->
-                            
-                        
-                        
-                            <!-- 当前仅支持waline自带的统计功能 -->
-                            
-                        
-                    </span>
-                    <span class="pull-right">
-                        <a class="read-more" href="/2023/09/04/%E5%A4%A7%E9%BA%A6%E7%BD%91APP%E9%80%86%E5%90%91%E9%A1%B9%E7%9B%AE/%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E5%BC%B9/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
-                    </span>
-                </footer>
-            </div>
-        </article>
-    
-
-    
-    
-        <article class="kratos-hentry clearfix" itemscope itemtype="https://schema.org/Article">
-            <div class="kratos-entry-border-new clearfix">
-                
-                <div class="kratos-entry-thumb-new">
-                    <a href="/2023/08/31/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/%E9%94%80%E5%94%AE%E7%B3%BB%E7%BB%9F%E6%90%AD%E5%BB%BA%EF%BC%88%E4%BA%8C%EF%BC%89/">
-                        
-                            <img class="kratos-entry-thumb-new-img" alt="">
-                        
-                    </a>
-                </div>
-                <div class="kratos-post-inner-new">
-                    <header class="kratos-entry-header-new">
-                            <a class="label-link" href="/categories/excel/">excel</a>
-                        <h2 class="kratos-entry-title-new"><a href="/2023/08/31/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/%E9%94%80%E5%94%AE%E7%B3%BB%E7%BB%9F%E6%90%AD%E5%BB%BA%EF%BC%88%E4%BA%8C%EF%BC%89/" itemprop="mainEntityOfPage"><span itemprop="name headline">销售系统搭建（二）</span></a>
-                    </header>
-                    <div class="kratos-entry-content-new">
-                        <p itemProp="description">
-                            
-                                最后一个章节就是调用所有的数据，这个部分很简单了，直接上代码
-一、初始化数组
-'初始化数组
-Sub InitTableFrom()
-    ReDim tableFrom(1 To 22) As Variant
-    
-    ta...
-                            
-                        </p>
-                    </div>
-                </div>
-                <footer class="kratos-post-meta-new">
-                    <span class="pull-left">
-                        <time datetime="2023-08-31T12:04:18.000Z" itemprop="datePublished">
-                            <a><i class="fa fa-calendar"></i> 2023-08-31</a>
-                        </time>
-                        <a>
-                            
-                                <i class="fa fa-tags"></i>
-                                <a class="tag-none-link" href="/tags/excel/" rel="tag">excel</a>, <a class="tag-none-link" href="/tags/vba/" rel="tag">vba</a>, <a class="tag-none-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a>
-                            
-                        </a>
-                        
-                            <!-- 当前仅支持valine/waline自带的统计功能 -->
-                            
-                        
-                        
-                            <!-- 当前仅支持waline自带的统计功能 -->
-                            
-                        
-                    </span>
-                    <span class="pull-right">
-                        <a class="read-more" href="/2023/08/31/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/%E9%94%80%E5%94%AE%E7%B3%BB%E7%BB%9F%E6%90%AD%E5%BB%BA%EF%BC%88%E4%BA%8C%EF%BC%89/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
-                    </span>
-                </footer>
-            </div>
-        </article>
-    
-
-    
-    
-        <article class="kratos-hentry clearfix" itemscope itemtype="https://schema.org/Article">
-            <div class="kratos-entry-border-new clearfix">
-                
-                <div class="kratos-entry-thumb-new">
-                    <a href="/2023/08/31/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/%E9%94%80%E5%94%AE%E7%B3%BB%E7%BB%9F%E6%90%AD%E5%BB%BA%EF%BC%88%E4%B8%80%EF%BC%89/">
-                        
-                            <img class="kratos-entry-thumb-new-img" alt="">
-                        
-                    </a>
-                </div>
-                <div class="kratos-post-inner-new">
-                    <header class="kratos-entry-header-new">
-                            <a class="label-link" href="/categories/excel/">excel</a>
-                        <h2 class="kratos-entry-title-new"><a href="/2023/08/31/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/%E9%94%80%E5%94%AE%E7%B3%BB%E7%BB%9F%E6%90%AD%E5%BB%BA%EF%BC%88%E4%B8%80%EF%BC%89/" itemprop="mainEntityOfPage"><span itemprop="name headline">销售系统搭建（一）</span></a>
-                    </header>
-                    <div class="kratos-entry-content-new">
-                        <p itemProp="description">
-                            
-                                本章节是继中台数据库后的第二章，中台数据库搭建完成，需要销售填充数据。其实有了最开始踩的坑，做起销售系统就的心应手了。
-功能设计： 点击单元格–&gt;弹出弹窗–&gt; 填写相关信息 –&gt; 提交
-获取最新的分配数据。
-卡点问题...
-                            
-                        </p>
-                    </div>
-                </div>
-                <footer class="kratos-post-meta-new">
-                    <span class="pull-left">
-                        <time datetime="2023-08-31T11:35:02.000Z" itemprop="datePublished">
-                            <a><i class="fa fa-calendar"></i> 2023-08-31</a>
-                        </time>
-                        <a>
-                            
-                                <i class="fa fa-tags"></i>
-                                <a class="tag-none-link" href="/tags/excel/" rel="tag">excel</a>, <a class="tag-none-link" href="/tags/vba/" rel="tag">vba</a>, <a class="tag-none-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a>
-                            
-                        </a>
-                        
-                            <!-- 当前仅支持valine/waline自带的统计功能 -->
-                            
-                        
-                        
-                            <!-- 当前仅支持waline自带的统计功能 -->
-                            
-                        
-                    </span>
-                    <span class="pull-right">
-                        <a class="read-more" href="/2023/08/31/excel%E4%B8%AD%E5%8F%B0%E7%B3%BB%E7%BB%9F/%E9%94%80%E5%94%AE%E7%B3%BB%E7%BB%9F%E6%90%AD%E5%BB%BA%EF%BC%88%E4%B8%80%EF%BC%89/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
-                    </span>
-                </footer>
-            </div>
-        </article>
-    
-
 
 
     <div class='text-center pagination'>
@@ -1137,7 +774,7 @@ Sub InitTableFrom()
                 文章
             </span>
             <span class="count">
-                66
+                69
             </span>
         </a>
         <a class="meta-item" href="/categories/">
@@ -1162,7 +799,7 @@ Sub InitTableFrom()
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
     <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/chatgpt/">chatgpt</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/excel/">excel</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vba-access/">vba-access</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/chatgpt/">chatgpt</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/excel/">excel</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vba-access/">vba-access</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a><span class="category-list-count">3</span></li></ul>
   </aside>
 
 
@@ -1213,6 +850,12 @@ Sub InitTableFrom()
             
           
         
+          
+            
+          
+            
+          
+            
           
             
           

@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  
+  
+  <title>吾爱破解安卓逆向入门教程《安卓逆向这档事》番外实战篇1-某电影视全家桶 | 栋栋的个人博客</title>
+  
+  <meta name="author" content="John DD" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="APP逆向, android逆向, 吾爱破解教程10节, 大麦网抢票, 逆向" />
+  
+  <meta name="description" content="前情提要：吾爱破解安卓逆向入门教程《安卓逆向这档事》十二、大佬帮我分析一下  一、课程目标 借助已学知识完成样本软件的去除签名校验、去广告与更新、布局优化 二、工具 1.样本软件2.jadx-gui3.MT管理器&#x2F;NP管理器4.算法助手5.开发助手 三、课程内容 全家桶：顾名思义，这些影视app都是一套源码开发的，多个渠道分发只是换了个包名和皮肤《安卓逆向这档事》疑难解答-建议征集贴【吾">
+<meta property="og:type" content="article">
+<meta property="og:title" content="吾爱破解安卓逆向入门教程《安卓逆向这档事》番外实战篇1-某电影视全家桶">
+<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B%E7%95%AA%E5%A4%96%E5%AE%9E%E6%88%98%E7%AF%871-%E6%9F%90%E7%94%B5%E5%BD%B1%E8%A7%86%E5%85%A8%E5%AE%B6%E6%A1%B6/index.html">
+<meta property="og:site_name" content="栋栋的个人博客">
+<meta property="og:description" content="前情提要：吾爱破解安卓逆向入门教程《安卓逆向这档事》十二、大佬帮我分析一下  一、课程目标 借助已学知识完成样本软件的去除签名校验、去广告与更新、布局优化 二、工具 1.样本软件2.jadx-gui3.MT管理器&#x2F;NP管理器4.算法助手5.开发助手 三、课程内容 全家桶：顾名思义，这些影视app都是一套源码开发的，多个渠道分发只是换了个包名和皮肤《安卓逆向这档事》疑难解答-建议征集贴【吾">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695866802644-78.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695866802644-79.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695866802645-80.png">
+<meta property="article:published_time" content="2023-09-27T00:33:49.000Z">
+<meta property="article:modified_time" content="2023-09-28T02:28:19.636Z">
+<meta property="article:author" content="John DD">
+<meta property="article:tag" content="逆向">
+<meta property="article:tag" content="APP逆向">
+<meta property="article:tag" content="android逆向">
+<meta property="article:tag" content="大麦网抢票">
+<meta property="article:tag" content="吾爱破解教程10节">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695866802644-78.png">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" media="all"></script>
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-color-dark.min.css" media="(prefers-color-scheme: dark)"></script>
+    <script src="/js/kr-dark.min.js"></script>
+  
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" media="all"></script>
+  
+  <link rel="stylesheet" id="fontawe-css" href="/vendors/font-awesome@4.7.0/css/font-awesome.min.css" media="all"></script>
+  <link rel="stylesheet" id="nprogress-css" href="/vendors/nprogress@0.2.0/nprogress.css" media="all"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/aplayer@1.10.1/dist/APlayer.min.css"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"></script>
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="/vendors/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="/vendors/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+  
+  <style>
+    
+      .kratos-cover.kratos-cover-2 {
+        background-image: url('/images/banner.webp');
+      }
+    
+    
+  </style>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                    
+                                        
+                                            <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/friends/"><i class="fa fa-paw"></i>好伙伴</a></li>
+                                        
+                                    
+                                        
+                                            <li>
+                                                <a><i class="fa fa-link"></i>链接</a>
+                                                <ul class="sub-menu">
+                                                    
+                                                        
+                                                    
+                                                </ul>
+                                            </li>
+                                        
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">栋栋的个人博客</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>栋栋的个人博客</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article itemscope itemtype="https://schema.org/Article">
+    
+    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B%E7%95%AA%E5%A4%96%E5%AE%9E%E6%88%98%E7%AF%871-%E6%9F%90%E7%94%B5%E5%BD%B1%E8%A7%86%E5%85%A8%E5%AE%B6%E6%A1%B6/">
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center" itemprop="name headline">吾爱破解安卓逆向入门教程《安卓逆向这档事》番外实战篇1-某电影视全家桶</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><time datetime="2023-09-27T00:33:49.000Z" itemprop="datePublished"><i class="fa fa-calendar"></i> 2023-09-27</time></li>
+                <li itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <i class="fa fa-user"></i> 作者 <span itemprop="name">John DD</span>
+                </li>
+                
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            ~10.70K
+                        
+                        字
+                    </li>
+                
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                <div class="icon"><i class="fa fa-warning"></i></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1695868099636"></time> 前，其中的内容可能需要更新。</p></div>
+            </div>
+            
+            
+            
+            <hr />
+            <div itemprop="articleBody"><p>前情提要：<a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651139620&idx=1&sn=d65e23f4c8a5bc6cf94637af05025cea&chksm=bd50be708a273766f5f00b91d3df8921283fecb3b2b54432bdee2b2b3330b5ea76c68f857bc9&scene=21#wechat_redirect">吾爱破解安卓逆向入门教程《安卓逆向这档事》十二、大佬帮我分析一下</a></p>
+<p><img src="/./../../img/img/640-1695866802644-78.png" alt="图片"></p>
+<h1 id="一、课程目标"><a href="#一、课程目标" class="headerlink" title="一、课程目标"></a>一、课程目标</h1><hr>
+<p>借助已学知识完成样本软件的去除签名校验、去广告与更新、布局优化</p>
+<h1 id="二、工具"><a href="#二、工具" class="headerlink" title="二、工具"></a>二、工具</h1><hr>
+<p>1.样本软件<br>2.jadx-gui<br>3.MT管理器&#x2F;NP管理器<br>4.算法助手<br>5.开发助手</p>
+<h1 id="三、课程内容"><a href="#三、课程内容" class="headerlink" title="三、课程内容"></a>三、课程内容</h1><hr>
+<p>全家桶：顾名思义，这些影视app都是一套源码开发的，多个渠道分发只是换了个包名和皮肤<br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651139631&idx=1&sn=11dd67e3c38fe2e9692c9fd3a41259fc&chksm=bd50be7b8a27376d0816f2cd4757c7d0d7e8a68d38a1ce0a7213d6877a77ad271c728e629b3e&scene=21#wechat_redirect">《安卓逆向这档事》疑难解答-建议征集贴</a><br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138541&idx=1&sn=c7482f59c3d830b2646e276761928941&chksm=bd50b9b98a2730af72e1f9e346663c12973821967c1ac002f5fcdabd0182af5f6106b36d6a01&scene=21#wechat_redirect">【吾爱破解安卓逆向入门教程《安卓逆向这档事》三、初识smali，vip终结者】</a><br>【【Android逆向】16分钟动画讲解java以及对应的smali代码】<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Cp4y157bY">https://www.bilibili.com/video/BV1Cp4y157bY</a><br>PS:讲得特别好，建议对于smali还不熟悉的朋友可以多看几遍！！！</p>
+<h2 id="1-去除广告"><a href="#1-去除广告" class="headerlink" title="1.去除广告"></a>1.去除广告</h2><p>关键字:initsdk、loadad、initad等</p>
+<table>
+<thead>
+<tr>
+<th align="left">广告关键词</th>
+<th align="left">厂商</th>
+<th align="left">文档</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">com.qq.e.ads</td>
+<td align="left">腾讯优量汇广告</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://developers.adnet.qq.com/doc/android/union/union_splash">https://developers.adnet.qq.com/doc/android/union/union_splash</a></td>
+</tr>
+<tr>
+<td align="left">CSJAD、TTAdSdk、bytedance、pangolin</td>
+<td align="left">穿山甲广告</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://www.csjplatform.com/supportcenter/5395">https://www.csjplatform.com/supportcenter/5395</a></td>
+</tr>
+<tr>
+<td align="left">ADMob、google.ads</td>
+<td align="left">谷歌广告</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://developers.google.com/admob/android/app-open?hl=zh-cn#extend">https://developers.google.com/admob/android/app-open?hl=zh-cn#extend</a></td>
+</tr>
+<tr>
+<td align="left">TorchAd</td>
+<td align="left">360广告</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://easydoc.soft.360.cn/doc?project=186589faed863b0a24f15f9bcbafd5c7&doc=2cbbbe19c5cb90f5e7a41c7037b0029a&config=title_menu_toc">https://easydoc.soft.360.cn/doc?project=186589faed863b0a24f15f9bcbafd5c7&amp;doc=2cbbbe19c5cb90f5e7a41c7037b0029a&amp;config=title_menu_toc</a></td>
+</tr>
+<tr>
+<td align="left">kwad</td>
+<td align="left">快手广告</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://u.kuaishou.com/home/help/detail/1334/1370/1310">https://u.kuaishou.com/home/help/detail/1334/1370/1310</a></td>
+</tr>
+<tr>
+<td align="left">baidu.mobads</td>
+<td align="left">百度广告</td>
+<td align="left"><a target="_blank" rel="noopener" href="http://bce.ssp.baidu.com/mssp/sdk/BaiduMobAds_MSSP_bd_SDK_android_v5.1.pdf">http://bce.ssp.baidu.com/mssp/sdk/BaiduMobAds_MSSP_bd_SDK_android_v5.1.pdf</a></td>
+</tr>
+<tr>
+<td align="left">MimoSdk</td>
+<td align="left">米盟广告</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://t5.a.market.xiaomi.com/download/AdCenter/0d3a369516ee146e8a9d5c290985939da4624fe0a/AdCenter0d3a369516ee146e8a9d5c290985939da4624fe0a.html">https://t5.a.market.xiaomi.com/download/AdCenter/0d3a369516ee146e8a9d5c290985939da4624fe0a/AdCenter0d3a369516ee146e8a9d5c290985939da4624fe0a.html</a></td>
+</tr>
+<tr>
+<td align="left">sigmob.sdk</td>
+<td align="left">sigmob广告</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://doc.sigmob.com/#/Sigmob%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/SDK%E9%9B%86%E6%88%90%E8%AF%B4%E6%98%8E/Android/SDK%E6%8E%A5%E5%85%A5%E9%85%8D%E7%BD%AE/">https://doc.sigmob.com/#/Sigmob%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/SDK%E9%9B%86%E6%88%90%E8%AF%B4%E6%98%8E/Android/SDK%E6%8E%A5%E5%85%A5%E9%85%8D%E7%BD%AE/</a></td>
+</tr>
+<tr>
+<td align="left">TradPlus</td>
+<td align="left">TradPlus聚合广告</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://service.cocos.com/document/zh/tradplusad.html">https://service.cocos.com/document/zh/tradplusad.html</a></td>
+</tr>
+</tbody></table>
+<p>通过免广告关键字来实现部分广告的去除</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token class-name">O</span><span class="token punctuation">(</span><span class="token class-name">SaiUserInfo</span> saiUserInfo<span class="token punctuation">,</span> <span class="token keyword">boolean</span> z<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+        g0<span class="token punctuation">.</span><span class="token function">i</span><span class="token punctuation">(</span><span class="token class-name">BaseApp</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> saiUserInfo<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//获取用户信息</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>z<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+            v<span class="token punctuation">.</span><span class="token function">c</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">q</span><span class="token punctuation">(</span><span class="token class-name">SaiSPKey</span><span class="token punctuation">.</span>appToken<span class="token punctuation">,</span> saiUserInfo<span class="token punctuation">.</span><span class="token function">getToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//获取Token</span>
+        <span class="token punctuation">&#125;</span>  
+        <span class="token keyword">this</span><span class="token punctuation">.</span>e<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>saiUserInfo<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token keyword">this</span><span class="token punctuation">.</span>h<span class="token punctuation">.</span><span class="token function">setValue</span><span class="token punctuation">(</span>saiUserInfo<span class="token punctuation">.</span><span class="token function">getPic</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//设置用户头像</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>saiUserInfo<span class="token punctuation">.</span><span class="token function">getLogin_type</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  <span class="token comment">//判断登录状态，并设置用户信息</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>g<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"点击登录"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+            <span class="token keyword">this</span><span class="token punctuation">.</span>f<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token class-name">Boolean</span><span class="token punctuation">.</span><span class="token constant">FALSE</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>  
+            <span class="token keyword">this</span><span class="token punctuation">.</span>g<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>saiUserInfo<span class="token punctuation">.</span><span class="token function">getNickname</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+            <span class="token keyword">this</span><span class="token punctuation">.</span>f<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token class-name">Boolean</span><span class="token punctuation">.</span><span class="token constant">TRUE</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token punctuation">&#125;</span>  
+        <span class="token class-name">ObservableField</span> observableField <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>i<span class="token punctuation">;</span>  
+        observableField<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"ID:"</span> <span class="token operator">+</span> saiUserInfo<span class="token punctuation">.</span><span class="token function">getUser_id</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//获取用户ID</span>
+        <span class="token class-name">ObservableField</span> observableField2 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>j<span class="token punctuation">;</span>  
+        observableField2<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token class-name">SaiAppUtils</span><span class="token punctuation">.</span><span class="token function">d</span><span class="token punctuation">(</span>saiUserInfo<span class="token punctuation">.</span><span class="token function">getInvited_count</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"人"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//获取用户邀请人数</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>saiUserInfo<span class="token punctuation">.</span><span class="token function">getInvited_count</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+            <span class="token class-name">ObservableField</span> observableField3 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>k<span class="token punctuation">;</span>  
+            observableField3<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token class-name">SaiAppUtils</span><span class="token punctuation">.</span><span class="token function">d</span><span class="token punctuation">(</span><span class="token class-name">N</span><span class="token punctuation">(</span>saiUserInfo<span class="token punctuation">.</span><span class="token function">getInvited_count</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"天 "</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>  
+            <span class="token keyword">this</span><span class="token punctuation">.</span>k<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token class-name">SaiAppUtils</span><span class="token punctuation">.</span><span class="token function">d</span><span class="token punctuation">(</span><span class="token string">"0天"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token punctuation">&#125;</span>  
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>saiUserInfo<span class="token punctuation">.</span><span class="token function">getFree_time</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">1000</span> <span class="token operator">></span> <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  <span class="token comment">//获取免广告时间</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>n<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+            <span class="token keyword">this</span><span class="token punctuation">.</span>m<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>d<span class="token punctuation">.</span><span class="token function">a</span><span class="token punctuation">(</span><span class="token class-name">Long</span><span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>saiUserInfo<span class="token punctuation">.</span><span class="token function">getFree_time</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+            <span class="token keyword">this</span><span class="token punctuation">.</span>l<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"剩余免广告："</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+            <span class="token class-name">BaseApp</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setFreeTime</span><span class="token punctuation">(</span>saiUserInfo<span class="token punctuation">.</span><span class="token function">getFree_time</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+            <span class="token keyword">return</span><span class="token punctuation">;</span>  
+        <span class="token punctuation">&#125;</span>  
+        <span class="token keyword">this</span><span class="token punctuation">.</span>l<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"邀请好友获得终身免广告特权"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token keyword">this</span><span class="token punctuation">.</span>n<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token class-name">BaseApp</span><span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setFreeTime</span><span class="token punctuation">(</span><span class="token number">0L</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">initData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">initData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>v<span class="token punctuation">.</span><span class="token function">c</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">b</span><span class="token punctuation">(</span><span class="token class-name">SaiSPKey</span><span class="token punctuation">.</span><span class="token constant">AGREE_PRIVATE</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">SaiSplashViewModel</span><span class="token punctuation">)</span> <span class="token keyword">this</span><span class="token punctuation">.</span>viewModel<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">b</span><span class="token punctuation">(</span>b<span class="token punctuation">.</span>s<span class="token punctuation">.</span>c<span class="token punctuation">.</span>b<span class="token punctuation">.</span><span class="token function">a</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">c</span><span class="token punctuation">(</span><span class="token class-name">SaiPrivateEvent</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">observeOn</span><span class="token punctuation">(</span><span class="token class-name">AndroidSchedulers</span><span class="token punctuation">.</span><span class="token function">mainThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Consumer</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">// from class: b.l.i.v.d</span>
+                home<span class="token punctuation">.</span>php<span class="token operator">?</span>mod<span class="token operator">=</span>space<span class="token operator">&amp;</span>uid<span class="token operator">=</span><span class="token number">1892347</span> <span class="token comment">// io.reactivex.functions.Consumer</span>
+                <span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">accept</span><span class="token punctuation">(</span><span class="token class-name">Object</span> obj<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token class-name">SaiSplashActivity</span><span class="token punctuation">.</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">g</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">SaiPrivateEvent</span><span class="token punctuation">)</span> obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            a0<span class="token punctuation">.</span>a<span class="token punctuation">.</span><span class="token function">h</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+            s<span class="token punctuation">.</span>a<span class="token punctuation">.</span><span class="token function">d</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//广告SDK初始化</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e2<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            e0<span class="token punctuation">.</span><span class="token function">b</span><span class="token punctuation">(</span><span class="token string">"===========>>> "</span> <span class="token operator">+</span> e2<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">int</span> g2 <span class="token operator">=</span> v<span class="token punctuation">.</span><span class="token function">c</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">g</span><span class="token punctuation">(</span><span class="token class-name">SaiSPKey</span><span class="token punctuation">.</span><span class="token constant">INSTANCE</span><span class="token punctuation">.</span><span class="token function">getLaunchCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>g2 <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>v<span class="token punctuation">.</span><span class="token function">c</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">b</span><span class="token punctuation">(</span><span class="token string">"extend_java_aa"</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                v<span class="token punctuation">.</span><span class="token function">c</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">s</span><span class="token punctuation">(</span><span class="token string">"extend_java_aa"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                g2 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+            v<span class="token punctuation">.</span><span class="token function">c</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">s</span><span class="token punctuation">(</span><span class="token string">"extend_java_aa"</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>g2 <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">showLoaddingDialog</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">SaiSplashViewModel</span><span class="token punctuation">)</span> <span class="token keyword">this</span><span class="token punctuation">.</span>viewModel<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">b</span><span class="token punctuation">(</span>b<span class="token punctuation">.</span>s<span class="token punctuation">.</span>c<span class="token punctuation">.</span>b<span class="token punctuation">.</span><span class="token function">a</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">c</span><span class="token punctuation">(</span><span class="token class-name">SaiAppInitEvent</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">observeOn</span><span class="token punctuation">(</span><span class="token class-name">AndroidSchedulers</span><span class="token punctuation">.</span><span class="token function">mainThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Consumer</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">// from class: b.l.i.v.a</span>
+                <span class="token annotation punctuation">@Override</span> <span class="token comment">// io.reactivex.functions.Consumer</span>
+                <span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">void</span> <span class="token function">accept</span><span class="token punctuation">(</span><span class="token class-name">Object</span> obj<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token class-name">SaiSplashActivity</span><span class="token punctuation">.</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">i</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">SaiAppInitEvent</span><span class="token punctuation">)</span> obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        g<span class="token punctuation">.</span>a<span class="token punctuation">.</span><span class="token function">a</span><span class="token punctuation">(</span>g2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> i2 <span class="token operator">=</span> g2 <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        v<span class="token punctuation">.</span><span class="token function">c</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">m</span><span class="token punctuation">(</span><span class="token class-name">SaiSPKey</span><span class="token punctuation">.</span><span class="token constant">INSTANCE</span><span class="token punctuation">.</span><span class="token function">getLaunchCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> i2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        c0 c0Var <span class="token operator">=</span> c0<span class="token punctuation">.</span>a<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>c0Var<span class="token punctuation">.</span>f3990g <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            c0Var<span class="token punctuation">.</span>f3990g <span class="token operator">=</span> i2<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>g2 <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">NetworkUtils</span><span class="token punctuation">.</span><span class="token function">c</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">SaiSplashViewModel</span><span class="token punctuation">)</span> <span class="token keyword">this</span><span class="token punctuation">.</span>viewModel<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">n</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>c0Var<span class="token punctuation">.</span><span class="token function">l</span><span class="token punctuation">(</span><span class="token string">"1"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token function">showLoaddingDialog</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token class-name">SaiSplashAdActivity</span><span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token function">finish</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                    <span class="token function">n</span><span class="token punctuation">(</span>b<span class="token punctuation">.</span><span class="token constant">DELAY</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                <span class="token function">n</span><span class="token punctuation">(</span>b<span class="token punctuation">.</span><span class="token constant">NONET</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+            <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">SaiSplashViewModel</span><span class="token punctuation">)</span> <span class="token keyword">this</span><span class="token punctuation">.</span>viewModel<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">n</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>i<span class="token punctuation">.</span><span class="token function">c</span><span class="token punctuation">(</span>d<span class="token punctuation">.</span><span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> c0Var<span class="token punctuation">.</span>f3986c<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>c0Var<span class="token punctuation">.</span><span class="token function">j</span><span class="token punctuation">(</span><span class="token class-name">R</span><span class="token punctuation">.</span>string<span class="token punctuation">.</span>app_cudgel<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        e0<span class="token punctuation">.</span><span class="token function">b</span><span class="token punctuation">(</span><span class="token string">"===========>>> app kill app_cudgel"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span><span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>赋值参考第六课52:08</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token punctuation">.</span>method <span class="token keyword">public</span> <span class="token function">getFree_time</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token class-name">J</span>
+    <span class="token punctuation">.</span>registers <span class="token number">3</span>
+
+    <span class="token punctuation">.</span>line <span class="token number">1</span>
+    iget<span class="token operator">-</span>wide v0<span class="token punctuation">,</span> p0<span class="token punctuation">,</span> <span class="token class-name">Lcom</span><span class="token operator">/</span>pencil<span class="token operator">/</span>saibeans<span class="token operator">/</span><span class="token class-name">SaiUserInfo</span><span class="token punctuation">;</span><span class="token operator">-></span>free_time<span class="token operator">:</span><span class="token class-name">J</span>
+
+    <span class="token keyword">const</span><span class="token operator">-</span>wide v0<span class="token punctuation">,</span> <span class="token number">0</span>x32d57bf5e8L
+
+    <span class="token keyword">return</span><span class="token operator">-</span>wide v0
+<span class="token punctuation">.</span>end method<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="2-去除签名校验"><a href="#2-去除签名校验" class="headerlink" title="2.去除签名校验"></a>2.去除签名校验</h2><p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138693&idx=1&sn=a09896ce9c1aa5e7194600ff7ca011e9&chksm=bd50bad18a2733c7c536438f5181eb3d73a57c0349e010fda23d7973cb0ebf272f15b82be56a&scene=21#wechat_redirect">吾爱破解安卓逆向入门教程《安卓逆向这档事》六、校验的N次方-签名校验对抗、PM代理、IO重定向</a><br>1.核心破解，免签名安装<br>2.一键去签名工具<br>[实战破解]白描-动态代理Hook签名校验</p>
+<p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1526854-1-1.html">https://www.52pojie.cn/thread-1526854-1-1.html</a></p>
+<p>3.手动分析签名校验</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token punctuation">.</span>method <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token class-name">Ljava</span><span class="token operator">/</span>util<span class="token operator">/</span><span class="token class-name">List</span><span class="token punctuation">;</span>
+    <span class="token punctuation">.</span>registers <span class="token number">2</span>
+    <span class="token punctuation">.</span>annotation build <span class="token class-name">Landroidx</span><span class="token operator">/</span>annotation<span class="token operator">/</span><span class="token class-name">NonNull</span><span class="token punctuation">;</span>
+    <span class="token punctuation">.</span>end annotation
+
+    <span class="token punctuation">.</span>annotation system <span class="token class-name">Ldalvik</span><span class="token operator">/</span>annotation<span class="token operator">/</span><span class="token class-name">Signature</span><span class="token punctuation">;</span>
+        value <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"()"</span><span class="token punctuation">,</span>
+            <span class="token string">"Ljava/util/List&lt;"</span><span class="token punctuation">,</span>
+            <span class="token string">"Ljava/lang/String;"</span><span class="token punctuation">,</span>
+            <span class="token string">">;"</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">.</span>end annotation
+
+    <span class="token punctuation">.</span>line <span class="token number">1</span>
+    <span class="token keyword">new</span><span class="token operator">-</span>instance v0<span class="token punctuation">,</span> <span class="token class-name">Ljava</span><span class="token operator">/</span>util<span class="token operator">/</span><span class="token class-name">ArrayList</span><span class="token punctuation">;</span>
+
+    invoke<span class="token operator">-</span>direct <span class="token punctuation">&#123;</span>v0<span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token class-name">Ljava</span><span class="token operator">/</span>util<span class="token operator">/</span><span class="token class-name">ArrayList</span><span class="token punctuation">;</span><span class="token operator">-></span><span class="token generics"><span class="token punctuation">&lt;</span>init<span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token class-name">V</span>
+
+    <span class="token keyword">const</span><span class="token operator">-</span>string v1<span class="token punctuation">,</span> <span class="token string">"F9:6C:E9:5F:D5:47:BE:DF:81:15:E3:71:8A:10:54:45"</span> 
+    #创建了一个新的 <span class="token class-name">ArrayList</span> 实例，然后向列表中添加了一个字符串常量 <span class="token string">"F9:6C:E9:5F:D5:47:BE:DF:81:15:E3:71:8A:10:54:45"</span>
+
+    invoke<span class="token operator">-</span>virtual <span class="token punctuation">&#123;</span>v0<span class="token punctuation">,</span> v1<span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token class-name">Ljava</span><span class="token operator">/</span>util<span class="token operator">/</span><span class="token class-name">ArrayList</span><span class="token punctuation">;</span><span class="token operator">-></span><span class="token function">add</span><span class="token punctuation">(</span><span class="token class-name">Ljava</span><span class="token operator">/</span>lang<span class="token operator">/</span><span class="token class-name">Object</span><span class="token punctuation">;</span><span class="token punctuation">)</span><span class="token class-name">Z</span>
+
+    <span class="token keyword">return</span><span class="token operator">-</span>object v0
+<span class="token punctuation">.</span>end method<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/./../../img/img/640-1695866802644-79.png" alt="图片"></p>
+<h2 id="3-去除更新弹窗"><a href="#3-去除更新弹窗" class="headerlink" title="3. 去除更新弹窗"></a>3. 去除更新弹窗</h2><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">a</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> z<span class="token punctuation">,</span> <span class="token class-name">SaiUpgradeInfo</span> saiUpgradeInfo<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>a<span class="token punctuation">.</span>b<span class="token punctuation">.</span><span class="token function">b</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> saiUpgradeInfo <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+            <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>  
+                <span class="token comment">//获取版本号进行对比</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>saiUpgradeInfo<span class="token punctuation">.</span><span class="token function">getVersion_code</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">>=</span> b<span class="token punctuation">.</span>c<span class="token punctuation">.</span>a<span class="token punctuation">.</span>b<span class="token punctuation">.</span>d<span class="token punctuation">.</span><span class="token function">i</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+                    <span class="token keyword">boolean</span> b2 <span class="token operator">=</span> v<span class="token punctuation">.</span><span class="token function">c</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">b</span><span class="token punctuation">(</span><span class="token class-name">SaiSPKey</span><span class="token punctuation">.</span><span class="token constant">INSTANCE</span><span class="token punctuation">.</span><span class="token function">getUpgrade_dialog</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>z <span class="token operator">||</span> <span class="token operator">!</span>b2<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+                        <span class="token keyword">if</span> <span class="token punctuation">(</span>saiUpgradeInfo<span class="token punctuation">.</span><span class="token function">getIs_same</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+                            v c <span class="token operator">=</span> v<span class="token punctuation">.</span><span class="token function">c</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+                            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>c<span class="token punctuation">.</span><span class="token function">b</span><span class="token punctuation">(</span><span class="token string">"appUpgrade_"</span> <span class="token operator">+</span> saiUpgradeInfo<span class="token punctuation">.</span><span class="token function">getVersion_code</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+                                <span class="token keyword">new</span> <span class="token function">d</span><span class="token punctuation">(</span>b<span class="token punctuation">.</span>c<span class="token punctuation">.</span>a<span class="token punctuation">.</span>b<span class="token punctuation">.</span>a<span class="token punctuation">.</span><span class="token function">h</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> saiUpgradeInfo<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+                                v c2 <span class="token operator">=</span> v<span class="token punctuation">.</span><span class="token function">c</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+                                c2<span class="token punctuation">.</span><span class="token function">s</span><span class="token punctuation">(</span><span class="token string">"appUpgrade_"</span> <span class="token operator">+</span> saiUpgradeInfo<span class="token punctuation">.</span><span class="token function">getVersion_code</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+                                <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>  
+                            <span class="token punctuation">&#125;</span>  
+                        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>saiUpgradeInfo<span class="token punctuation">.</span><span class="token function">getVersion_code</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> b<span class="token punctuation">.</span>c<span class="token punctuation">.</span>a<span class="token punctuation">.</span>b<span class="token punctuation">.</span>d<span class="token punctuation">.</span><span class="token function">i</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+                            <span class="token keyword">new</span> <span class="token function">d</span><span class="token punctuation">(</span>b<span class="token punctuation">.</span>c<span class="token punctuation">.</span>a<span class="token punctuation">.</span>b<span class="token punctuation">.</span>a<span class="token punctuation">.</span><span class="token function">h</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> saiUpgradeInfo<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+                            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>  
+                        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>z<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+                            <span class="token class-name">ToastUtils</span><span class="token punctuation">.</span><span class="token function">v</span><span class="token punctuation">(</span><span class="token string">"已经是最新版本"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+                        <span class="token punctuation">&#125;</span>  
+                        e0<span class="token punctuation">.</span><span class="token function">b</span><span class="token punctuation">(</span><span class="token string">"========>>> 包升级更新：$&#123;it.url&#125;"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+                    <span class="token punctuation">&#125;</span>  
+                <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>z<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+                    <span class="token class-name">ToastUtils</span><span class="token punctuation">.</span><span class="token function">v</span><span class="token punctuation">(</span><span class="token string">"已经是最新版本"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+                <span class="token punctuation">&#125;</span>  
+            <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> unused<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+            <span class="token punctuation">&#125;</span>  
+        <span class="token punctuation">&#125;</span>  
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="4-布局优化"><a href="#4-布局优化" class="headerlink" title="4.布局优化"></a>4.布局优化</h2><p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138554&idx=1&sn=be2fe7ffb0520ef17405a754ff0725c8&chksm=bd50b9ae8a2730b84d054c7bd903f8a066251266e16cb1438999759797383e6f20aa656fbbff&scene=21#wechat_redirect">【吾爱破解安卓逆向入门教程《安卓逆向这档事》四、恭喜你获得广告&amp;弹窗静默卡】</a></p>
+<p>1.修改xml中的属性值</p>
+<table>
+<thead>
+<tr>
+<th align="left">元素名称</th>
+<th align="left">属性名称</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">LinearLayout</td>
+<td align="left">android:gravity</td>
+<td align="left">设置布局内部元素的位置，这里设置为中心和左对齐</td>
+</tr>
+<tr>
+<td align="left">LinearLayout</td>
+<td align="left">android:orientation</td>
+<td align="left">设置 <code>LinearLayout</code> 的方向，这里设置为水平</td>
+</tr>
+<tr>
+<td align="left">LinearLayout</td>
+<td align="left">android:tag</td>
+<td align="left">为视图设置标签，这里设置为 “binding_13”</td>
+</tr>
+<tr>
+<td align="left">LinearLayout</td>
+<td align="left">android:background</td>
+<td align="left">设置背景图片，这里引用了名为 “sai_sp_stroke_divider” 的资源</td>
+</tr>
+<tr>
+<td align="left">LinearLayout</td>
+<td align="left">android:paddingLeft</td>
+<td align="left">设置左填充距离，这里引用了名为 “dp_15” 的资源</td>
+</tr>
+<tr>
+<td align="left">LinearLayout</td>
+<td align="left">android:paddingTop</td>
+<td align="left">设置顶部填充距离，这里设置为 10dp</td>
+</tr>
+<tr>
+<td align="left">LinearLayout</td>
+<td align="left">android:paddingBottom</td>
+<td align="left">设置底部填充距离，这里设置为 10dp</td>
+</tr>
+<tr>
+<td align="left">LinearLayout</td>
+<td align="left">android:visibility</td>
+<td align="left">设置视图可见性，这里设置为 “gone”</td>
+</tr>
+<tr>
+<td align="left">LinearLayout</td>
+<td align="left">android:layout_width</td>
+<td align="left">设置布局宽度，这里设置为 0dp</td>
+</tr>
+<tr>
+<td align="left">LinearLayout</td>
+<td align="left">android:layout_height</td>
+<td align="left">设置布局高度，这里设置为包裹内容</td>
+</tr>
+<tr>
+<td align="left">LinearLayout</td>
+<td align="left">android:layout_marginRight</td>
+<td align="left">设置右边距，这里引用了名为 “dp_8” 的资源</td>
+</tr>
+<tr>
+<td align="left">LinearLayout</td>
+<td align="left">android:layout_weight</td>
+<td align="left">设置布局权重，这里设置为 1.0</td>
+</tr>
+<tr>
+<td align="left">LinearLayout</td>
+<td align="left">android:paddingVertical</td>
+<td align="left">设置垂直方向的填充距离，这里设置为 10dp</td>
+</tr>
+<tr>
+<td align="left">ImageView</td>
+<td align="left">android:layout_width</td>
+<td align="left">设置图片视图宽度，这里引用了名为 “dp_32” 的资源</td>
+</tr>
+<tr>
+<td align="left">ImageView</td>
+<td align="left">android:layout_height</td>
+<td align="left">设置图片视图高度，这里引用了名为 “dp_32” 的资源</td>
+</tr>
+<tr>
+<td align="left">ImageView</td>
+<td align="left">android:src</td>
+<td align="left">设置图片资源，这里引用了名为 “icon_mine_invitecode” 的资源</td>
+</tr>
+<tr>
+<td align="left">TextView</td>
+<td align="left">android:textSize</td>
+<td align="left">设置文本字体大小，这里引用了名为 “sp_14” 的资源</td>
+</tr>
+<tr>
+<td align="left">TextView</td>
+<td align="left">android:textColor</td>
+<td align="left">设置文本颜色，这里引用了名为 “common_h0” 的资源</td>
+</tr>
+<tr>
+<td align="left">TextView</td>
+<td align="left">android:layout_width</td>
+<td align="left">设置文本视图宽度，这里设置为包裹内容</td>
+</tr>
+<tr>
+<td align="left">TextView</td>
+<td align="left">android:layout_height</td>
+<td align="left">设置文本视图高度，这里设置为包裹内容</td>
+</tr>
+<tr>
+<td align="left">TextView</td>
+<td align="left">android:layout_marginLeft</td>
+<td align="left">设置左边距，这里引用了名为 “dp_10” 的资源</td>
+</tr>
+<tr>
+<td align="left">TextView</td>
+<td align="left">android:text</td>
+<td align="left">设置文本内容，这里设置为 “填写邀请码”</td>
+</tr>
+</tbody></table>
+<pre class="line-numbers language-none"><code class="language-none"> 复制代码 隐藏代码
+android:visibility&#x3D;&quot;gone&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>2.上帝模式优化布局</p>
+<p>[白嫖大法]某影视邀请协议分析</p>
+<p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1452996-1-1.html">https://www.52pojie.cn/thread-1452996-1-1.html</a></p>
+<h1 id="四、课后小作业"><a href="#四、课后小作业" class="headerlink" title="四、课后小作业"></a>四、课后小作业</h1><hr>
+<p>完成剩余布局的优化并截图回复<br>最终效果图:<br><img src="/./../../img/img/640-1695866802645-80.png" alt="图片"></p>
+<h1 id="五、答疑"><a href="#五、答疑" class="headerlink" title="五、答疑"></a>五、答疑</h1><hr>
+<p>待更新</p>
+<h1 id="六、视频及课件地址"><a href="#六、视频及课件地址" class="headerlink" title="六、视频及课件地址"></a>六、视频及课件地址</h1><hr>
+<p>百度云：</p>
+<p><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1cFWTLn14jeWfpXxlx3syYw?pwd=nqu9">https://pan.baidu.com/s/1cFWTLn14jeWfpXxlx3syYw?pwd=nqu9</a></p>
+<p>阿里云PS：</p>
+<p><a target="_blank" rel="noopener" href="https://www.aliyundrive.com/s/TJoKMK6du6x">https://www.aliyundrive.com/s/TJoKMK6du6x</a></p>
+<p>哔哩哔哩：</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1X24y1m7cj">https://www.bilibili.com/video/BV1X24y1m7cj</a></p>
+<p>PS:解压密码都是52pj，阿里云由于不能分享压缩包，所以下载exe文件，双击自解压</p>
+<h1 id="七、其他章节"><a href="#七、其他章节" class="headerlink" title="七、其他章节"></a>七、其他章节</h1><hr>
+<p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138475&idx=1&sn=e3c5242b7c51f022fcc0efb7f626ab61&chksm=bd50b9ff8a2730e9484df2faa08ed63c1980d5f230b69200450917b0daae1904505c878daca8&scene=21#wechat_redirect">《安卓逆向这档事》一、模拟器环境搭建</a></p>
+<p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138483&idx=1&sn=efa7eabbf0b0cc637a0ccdf8dd62abe5&chksm=bd50b9e78a2730f1f994976f36a60dd8390c4920396b8aec2052b4a666d91d18555096fc8172&scene=21#wechat_redirect">《安卓逆向这档事》二、初识APK文件结构、双开、汉化、基础修改</a><br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138541&idx=1&sn=c7482f59c3d830b2646e276761928941&chksm=bd50b9b98a2730af72e1f9e346663c12973821967c1ac002f5fcdabd0182af5f6106b36d6a01&scene=21#wechat_redirect">《安卓逆向这档事》三、初识smail，vip终结者</a><br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138554&idx=1&sn=be2fe7ffb0520ef17405a754ff0725c8&chksm=bd50b9ae8a2730b84d054c7bd903f8a066251266e16cb1438999759797383e6f20aa656fbbff&scene=21#wechat_redirect">《安卓逆向这档事》四、恭喜你获得广告&amp;弹窗静默卡</a><br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138674&idx=1&sn=17a3271b1771bdacf3392fb64dcc5dc3&chksm=bd50ba268a273330bea4fd1804afff15b9308ed53c88d9aa26a363da0bdeff63642fcce3a42b&scene=21#wechat_redirect">《安卓逆向这档事》五、1000-7&#x3D;？&amp;动态调试&amp;Log插桩</a><br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138693&idx=1&sn=a09896ce9c1aa5e7194600ff7ca011e9&chksm=bd50bad18a2733c7c536438f5181eb3d73a57c0349e010fda23d7973cb0ebf272f15b82be56a&scene=21#wechat_redirect">《安卓逆向这档事》六、校验的N次方-签名校验对抗、PM代{过}{滤}理、IO重定向</a><br><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138779&idx=1&sn=7201ed7aca4cdd6954787022c7f26b81&chksm=bd50ba8f8a2733998f65348060f3f6202bea1bba2f61d27e259ecf5521425ccdfcbb93510d06&scene=21#wechat_redirect">《安卓逆向这档事》七、Sorry，会Hook真的可以为所欲为-Xposed快速上手(上)模块编写,常用Api</a></p>
+<p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651138987&idx=1&sn=c36c67b952a02f676fcdd5fb5c42abbc&chksm=bd50bbff8a2732e9c5b256ec89ab50fe1df5158dfbcd4592f4440f564dec4d31e20387e0175b&scene=21#wechat_redirect">《安卓逆向这档事》八、Sorry，会Hook真的可以为所欲为-xposed快速上手(下)快速hook</a></p>
+<p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651139179&idx=1&sn=26e374dfb5776d41a7d3501770915a77&chksm=bd50bc3f8a2735293c12856cfabf63aa694a2c66b8846a83eb9e301ac60d31484ed1600b8e1c&scene=21#wechat_redirect">《安卓逆向这档事》九、密码学基础、算法自吐、非标准加密对抗</a></p>
+<p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651139564&idx=1&sn=ed1a626174cd39572544fa54e320e135&chksm=bd50bdb88a2734ae34b4d4bad5de061a368863cab0ac1e51c5969c926a6ebab29fbe5f729cbf&scene=21#wechat_redirect">《安卓逆向这档事》十、不是我说，有了IDA还要什么女朋友？</a></p>
+<p><a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MjM5Mjc3MDM2Mw==&mid=2651139620&idx=1&sn=d65e23f4c8a5bc6cf94637af05025cea&chksm=bd50be708a273766f5f00b91d3df8921283fecb3b2b54432bdee2b2b3330b5ea76c68f857bc9&scene=21#wechat_redirect">《安卓逆向这档事》十二、大佬帮我分析一下</a></p>
+<p>详细文字介绍、视频原件下载、视频所用到的程序下载、课后作业和学习交流参看论坛原文：</p>
+<p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1814917-1-1.html">https://www.52pojie.cn/thread-1814917-1-1.html</a></p>
+</div>
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5 itemprop="copyrightNotice">本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B%E7%95%AA%E5%A4%96%E5%AE%9E%E6%88%98%E7%AF%871-%E6%9F%90%E7%94%B5%E5%BD%B1%E8%A7%86%E5%85%A8%E5%AE%B6%E6%A1%B6/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E8%BF%99%E6%A1%A3%E4%BA%8B%E7%95%AA%E5%A4%96%E5%AE%9E%E6%88%98%E7%AF%871-%E6%9F%90%E7%94%B5%E5%BD%B1%E8%A7%86%E5%85%A8%E5%AE%B6%E6%A1%B6/";
+            const title         = "「吾爱破解安卓逆向入门教程《安卓逆向这档事》番外实战篇1-某电影视全家桶」";
+            const excerpt       = `前情提要：吾爱破解安卓逆向入门教程《安卓逆向这档事》十二、大佬帮我分析一下
+
+一、课程目标
+借助已学知识完成样本软件的去除签名校验、去广告与更新、布局优化
+二、工具
+1.样本软件2.jadx-gui3.MT管理器&#x2F;NP管理器...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/APP%E9%80%86%E5%90%91/" rel="tag">APP逆向</a>, <a class="tag-none-link" href="/tags/android%E9%80%86%E5%90%91/" rel="tag">android逆向</a>, <a class="tag-none-link" href="/tags/%E5%90%BE%E7%88%B1%E7%A0%B4%E8%A7%A3%E6%95%99%E7%A8%8B10%E8%8A%82/" rel="tag">吾爱破解教程10节</a>, <a class="tag-none-link" href="/tags/%E5%A4%A7%E9%BA%A6%E7%BD%91%E6%8A%A2%E7%A5%A8/" rel="tag">大麦网抢票</a>, <a class="tag-none-link" href="/tags/%E9%80%86%E5%90%91/" rel="tag">逆向</a>
+                </div>
+                <div class="pull-date">
+                    <time datetime="2023-09-28T02:28:19.636Z" itemprop="dateModified">最后编辑：2023-09-28</time>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" 项目部署踩坑记录" href="/2023/09/11/excel中台系统/项目部署踩坑记录/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" 吾爱破解安卓逆向入门教程《安卓逆向这档事》十四、是时候学习一下Frida一把梭了(中)" href="/2023/09/27/app逆向/安卓逆向这档事(14)、是时候学习一下Frida一把梭了(中)/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/about.webp" loading="lazy" decoding="auto" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">分享学习的文章分享基地</p>
+    </div>
+    <div class="site-meta">
+        <a class="meta-item" href="/archives/">
+            <span class="title">
+                文章
+            </span>
+            <span class="count">
+                69
+            </span>
+        </a>
+        <a class="meta-item" href="/categories/">
+            <span class="title">
+                分类
+            </span>
+            <span class="count">
+                6
+            </span>
+        </a>
+        <a class="meta-item" href="/tags/">
+            <span class="title">
+                标签
+            </span>
+            <span class="count">
+                39
+            </span>
+        </a>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/chatgpt/">chatgpt</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/excel/">excel</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vba-access/">vba-access</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a><span class="category-list-count">3</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/APP%E9%80%86%E5%90%91/" style="font-size: 0.74em;">APP逆向</a> <a href="/tags/ChatGPT/" style="font-size: 0.63em;">ChatGPT</a> <a href="/tags/access/" style="font-size: 0.77em;">access</a> <a href="/tags/android%E9%80%86%E5%90%91/" style="font-size: 0.71em;">android逆向</a> <a href="/tags/chrom/" style="font-size: 0.6em;">chrom</a> <a href="/tags/excel/" style="font-size: 0.8em;">excel</a> <a href="/tags/excel-access-vba/" style="font-size: 0.6em;">excel - access - vba</a> <a href="/tags/github/" style="font-size: 0.63em;">github</a> <a href="/tags/hexo/" style="font-size: 0.6em;">hexo</a> <a href="/tags/ideas/" style="font-size: 0.63em;">ideas</a> <a href="/tags/markdown/" style="font-size: 0.6em;">markdown</a> <a href="/tags/pandas/" style="font-size: 0.6em;">pandas</a> <a href="/tags/vba/" style="font-size: 0.8em;">vba</a> <a href="/tags/vercel/" style="font-size: 0.6em;">vercel</a> <a href="/tags/vervel/" style="font-size: 0.6em;">vervel</a> <a href="/tags/%E5%88%97%E8%A1%A8%E6%A1%86/" style="font-size: 0.66em;">列表框</a> <a href="/tags/%E5%90%BE%E7%88%B1%E7%A0%B4%E8%A7%A3%E6%95%99%E7%A8%8B10%E8%8A%82/" style="font-size: 0.69em;">吾爱破解教程10节</a> <a href="/tags/%E5%9F%9F%E5%90%8D/" style="font-size: 0.6em;">域名</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2023/09/27/app%E9%80%86%E5%90%91/%E5%A4%A7%E9%BA%A6%E7%BD%91%E6%8A%A2%E7%A5%A8%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89/"><i class="fa  fa-book"></i> 大麦网抢票软件工具开发系列（一）</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/09/27/app%E9%80%86%E5%90%91/%E9%98%BF%E9%87%8C%E7%B3%BBApp%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89/"><i class="fa  fa-book"></i> 阿里系App抓包分析（一）</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/09/27/app%E9%80%86%E5%90%91/%E9%98%BF%E9%87%8C%E7%B3%BBApp%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%89%EF%BC%89/"><i class="fa  fa-book"></i> 阿里系App抓包分析（三）</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/09/27/app%E9%80%86%E5%90%91/%E9%98%BF%E9%87%8C%E7%B3%BBApp%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89/"><i class="fa  fa-book"></i> 阿里系App抓包分析（二）</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/09/27/Android%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91APK%E6%8A%A2%E7%A5%A8%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%AF%86%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/"><i class="fa  fa-book"></i> Android逆向-某麦网APK抢票接口加密参数分析</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        <!-- Keep for compatibility -->
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <!-- New links -->
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2023 栋栋的个人博客 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by John DD.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="/vendors/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="/vendors/nprogress@0.2.0/nprogress.js"></script>
+<script>
+    if (!window.kr) {
+        window.kr = {};
+    }
+    window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
+    window.kr.siteRoot = "/";
+</script>
+
+
+
+
+    <script defer src="/vendors/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="/vendors/meting@2.0.1/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>
