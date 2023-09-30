@@ -3,6 +3,343 @@
   
     
     <entry>
+      <title><![CDATA[某麦演出app分析(三)---无视重试返回上一页]]></title>
+      <url>/2023/09/28/app%E9%80%86%E5%90%91/%E6%9F%90%E9%BA%A6%E6%BC%94%E5%87%BAapp%E5%88%86%E6%9E%90-%E4%B8%89-%E6%97%A0%E8%A7%86%E9%87%8D%E8%AF%95%E8%BF%94%E5%9B%9E%E4%B8%8A%E4%B8%80%E9%A1%B5/</url>
+      <content type="html"><![CDATA[<h1 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h1><p>在上一篇文章写到可以提前选好票档,等待到开售时间直接提交进入订单确认页面.<br>然而这仅仅是”快人一步”,在非常热门的演出情况下,一次提交购票成功的几率还是很低的.<br>在订单确认页面第一次提交往往会弹出”前方拥挤”的提示,这情况下点击确认有可能会被返回上一页.<br>现在就想办法在可以重复提交的情况下,停留在订单确认页面,直接提交.</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p><img src="/./../../img/img/3440819355.gif" alt="GIF 2023-7-31 15-54-51.gif"><br>这个动作非常影响捡漏速度,有无办法可以去掉呢?<br>从整个行为过程分析:<br>调用接口—-&gt;返回数据—-&gt;弹出窗口—-&gt;点击按钮—-&gt;关闭页面&#x2F;返回上一页<br>所以如果我们可以找到弹出窗口,然后hook按钮点击事件,应该就可以不返回上一页</p>
+<h2 id="动手"><a href="#动手" class="headerlink" title="动手"></a>动手</h2><p>根据上面的过程分析,首先需要找到”提交订单”调用接口的地方(<code>UltronPresenter</code>):<br><img src="/./../../img/img/2926356272.png" alt="image-20230801114325694.png"><br>其中的<code>onSuccess</code>和<code>onError</code>就是调用接口成功和失败的回调函数.<br><code>DmUltronRequestErrorUtils.getInstance()</code>猜测应该是错误弹出窗口的单例.进去看看~<br>枚举的名字:<br><img src="/./../../img/img/473934656.png" alt="image-20230801114853607.png"><br>多个<code>点击事件</code>的设置:<br><img src="/./../../img/img/3373563603.png" alt="image-20230801115018261.png"><br>都证明这里应该就是错误弹窗点击按钮设置回调的地方.到这个就可以开始暴力hook了</p>
+<h2 id="注入"><a href="#注入" class="headerlink" title="注入"></a>注入</h2><p><code>DmUltronRequestErrorUtils</code>中有三个<code>OnClickListener</code>:</p>
+<ol>
+<li><code>DialogInterface$OnClickListenerC4733a</code></li>
+<li><code>DialogInterface$OnClickListenerC4734b</code></li>
+<li><code>DialogInterface$OnClickListenerC4735c</code></li>
+</ol>
+<p>暴力hook的方法就是把这三个<code>OnClickListener</code>的<code>onClick</code>事件替换:</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">let</span> DialogInterface<span class="token variable">$OnClickListenerC4733a</span> <span class="token operator">=</span> Java.use<span class="token punctuation">(</span>
+  <span class="token string">"cn.damai.ultron.utils.DmUltronRequestErrorUtils<span class="token variable">$a</span>"</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+DialogInterface<span class="token variable">$OnClickListenerC4733a</span><span class="token punctuation">[</span><span class="token string">"onClick"</span><span class="token punctuation">]</span>.implementation <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>
+  dialogInterface,
+  i
+<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console.log<span class="token punctuation">(</span>
+    <span class="token variable"><span class="token variable">`</span>DialogInterface$OnClickListenerC4733a.onClick is called: <span class="token assign-left variable">dialogInterface</span><span class="token operator">=</span>$<span class="token punctuation">&#123;</span>dialogInterface<span class="token punctuation">&#125;</span>, <span class="token assign-left variable">i</span><span class="token operator">=</span>$<span class="token punctuation">&#123;</span>i<span class="token punctuation">&#125;</span><span class="token variable">`</span></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  // this<span class="token punctuation">[</span><span class="token string">"onClick"</span><span class="token punctuation">]</span><span class="token punctuation">(</span>dialogInterface, i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token builtin class-name">let</span> DialogInterface<span class="token variable">$OnClickListenerC4734b</span> <span class="token operator">=</span> Java.use<span class="token punctuation">(</span>
+  <span class="token string">"cn.damai.ultron.utils.DmUltronRequestErrorUtils<span class="token variable">$b</span>"</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+DialogInterface<span class="token variable">$OnClickListenerC4734b</span><span class="token punctuation">[</span><span class="token string">"onClick"</span><span class="token punctuation">]</span>.implementation <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>
+  dialogInterface,
+  i
+<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console.log<span class="token punctuation">(</span>
+    <span class="token variable"><span class="token variable">`</span>DialogInterface$OnClickListenerC4734b.onClick is called: <span class="token assign-left variable">dialogInterface</span><span class="token operator">=</span>$<span class="token punctuation">&#123;</span>dialogInterface<span class="token punctuation">&#125;</span>, <span class="token assign-left variable">i</span><span class="token operator">=</span>$<span class="token punctuation">&#123;</span>i<span class="token punctuation">&#125;</span><span class="token variable">`</span></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  // this<span class="token punctuation">[</span><span class="token string">"onClick"</span><span class="token punctuation">]</span><span class="token punctuation">(</span>dialogInterface, i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token builtin class-name">let</span> DialogInterface<span class="token variable">$OnClickListenerC4735c</span> <span class="token operator">=</span> Java.use<span class="token punctuation">(</span>
+  <span class="token string">"cn.damai.ultron.utils.DmUltronRequestErrorUtils<span class="token variable">$c</span>"</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+DialogInterface<span class="token variable">$OnClickListenerC4735c</span><span class="token punctuation">[</span><span class="token string">"onClick"</span><span class="token punctuation">]</span>.implementation <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>
+  dialogInterface,
+  i
+<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console.log<span class="token punctuation">(</span>
+    <span class="token variable"><span class="token variable">`</span>DialogInterface$OnClickListenerC4735c.onClick is called: <span class="token assign-left variable">dialogInterface</span><span class="token operator">=</span>$<span class="token punctuation">&#123;</span>dialogInterface<span class="token punctuation">&#125;</span>, <span class="token assign-left variable">i</span><span class="token operator">=</span>$<span class="token punctuation">&#123;</span>i<span class="token punctuation">&#125;</span><span class="token variable">`</span></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  // this<span class="token punctuation">[</span><span class="token string">"onClick"</span><span class="token punctuation">]</span><span class="token punctuation">(</span>dialogInterface, i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这样就能做到无视重试返回上一页:<br><img src="/./../../img/img/3896308243.gif" alt="GIF 2023-8-1 12-06-00.gif"></p>
+<h2 id="继续进阶"><a href="#继续进阶" class="headerlink" title="继续进阶"></a>继续进阶</h2><p>在阅读源码过程中发现了错误处理的工厂函数:<br><img src="/./../../img/img/271582881.png" alt="image-20230801164524772.png"><br>发现其中有<code>TOAST</code>的<code>errorType</code>,<code>TOAST</code>在android中是一个自动消失的提示消失,所以在想如果hook这个函数,是否可以做到连<code>dialog</code>都不用弹窗了,就可以疯狂按提交了,于是hook:</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">let</span> DmUltronRequestErrorUtils <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>
+  <span class="token string">"cn.damai.ultron.utils.DmUltronRequestErrorUtils"</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+DmUltronRequestErrorUtils<span class="token punctuation">[</span><span class="token string">"b"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">overload</span><span class="token punctuation">(</span>
+  <span class="token string">"cn.damai.ultron.view.activity.DmOrderActivity"</span><span class="token punctuation">,</span>
+  <span class="token string">"cn.damai.ultron.utils.DmUltronRequestErrorUtils$ErrorType"</span><span class="token punctuation">,</span>
+  <span class="token string">"java.lang.String"</span><span class="token punctuation">,</span>
+  <span class="token string">"java.lang.String"</span><span class="token punctuation">,</span>
+  <span class="token string">"java.lang.String"</span>
+<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function-variable function">implementation</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">dmOrderActivity<span class="token punctuation">,</span> errorType<span class="token punctuation">,</span> str<span class="token punctuation">,</span> str2<span class="token punctuation">,</span> str3</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>
+    <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">DmUltronRequestErrorUtils.MMdmOrderActivityApiErrorHandle is called: dmOrderActivity=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>dmOrderActivity<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">, errorType=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>errorType<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">, str=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>str<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">, str2=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>str2<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">, str3=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>str3<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">let</span> ErrorType <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>
+    <span class="token string">"cn.damai.ultron.utils.DmUltronRequestErrorUtils$ErrorType"</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">let</span> <span class="token constant">TOAST</span> <span class="token operator">=</span> ErrorType<span class="token punctuation">.</span><span class="token constant">TOAST</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>_a<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">[</span><span class="token string">"b"</span><span class="token punctuation">]</span><span class="token punctuation">(</span>dmOrderActivity<span class="token punctuation">,</span> <span class="token constant">TOAST</span><span class="token punctuation">.</span>value<span class="token punctuation">,</span> str<span class="token punctuation">,</span> str2<span class="token punctuation">,</span> str3<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>_a<span class="token punctuation">.</span>value <span class="token operator">!=</span> <span class="token string">"CREATE"</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">//    console.log("build/adjust api , finish");</span>
+    dmOrderActivity<span class="token punctuation">.</span><span class="token function">finish</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"CREATE api , toast"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token comment">// dmOrderActivity.finish();</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这里做到的操作效果是,如果是<code>create</code>接口的话,就用<code>toast</code>的形式提示,如果不是的话,就直接返回上一页.当然这里还可以做更多的细化判断.但是我这里就没有继续研究了.</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> 逆向 </tag>
+            
+            <tag> APP逆向 </tag>
+            
+            <tag> android逆向 </tag>
+            
+            <tag> 大麦网抢票 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[某麦演出app分析(二)---显示购买按钮]]></title>
+      <url>/2023/09/28/app%E9%80%86%E5%90%91/%E6%9F%90%E9%BA%A6%E6%BC%94%E5%87%BAapp%E5%88%86%E6%9E%90-%E4%BA%8C-%E6%98%BE%E7%A4%BA%E8%B4%AD%E4%B9%B0%E6%8C%89%E9%92%AE/</url>
+      <content type="html"><![CDATA[<h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>在成功修改了倒计时之后,进入选择票档页面还是”提交开售提醒”<br><img src="/./../../img/img/2808182322.png" alt="image-20230719113029610.png"><br>这里继续看下有无办法Hook一下,把”立即购买”显示出来<br><img src="/./../../img/img/3097366578.png" alt="image-20230719112839745.png"></p>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>从<code>openSkuActivity()</code>可以知道选择票档页面是<code>NcovSkuActivity</code>,沿着这方向一直定位到<code>NcovSkuFragment.updateAllview</code></p>
+<pre class="line-numbers language-rust" data-language="rust"><code class="language-rust"><span class="token class-name">NcovSkuActivity</span><span class="token punctuation">-></span><span class="token class-name">NcovSkuFragment</span><span class="token punctuation">-></span>initData<span class="token punctuation">-></span>updateAllview<span class="token punctuation">-></span>this<span class="token punctuation">.</span>mModel<span class="token punctuation">.</span><span class="token function">getSkuBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>observe<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>每次<code>skuBean</code>有更新都会<code>updateAllview</code>一次.<br>而其中有一个<code>this.skuBottomInfo</code>,结合界面动作,只有点击了票档才会出现底部的操作栏,所以猜测这里是底部确认按钮显示的关键:<br><img src="/./../../img/img/1659778196.png" alt="image-20230719161020249.png"><br>继续往下看有一个叫做<code>this.mSelectedPerform = this.mSkuBean.perform;</code>的变量,应该就是选择了的票档.查找一下<code>mSelectedPerform</code>的引用:<br><img src="/./../../img/img/4114905755.png" alt="image-20230719161334921.png"><br>发现了<code>mSkuBottomView</code>,感觉距离终点越来越近了(<code>MMSkuBottomView</code>是我起的别名)<br><img src="/./../../img/img/3761761168.png" alt="image-20230719162525996.png"><br>接下来分析<code>mSkuBottomView</code>的基类:<br><img src="/./../../img/img/2702808054.png" alt="image-20230719163742376.png"><br>这个类就看得比较困难了,都是混淆后的名字,不过还好有中文哈哈哈,<br>其中一个函数叫<code>h()</code>找到想要的答案(我重命名为<code>buyBottomUI</code>):<br><img src="/./../../img/img/3815166255.png" alt="image-20230719163916467.png"><br>其中用作判断的<code>this.f40114o</code>就是<code>NcovSkuBottomInfo</code>.<br>经过完整的分析,最后确定只要修改<code>skubean</code>的api返回值,就能令到确认购买按钮显示.<br>以下是hook代码:</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token constant">C42703</span><span class="token punctuation">[</span><span class="token string">"onSuccess"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">overload</span><span class="token punctuation">(</span>
+  <span class="token string">"cn.damai.commonbusiness.seatbiz.sku.qilin.bean.SkuBean"</span>
+<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function-variable function">implementation</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">skubean</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"C42703.onSuccess is called:"</span> <span class="token operator">+</span> skubean<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"class:"</span> <span class="token operator">+</span> skubean<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// console.log('class:' + skubean.itemBuyBtn.btnStatus);</span>
+
+  <span class="token function">showJavaObjectString</span><span class="token punctuation">(</span>skubean<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">var</span> result <span class="token operator">=</span> <span class="token function">updateSkuBean</span><span class="token punctuation">(</span>skubean<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">this</span><span class="token punctuation">[</span><span class="token string">"onSuccess"</span><span class="token punctuation">]</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">updateSkuBean</span><span class="token punctuation">(</span><span class="token parameter">skubean</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">var</span> json <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"com.alibaba.fastjson.JSON"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>json<span class="token punctuation">[</span><span class="token string">"toJSONString"</span><span class="token punctuation">]</span><span class="token punctuation">(</span>skubean<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"skubean data:"</span> <span class="token operator">+</span> a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"skubean.itemBuyBtn.btnStatus:"</span> <span class="token operator">+</span> a<span class="token punctuation">.</span>itemBuyBtn<span class="token punctuation">.</span>btnStatus<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  a<span class="token punctuation">.</span>itemBuyBtn<span class="token punctuation">.</span>btnStatus <span class="token operator">=</span> <span class="token number">204</span><span class="token punctuation">;</span>
+  a<span class="token punctuation">.</span>perform<span class="token punctuation">.</span>performSalable <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  a<span class="token punctuation">.</span>perform<span class="token punctuation">.</span>positive <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  a<span class="token punctuation">.</span>actionControl<span class="token punctuation">.</span>renderingControl<span class="token punctuation">.</span>renderingType <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+  a<span class="token punctuation">.</span>perform<span class="token punctuation">.</span>skuList<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">element</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+    element<span class="token punctuation">.</span>frontEndStatus <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    element<span class="token punctuation">.</span>clickable <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    element<span class="token punctuation">.</span>mq <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"skubean.itemBuyBtn.btnStatus:"</span> <span class="token operator">+</span> a<span class="token punctuation">.</span>itemBuyBtn<span class="token punctuation">.</span>btnStatus<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">var</span> result <span class="token operator">=</span> json<span class="token punctuation">[</span><span class="token string">"parseObject"</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">,</span> skubean<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"toJavaObject result:"</span> <span class="token operator">+</span> result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">let</span> <span class="token constant">C20621</span> <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>
+  <span class="token string">"cn.damai.commonbusiness.seatbiz.sku.qilin.model.SkuModel$1"</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token constant">C20621</span><span class="token punctuation">[</span><span class="token string">"onSuccess"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">overload</span><span class="token punctuation">(</span>
+  <span class="token string">"cn.damai.commonbusiness.seatbiz.sku.qilin.bean.SkuBean"</span>
+<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function-variable function">implementation</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">skubean</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">// console.log(`SkuModel..onSuccess is called`);</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"SkuModel..onSuccess called:"</span> <span class="token operator">+</span> skubean<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"class:"</span> <span class="token operator">+</span> skubean<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// console.log('class:' + skubean.itemBuyBtn.btnStatus);</span>
+  <span class="token function">showJavaObjectString</span><span class="token punctuation">(</span>skubean<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">var</span> result <span class="token operator">=</span> <span class="token function">updateSkuBean</span><span class="token punctuation">(</span>skubean<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">[</span><span class="token string">"onSuccess"</span><span class="token punctuation">]</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>其中hook的函数是<code>skuRequest.request</code>的<code>callback</code>中的<code>onSuccess</code>函数,而不是直接修改api的返回值.<br>而这样的<code>onSuccess</code>一共有两处:<code>C20621</code>和<code>C42703</code><br>这样的话就能在演出未开始正式开售之前,提前进入到选择页面:<br><img src="/./../../img/img/1204967342.png" alt="image-20230720175245750.png"><br>虽然如此,也是需要等正式开售了之后才能点击正常进入到订单确认页面,如果提前点击会报错.感觉提前进入的hook到这里已经是极限了,因为订单确认页面是需要调用<code>buildOrder</code>成功之后的数据生成的,所以这里开始就要靠运气了</p>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>有抢票经验的朋友应该会留意到一个细节,就捡漏了,当第一次尝试购票失败,就会被踢回上一页,从新选票档再提交</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> 逆向 </tag>
+            
+            <tag> APP逆向 </tag>
+            
+            <tag> android逆向 </tag>
+            
+            <tag> 大麦网抢票 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[某麦演出app分析(一)---倒计时去除]]></title>
+      <url>/2023/09/28/app%E9%80%86%E5%90%91/%E6%9F%90%E9%BA%A6%E6%BC%94%E5%87%BAapp%E5%88%86%E6%9E%90-%E4%B8%80-%E5%80%92%E8%AE%A1%E6%97%B6%E5%8E%BB%E9%99%A4/</url>
+      <content type="html"><![CDATA[<p>第一次发帖,多多包涵</p>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>疫情开放第一年的演出市场彻底疯掉，五月天北京鸟巢完全抢不到，黄牛猖狂加价，恶心羞辱真五迷，气愤无奈情绪无从发泄。<br>一气之下决定研究一下某麦app接口。</p>
+<h2 id="逆向信息"><a href="#逆向信息" class="headerlink" title="逆向信息"></a>逆向信息</h2><p>平台：Android<br>app版本：8.4.5<br>工具:jadx,frida</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>其实想法很简单，一共两个方向</p>
+<ol>
+<li>在app中，等待开票提前进入选择界面或者付款界面，这样可以一定程度上比普通用户快一掉掉</li>
+<li>实现程序call api生成订单，这是最终目的</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="APP源码分析"><a href="#APP源码分析" class="headerlink" title="APP源码分析"></a>APP源码分析</h2><h3 id="倒计时去除"><a href="#倒计时去除" class="headerlink" title="倒计时去除"></a>倒计时去除</h3><p>从界面上看，待开售的页面和立即购买页面是的却别是开售倒计时，从开发估计一定是会通过api获取开售时间，在前端进行倒计时。<br><img src="/./../../img/img/3834209357.png" alt="GIF 2023-7-27 11-38-13.gif"></p>
+<p>通过抓包得知获取详情的api是：</p>
+<pre class="line-numbers language-ruby" data-language="ruby"><code class="language-ruby">https<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>acs<span class="token punctuation">.</span>m<span class="token punctuation">.</span>taobao<span class="token punctuation">.</span>com<span class="token operator">/</span>gw<span class="token operator">/</span>mtop<span class="token punctuation">.</span>alibaba<span class="token punctuation">.</span>damai<span class="token punctuation">.</span>detail<span class="token punctuation">.</span>getdetail<span class="token regex-literal"><span class="token regex">/1.2/</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>返回结构：</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+    <span class="token property">"api"</span><span class="token operator">:</span> <span class="token string">"mtop.alibaba.damai.detail.getdetail"</span><span class="token punctuation">,</span>
+    <span class="token property">"data"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">"result"</span><span class="token operator">:</span> <span class="token string">"......"</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token property">"ret"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token string">"SUCCESS::调用成功"</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">"v"</span><span class="token operator">:</span> <span class="token string">"1.2"</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>其中<code>data.result</code>就是演出的detail数据:<br><img src="/./../../img/img/3834209357.png" alt="image-20230718150401539.png"></p>
+<p>猜测<code>sellStartTime</code>就是开始时间,用<code>countDown</code>作倒计时.尝试在APP源码中查找</p>
+<p><img src="/./../../img/img/4036187215.png" alt="image-20230718150535376.png"></p>
+<p>找到一个叫做<code>ProjectItemDataBean</code>的类,看一下这个<code>DataBean</code>用来做什么<br><img src="/./../../img/img/761677531.png" alt="image-20230718150750719.png"></p>
+<p>继续查找<code>countDown</code>的用例<img src="/./../../img/img/2803475015.png" alt="image-20230718153559468.png"></p>
+<p>发现了<code>ProjectDetailItemMainFragment</code>,应该是View层了,查看是怎么使用<img src="/./../../img/img/2129693879.png" alt="image-20230718153703758.png"></p>
+<p>从api 返回知道<code>countdown</code>返回的值是<code>591614</code>, 估计是秒数,所以hook一下测试:</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">let</span> ProjectItemDataBean <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>
+  <span class="token string">"cn.damai.trade.newtradeorder.ui.projectdetail.projectdetailitem.bean.ProjectItemDataBean"</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ProjectItemDataBean<span class="token punctuation">[</span><span class="token string">"setCountDown"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function-variable function">implementation</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">j</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">ProjectItemDataBean.setCountDown is called: j=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>j<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>j <span class="token operator">></span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">this</span><span class="token punctuation">[</span><span class="token string">"setCountDown"</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">this</span><span class="token punctuation">[</span><span class="token string">"setCountDown"</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>直接把<code>countDown</code>设成5秒以内,效果是成功的<br><img src="/./../../img/img/73720788.gif" alt="GIF 2023-7-20 17-49-16.gif"></p>
+<p>但是即便是倒计时小时了显示立即购买,点击立即购买按钮依然是没办法进入选择价钱页面,为什么呢?</p>
+<p>于是我尝试查找倒计时结束之后的逻辑,在View层有一个<code>TimeCountDownListener</code></p>
+<p><img src="/./../../img/img/3641927101.png" alt="image-20230718160619416.png"></p>
+<p>这里是更新了<code>BuyBtnText</code>,还更新了<code>this.mProjectItemStatusHelper.m45526u(this.mProjectItemDataBean);</code>,所以估计在点击<code>立即购买</code>按钮还有其他数据的判断.<br><img src="/./../../img/img/2026437160.png" alt="image-20230718160657553.png"></p>
+<p>这是通过阅读代码发现有一个类叫做<code>ProjectItemStatusHelper.OnBottomViewClickListener</code>,里面的函数:</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">OnBottomViewClickListener</span> <span class="token punctuation">&#123;</span>
+       <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">onBuyRightNow</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">onNeedPrivilege</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">onRegister</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">onSelectSeat</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">onSoldOut</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">onTimingCountDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在<code>ProjectDetailitemMainFragment</code>中的实现是:</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">C4295e0</span> <span class="token keyword">implements</span> <span class="token class-name">ProjectItemStatusHelper<span class="token punctuation">.</span>OnBottomViewClickListener</span> <span class="token punctuation">&#123;</span>
+       <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">transient</span> <span class="token comment">/* synthetic */</span> <span class="token class-name">IpChange</span> $ipChange<span class="token punctuation">;</span>
+
+       <span class="token class-name">C4295e0</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+           <span class="token class-name">ProjectDetailItemMainFragment</span><span class="token punctuation">.</span><span class="token keyword">this</span> <span class="token operator">=</span> r1<span class="token punctuation">;</span>
+       <span class="token punctuation">&#125;</span>
+       <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+       <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+       <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+       home<span class="token punctuation">.</span>php<span class="token operator">?</span>mod<span class="token operator">=</span>space<span class="token operator">&amp;</span>uid<span class="token operator">=</span><span class="token number">1892347</span> <span class="token comment">// </span>
+       <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onTimingCountDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+           <span class="token class-name">IpChange</span> ipChange <span class="token operator">=</span> $ipChange<span class="token punctuation">;</span>
+           <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token class-name">AndroidInstantRuntime</span><span class="token punctuation">.</span><span class="token function">support</span><span class="token punctuation">(</span>ipChange<span class="token punctuation">,</span> <span class="token string">"-926618722"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+               ipChange<span class="token punctuation">.</span>ipc$<span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token string">"-926618722"</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">&#123;</span><span class="token keyword">this</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+               <span class="token class-name">ProjectDetailItemMainFragment</span><span class="token punctuation">.</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">processTimeCountDownClick</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           <span class="token punctuation">&#125;</span>
+       <span class="token punctuation">&#125;</span>
+   <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>通过分析<code>processTimeCountDownClick</code>可知道:</p>
+<pre class="line-numbers language-rust" data-language="rust"><code class="language-rust"><span class="token function">processTimeCountDownClick</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">-></span><span class="token function">processClickNotRefreshAfterCountDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">-></span><span class="token function">getSubProjectDectailCheckData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>最终调用<code>skuRequest</code>再次call api获取数据:<br><img src="/./../../img/img/3999693623.png" alt="image-20230718164524955.png"></p>
+<p>在<code>ProjectDetailItemMainFragment.onReturnSkuBeanDataSuccess()</code>中可以看到,原来点击按钮之后会再次获取<code>skuBean</code>,然后判断里面的<code>itemBuyBtnBean.btnStatus</code>是否等于106和倒计时是否等于0,最终运行<code>popupSkuByPerformInfo()</code></p>
+<pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin"><span class="token keyword">public</span> void <span class="token function">onReturnSkuBeanDataSuccess</span><span class="token punctuation">(</span>SkuBean skuBean<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        long j<span class="token punctuation">;</span>
+        <span class="token operator">..</span><span class="token punctuation">.</span>
+        <span class="token operator">..</span><span class="token punctuation">.</span>
+        int i <span class="token operator">=</span> itemBuyBtnBean<span class="token punctuation">.</span>btnStatus<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">!=</span> <span class="token number">230</span> <span class="token operator">&amp;&amp;</span> i <span class="token operator">!=</span> <span class="token number">231</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>mSkuBean <span class="token operator">=</span> skuBean<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>mSkuBean <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token operator">..</span><span class="token punctuation">.</span>
+        <span class="token operator">..</span><span class="token punctuation">.</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>itemBuyBtnBean<span class="token punctuation">.</span>btnStatus <span class="token operator">==</span> <span class="token number">106</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token operator">..</span><span class="token punctuation">.</span>
+            <span class="token operator">..</span><span class="token punctuation">.</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token function">updateCountDownVisibility</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">updateMemberPromptCountDownVisibility</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ProjectItemStatusHelper projectItemStatusHelper2 <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>mProjectItemStatusHelper<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>projectItemStatusHelper2 <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            projectItemStatusHelper2<span class="token punctuation">.</span><span class="token function">m45526u</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>mProjectItemDataBean<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">updatePageUT</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>mProjectItemStatusHelper<span class="token punctuation">.</span><span class="token function">m45535l</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token function">cancelCountDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token function">displayProjectNotExistPage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>mPurchaseType <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token function">popupSkuByPerformInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>通过其他正常可购买的api返回得知,”立即购买”的<code>status</code>是<code>204</code>,所以,我们可以通过抓包或者hook修改<code>skubean</code>中<code>itemBuyBtnBean.btnStatus</code>为<code>204</code>.</p>
+<p>我是通过Hook修改:</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token constant">C42703</span><span class="token punctuation">[</span><span class="token string">"onSuccess"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">overload</span><span class="token punctuation">(</span>
+  <span class="token string">"cn.damai.commonbusiness.seatbiz.sku.qilin.bean.SkuBean"</span>
+<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function-variable function">implementation</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">skubean</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">var</span> result <span class="token operator">=</span> <span class="token function">updateSkuBean</span><span class="token punctuation">(</span>skubean<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">[</span><span class="token string">"onSuccess"</span><span class="token punctuation">]</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">updateSkuBean</span><span class="token punctuation">(</span><span class="token parameter">skubean</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">var</span> json <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"com.alibaba.fastjson.JSON"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>json<span class="token punctuation">[</span><span class="token string">"toJSONString"</span><span class="token punctuation">]</span><span class="token punctuation">(</span>skubean<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  a<span class="token punctuation">.</span>itemBuyBtn<span class="token punctuation">.</span>btnStatus <span class="token operator">=</span> <span class="token number">204</span><span class="token punctuation">;</span>
+  <span class="token keyword">var</span> result <span class="token operator">=</span> json<span class="token punctuation">[</span><span class="token string">"parseObject"</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">,</span> skubean<span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果一切正常最后会运行<code>openSkuActivity()</code>进入到下一个选购界面<br><img src="/./../../img/img/3219827417.gif" alt="GIF 2023-7-27 11-51-59.gif"><br>然而进入了选择场次票档界面,底部的按钮依然是”提交开售提醒”,不是立即购买.</p>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>这里继续看下有无办法Hook一下,去显示购买按钮</p>
+<!--MyCopyright-->
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> 逆向 </tag>
+            
+            <tag> APP逆向 </tag>
+            
+            <tag> android逆向 </tag>
+            
+            <tag> 大麦网抢票 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[大麦网抢票软件工具开发系列（一）]]></title>
       <url>/2023/09/27/app%E9%80%86%E5%90%91/%E5%A4%A7%E9%BA%A6%E7%BD%91%E6%8A%A2%E7%A5%A8%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89/</url>
       <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>  《大麦网》都知道吧，就是那个被网友声称“大麦网你卖啥了?”票务平台。近期有听到朋友说《大麦网》的票很难抢，基本上都是说：“哎哟喂,被挤爆啦,请稍后重试!”，也不知道《大麦网》到底有没有票！！！</p>
