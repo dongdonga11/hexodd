@@ -20,11 +20,11 @@
   <meta name="description" content="一、前言针对某麦网部分演唱会门票仅能在app渠道抢票的问题，本文研究了APK的抢票接口并编写了抢票工具。本文介绍的顺序为环境搭建、抓包、trace分析、接口参数获取、rpc调用实现，以及最终的功能实现。通过阅读本文，你将学到反抓包技术破解、Frida hook、jadx apk逆向技术，并能对淘系APP的运行逻辑有所了解。本文仅用于学习交流，严禁用于非法用途。 关键词：frida, damai.c">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android逆向-某麦网APK抢票接口加密参数分析">
-<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/Android%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91APK%E6%8A%A2%E7%A5%A8%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%AF%86%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/index.html">
+<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/app%E9%80%86%E5%90%91/Android%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91APK%E6%8A%A2%E7%A5%A8%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%AF%86%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="栋栋的个人博客">
 <meta property="og:description" content="一、前言针对某麦网部分演唱会门票仅能在app渠道抢票的问题，本文研究了APK的抢票接口并编写了抢票工具。本文介绍的顺序为环境搭建、抓包、trace分析、接口参数获取、rpc调用实现，以及最终的功能实现。通过阅读本文，你将学到反抓包技术破解、Frida hook、jadx apk逆向技术，并能对淘系APP的运行逻辑有所了解。本文仅用于学习交流，严禁用于非法用途。 关键词：frida, damai.c">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695709905537-127.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695709905537-127-1696662606113-4.png">
 <meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695709905538-129.png">
 <meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695709905538-130.png">
 <meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695709905538-131.png">
@@ -55,14 +55,14 @@
 <meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695711086636-221.png">
 <meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695711110159-224.png">
 <meta property="article:published_time" content="2023-09-27T00:33:49.000Z">
-<meta property="article:modified_time" content="2023-09-27T00:38:06.918Z">
+<meta property="article:modified_time" content="2023-10-07T08:01:00.716Z">
 <meta property="article:author" content="John DD">
 <meta property="article:tag" content="逆向">
 <meta property="article:tag" content="APP逆向">
 <meta property="article:tag" content="android逆向">
 <meta property="article:tag" content="大麦网抢票">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695709905537-127.png">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/640-1695709905537-127-1696662606113-4.png">
   
   <!-- 站点验证相关 -->
   
@@ -183,7 +183,7 @@
 
             <article itemscope itemtype="https://schema.org/Article">
     
-    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/Android%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91APK%E6%8A%A2%E7%A5%A8%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%AF%86%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/">
+    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/app%E9%80%86%E5%90%91/Android%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91APK%E6%8A%A2%E7%A5%A8%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%AF%86%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/">
     <div class="kratos-hentry kratos-post-inner clearfix">
         <header class="kratos-entry-header">
             
@@ -212,33 +212,33 @@
             
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
                 <div class="icon"><i class="fa fa-warning"></i></div>
-                <div class="text"><p>本文最后编辑于 <time datetime="1695775086918"></time> 前，其中的内容可能需要更新。</p></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1696665660716"></time> 前，其中的内容可能需要更新。</p></div>
             </div>
             
             
             
             <hr />
             <div itemprop="articleBody"><h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>针对某麦网部分演唱会门票仅能在app渠道抢票的问题，本文研究了APK的抢票接口并编写了抢票工具。本文介绍的顺序为环境搭建、抓包、trace分析、接口参数获取、rpc调用实现，以及最终的功能实现。通过阅读本文，你将学到反抓包技术破解、Frida hook、jadx apk逆向技术，并能对淘系APP的运行逻辑有所了解。本文仅用于学习交流，严禁用于非法用途。</p>
-<p>关键词：frida, damai.cn, Android逆向<br>先放成功截图：<img src="/./../img/640-1695709905537-127.png" alt="图片"></p>
+<p>关键词：frida, damai.cn, Android逆向<br>先放成功截图：<img src="/./../../img/img/640-1695709905537-127-1696662606113-4.png" alt="图片"></p>
 <h3 id="二、环境搭建"><a href="#二、环境搭建" class="headerlink" title="二、环境搭建"></a>二、环境搭建</h3><p>目前Android模拟器竞品很多，选择Bluestacks <strong>5</strong>是因为它能和windows的hyper-v完美兼容，root过程也相对简单。</p>
 <ol>
 <li><p>下载安装Bluestacks。</p>
 </li>
-<li><p>运行Bluestacks Multi-instance Manager，发现默认安装的版本为Android Pie 64bit版本，即Android 9.0。此时退出bluestack所有程序。<br><img src="/./../img/640-1695709905538-129.png" alt="图片"></p>
+<li><p>运行Bluestacks Multi-instance Manager，发现默认安装的版本为Android Pie 64bit版本，即Android 9.0。此时退出bluestack所有程序。<br><img src="/./../../img/640-1695709905538-129.png" alt="图片"></p>
 </li>
-<li><p>关闭bluestack后编辑bluestacks配置文件， <code>%programdata%\BlueStacks_nxt\bluestacks.conf</code><br>&gt; 由于作者安装时C盘空间不足，真实的<code>bluestacks.conf</code>在<code>D:\BlueStacks_nxt\bluestacks.conf</code>，大家也根据实际情况调整<br><img src="/./../img/640-1695709905538-130.png" alt="图片"></p>
+<li><p>关闭bluestack后编辑bluestacks配置文件， <code>%programdata%\BlueStacks_nxt\bluestacks.conf</code><br>&gt; 由于作者安装时C盘空间不足，真实的<code>bluestacks.conf</code>在<code>D:\BlueStacks_nxt\bluestacks.conf</code>，大家也根据实际情况调整<br><img src="/./../../img/640-1695709905538-130.png" alt="图片"></p>
 </li>
 <li><p>在配置文件中查找root关键词，对应值修改为1，共两处。</p>
 <pre class="line-numbers language-none"><code class="language-none">bst.feature.rooting&#x3D;&quot;1&quot;
 bst.instance.Pie64.enable_root_access&#x3D;&quot;1&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 </li>
-<li><p>启动bluestack模拟器，安装 <code>Root Checker</code> APP，点击验证root，即可发现root已开启<img src="/./../img/640-1695709905538-131.png" alt="图片"></p>
+<li><p>启动bluestack模拟器，安装 <code>Root Checker</code> APP，点击验证root，即可发现root已开启<img src="/./../../img/640-1695709905538-131.png" alt="图片"></p>
 </li>
 </ol>
 <h3 id="三、adb调试"><a href="#三、adb调试" class="headerlink" title="三、adb调试"></a>三、adb调试</h3><ol>
 <li>bluestack设置-高级中打开Adb调试，并记录下端口</li>
 </ol>
-<p><img src="/./../img/640-1695709905538-133.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695709905538-133.png" alt="图片"></p>
 <ol>
 <li>打开主机命令行，运行 <code>adb connect localhost:6652</code>，端口号修改为上一步的端口号，即可连接。再运行<code>adb devices</code>，如有对应设备则连接成功。</li>
 <li>进入adb shell，执行su进入root权限，命令行标识由<code>$</code>变为<code>#</code>，即表示adb 进入root权限成功</li>
@@ -252,7 +252,7 @@ bst.instance.Pie64.enable_root_access&#x3D;&quot;1&quot;<span aria-hidden="true"
 
 <h3 id="服务器-环境搭建-Android"><a href="#服务器-环境搭建-Android" class="headerlink" title="服务器 环境搭建(Android)"></a>服务器 环境搭建(Android)</h3><p>环境搭建第二步是在Android模拟器中运行frida-server。这样可以让Frida通过ADB&#x2F;USB调试与我们的Android模拟器连接。</p>
 <ol>
-<li>下载frida-server<br>最新的frida-server可以从 <a target="_blank" rel="noopener" href="https://github.com/frida/frida/releases">https://github.com/frida/frida/releases</a> 下载。请注意下载与设备匹配的架构。如果您的模拟器是x86_64，请下载相应版本的frida-server。本文使用的版本为 frida-server-16.0.18-android-x86_64.xz<br><img src="/./../img/640-1695709905538-134.png" alt="图片"></li>
+<li>下载frida-server<br>最新的frida-server可以从 <a target="_blank" rel="noopener" href="https://github.com/frida/frida/releases">https://github.com/frida/frida/releases</a> 下载。请注意下载与设备匹配的架构。如果您的模拟器是x86_64，请下载相应版本的frida-server。本文使用的版本为 frida-server-16.0.18-android-x86_64.xz<br><img src="/./../../img/640-1695709905538-134.png" alt="图片"></li>
 <li>传入Android模拟器。</li>
 </ol>
 <p>将下载后的.xz文件解压，将<code>frida-server</code>传入Android模拟器</p>
@@ -267,7 +267,7 @@ chmod +x frida-server<span aria-hidden="true" class="line-numbers-rows"><span></
 
 <p>执行：<code>./frida-server </code>，运行frida-server，并保持本shell窗口开启。</p>
 <p>成功截图：</p>
-<p><img src="/./../img/640-1695709905538-135.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695709905538-135.png" alt="图片"></p>
 <blockquote>
 <p>有些情况下，应用程序会检测在是否在模拟器中运行，但对某麦网app的分析暂无影响。</p>
 </blockquote>
@@ -275,7 +275,7 @@ chmod +x frida-server<span aria-hidden="true" class="line-numbers-rows"><span></
 <li>测试是否连接成功</li>
 </ol>
 <p>在window端运行frida-ps命令：</p>
-<p><img src="/./../img/640-1695709905539-136.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695709905539-136.png" alt="图片"></p>
 <p>看到一堆熟悉的Android进程，我们就连接成功啦</p>
 <ol>
 <li>转发frida-server端口 (可选)</li>
@@ -287,7 +287,7 @@ adb forward tcp:27043 tcp:27043<span aria-hidden="true" class="line-numbers-rows
 <p>抓包</p>
 <h3 id="1-搞定tcpdump"><a href="#1-搞定tcpdump" class="headerlink" title="1. 搞定tcpdump"></a>1. 搞定tcpdump</h3><p>本文基于termux安装使用tcpdump。</p>
 <p>首先安装termux apk。</p>
-<p><img src="/./../img/640-1695709905539-137.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695709905539-137.png" alt="图片"></p>
 <p>打开termux运行：</p>
 <ul>
 <li>挂载存储</li>
@@ -309,7 +309,7 @@ pkg install sudo tcpdump<span aria-hidden="true" class="line-numbers-rows"><span
 <pre class="line-numbers language-none"><code class="language-none">sudo tcpdump -i any -s 0 -w ~&#x2F;storage&#x2F;downloads&#x2F;capture.pcap<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <ul>
-<li>tcpdump 成功截图:<br><img src="/./../img/640-1695709905539-138.png" alt="图片"></li>
+<li>tcpdump 成功截图:<br><img src="/./../../img/640-1695709905539-138.png" alt="图片"></li>
 </ul>
 <p>之后就可以把downloads目录下的抓包文件拷贝到电脑上，用wireshark打开做进一步分析。</p>
 <h3 id="2-解密https流量"><a href="#2-解密https流量" class="headerlink" title="2. 解密https流量"></a>2. 解密https流量</h3><p>Wireshark解密https流量的方法和原理介绍有很多，可参考以下文章，本文不再赘述。</p>
@@ -320,7 +320,7 @@ pkg install sudo tcpdump<span aria-hidden="true" class="line-numbers-rows"><span
 </ul>
 </blockquote>
 <p>wireshark解密技术的重点在于拿到客户端通信的密钥日志文件(ssl key log)，像下面这种：</p>
-<p><img src="/./../img/640-1695709905539-139.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695709905539-139.png" alt="图片"></p>
 <p>在Android中实现抓取ssl key log需要hook系统的SSL相关函数，可以用frida实现。</p>
 <ul>
 <li>首先将下面的hook代码保存为<code>sslkeyfilelog.js</code></li>
@@ -351,7 +351,7 @@ startTLSKeyLogger(
 </ul>
 <pre class="line-numbers language-none"><code class="language-none">frida -U -l .\sslkeyfilelog.js  -f cn.damai<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<p><img src="/./../img/640-1695709905539-140.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695709905539-140.png" alt="图片"></p>
 <ul>
 <li>最后，抓包结束后将得到的key保存到sslkey.txt，格式是下面这样的，不要掺杂别的。</li>
 </ul>
@@ -360,7 +360,7 @@ CLIENT_RANDOM e66fb5d6735f0b803426fa88c3692e8b9a1f4dca37956187b22de11f1797e875 6
 
 <p>在运行Frida Hook获取sslkey的同时，运行tcpdump抓包。抓包中依次测试获取详情页、选择价位、提交订单等操作，并对应记录下执行操作的时间，方便后续分析。</p>
 <p>抓包完成后，用wireshark打开tcpdump抓包获得的pcap文件，在wireshark首选项-protocols-TLS中，设置 (Pre)-Master-Secret log filename为上述sslkey.txt。</p>
-<p><img src="/./../img/640-1695709905539-141.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695709905539-141.png" alt="图片"></p>
 <p>即可实现https流量的解密。</p>
 <p>流量分析</p>
 <h3 id="某麦网的API流"><a href="#某麦网的API流" class="headerlink" title="某麦网的API流"></a>某麦网的API流</h3><p>在此铺垫一下，通过前期对某麦网PC端和移动端H5的分析，某麦网购票的工作流程大概为：</p>
@@ -370,26 +370,26 @@ CLIENT_RANDOM e66fb5d6735f0b803426fa88c3692e8b9a1f4dca37956187b22de11f1797e875 6
 <li>提交订单：接口为<code>mtop.trade.order.create.h5</code>。对上一步构建订单得到的表单参数作出修改后，发送给服务器，得到最后的订单提交结果和支付信息。</li>
 </ol>
 <h3 id="apk流量分析"><a href="#apk流量分析" class="headerlink" title="apk流量分析"></a>apk流量分析</h3><p>首先用过滤器<code>http &amp;&amp; tcp.dstport==443</code>，得到向服务器发送的https包，如下图：</p>
-<p><img src="/./../img/640-1695710781461-184.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695710781461-184.png" alt="图片"></p>
 <p>可以看到大量向服务器请求的数据包，但其中有很多干扰的图片请求，因为修改过滤器把图片过滤一下。过滤器：<code>http &amp;&amp; tcp.dstport==443 and !(http.request.uri contains &quot;.webp&quot; or http.request.uri contains &quot;.jpg&quot; or http.request.uri contains &quot;.png&quot;)</code></p>
 <p>结果清爽了很多。</p>
 <h4 id="订单构建-order-build"><a href="#订单构建-order-build" class="headerlink" title="订单构建(order.build)"></a>订单构建(order.build)</h4><p>根据之前记录的操作的时间，以及对网页版的分析结果，笔者注意到了下图的这条流量：</p>
-<p><img src="/./../img/640-1695710830581-188.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695710830581-188.png" alt="图片"></p>
 <p>然后我们右键选择这条流量包，点击追踪http流，可以看到对应的响应包。</p>
-<p><img src="/./../img/640-1695709905539-142.png" alt="图片"></p>
-<p><img src="/./../img/640-1695710854410-191.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695709905539-142.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695710854410-191.png" alt="图片"></p>
 <p>响应包里有些中文使用了UTF-8编码，可以点击右下角的<code>Show data as</code>，选择UTF-8，便可以正常显示。此时可以点击另存为，保存为txt文件，方便后续分析。</p>
-<p><img src="/./../img/640-1695710869889-194.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695710869889-194.png" alt="图片"></p>
 <p>订单构建的请求包中核心的数据部分为图中青色圈出来的部分，使用URL解码后为：</p>
 <pre class="line-numbers language-none"><code class="language-none">&#123;&quot;buyNow&quot;:&quot;true&quot;,&quot;buyParam&quot;:&quot;716435462268_2_5005943905715&quot;,&quot;exParams&quot;:&quot;&#123;\&quot;atomSplit\&quot;:\&quot;1\&quot;,\&quot;channel\&quot;:\&quot;damai_app\&quot;,\&quot;coVersion\&quot;:\&quot;2.0\&quot;,\&quot;coupon\&quot;:\&quot;true\&quot;,\&quot;seatInfo\&quot;:\&quot;\&quot;,\&quot;umpChannel\&quot;:\&quot;10001\&quot;,\&quot;websiteLanguage\&quot;:\&quot;zh_CN_#Hans\&quot;&#125;&quot;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>buyParam为最核心的部分，拼接方式为演出id+数量+票档id。其他部分只需照抄。</p>
 <p>请求包中还包含大量的各种加密参数、ID，而破解实现自动购票脚本的关键就在于如何通过代码的方式拿到这些加密参数。</p>
 <p>订单构建的响应包为订单提交表单的各项参数，用于生成“确认订单”的表单。</p>
-<p><img src="/./../img/640-1695710884589-197.png" alt="图片"></p>
-<p><img src="/./../img/640-1695709905539-143.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695710884589-197.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695709905539-143.png" alt="图片"></p>
 <h4 id="订单提交-order-create"><a href="#订单提交-order-create" class="headerlink" title="订单提交(order.create)"></a>订单提交(order.create)</h4><p>按照同样的方式可以找到订单提交包，订单提交包的API路径为<code>/gw/mtop.trade.order.create</code>，</p>
-<p><img src="/./../img/640-1695710902075-200.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695710902075-200.png" alt="图片"></p>
 <p>其中青色圈出来的部分为data发送的核心数据，对数据用URL解码后为：</p>
 <pre class="line-numbers language-none"><code class="language-none">&#123;&quot;feature&quot;:&quot;&#123;\&quot;gzip\&quot;:\&quot;true\&quot;&#125;&quot;,&quot;params&quot;:&quot;H4sIAAAAAAA.................AAWk3NKAAA\n&quot;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
@@ -407,9 +407,9 @@ params<span class="token operator">=</span>json<span class="token punctuation">.
     json<span class="token punctuation">.</span>dump<span class="token punctuation">(</span>params<span class="token punctuation">,</span>f<span class="token punctuation">,</span>indent<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>解码成功，存到<code>order.create-params.json</code>,</p>
-<p><img src="/./../img/640-1695710924419-203.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695710924419-203.png" alt="图片"></p>
 <p>解码后发现order.create发送的data参数和order.build请求返回的结果很相似，增加了一些用户对表单操作的记录。</p>
-<p><img src="/./../img/640-1695709905539-144.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695709905539-144.png" alt="图片"></p>
 <p>order.create请求的header中的各种加密参数和order.build一致。</p>
 <p>order.create请求的返回结果中包含了订单创建是否成功的结果以及支付链接.</p>
 <p>TRACE分析</p>
@@ -478,7 +478,7 @@ ApiID apiId &#x3D; builder.addListener(new MyListener).asyncRequest();<span aria
 <p>因此我们不妨大胆一些，直接跟踪所有对mtopsdk中函数的调用。</p>
 <pre class="line-numbers language-none"><code class="language-none">(py3) PS E:\TEMP\damai&gt; frida-trace -U -j &quot;*mtopsdk*!*&quot; 大麦<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<p><img src="/./../img/640-1695710996524-206.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695710996524-206.png" alt="图片"></p>
 <p>输出的结果大概有2000行，直接看太费劲，我们复制到文本编辑器里做进一步分析。</p>
 <p>我们按照阿里的官方文档介绍的流程，对应可以找到在输出的trace中找到一些关键的日志。</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># MtopRequest初始化</span>
@@ -522,16 +522,16 @@ ApiID apiId &#x3D; builder.addListener(new MyListener).asyncRequest();<span aria
 <p>所以现在的问题变为如何能够构建出来MtopContext，然后调用buildParams函数生成各类加密参数。</p>
 <h2 id="分析业务模块与mtopsdk的交互过程"><a href="#分析业务模块与mtopsdk的交互过程" class="headerlink" title="分析业务模块与mtopsdk的交互过程"></a>分析业务模块与mtopsdk的交互过程</h2><p>在写本文复盘分析过程的时候，笔者发现仅依赖mtopsdk的调用过程其实已经可以得到MtopContext的全部生成逻辑了。但所谓当局者迷，笔者在当时分析的时候还是一头雾水。因此在此也介绍一下笔者的思考逻辑。</p>
 <p>当时看着mtopsdk的调用过程，感觉很复杂。但是猜想从用户点击操作-&gt;业务代码-&gt;mtopsdk的数据流，以及模块间高内聚低耦合的原则，所以猜想模块间的调用不会很复杂，所以笔者就想分析业务代码与mtopsdk的调用逻辑。所以就想跟踪主要业务代码的trace。所以笔者继续跟踪trace，运行<code>frida-trace -U -j &quot;*cn.damai*!*&quot; 大麦 </code>，以分析<code>cn.damai</code>包的调用过程，在其中发现了 <code>NcovSkuFragment.buyNow()</code> 函数，看起来是和购买紧密相关的函数。又找到DMBaseMtopRequest类。</p>
-<p><img src="/./../img/640-1695711024923-209.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695711024923-209.png" alt="图片"></p>
 <p>但是在这里有点卡住了，因为只找到了构建MtopRequest，并未在cn.damai的trace日志中并未发现其他对mtop的调用。</p>
 <p>然后笔者又尝试搜索和api(order.build)相关的代码，找到了：</p>
-<p><img src="/./../img/640-1695711036345-212.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695711036345-212.png" alt="图片"></p>
 <p>然而并没有多大用处。</p>
 <p>然后，作者又读了大量的源代码，终于定位到了 <code>com.taobao.tao.remotebusiness.MtopBussiness</code>这个关键类。</p>
-<p><img src="/./../img/640-1695711055192-215.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695711055192-215.png" alt="图片"></p>
 <p>笔者本以为com.taobao开头的代码不是那么重要，所以最开始把这个类完全忽略了。但通过对源码的阅读，发现这个类是motpsdk中MtopBuilder类的子类，主要负责管理业务代码和Mtopsdk的交互。</p>
 <p>因此我们继续通过trace跟踪MtopBussiness类。运行<code>frida-trace -U -j &quot;*!*buyNow*&quot; -j &quot;com.taobao.tao.remotebusiness.MtopBusiness!*&quot; -j &quot;*MtopContext!*&quot; -j &quot;*mtopsdk.mtop.intf.MtopBuilder!*&quot; 大麦</code></p>
-<p><img src="/./../img/640-1695711068918-218.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695711068918-218.png" alt="图片"></p>
 <p>现在业务代码和mtopsdk的交互就很清晰了，红色的部分是业务代码的函数，绿色的部分是mtopsdk的函数。</p>
 <h1 id="0x06-hook得到接口参数"><a href="#0x06-hook得到接口参数" class="headerlink" title="0x06 hook得到接口参数"></a>0x06 hook得到接口参数</h1><p>通过以上对trace的分析，已经知道了具体执行的操作，因此我们可以使用frida编写js代码，直接调用APK中的类，实现功能调用。</p>
 <p>先展示一个简单的示例，用于构建一个自定义的MtopRequest 类:</p>
@@ -549,7 +549,7 @@ ApiID apiId &#x3D; builder.addListener(new MyListener).asyncRequest();<span aria
 <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>再使用运行命令 <code>frida -U -l .\reverse\new_request.js 大麦</code>，以在某麦Apk中执行js hook代码。运行之后即可输出笔者自己构建的MtopRequest实例。（frida真的很奇妙！）</p>
-<p><img src="/./../img/640-1695711086636-221.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695711086636-221.png" alt="图片"></p>
 <p>有了上面的结果，下面继续完善这个示例，添加MtopBussiness的构建过程和输出过程</p>
 <pre class="line-numbers language-none"><code class="language-none">       &#x2F;&#x2F;引入Java中的类
 const MtopBusiness &#x3D; Java.use(&quot;com.taobao.tao.remotebusiness.MtopBusiness&quot;);
@@ -592,7 +592,7 @@ let res &#x3D; myInnerProtocolParamBuilderImpl.buildParams(myMtopContext);
 console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;HashMap2Str(res)&#125;&#96;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>再次执行<code>frida -U -l .\reverse\new_request.js 大麦</code>，输出结果如下图，此时已能根据笔者任意构建的请求data输出其他加密参数：</p>
-<p><img src="/./../img/640-1695711110159-224.png" alt="图片"></p>
+<p><img src="/./../../img/640-1695711110159-224.png" alt="图片"></p>
 <p>对于order.create的原理类似，此处不再赘述。</p>
 <p>![图片](data:image&#x2F;svg+xml,&lt;%3Fxml version&#x3D;’1.0’ encoding&#x3D;’UTF-8’%3F&gt;<svg width='1px' height='1px' viewBox='0 0 1 1' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><title></title><g stroke='none' stroke-width='1' fill='none' fill-rule='evenodd' fill-opacity='0'><g transform='translate(-249.000000, -126.000000)' fill='%23FFFFFF'><rect x='249' y='126' width='1' height='1'></rect></g></g></svg>)</p>
 <p>原文链接：<a target="_blank" rel="noopener" href="https://github.com/m2kar/m2kar.github.io/issues/21">https://github.com/m2kar/m2kar.github.io/issues/21</a></p>
@@ -649,7 +649,7 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
     <script type="text/javascript">
         $(()=>{
             new QRCode("wechat-qr", {
-                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/Android%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91APK%E6%8A%A2%E7%A5%A8%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%AF%86%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/",
+                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/app%E9%80%86%E5%90%91/Android%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91APK%E6%8A%A2%E7%A5%A8%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%AF%86%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/",
                 width: 150,
                 height: 150,
                 correctLevel : QRCode.CorrectLevel.H
@@ -661,7 +661,7 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
             const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
             const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
             const twitterBase   = "https://twitter.com/intent/tweet?";
-            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/Android%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91APK%E6%8A%A2%E7%A5%A8%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%AF%86%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/";
+            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/27/app%E9%80%86%E5%90%91/Android%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91APK%E6%8A%A2%E7%A5%A8%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%AF%86%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/";
             const title         = "「Android逆向-某麦网APK抢票接口加密参数分析」";
             const excerpt       = `一、前言针对某麦网部分演唱会门票仅能在app渠道抢票的问题，本文研究了APK的抢票接口并编写了抢票工具。本文介绍的顺序为环境搭建、抓包、trace分析、接口参数获取、rpc调用实现，以及最终的功能实现。通过阅读本文，你将学到反抓包技术...`;
             let _URL;
@@ -685,7 +685,7 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
                     <a class="tag-none-link" href="/tags/APP%E9%80%86%E5%90%91/" rel="tag">APP逆向</a>, <a class="tag-none-link" href="/tags/android%E9%80%86%E5%90%91/" rel="tag">android逆向</a>, <a class="tag-none-link" href="/tags/%E5%A4%A7%E9%BA%A6%E7%BD%91%E6%8A%A2%E7%A5%A8/" rel="tag">大麦网抢票</a>, <a class="tag-none-link" href="/tags/%E9%80%86%E5%90%91/" rel="tag">逆向</a>
                 </div>
                 <div class="pull-date">
-                    <time datetime="2023-09-27T00:38:06.918Z" itemprop="dateModified">最后编辑：2023-09-27</time>
+                    <time datetime="2023-10-07T08:01:00.716Z" itemprop="dateModified">最后编辑：2023-10-07</time>
                 </div>
             </div>
         </footer>
@@ -694,12 +694,12 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
         <nav class="navigation post-navigation clearfix" role="navigation">
             
             <div class="nav-previous clearfix">
-                <a title=" 吾爱破解安卓逆向入门教程《安卓逆向这档事》十" href="/2023/09/27/app逆向/安卓逆向这档事(10)/">&lt; 上一篇</a>
+                <a title=" 项目部署踩坑记录" href="/2023/09/11/excel中台系统/项目部署踩坑记录/">&lt; 上一篇</a>
             </div>
             
             
             <div class="nav-next clearfix">
-                <a title=" 阿里系App抓包分析（二）" href="/2023/09/27/app逆向/阿里系App抓包分析（二）/">下一篇 &gt;</a>
+                <a title=" 吾爱破解安卓逆向入门教程《安卓逆向这档事》番外实战篇1-某电影视全家桶" href="/2023/09/27/app逆向/安卓逆向这档事番外实战篇1-某电影视全家桶/">下一篇 &gt;</a>
             </div>
             
         </nav>
@@ -736,7 +736,7 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
                 文章
             </span>
             <span class="count">
-                72
+                78
             </span>
         </a>
         <a class="meta-item" href="/categories/">
@@ -744,7 +744,7 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
                 分类
             </span>
             <span class="count">
-                6
+                9
             </span>
         </a>
         <a class="meta-item" href="/tags/">
@@ -752,7 +752,7 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
                 标签
             </span>
             <span class="count">
-                39
+                41
             </span>
         </a>
     </div>
@@ -763,7 +763,7 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
     <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/chatgpt/">chatgpt</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/excel/">excel</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vba-access/">vba-access</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/chatgpt/">chatgpt</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/excel/">excel</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mariadb/">mariadb</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tao%E7%B3%BB/">tao系</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vba-access/">vba-access</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E6%95%99%E7%A8%8B/">安卓逆向教程</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a><span class="category-list-count">3</span></li></ul>
   </aside>
 
 
@@ -772,7 +772,7 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
   <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
     <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
       <div class="tag-clouds">
-        <a href="/tags/APP%E9%80%86%E5%90%91/" style="font-size: 0.74em;">APP逆向</a> <a href="/tags/ChatGPT/" style="font-size: 0.63em;">ChatGPT</a> <a href="/tags/access/" style="font-size: 0.77em;">access</a> <a href="/tags/android%E9%80%86%E5%90%91/" style="font-size: 0.71em;">android逆向</a> <a href="/tags/chrom/" style="font-size: 0.6em;">chrom</a> <a href="/tags/excel/" style="font-size: 0.8em;">excel</a> <a href="/tags/excel-access-vba/" style="font-size: 0.6em;">excel - access - vba</a> <a href="/tags/github/" style="font-size: 0.63em;">github</a> <a href="/tags/hexo/" style="font-size: 0.6em;">hexo</a> <a href="/tags/ideas/" style="font-size: 0.63em;">ideas</a> <a href="/tags/markdown/" style="font-size: 0.6em;">markdown</a> <a href="/tags/pandas/" style="font-size: 0.6em;">pandas</a> <a href="/tags/vba/" style="font-size: 0.8em;">vba</a> <a href="/tags/vercel/" style="font-size: 0.6em;">vercel</a> <a href="/tags/vervel/" style="font-size: 0.6em;">vervel</a> <a href="/tags/%E5%88%97%E8%A1%A8%E6%A1%86/" style="font-size: 0.66em;">列表框</a> <a href="/tags/%E5%90%BE%E7%88%B1%E7%A0%B4%E8%A7%A3%E6%95%99%E7%A8%8B10%E8%8A%82/" style="font-size: 0.69em;">吾爱破解教程10节</a> <a href="/tags/%E5%9F%9F%E5%90%8D/" style="font-size: 0.6em;">域名</a>
+        <a href="/tags/APP%E9%80%86%E5%90%91/" style="font-size: 0.73em;">APP逆向</a> <a href="/tags/ChatGPT/" style="font-size: 0.63em;">ChatGPT</a> <a href="/tags/access/" style="font-size: 0.77em;">access</a> <a href="/tags/android%E9%80%86%E5%90%91/" style="font-size: 0.7em;">android逆向</a> <a href="/tags/chrom/" style="font-size: 0.6em;">chrom</a> <a href="/tags/dootask/" style="font-size: 0.6em;">dootask</a> <a href="/tags/excel/" style="font-size: 0.8em;">excel</a> <a href="/tags/excel-access-vba/" style="font-size: 0.6em;">excel - access - vba</a> <a href="/tags/github/" style="font-size: 0.63em;">github</a> <a href="/tags/hexo/" style="font-size: 0.6em;">hexo</a> <a href="/tags/ideas/" style="font-size: 0.63em;">ideas</a> <a href="/tags/mariadb/" style="font-size: 0.6em;">mariadb</a> <a href="/tags/markdown/" style="font-size: 0.6em;">markdown</a> <a href="/tags/pandas/" style="font-size: 0.6em;">pandas</a> <a href="/tags/vba/" style="font-size: 0.8em;">vba</a> <a href="/tags/vercel/" style="font-size: 0.6em;">vercel</a> <a href="/tags/vervel/" style="font-size: 0.6em;">vervel</a> <a href="/tags/%E5%88%97%E8%A1%A8%E6%A1%86/" style="font-size: 0.67em;">列表框</a>
       </div>
   </aside>
 
@@ -786,34 +786,46 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
         
           
           
-            <a class="list-group-item" href="/2023/09/28/app%E9%80%86%E5%90%91/%E6%9F%90%E9%BA%A6%E6%BC%94%E5%87%BAapp%E5%88%86%E6%9E%90-%E4%B8%89-%E6%97%A0%E8%A7%86%E9%87%8D%E8%AF%95%E8%BF%94%E5%9B%9E%E4%B8%8A%E4%B8%80%E9%A1%B5/"><i class="fa  fa-book"></i> 某麦演出app分析(三)---无视重试返回上一页</a>
+            <a class="list-group-item" href="/2023/10/07/app%E9%80%86%E5%90%91/tao%E7%B3%BBx-mini-wua%E3%80%81x-sign%E3%80%81x-sgext%E3%80%81x-umt/"><i class="fa  fa-book"></i> tao系x-mini-wua、x-sign、x-sgext、x-umt</a>
             
           
         
           
           
-            <a class="list-group-item" href="/2023/09/28/app%E9%80%86%E5%90%91/%E6%9F%90%E9%BA%A6%E6%BC%94%E5%87%BAapp%E5%88%86%E6%9E%90-%E4%BA%8C-%E6%98%BE%E7%A4%BA%E8%B4%AD%E4%B9%B0%E6%8C%89%E9%92%AE/"><i class="fa  fa-book"></i> 某麦演出app分析(二)---显示购买按钮</a>
+            <a class="list-group-item" href="/2023/10/07/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91-x-mini-wua-x-sgext-x-sign-x-umt-x-utdid/"><i class="fa  fa-book"></i> 安卓逆向 - 某麦网 x-mini-wua x-sgext x-sign x-umt x-utdid</a>
             
           
         
           
           
-            <a class="list-group-item" href="/2023/09/28/app%E9%80%86%E5%90%91/%E6%9F%90%E9%BA%A6%E6%BC%94%E5%87%BAapp%E5%88%86%E6%9E%90-%E4%B8%80-%E5%80%92%E8%AE%A1%E6%97%B6%E5%8E%BB%E9%99%A4/"><i class="fa  fa-book"></i> 某麦演出app分析(一)---倒计时去除</a>
+            <a class="list-group-item" href="/2023/10/07/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91-Frida-Hook%EF%BC%88%E6%8A%93%E5%8C%85%E5%AE%9E%E8%B7%B5%EF%BC%89/"><i class="fa  fa-book"></i> 安卓逆向 - Frida Hook（抓包实践）</a>
             
           
         
           
           
-            <a class="list-group-item" href="/2023/09/27/app%E9%80%86%E5%90%91/%E5%A4%A7%E9%BA%A6%E7%BD%91%E6%8A%A2%E7%A5%A8%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89/"><i class="fa  fa-book"></i> 大麦网抢票软件工具开发系列（一）</a>
+            <a class="list-group-item" href="/2023/10/07/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91-%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><i class="fa  fa-book"></i> 安卓逆向 - 基础入门教程</a>
             
           
         
           
           
-            <a class="list-group-item" href="/2023/09/27/app%E9%80%86%E5%90%91/%E9%98%BF%E9%87%8C%E7%B3%BBApp%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89/"><i class="fa  fa-book"></i> 阿里系App抓包分析（一）</a>
+            <a class="list-group-item" href="/2023/10/07/%E5%85%B3%E4%BA%8Edootask%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA/dootask%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA/"><i class="fa  fa-book"></i> dootask文件批量导出</a>
             
           
         
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
           
             
           

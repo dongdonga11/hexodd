@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  
+  
+  <title>dootask文件批量导出 | 栋栋的个人博客</title>
+  
+  <meta name="author" content="John DD" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="dootask, mariadb" />
+  
+  <meta name="description" content="一、背景： 今年3月份的时候做的一个工具项目，当时的背景是部门内每天会产出很多很多的垃圾文件，每天都是表格、ppt还有内容的产出，整合文件又需要一堆的表，沟通成本和文件产出成本居高不下。（职责所系，希望改变） 所以就想有一个工具可以将部门的沟通成本做下来，让产出垃圾的文件的时间变少，这样大家就有时间可以做价值产出的工作了，正好当时有一个dootask的开源项目，就想给部门做一个文件管理系统，在内网">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dootask文件批量导出">
+<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/10/07/%E5%85%B3%E4%BA%8Edootask%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA/dootask%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA/index.html">
+<meta property="og:site_name" content="栋栋的个人博客">
+<meta property="og:description" content="一、背景： 今年3月份的时候做的一个工具项目，当时的背景是部门内每天会产出很多很多的垃圾文件，每天都是表格、ppt还有内容的产出，整合文件又需要一堆的表，沟通成本和文件产出成本居高不下。（职责所系，希望改变） 所以就想有一个工具可以将部门的沟通成本做下来，让产出垃圾的文件的时间变少，这样大家就有时间可以做价值产出的工作了，正好当时有一个dootask的开源项目，就想给部门做一个文件管理系统，在内网">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/image-20231007140915922.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/image-20231007141056046.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/image-20231007141244516.png">
+<meta property="article:published_time" content="2023-10-07T02:45:35.000Z">
+<meta property="article:modified_time" content="2023-10-07T06:33:04.154Z">
+<meta property="article:author" content="John DD">
+<meta property="article:tag" content="dootask">
+<meta property="article:tag" content="mariadb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/image-20231007140915922.png">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" media="all"></script>
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-color-dark.min.css" media="(prefers-color-scheme: dark)"></script>
+    <script src="/js/kr-dark.min.js"></script>
+  
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" media="all"></script>
+  
+  <link rel="stylesheet" id="fontawe-css" href="/vendors/font-awesome@4.7.0/css/font-awesome.min.css" media="all"></script>
+  <link rel="stylesheet" id="nprogress-css" href="/vendors/nprogress@0.2.0/nprogress.css" media="all"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/aplayer@1.10.1/dist/APlayer.min.css"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"></script>
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="/vendors/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="/vendors/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+  
+  <style>
+    
+      .kratos-cover.kratos-cover-2 {
+        background-image: url('/images/banner.webp');
+      }
+    
+    
+  </style>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                    
+                                        
+                                            <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/friends/"><i class="fa fa-paw"></i>好伙伴</a></li>
+                                        
+                                    
+                                        
+                                            <li>
+                                                <a><i class="fa fa-link"></i>链接</a>
+                                                <ul class="sub-menu">
+                                                    
+                                                        
+                                                    
+                                                </ul>
+                                            </li>
+                                        
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">栋栋的个人博客</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>栋栋的个人博客</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article itemscope itemtype="https://schema.org/Article">
+    
+    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/10/07/%E5%85%B3%E4%BA%8Edootask%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA/dootask%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA/">
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center" itemprop="name headline">dootask文件批量导出</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><time datetime="2023-10-07T02:45:35.000Z" itemprop="datePublished"><i class="fa fa-calendar"></i> 2023-10-07</time></li>
+                <li itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <i class="fa fa-user"></i> 作者 <span itemprop="name">John DD</span>
+                </li>
+                
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            ~6.57K
+                        
+                        字
+                    </li>
+                
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                <div class="icon"><i class="fa fa-warning"></i></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1696660384154"></time> 前，其中的内容可能需要更新。</p></div>
+            </div>
+            
+            
+            
+            <hr />
+            <div itemprop="articleBody"><h4 id="一、背景："><a href="#一、背景：" class="headerlink" title="一、背景："></a>一、背景：</h4><blockquote>
+<p>今年3月份的时候做的一个工具项目，当时的背景是部门内每天会产出很多很多的垃圾文件，每天都是表格、ppt还有内容的产出，整合文件又需要一堆的表，沟通成本和文件产出成本居高不下。（职责所系，希望改变）</p>
+<p>所以就想有一个工具可以将部门的沟通成本做下来，让产出垃圾的文件的时间变少，这样大家就有时间可以做价值产出的工作了，正好当时有一个dootask的开源项目，就想给部门做一个文件管理系统，在内网使用的，制作好上传的相关规则就可以了。（后来发现想太多了，想起来最近看的一个视频，苏联的科学家希望通过中央计算机来代替人，减除冗余机构和人数，除去无效劳作，最后导致机构冗余越来越大，纸张浪费也越来越大，工作效率反而更低下。还有个故事是说新来的人，在体制内做表，希望通过革新，用数据库做，表面看是效率是提升了，但是做了造成的问题反而更大，工作项更多，人更累，错误更多，反而得不偿失）</p>
+<p>最后想说：除非有革命到底的念头，否则，能跑就别动。自古改革最难，比打烂了重新建更难。</p>
+<p>得出的经验和教训：千万不要想着推翻重建，除非你是一把手，精英只能在顺应大多数人的基础上才能发挥作用，否则就是自讨没趣。</p>
+</blockquote>
+<h4 id="二、使用工具："><a href="#二、使用工具：" class="headerlink" title="二、使用工具："></a>二、使用工具：</h4><p>​	<strong>dootask</strong>：<em>查看git安装步骤,用docker安装</em></p>
+<p>​	<strong>mariadb数据库：</strong><em>数据库</em></p>
+<h4 id="三、项目需求："><a href="#三、项目需求：" class="headerlink" title="三、项目需求："></a>三、项目需求：</h4><ol>
+<li>插入硬盘就能识别</li>
+<li>运行代码，将dootask存储的文件修改好名字，然后移动到指定的文件夹下</li>
+<li>可以按照dootask文件存储的样式原封不动的移动过来，文件路径不能改变</li>
+<li>最好是一套代码，可以远程直接操作</li>
+</ol>
+<h4 id="四、项目思考："><a href="#四、项目思考：" class="headerlink" title="四、项目思考："></a>四、项目思考：</h4><ol>
+<li><p>第一套方案：最初设想的是通过VBA 进行相关的操作，之前有过一个xlsm的文件管理系统，有导出，有修改名字。可以通过VBA进行实现，VBA远程连接mariadb数据库 &#x3D;&#x3D;&gt; 通过sql语句导出相关内容 &#x3D;&#x3D;&gt; 进行数据整合 &#x3D;&#x3D;&gt; 获取移动硬盘的名称 &#x3D;&#x3D;&gt; 然后再通过VBA进行文件迁移 &#x3D;&#x3D;&gt; 最后修改文件名称。反正就是希望通过VBA来实现，只要在电脑上插上硬盘，然后打开VBA，按一次到两次按键就能操作完成。</p>
+<p>(ps:后来放弃，可能是当时的技术水平有限，也可能是实现的时候发现有些什么问题处理不了，反正最后放弃了。好像是因为服务端用的是Ubuntu系统，office套件用的是libre office, 运行VBA可能更麻烦，放弃了。）</p>
+</li>
+<li><p>第二套方案：这套方案有点像缝合怪的意思，走一步看一步。通过python 和shell 进行实现。首先，远程通过运行python脚本本地连接mariadb数据库，然后将数据进行整合存入excel中， 接着，通过远程将这个excel表拉过来，将数据拆分进两个txt文本文件中，然后，将这两个txt文档通过远程放入ubuntu服务器中，紧接着插入硬盘，最后远程运行shell文件。</p>
+<p>（ps:听着就很繁琐，而且跟之前想的大相径庭，现在做的话应该会简化一些，不确定）</p>
+</li>
+</ol>
+<h4 id="五、遇到的卡点："><a href="#五、遇到的卡点：" class="headerlink" title="五、遇到的卡点："></a>五、遇到的卡点：</h4><ol>
+<li>安装dootask，只能在Linux中安装，还有安装docker,在windows 中安装linux 系统，在自己的电脑上安装还行，就是hyper-v 的安装和启动，docker-compose安装。折腾了1个星期</li>
+<li>然后在公司电脑上安装Linux老是报错，重新装了2次系统，最后实在是无奈，直接安装了ubuntu 系统，算是解决。折腾了半个月</li>
+<li>如何获取dootask 中mariadb 数据库的root名称和密码，并进行远程连接。基本上折腾了大半个月</li>
+<li>如何安装网卡的问题，Ubuntu系统连接不上无线网，通过网卡不行，需要从git上安装驱动（放弃了，直接上网线）</li>
+</ol>
+<h4 id="六、具体实现"><a href="#六、具体实现" class="headerlink" title="六、具体实现"></a>六、具体实现</h4><ol>
+<li>编写python 脚本</li>
+</ol>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> mariadb
+<span class="token keyword">import</span> xlsxwriter <span class="token keyword">as</span> xw
+<span class="token keyword">import</span> json
+<span class="token keyword">import</span> re
+
+table <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'pre_files'</span><span class="token punctuation">,</span><span class="token string">'pre_file_contents'</span><span class="token punctuation">]</span>
+mariadbData <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">'database'</span> <span class="token punctuation">:</span> <span class="token string">'dootask'</span><span class="token punctuation">,</span>
+    <span class="token string">'user'</span><span class="token punctuation">:</span> <span class="token string">'root'</span><span class="token punctuation">,</span>
+    <span class="token string">'password'</span><span class="token punctuation">:</span> <span class="token string">'a0100beaf553319a'</span><span class="token punctuation">,</span>
+    <span class="token string">'host'</span><span class="token punctuation">:</span> <span class="token string">'127.0.0.1'</span><span class="token punctuation">,</span>
+    <span class="token string">'port'</span><span class="token punctuation">:</span> <span class="token string">'33062'</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment"># print(mariadbData['database'])</span>
+<span class="token comment"># 判断存在的文件里最后的id值，返回一个true和数字</span>
+<span class="token comment"># 连接数据库</span>
+<span class="token keyword">def</span> <span class="token function">connectSql</span><span class="token punctuation">(</span>sql<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    conn <span class="token operator">=</span> mariadb<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>user<span class="token operator">=</span><span class="token string">"root"</span><span class="token punctuation">,</span> password<span class="token operator">=</span><span class="token string">"a0100beaf553319a"</span><span class="token punctuation">,</span> 
+                           host<span class="token operator">=</span><span class="token string">"127.0.0.1"</span><span class="token punctuation">,</span> port<span class="token operator">=</span><span class="token number">33062</span><span class="token punctuation">,</span>
+                            database<span class="token operator">=</span><span class="token string">"dootask"</span><span class="token punctuation">)</span>
+    cur <span class="token operator">=</span> conn<span class="token punctuation">.</span>cursor<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    sql1 <span class="token operator">=</span> sql
+    cur<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>sql1<span class="token punctuation">)</span>
+    result <span class="token operator">=</span> cur<span class="token punctuation">.</span>fetchall<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment"># print(result)</span>
+    cur<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    conn<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> result
+
+<span class="token comment"># 数据拼接</span>
+new_urls <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token keyword">def</span> <span class="token function">montagDB</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    sql <span class="token operator">=</span> <span class="token string">"SELECT content from pre_file_contents where deleted_at is NULL"</span>
+    result <span class="token operator">=</span> connectSql<span class="token punctuation">(</span>sql<span class="token punctuation">)</span>
+    old_url <span class="token operator">=</span> <span class="token punctuation">[</span>json<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token string">'url'</span><span class="token punctuation">]</span> <span class="token keyword">for</span> url <span class="token keyword">in</span> <span class="token punctuation">[</span>old<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token keyword">for</span> old <span class="token keyword">in</span> result<span class="token punctuation">]</span><span class="token punctuation">]</span>
+    sql2 <span class="token operator">=</span> <span class="token string">"SELECT pids,name,ext FROM pre_files WHERE pre_files.id IN (SELECT fid FROM pre_file_contents WHERE deleted_at IS NULL)"</span>
+    result2 <span class="token operator">=</span> connectSql<span class="token punctuation">(</span>sql2<span class="token punctuation">)</span>
+    deal_db<span class="token punctuation">(</span>result2<span class="token punctuation">)</span>
+    <span class="token comment"># 获取文件名，获取上传人，获取上传日期</span>
+    sql4 <span class="token operator">=</span> <span class="token string">"SELECT name,size,created_at,created_id FROM pre_files WHERE pre_files.id IN (SELECT fid FROM pre_file_contents WHERE deleted_at IS NULL)"</span>
+    result4 <span class="token operator">=</span> connectSql<span class="token punctuation">(</span>sql4<span class="token punctuation">)</span>
+    name<span class="token punctuation">,</span> size<span class="token punctuation">,</span> created_at<span class="token punctuation">,</span> created_id <span class="token operator">=</span> <span class="token builtin">zip</span><span class="token punctuation">(</span><span class="token operator">*</span>result4<span class="token punctuation">)</span>
+    <span class="token comment"># sql5 = "SELECT nickname FROM pre_users WHERE pre_users.userid IN ( SELECT created_id FROM pre_files WHERE pre_files.id IN (SELECT fid FROM pre_file_contents WHERE deleted_at IS NULL))"</span>
+    <span class="token comment"># result4 = connectSql(sql5)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> size<span class="token punctuation">,</span> created_at<span class="token punctuation">,</span> created_id<span class="token punctuation">)</span>
+    xw_toExcel<span class="token punctuation">(</span><span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">zip</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span>size<span class="token punctuation">,</span>created_at<span class="token punctuation">,</span>created_id<span class="token punctuation">,</span>old_url<span class="token punctuation">,</span>new_urls<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  
+
+<span class="token comment"># 数据处理</span>
+<span class="token keyword">def</span> <span class="token function">deal_db</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> <span class="token builtin">isinstance</span><span class="token punctuation">(</span>arg<span class="token punctuation">,</span> <span class="token builtin">tuple</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> arg<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">''</span><span class="token punctuation">:</span>
+            new_urls<span class="token punctuation">.</span>append<span class="token punctuation">(</span>emplay<span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            new_urls<span class="token punctuation">.</span>append<span class="token punctuation">(</span>NotEmplay<span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">for</span> fid <span class="token keyword">in</span> arg<span class="token punctuation">:</span>
+            deal_db<span class="token punctuation">(</span>fid<span class="token punctuation">)</span>
+    <span class="token comment"># print(new_urls)</span>
+
+<span class="token comment"># 空</span>
+<span class="token keyword">def</span> <span class="token function">emplay</span><span class="token punctuation">(</span>fid<span class="token punctuation">)</span><span class="token punctuation">:</span> 
+    <span class="token comment"># if not isinstance(arg, list):</span>
+    arg <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span>fid<span class="token punctuation">)</span>
+    new_path <span class="token operator">=</span> <span class="token string">'/'</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>fid<span class="token punctuation">)</span>
+    new_path <span class="token operator">=</span> re<span class="token punctuation">.</span>sub<span class="token punctuation">(</span><span class="token string">r'/([^/]+)$'</span><span class="token punctuation">,</span> <span class="token string">r'.\1'</span><span class="token punctuation">,</span> new_path<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> new_path
+
+<span class="token comment"># 非空</span>
+<span class="token keyword">def</span> <span class="token function">NotEmplay</span><span class="token punctuation">(</span>fid<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    fid <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span>fid<span class="token punctuation">)</span>
+    ids <span class="token operator">=</span> fid<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">','</span><span class="token punctuation">)</span>
+    i <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">for</span> <span class="token builtin">id</span> <span class="token keyword">in</span> ids<span class="token punctuation">:</span>
+        <span class="token keyword">if</span> <span class="token builtin">id</span><span class="token punctuation">:</span>
+            sql3 <span class="token operator">=</span> <span class="token string">"SELECT NAME FROM pre_files WHERE id ="</span> <span class="token operator">+</span> <span class="token builtin">id</span>
+            file_name <span class="token operator">=</span> connectSql<span class="token punctuation">(</span>sql3<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+            ids<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> file_name
+        i<span class="token operator">+=</span><span class="token number">1</span>
+    fid<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> emplay<span class="token punctuation">(</span>ids<span class="token punctuation">)</span>
+    new_path <span class="token operator">=</span> fid<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> fid<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token string">'.'</span> <span class="token operator">+</span> fid<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span>
+    <span class="token keyword">return</span> new_path
+        
+title <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'文件名'</span><span class="token punctuation">,</span><span class="token string">'大小'</span><span class="token punctuation">,</span><span class="token string">'创建时间'</span><span class="token punctuation">,</span><span class="token string">'上传人'</span><span class="token punctuation">,</span><span class="token string">'邮箱'</span><span class="token punctuation">,</span><span class="token string">'旧地址'</span><span class="token punctuation">,</span><span class="token string">'新地址'</span><span class="token punctuation">]</span>
+<span class="token comment"># 写入数据表</span>
+<span class="token keyword">def</span> <span class="token function">xw_toExcel</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    workbook <span class="token operator">=</span> xw<span class="token punctuation">.</span>Workbook<span class="token punctuation">(</span><span class="token string">'test.xlsx'</span><span class="token punctuation">)</span>
+    workbookSheet1 <span class="token operator">=</span> workbook<span class="token punctuation">.</span>add_worksheet<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>result<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            workbookSheet1<span class="token punctuation">.</span>write<span class="token punctuation">(</span>i<span class="token punctuation">,</span> j<span class="token punctuation">,</span> result<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    workbook<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    montagDB<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol start="2">
+<li>编写shell脚本</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
+<span class="token comment"># 操作明细（source_file.txt 放源文件地址，dist_file.txt 放目标文件地址）</span>
+<span class="token comment"># 获取移动硬盘地址是自动获取的，如果需要修改联系管理员</span>
+<span class="token comment"># 将文件放入制定文件夹下</span>
+<span class="token comment"># 设置源文件夹地址和目标文件夹地址</span>
+<span class="token comment"># 获取插入的移动硬盘盘符</span>
+<span class="token function-name function">disk_name</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+	<span class="token comment"># 检测是否找到块设备</span>
+	<span class="token assign-left variable">mount_point</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token function">df</span> <span class="token parameter variable">-h</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">'media'</span> <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'&#123;print $6&#125;'</span><span class="token variable">)</span></span>
+	<span class="token keyword">if</span> <span class="token punctuation">[</span><span class="token punctuation">[</span> <span class="token operator">!</span> <span class="token parameter variable">-z</span> <span class="token variable">$mount_point</span> <span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+		<span class="token builtin class-name">echo</span> <span class="token string">"移动设备盘符为 <span class="token variable">$mount_point</span>"</span>
+		<span class="token assign-left variable">root_src</span><span class="token operator">=</span><span class="token string">"/home/liuli/公共的/dootask/public"</span>
+		dest_folder <span class="token string">"<span class="token variable">$mount_point</span>"</span> <span class="token string">"<span class="token variable">$root_src</span>"</span>
+	<span class="token keyword">else</span>
+		<span class="token builtin class-name">echo</span> <span class="token string">"未找到"</span>
+	<span class="token keyword">fi</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#dos2unix 是将 Windows 格式文件转换为 Unix、Linux 格式的实用命令。Windows 格式文件的换行符为\r\n ,而Unix&amp;Linux 文件的换行符为\n.dos2unix 命令其实就是将文件中的\r\n 转换为\n。</span>
+
+<span class="token function-name function">dest_folder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+	<span class="token assign-left variable">dev</span><span class="token operator">=</span><span class="token variable">$1</span>
+	<span class="token assign-left variable">root_dev</span><span class="token operator">=</span><span class="token variable">$2</span>
+	dos2unix /home/liuli/公共的/source_file.txt
+	dos2unix /home/liuli/公共的/dest_file.txt
+	<span class="token assign-left variable">source_folder</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token function">cat</span> /home/liuli/公共的/source_file.txt<span class="token variable">)</span></span>
+	<span class="token assign-left variable">source_list</span><span class="token operator">=</span><span class="token punctuation">(</span><span class="token variable">$&#123;source_folder<span class="token punctuation">[</span>@<span class="token punctuation">]</span>&#125;</span><span class="token punctuation">)</span>
+		<span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$&#123;source_list<span class="token punctuation">[</span>2<span class="token punctuation">]</span>&#125;</span>"</span>
+	<span class="token assign-left variable">i</span><span class="token operator">=</span><span class="token number">0</span>
+	<span class="token keyword">while</span> <span class="token builtin class-name">read</span> line<span class="token punctuation">;</span> <span class="token keyword">do</span>
+		<span class="token assign-left variable">source_folders</span><span class="token operator">=</span><span class="token variable">$&#123;source_list<span class="token punctuation">[</span>$i<span class="token punctuation">]</span>&#125;</span>
+		<span class="token assign-left variable">file_path</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token function">dirname</span> -- <span class="token string">"<span class="token variable">$line</span>"</span><span class="token variable">)</span></span>
+		<span class="token assign-left variable">file_name</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token function">basename</span> -- <span class="token string">"<span class="token variable">$line</span>"</span><span class="token variable">)</span></span>
+		<span class="token comment">#echo "$file_name"</span>
+		<span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$1</span>/<span class="token variable">$file_path</span>/<span class="token variable">$file_name</span>"</span>
+		<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token parameter variable">-e</span> <span class="token string">"<span class="token variable">$1</span>/<span class="token variable">$line</span>"</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+			<span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$file_name</span> 文件已存在"</span>
+		<span class="token keyword">else</span>
+			<span class="token builtin class-name">echo</span> <span class="token string">"正在创建"</span>
+			<span class="token function">sudo</span> <span class="token function">mkdir</span> <span class="token parameter variable">-p</span> <span class="token string">"<span class="token variable">$1</span>/<span class="token variable">$file_path</span>"</span>
+			<span class="token function">sudo</span> <span class="token function">cp</span> <span class="token parameter variable">-r</span> <span class="token string">"<span class="token variable">$2</span>/<span class="token variable">$source_folders</span>"</span> <span class="token string">"<span class="token variable">$1</span>/<span class="token variable">$file_path</span>/<span class="token variable">$file_name</span>"</span>
+			<span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$file_name</span>"</span> <span class="token string">"已经复制完毕"</span>
+			<span class="token variable"><span class="token variable">$(</span><span class="token assign-left variable">i</span><span class="token operator">+=</span><span class="token number">1</span><span class="token variable">)</span></span>
+		<span class="token keyword">fi</span>	
+	<span class="token keyword">done</span> <span class="token operator">&lt;</span> /home/liuli/公共的/dest_file.txt
+<span class="token punctuation">&#125;</span>
+
+disk_name<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol start="3">
+<li>远程连接</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 要通过SSH将文件传输到Ubuntu电脑中，您可以使用scp命令。以下是一些基本的scp命令语法，可帮助您完成文件传输过程：</span>
+
+<span class="token comment">#将文件从Windows传输到Ubuntu：</span>
+
+ <span class="token function">scp</span> /path/to/local/file user@ubuntu:/path/to/destination/directory
+
+<span class="token comment"># 将文件从Ubuntu传输到Windows：</span>
+
+<span class="token function">scp</span> user@ubuntu:/path/to/remote/file /path/to/destination/directory
+
+<span class="token comment"># 其中，/path/to/local/file是本地Windows环境中的文件路径，user是Ubuntu电脑的用户名，ubuntu是Ubuntu电脑的IP地址或主机名，/path/to/destination/directory是Ubuntu电脑中存放文件的目录路径，/path/to/remote/file是Ubuntu电脑中要传输的文件路径，/path/to/destination/directory是本地Windows环境中存放文件的目录路径。</span>
+
+<span class="token comment"># 在使用scp命令之前，确保您的Windows电脑和Ubuntu电脑已经通过SSH连接成功。</span>
+<span class="token function">ssh</span> <span class="token number">192.168</span>.84.143@liuli
+
+<span class="token function">scp</span> liuli@192.168.84.143:/home/liuli/公共的/pymariadb/test.xlsx /D:/ceshi/sshtcp
+
+<span class="token function">scp</span> D:/ceshi/sshtcp/*.txt liuli@192.168.84.143:/home/liuli/公共的<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="七、文章参考："><a href="#七、文章参考：" class="headerlink" title="七、文章参考："></a>七、文章参考：</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_37666840/article/details/124316099">Ubuntu安装步骤</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39838607/article/details/127121690?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-2-127121690-blog-121555899.235%5Ev28%5Epc_relevant_t0_download&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-2-127121690-blog-121555899.235%5Ev28%5Epc_relevant_t0_download&utm_relevant_index=2">windows 安装Docker步骤以及在每一个步骤遇到问题合集</a></p>
+<p>八、实现中的细节点</p>
+<ol>
+<li>dootask 中数据库的位置及查看方法</li>
+</ol>
+<p><img src="/./../../img/img/image-20231007140915922.png" alt="image-20231007140915922"></p>
+<p><img src="/./../../img/img/image-20231007141056046.png" alt="image-20231007141056046"></p>
+<p><img src="/./../../img/img/image-20231007141244516.png" alt="image-20231007141244516"></p>
+</div>
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5 itemprop="copyrightNotice">本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/10/07/%E5%85%B3%E4%BA%8Edootask%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA/dootask%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/10/07/%E5%85%B3%E4%BA%8Edootask%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA/dootask%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA/";
+            const title         = "「dootask文件批量导出」";
+            const excerpt       = `一、背景：
+今年3月份的时候做的一个工具项目，当时的背景是部门内每天会产出很多很多的垃圾文件，每天都是表格、ppt还有内容的产出，整合文件又需要一堆的表，沟通成本和文件产出成本居高不下。（职责所系，希望改变）
+所以就想有一个工具可以将...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/dootask/" rel="tag">dootask</a>, <a class="tag-none-link" href="/tags/mariadb/" rel="tag">mariadb</a>
+                </div>
+                <div class="pull-date">
+                    <time datetime="2023-10-07T06:33:04.154Z" itemprop="dateModified">最后编辑：2023-10-07</time>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" 某麦网数据参数逆向分析" href="/2023/09/30/某麦网数据参数逆向分析/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" 安卓逆向 - 基础入门教程" href="/2023/10/07/app逆向/安卓逆向-基础入门教程/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/about.webp" loading="lazy" decoding="auto" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">分享学习的文章分享基地</p>
+    </div>
+    <div class="site-meta">
+        <a class="meta-item" href="/archives/">
+            <span class="title">
+                文章
+            </span>
+            <span class="count">
+                78
+            </span>
+        </a>
+        <a class="meta-item" href="/categories/">
+            <span class="title">
+                分类
+            </span>
+            <span class="count">
+                9
+            </span>
+        </a>
+        <a class="meta-item" href="/tags/">
+            <span class="title">
+                标签
+            </span>
+            <span class="count">
+                41
+            </span>
+        </a>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/chatgpt/">chatgpt</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/excel/">excel</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mariadb/">mariadb</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tao%E7%B3%BB/">tao系</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vba-access/">vba-access</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E6%95%99%E7%A8%8B/">安卓逆向教程</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a><span class="category-list-count">3</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/APP%E9%80%86%E5%90%91/" style="font-size: 0.73em;">APP逆向</a> <a href="/tags/ChatGPT/" style="font-size: 0.63em;">ChatGPT</a> <a href="/tags/access/" style="font-size: 0.77em;">access</a> <a href="/tags/android%E9%80%86%E5%90%91/" style="font-size: 0.7em;">android逆向</a> <a href="/tags/chrom/" style="font-size: 0.6em;">chrom</a> <a href="/tags/dootask/" style="font-size: 0.6em;">dootask</a> <a href="/tags/excel/" style="font-size: 0.8em;">excel</a> <a href="/tags/excel-access-vba/" style="font-size: 0.6em;">excel - access - vba</a> <a href="/tags/github/" style="font-size: 0.63em;">github</a> <a href="/tags/hexo/" style="font-size: 0.6em;">hexo</a> <a href="/tags/ideas/" style="font-size: 0.63em;">ideas</a> <a href="/tags/mariadb/" style="font-size: 0.6em;">mariadb</a> <a href="/tags/markdown/" style="font-size: 0.6em;">markdown</a> <a href="/tags/pandas/" style="font-size: 0.6em;">pandas</a> <a href="/tags/vba/" style="font-size: 0.8em;">vba</a> <a href="/tags/vercel/" style="font-size: 0.6em;">vercel</a> <a href="/tags/vervel/" style="font-size: 0.6em;">vervel</a> <a href="/tags/%E5%88%97%E8%A1%A8%E6%A1%86/" style="font-size: 0.67em;">列表框</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2023/10/07/app%E9%80%86%E5%90%91/tao%E7%B3%BBx-mini-wua%E3%80%81x-sign%E3%80%81x-sgext%E3%80%81x-umt/"><i class="fa  fa-book"></i> tao系x-mini-wua、x-sign、x-sgext、x-umt</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/10/07/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91-x-mini-wua-x-sgext-x-sign-x-umt-x-utdid/"><i class="fa  fa-book"></i> 安卓逆向 - 某麦网 x-mini-wua x-sgext x-sign x-umt x-utdid</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/10/07/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91-Frida-Hook%EF%BC%88%E6%8A%93%E5%8C%85%E5%AE%9E%E8%B7%B5%EF%BC%89/"><i class="fa  fa-book"></i> 安卓逆向 - Frida Hook（抓包实践）</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/10/07/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91-%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><i class="fa  fa-book"></i> 安卓逆向 - 基础入门教程</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/10/07/%E5%85%B3%E4%BA%8Edootask%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA/dootask%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA/"><i class="fa  fa-book"></i> dootask文件批量导出</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        <!-- Keep for compatibility -->
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <!-- New links -->
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2023 栋栋的个人博客 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by John DD.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="/vendors/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="/vendors/nprogress@0.2.0/nprogress.js"></script>
+<script>
+    if (!window.kr) {
+        window.kr = {};
+    }
+    window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
+    window.kr.siteRoot = "/";
+</script>
+
+
+
+
+    <script defer src="/vendors/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="/vendors/meting@2.0.1/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>

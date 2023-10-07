@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  
+  
+  <title>tao系x-mini-wua、x-sign、x-sgext、x-umt | 栋栋的个人博客</title>
+  
+  <meta name="author" content="John DD" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="APP逆向, android逆向, 大麦网抢票, 逆向" />
+  
+  <meta name="description" content="目录  解决抓不到包 定位加密位置Hook加密搭建RPC服务主动调用解决初始化Flask接入Hook测试接口   tao系的App基本都离不开x-mini-wua、x-sign、x-sgext、x-umt这个四个参数 1. 解决抓不到包这个app的底层网络通信的协议并不是普通的http协议，而是自己实现的一套私有协议Spdy。使用Charles、Fiddle等抓包工具对app进行抓包时，你会发现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tao系x-mini-wua、x-sign、x-sgext、x-umt">
+<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/10/07/app%E9%80%86%E5%90%91/tao%E7%B3%BBx-mini-wua%E3%80%81x-sign%E3%80%81x-sgext%E3%80%81x-umt/index.html">
+<meta property="og:site_name" content="栋栋的个人博客">
+<meta property="og:description" content="目录  解决抓不到包 定位加密位置Hook加密搭建RPC服务主动调用解决初始化Flask接入Hook测试接口   tao系的App基本都离不开x-mini-wua、x-sign、x-sgext、x-umt这个四个参数 1. 解决抓不到包这个app的底层网络通信的协议并不是普通的http协议，而是自己实现的一套私有协议Spdy。使用Charles、Fiddle等抓包工具对app进行抓包时，你会发现">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/a20244e0b682465692a93e05afe8c772.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/c76a0f9dc2cc41a89c2155577bb2f590.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/d66c681ef5f3485caba19bc08c267e80.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/4cd94be4e16d434da84882eb667155d2.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/df45a2fe6cd44477b70115a1e23215bd.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/af105929140548c9a17b4b12b36ab606.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/77f9b18d1f874e70ba1279d84e938536.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/6b0073a6746a47a8a6930d077fe8edd1.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/bcb492805f5b48fb82de1efdb6c5965a.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/34745774dff542bab99885bf1c5f8e70.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/7d9b7e7e6c274816843fc73679da0cb8.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/3e5d003fe67f4a2fad300ba52aa9e507.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/e1c6b5ac628d4275bc3ff2246acc2b1c.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/a9a674c9a7934e8888491b5e75411f28.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/253a2400a81e40f89b2ca36af3cbfbb3.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/a9bd6f4e5d974a71a10e567e19d72b93.png">
+<meta property="article:published_time" content="2023-10-07T07:32:59.000Z">
+<meta property="article:modified_time" content="2023-10-07T07:48:50.330Z">
+<meta property="article:author" content="John DD">
+<meta property="article:tag" content="逆向">
+<meta property="article:tag" content="APP逆向">
+<meta property="article:tag" content="android逆向">
+<meta property="article:tag" content="大麦网抢票">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/a20244e0b682465692a93e05afe8c772.png">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" media="all"></script>
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-color-dark.min.css" media="(prefers-color-scheme: dark)"></script>
+    <script src="/js/kr-dark.min.js"></script>
+  
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" media="all"></script>
+  
+  <link rel="stylesheet" id="fontawe-css" href="/vendors/font-awesome@4.7.0/css/font-awesome.min.css" media="all"></script>
+  <link rel="stylesheet" id="nprogress-css" href="/vendors/nprogress@0.2.0/nprogress.css" media="all"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/aplayer@1.10.1/dist/APlayer.min.css"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"></script>
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="/vendors/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="/vendors/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+  
+  <style>
+    
+      .kratos-cover.kratos-cover-2 {
+        background-image: url('/images/banner.webp');
+      }
+    
+    
+  </style>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                    
+                                        
+                                            <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/friends/"><i class="fa fa-paw"></i>好伙伴</a></li>
+                                        
+                                    
+                                        
+                                            <li>
+                                                <a><i class="fa fa-link"></i>链接</a>
+                                                <ul class="sub-menu">
+                                                    
+                                                        
+                                                    
+                                                </ul>
+                                            </li>
+                                        
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">栋栋的个人博客</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>栋栋的个人博客</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article itemscope itemtype="https://schema.org/Article">
+    
+    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/10/07/app%E9%80%86%E5%90%91/tao%E7%B3%BBx-mini-wua%E3%80%81x-sign%E3%80%81x-sgext%E3%80%81x-umt/">
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center" itemprop="name headline">tao系x-mini-wua、x-sign、x-sgext、x-umt</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><time datetime="2023-10-07T07:32:59.000Z" itemprop="datePublished"><i class="fa fa-calendar"></i> 2023-10-07</time></li>
+                <li itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <i class="fa fa-user"></i> 作者 <span itemprop="name">John DD</span>
+                </li>
+                
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            ~2.40K
+                        
+                        字
+                    </li>
+                
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                <div class="icon"><i class="fa fa-warning"></i></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1696664930330"></time> 前，其中的内容可能需要更新。</p></div>
+            </div>
+            
+            
+            
+            <hr />
+            <div itemprop="articleBody"><blockquote>
+<p>目录</p>
+<ol>
+<li>解决抓不到包</li>
+<li>定位加密位置<br>Hook加密<br>搭建RPC服务<br>主动调用<br>解决初始化<br>Flask接入Hook<br>测试接口</li>
+</ol>
+</blockquote>
+<p>tao系的App基本都离不开x-mini-wua、x-sign、x-sgext、x-umt这个四个参数</p>
+<h3 id="1-解决抓不到包"><a href="#1-解决抓不到包" class="headerlink" title="1. 解决抓不到包"></a>1. 解决抓不到包</h3><p>这个app的底层网络通信的协议并不是普通的http协议，而是自己实现的一套私有协议Spdy。使用Charles、Fiddle等抓包工具对app进行抓包时，你会发现是抓不到包的</p>
+<p>我们只需要把协议Spdy hook掉，不让走Spdy协议，就可以抓到包了<br>反编译后通过关键词定位及分析，只要把这个函数hook为false即可</p>
+<p><img src="/./../../img/img/a20244e0b682465692a93e05afe8c772.png" alt="在这里插入图片描述"></p>
+<p>hook 代码</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Java</span><span class="token punctuation">.</span><span class="token function">perform</span><span class="token punctuation">(</span>function <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">var</span> <span class="token class-name">SwitchConfig</span> <span class="token operator">=</span> <span class="token class-name">Java</span><span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>'<span class="token class-name"><span class="token namespace">mtopsdk<span class="token punctuation">.</span>mtop<span class="token punctuation">.</span>global<span class="token punctuation">.</span></span>SwitchConfig</span>'<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">SwitchConfig</span><span class="token punctuation">.</span>isGlobalSpdySwitchOpen<span class="token punctuation">.</span><span class="token function">overload</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>implementation <span class="token operator">=</span> <span class="token function">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">var</span> ret <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>isGlobalSpdySwitchOpen<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> arguments<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"isGlobalSpdySwitchOpenl "</span><span class="token operator">+</span>ret<span class="token punctuation">)</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol start="2">
+<li>定位加密位置<br>抓包发现这四个参数是必需的</li>
+</ol>
+<p><img src="/./../../img/img/c76a0f9dc2cc41a89c2155577bb2f590.png" alt="在这里插入图片描述"></p>
+<p>搜索 x-mini-wua 关键词</p>
+<p><img src="/./../../img/img/d66c681ef5f3485caba19bc08c267e80.png" alt="在这里插入图片描述"></p>
+<p>String X_MINI_WUA &#x3D; “x-mini-wua”;</p>
+<p>接着搜索 X_MINI_WUA</p>
+<p><img src="/./../../img/img/4cd94be4e16d434da84882eb667155d2.png" alt="在这里插入图片描述"></p>
+<p>可以看到四个参数是来源于：gUnifiedSecurityComp.getSecurityFactors()</p>
+<p><img src="/./../../img/img/df45a2fe6cd44477b70115a1e23215bd.png" alt="在这里插入图片描述"></p>
+<p>跟进去 getSecurityFactors() 发现是接口</p>
+<p><img src="/./../../img/img/af105929140548c9a17b4b12b36ab606.png" alt="在这里插入图片描述"></p>
+<p>接着继续搜索看看还有哪里调用了getSecurityFactors()，能不能从中发现一些蛛丝马迹。</p>
+<p>经过分析，发现getUnifiedSign() 是调用 mUnifiedSign.getSecurityFactors() 并返回对应的结果</p>
+<p><img src="/./../../img/img/77f9b18d1f874e70ba1279d84e938536.png" alt="在这里插入图片描述"></p>
+<p>Hook加密</p>
+<p><img src="/./../../img/img/6b0073a6746a47a8a6930d077fe8edd1.png" alt="在这里插入图片描述">但是我们需要的参数是不是就是由这个函数加密得到的你，hook对比一下</p>
+<p>hook和抓包对比发现正是这个地方加密得到的<br>hook 代码：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Java</span><span class="token punctuation">.</span><span class="token function">perform</span><span class="token punctuation">(</span>function <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">var</span> <span class="token class-name">InnerSignImpl</span> <span class="token operator">=</span> <span class="token class-name">Java</span><span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"mtopsdk.security.InnerSignImpl"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">InnerSignImpl</span><span class="token punctuation">[</span><span class="token string">"getUnifiedSign"</span><span class="token punctuation">]</span><span class="token punctuation">.</span>implementation <span class="token operator">=</span> function <span class="token punctuation">(</span>params<span class="token punctuation">,</span> ext<span class="token punctuation">,</span> appKey<span class="token punctuation">,</span> authCode<span class="token punctuation">,</span> useWua<span class="token punctuation">,</span> requestId<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>'getUnifiedSign is called<span class="token char">' + '</span><span class="token punctuation">,</span> <span class="token char">' + '</span>params<span class="token operator">:</span> ' <span class="token operator">+</span> params <span class="token operator">+</span> <span class="token char">', '</span> <span class="token operator">+</span> <span class="token char">'ext: '</span> <span class="token operator">+</span> ext <span class="token operator">+</span> <span class="token char">', '</span> <span class="token operator">+</span> 'appKey<span class="token operator">:</span> ' <span class="token operator">+</span> appKey <span class="token operator">+</span> <span class="token char">', '</span> <span class="token operator">+</span> 'authCode<span class="token operator">:</span> ' <span class="token operator">+</span> authCode <span class="token operator">+</span> <span class="token char">', '</span> <span class="token operator">+</span> 'useWua<span class="token operator">:</span> ' <span class="token operator">+</span> useWua <span class="token operator">+</span> <span class="token char">', '</span> <span class="token operator">+</span> 'requestId<span class="token operator">:</span> ' <span class="token operator">+</span> requestId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> ret <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getUnifiedSign</span><span class="token punctuation">(</span>params<span class="token punctuation">,</span> ext<span class="token punctuation">,</span> appKey<span class="token punctuation">,</span> authCode<span class="token punctuation">,</span> useWua<span class="token punctuation">,</span> requestId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>'getUnifiedSign ret value is ' <span class="token operator">+</span> ret<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> ret<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>  
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>hook位置确定了，剩下的就是写成接口主动调用了</p>
+<h3 id="搭建RPC服务"><a href="#搭建RPC服务" class="headerlink" title="搭建RPC服务"></a>搭建RPC服务</h3><p>这次打算用AsyncHttpServer + Frida 来实现RPC<br>（先下班了，有时间接着写）</p>
+<p>这几天经过测试发现，Frida + AndroidAsync搭建RPC服务会存在比较多问题，如1.有时候会断开，2.性能不高，有时候请求会卡住。有兴趣的可以参考：<a target="_blank" rel="noopener" href="https://github.com/h1code2/frida_androidAsync_service">https://github.com/h1code2/frida_androidAsync_service</a></p>
+<p>最终还是用Flask搭建</p>
+<h5 id="主动调用"><a href="#主动调用" class="headerlink" title="主动调用"></a>主动调用</h5><p>主动调用的hook代码</p>
+<p><img src="/./../../img/img/bcb492805f5b48fb82de1efdb6c5965a.png" alt="在这里插入图片描述"></p>
+<p>但是发现结果是null的，</p>
+<h5 id="解决初始化"><a href="#解决初始化" class="headerlink" title="解决初始化"></a>解决初始化</h5><p><img src="/./../../img/img/34745774dff542bab99885bf1c5f8e70.png" alt="在这里插入图片描述"></p>
+<p>究竟是什么问题呢，我们hook一下日志函数（这个挺有用的，平时可以用来看是什么错误导致）</p>
+<p><img src="/./../../img/img/7d9b7e7e6c274816843fc73679da0cb8.png" alt="在这里插入图片描述"></p>
+<p>可以看出是没有做初始化，看回源码，这里确实是做了一个初始化的</p>
+<p><img src="/./../../img/img/3e5d003fe67f4a2fad300ba52aa9e507.png" alt="在这里插入图片描述"></p>
+<p>初始化及hook代码：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> MtopConfig <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"mtopsdk.mtop.global.MtopConfig"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>$<span class="token keyword">new</span><span class="token punctuation">(</span><span class="token string">"INNER"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> InnerSignImpl <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"mtopsdk.security.InnerSignImpl"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>$<span class="token keyword">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+InnerSignImpl<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span>MtopConfig<span class="token punctuation">)</span> <span class="token comment">// 初始化</span>
+<span class="token keyword">var</span> result <span class="token operator">=</span> InnerSignImpl<span class="token punctuation">.</span><span class="token function">getUnifiedSign</span><span class="token punctuation">(</span>params_hash<span class="token punctuation">,</span>ext_hash<span class="token punctuation">,</span>appKey<span class="token punctuation">,</span> authCode<span class="token punctuation">,</span> useWua<span class="token punctuation">,</span> requestId<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<p>传入参数主动调用</p>
+<p><img src="/./../../img/img/e1c6b5ac628d4275bc3ff2246acc2b1c.png" alt="在这里插入图片描述"></p>
+<p>Flask接入Hook</p>
+<p><img src="/./../../img/img/a9a674c9a7934e8888491b5e75411f28.png" alt="在这里插入图片描述"></p>
+<p>测试接口</p>
+<p><img src="/./../../img/img/253a2400a81e40f89b2ca36af3cbfbb3.png" alt="在这里插入图片描述"></p>
+<p>校验参数，有时候参数加密出来，但不一定可以跑通接口，很多时候是环境、编码、时间戳等参数导致校验没通过</p>
+<p><img src="/./../../img/img/a9bd6f4e5d974a71a10e567e19d72b93.png" alt="在这里插入图片描述"></p>
+<p>加密参数没问题的</p>
+</div>
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5 itemprop="copyrightNotice">本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/10/07/app%E9%80%86%E5%90%91/tao%E7%B3%BBx-mini-wua%E3%80%81x-sign%E3%80%81x-sgext%E3%80%81x-umt/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/10/07/app%E9%80%86%E5%90%91/tao%E7%B3%BBx-mini-wua%E3%80%81x-sign%E3%80%81x-sgext%E3%80%81x-umt/";
+            const title         = "「tao系x-mini-wua、x-sign、x-sgext、x-umt」";
+            const excerpt       = `
+目录
+
+解决抓不到包
+定位加密位置Hook加密搭建RPC服务主动调用解决初始化Flask接入Hook测试接口
+
+
+tao系的App基本都离不开x-mini-wua、x-sign、x-sgext、x-umt这个四个参数
+1. 解决抓不...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/APP%E9%80%86%E5%90%91/" rel="tag">APP逆向</a>, <a class="tag-none-link" href="/tags/android%E9%80%86%E5%90%91/" rel="tag">android逆向</a>, <a class="tag-none-link" href="/tags/%E5%A4%A7%E9%BA%A6%E7%BD%91%E6%8A%A2%E7%A5%A8/" rel="tag">大麦网抢票</a>, <a class="tag-none-link" href="/tags/%E9%80%86%E5%90%91/" rel="tag">逆向</a>
+                </div>
+                <div class="pull-date">
+                    <time datetime="2023-10-07T07:48:50.330Z" itemprop="dateModified">最后编辑：2023-10-07</time>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" 安卓逆向 - 某麦网 x-mini-wua x-sgext x-sign x-umt x-utdid" href="/2023/10/07/app逆向/安卓逆向-某麦网-x-mini-wua-x-sgext-x-sign-x-umt-x-utdid/">&lt; 上一篇</a>
+            </div>
+            
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/about.webp" loading="lazy" decoding="auto" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">分享学习的文章分享基地</p>
+    </div>
+    <div class="site-meta">
+        <a class="meta-item" href="/archives/">
+            <span class="title">
+                文章
+            </span>
+            <span class="count">
+                78
+            </span>
+        </a>
+        <a class="meta-item" href="/categories/">
+            <span class="title">
+                分类
+            </span>
+            <span class="count">
+                9
+            </span>
+        </a>
+        <a class="meta-item" href="/tags/">
+            <span class="title">
+                标签
+            </span>
+            <span class="count">
+                41
+            </span>
+        </a>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/chatgpt/">chatgpt</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/excel/">excel</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mariadb/">mariadb</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tao%E7%B3%BB/">tao系</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vba-access/">vba-access</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E6%95%99%E7%A8%8B/">安卓逆向教程</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a><span class="category-list-count">3</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/APP%E9%80%86%E5%90%91/" style="font-size: 0.73em;">APP逆向</a> <a href="/tags/ChatGPT/" style="font-size: 0.63em;">ChatGPT</a> <a href="/tags/access/" style="font-size: 0.77em;">access</a> <a href="/tags/android%E9%80%86%E5%90%91/" style="font-size: 0.7em;">android逆向</a> <a href="/tags/chrom/" style="font-size: 0.6em;">chrom</a> <a href="/tags/dootask/" style="font-size: 0.6em;">dootask</a> <a href="/tags/excel/" style="font-size: 0.8em;">excel</a> <a href="/tags/excel-access-vba/" style="font-size: 0.6em;">excel - access - vba</a> <a href="/tags/github/" style="font-size: 0.63em;">github</a> <a href="/tags/hexo/" style="font-size: 0.6em;">hexo</a> <a href="/tags/ideas/" style="font-size: 0.63em;">ideas</a> <a href="/tags/mariadb/" style="font-size: 0.6em;">mariadb</a> <a href="/tags/markdown/" style="font-size: 0.6em;">markdown</a> <a href="/tags/pandas/" style="font-size: 0.6em;">pandas</a> <a href="/tags/vba/" style="font-size: 0.8em;">vba</a> <a href="/tags/vercel/" style="font-size: 0.6em;">vercel</a> <a href="/tags/vervel/" style="font-size: 0.6em;">vervel</a> <a href="/tags/%E5%88%97%E8%A1%A8%E6%A1%86/" style="font-size: 0.67em;">列表框</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2023/10/07/app%E9%80%86%E5%90%91/tao%E7%B3%BBx-mini-wua%E3%80%81x-sign%E3%80%81x-sgext%E3%80%81x-umt/"><i class="fa  fa-book"></i> tao系x-mini-wua、x-sign、x-sgext、x-umt</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/10/07/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91-x-mini-wua-x-sgext-x-sign-x-umt-x-utdid/"><i class="fa  fa-book"></i> 安卓逆向 - 某麦网 x-mini-wua x-sgext x-sign x-umt x-utdid</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/10/07/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91-Frida-Hook%EF%BC%88%E6%8A%93%E5%8C%85%E5%AE%9E%E8%B7%B5%EF%BC%89/"><i class="fa  fa-book"></i> 安卓逆向 - Frida Hook（抓包实践）</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/10/07/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91-%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"><i class="fa  fa-book"></i> 安卓逆向 - 基础入门教程</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2023/10/07/%E5%85%B3%E4%BA%8Edootask%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA/dootask%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E5%AF%BC%E5%87%BA/"><i class="fa  fa-book"></i> dootask文件批量导出</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        <!-- Keep for compatibility -->
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <!-- New links -->
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2023 栋栋的个人博客 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by John DD.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="/vendors/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="/vendors/nprogress@0.2.0/nprogress.js"></script>
+<script>
+    if (!window.kr) {
+        window.kr = {};
+    }
+    window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
+    window.kr.siteRoot = "/";
+</script>
+
+
+
+
+    <script defer src="/vendors/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="/vendors/meting@2.0.1/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>
