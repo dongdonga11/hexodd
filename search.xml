@@ -3,14 +3,6 @@
   
     
     <entry>
-      <title><![CDATA[test]]></title>
-      <url>/2023/10/09/test/</url>
-      <content type="html"></content>
-      
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[搭建一个Hexo博客并用vercel部署]]></title>
       <url>/2023/10/09/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/</url>
       <content type="html"><![CDATA[<p>Hexo 是一款基于Node.js的静态博客生成器，具有简单易用、快速高效、丰富主题、插件支持等特点，适合用于个人博客、技术文档、个人网站等场景。而且基于 markdown 编写起来非常顺畅，个人非常喜欢这个博客。这次下定决心搭建一个 Hexo 博客来实现我日常分享的一个小博客网站。</p>
