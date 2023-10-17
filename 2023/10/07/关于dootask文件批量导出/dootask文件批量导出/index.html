@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/image-20231007141056046.png">
 <meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/img/image-20231007141244516.png">
 <meta property="article:published_time" content="2023-10-07T02:45:35.000Z">
-<meta property="article:modified_time" content="2023-10-07T06:33:04.154Z">
+<meta property="article:modified_time" content="2023-10-17T03:05:43.929Z">
 <meta property="article:author" content="John DD">
 <meta property="article:tag" content="dootask">
 <meta property="article:tag" content="mariadb">
@@ -171,7 +171,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~6.57K
+                            ~6.84K
                         
                         字
                     </li>
@@ -183,7 +183,7 @@
             
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
                 <div class="icon"><i class="fa fa-warning"></i></div>
-                <div class="text"><p>本文最后编辑于 <time datetime="1696660384154"></time> 前，其中的内容可能需要更新。</p></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1697511943929"></time> 前，其中的内容可能需要更新。</p></div>
             </div>
             
             
@@ -207,15 +207,22 @@
 <li><p>第一套方案：最初设想的是通过VBA 进行相关的操作，之前有过一个xlsm的文件管理系统，有导出，有修改名字。可以通过VBA进行实现，VBA远程连接mariadb数据库 &#x3D;&#x3D;&gt; 通过sql语句导出相关内容 &#x3D;&#x3D;&gt; 进行数据整合 &#x3D;&#x3D;&gt; 获取移动硬盘的名称 &#x3D;&#x3D;&gt; 然后再通过VBA进行文件迁移 &#x3D;&#x3D;&gt; 最后修改文件名称。反正就是希望通过VBA来实现，只要在电脑上插上硬盘，然后打开VBA，按一次到两次按键就能操作完成。</p>
 <p>(ps:后来放弃，可能是当时的技术水平有限，也可能是实现的时候发现有些什么问题处理不了，反正最后放弃了。好像是因为服务端用的是Ubuntu系统，office套件用的是libre office, 运行VBA可能更麻烦，放弃了。）</p>
 </li>
-<li><p>第二套方案：这套方案有点像缝合怪的意思，走一步看一步。通过python 和shell 进行实现。首先，远程通过运行python脚本本地连接mariadb数据库，然后将数据进行整合存入excel中， 接着，通过远程将这个excel表拉过来，将数据拆分进两个txt文本文件中，然后，将这两个txt文档通过远程放入ubuntu服务器中，紧接着插入硬盘，最后远程运行shell文件。</p>
-<p>（ps:听着就很繁琐，而且跟之前想的大相径庭，现在做的话应该会简化一些，不确定）</p>
+<li><p>第二套方案：这套方案有点像缝合怪的意思，走一步看一步。通过python 和shell 进行实现。首先，远程通过运行python脚本<strong>本地连接</strong>mariadb数据库 (后来想起来了，是因为远程死活连接不上，docker 的数据库和本地不是共用一个IP，远程连接docker 公网ip也不行，前几天整了一个方案可以让docker 和宿主机共享ip），然后将数据进行整合存入excel中， 接着，通过远程将这个excel表拉过来，将数据拆分进两个txt文本文件中，然后，将这两个txt文档通过远程放入ubuntu服务器中，紧接着插入硬盘，最后远程运行shell文件。</p>
 </li>
 </ol>
+<p>（ps:听着就很繁琐，而且跟之前想的大相径庭，现在做的话应该会简化一些，不确定）</p>
 <h4 id="五、遇到的卡点："><a href="#五、遇到的卡点：" class="headerlink" title="五、遇到的卡点："></a>五、遇到的卡点：</h4><ol>
-<li>安装dootask，只能在Linux中安装，还有安装docker,在windows 中安装linux 系统，在自己的电脑上安装还行，就是hyper-v 的安装和启动，docker-compose安装。折腾了1个星期</li>
-<li>然后在公司电脑上安装Linux老是报错，重新装了2次系统，最后实在是无奈，直接安装了ubuntu 系统，算是解决。折腾了半个月</li>
-<li>如何获取dootask 中mariadb 数据库的root名称和密码，并进行远程连接。基本上折腾了大半个月</li>
-<li>如何安装网卡的问题，Ubuntu系统连接不上无线网，通过网卡不行，需要从git上安装驱动（放弃了，直接上网线）</li>
+<li><p>安装dootask，只能在Linux中安装，还有安装docker、docker-compose,在windows 中安装linux 系统，在自己的电脑上安装还行，就是hyper-v 的安装和启动，docker-compose安装。部署了下阿里云服务器，折腾了1个星期</p>
+<pre class="line-numbers language-none"><code class="language-none">1. 必须安装：&#96;Docker v20.10+&#96; 和 &#96;Docker Compose v2.0+&#96;
+2. 支持环境：&#96;Centos&#x2F;Debian&#x2F;Ubuntu&#x2F;macOS&#96;
+3. 硬件建议：2核4G以上<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>然后在公司电脑上（windows)安装Linux老是报错，重新装了2次系统，最后实在是无奈，直接安装了ubuntu 系统，算是解决。折腾了1个星期</p>
+</li>
+<li><p>如何获取dootask 中mariadb 数据库的root名称和密码，并进行远程连接。基本上折腾了大半个月</p>
+</li>
+<li><p>如何安装网卡的问题，Ubuntu系统连接不上无线网，通过网卡不行，需要从git上安装驱动（放弃了，直接上网线）</p>
+</li>
 </ol>
 <h4 id="六、具体实现"><a href="#六、具体实现" class="headerlink" title="六、具体实现"></a>六、具体实现</h4><ol>
 <li>编写python 脚本</li>
@@ -491,7 +498,7 @@ disk_name<span aria-hidden="true" class="line-numbers-rows"><span></span><span><
                     <a class="tag-none-link" href="/tags/dootask/" rel="tag">dootask</a>, <a class="tag-none-link" href="/tags/mariadb/" rel="tag">mariadb</a>
                 </div>
                 <div class="pull-date">
-                    <time datetime="2023-10-07T06:33:04.154Z" itemprop="dateModified">最后编辑：2023-10-07</time>
+                    <time datetime="2023-10-17T03:05:43.929Z" itemprop="dateModified">最后编辑：2023-10-17</time>
                 </div>
             </div>
         </footer>
