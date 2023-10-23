@@ -3,6 +3,116 @@
   
     
     <entry>
+      <title><![CDATA[charles和Postern抓包]]></title>
+      <url>/2023/10/17/%E5%A4%A7%E9%BA%A6%E7%BD%91APP%E9%80%86%E5%90%91%E9%A1%B9%E7%9B%AE/charles%E5%92%8CPostern%E6%8A%93%E5%8C%85/</url>
+      <content type="html"><![CDATA[<h4 id="为什么要说使用Charles-Postern"><a href="#为什么要说使用Charles-Postern" class="headerlink" title="为什么要说使用Charles+Postern"></a>为什么要说使用Charles+Postern</h4><p>在实际抓手机App包场景中，有很多种方案，经典的就是Fiddler，但是Fiddler会有一个问题，如果App设置了不走代理这个选项，那Fiddler就不行了。</p>
+<p>为什么Charles+Postern可以呢?</p>
+<p>是因为Charles就没有直接监听到App，Charles是监听到了Postern上，Postern就是一个vpn，所以App设置不走代理也没用，Postern照样能监听到，然后Postern再转发到Charles上，这样就完成了抓包。</p>
+<p>但是双向验证除外，双向验证Charles需要添加证书，后面再说。</p>
+<p>当然，还有更好的方案，r0capture hook抓包了解一下?</p>
+<h4 id="我的环境"><a href="#我的环境" class="headerlink" title="我的环境"></a>我的环境</h4><ul>
+<li>pixel 2 Android 8版本(已root)</li>
+<li>Magisk 23.0版本</li>
+<li>Xposed 3.1.5版本</li>
+<li>Charles配置</li>
+<li>Charles环境要求</li>
+<li>JDK</li>
+<li>启用超级管理员</li>
+<li>关闭防火墙</li>
+</ul>
+<h4 id="Charles下载地址"><a href="#Charles下载地址" class="headerlink" title="Charles下载地址:"></a>Charles下载地址:</h4><p><a href="https://www.charlesproxy.com/download/">https://www.charlesproxy.com/download/</a></p>
+<p><img src="/../../img/android/a0ed806ccff84dba4abd178850c05c2e.png" alt="img"> </p>
+<p>安装</p>
+<p>下一步-&gt;下一步即可。</p>
+<p>安装成功打开。</p>
+<p><img src="/da6658cc8db377ac9ad3d2e508948965.png" alt="img"> </p>
+<p>激活</p>
+<p>注册码生成地址:</p>
+<p><a href="https://www.zzzmode.com/mytools/charles/">https://www.zzzmode.com/mytools/charles/</a></p>
+<p><img src="/12a912c17548d9e01f6edb603f960be4.png" alt="img"> </p>
+<p>激活Charles。</p>
+<p>在Help-&gt;Registered输入key和生成的激活码即可。</p>
+<p><img src="/5cb5bf2530ca308b80b04a27bf2b1d5c.png" alt="img"> </p>
+<p>设置代理</p>
+<p>点击Porxy Settings。</p>
+<p>注意：此时我的Windows Proxy是去掉对勾的，表示不抓PC端。</p>
+<p><img src="/4808fc409ba538363f0c90831d279ef6.png" alt="img"> </p>
+<p>设置监听端口：</p>
+<p><img src="/abbd65d7f114ab1d4bc5d64266e15d33.png" alt="img"> </p>
+<p>配置SSL代理</p>
+<p>点击SSL Proxying Settings：</p>
+<p><img src="/af97d3ccb4be5d8338f373aa43690f49.png" alt="img"> </p>
+<p>添加代理,*.*即可：</p>
+<p><img src="/13bd50438c0906b3be20f8bb527b9dc6.png" alt="img"> </p>
+<p>到现在为止，Clarles就设置完毕。</p>
+<p>Postern<br>Postern简介</p>
+<p>Postern并不是抓包工具，它是一个代理工具。</p>
+<p>它可以将http请求转为socket，并且包转发到Charles上，这样就可以抓到更多的包。</p>
+<p><img src="/763c2600ec147af43dab98b25428234e.png" alt="img"> </p>
+<p>配置代理规则</p>
+<p><img src="/96ba890519a715a6614eb6baf9ab1fbf.png" alt="img"> </p>
+<p>添加代理服务器</p>
+<p><img src="/7ceb4c3d1b5763e598b97b4d9952ea92.png" alt="img"> </p>
+<p><img src="/ded69b1be1d62ef5d487b36a173d1ad4.png" alt="img"> </p>
+<p>留下一个选项就行，其它的删掉即可。</p>
+<p>配置规则</p>
+<p><img src="/fbe73ccae03c974a470b39bf04175a9e.png" alt="img"> </p>
+<p>添加规则</p>
+<p><img src="/959869962cb7a3c4b4705526d6efc40f.png" alt="img"> </p>
+<p>打开&#x2F;关闭Postern</p>
+<p><img src="/f504c136da61f085882ee8f7574f736a.png" alt="img"> </p>
+<p>如果Charles有提示出东西，一定要点击Allow。</p>
+<p><img src="/21ee657d690ac7d37564ae6a6508e8d4.png" alt="img"> </p>
+<p>然后就可以愉快的抓包了。</p>
+<p><img src="/9b5801f7daffd5708a699648b12913ee.png" alt="img"> </p>
+<p>但是此时只能抓http的包，要想抓hppts的包，还需要设置证书才行。</p>
+<p>配置证书<br>保存证书到指定位置</p>
+<p>点击Save Charles Root Certi…</p>
+<p><img src="/5f5fd116ac8b7e8572d410a36981cec6.png" alt="img"> </p>
+<p>选择一个路径保存。</p>
+<p><img src="/04eab4338d14468c5fe6361206648792.png" alt="img"> </p>
+<p>证书推送到手机上</p>
+<p>将保存的证书推送到手机上。</p>
+<p>adb push C:\Users\Ti\Downloads\1.pem &#x2F;sdcard&#x2F;1.pem</p>
+<p><img src="/7dc872689fa84a940af9346727f0c505.png" alt="img"> </p>
+<p>成功推送到手机上。</p>
+<p><img src="/7939f985ba3e3d53b28c7a0983243902.png" alt="img"> </p>
+<p>手机端安装证书</p>
+<p>点击从存储设备安装证书。</p>
+<p><img src="/483e1de446ab7c791ab7de1d18820b58.png" alt="img"> 	</p>
+<p>点击证书，安装。</p>
+<p><img src="/1cb16e44ca408c78fa016b96a88f0791.png" alt="img"> </p>
+<p>证书名字随便写。</p>
+<p>img </p>
+<p>安装好之后是可以在信任的凭据中看到的。</p>
+<p><img src="/2f8ffcbc656a559973baf43bfb9af69d.png" alt="img"> </p>
+<p>查看用户证书。</p>
+<p><img src="/ffdd07a3d066558733de6fca834b7778.png" alt="img"> </p>
+<p>证书存放目录</p>
+<p>系统证书路径 &#x2F;etc&#x2F;security&#x2F;cacerts<br>用户证书路径 &#x2F;data&#x2F;misc&#x2F;user&#x2F;0&#x2F;cacerts-added<br>虽然此时证书已经安装完成，但是可能对APP抓https还是失败的。</p>
+<p>因为Android7以后，只信任系统证书，所以还需要将用户证书移动成系统证书。</p>
+<p>移动证书</p>
+<p>这里使用Magisk的Move Certificates模块来安装证书。</p>
+<p>直接安装即可。（这个部分不太行，需要网上下载模块包进行安装，模块包回头上传到nas里的dootask 里）</p>
+<p><img src="/cbe3f526b6b3305994abfe446a5043fc.png" alt="img"> </p>
+<p>然后重启手机，你就会发现证书移动成功。</p>
+<p>现在，到现在就配置成功了，打开Postern，就可以开心的抓https啦!</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> charles </tag>
+            
+            <tag> Postern </tag>
+            
+            <tag> app抓包 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[搭建一个Hexo博客并用vercel部署]]></title>
       <url>/2023/10/09/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/</url>
       <content type="html"><![CDATA[<p>Hexo 是一款基于Node.js的静态博客生成器，具有简单易用、快速高效、丰富主题、插件支持等特点，适合用于个人博客、技术文档、个人网站等场景。而且基于 markdown 编写起来非常顺畅，个人非常喜欢这个博客。这次下定决心搭建一个 Hexo 博客来实现我日常分享的一个小博客网站。</p>
@@ -1795,7 +1905,85 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
 <p>再次执行<code>frida -U -l .\reverse\new_request.js 大麦</code>，输出结果如下图，此时已能根据笔者任意构建的请求data输出其他加密参数：</p>
 <p><img src="/./../../img/640-1695711110159-224.png" alt="图片"></p>
 <p>对于order.create的原理类似，此处不再赘述。</p>
-<p>![图片](data:image&#x2F;svg+xml,&lt;%3Fxml version&#x3D;’1.0’ encoding&#x3D;’UTF-8’%3F&gt;<svg width='1px' height='1px' viewBox='0 0 1 1' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><title></title><g stroke='none' stroke-width='1' fill='none' fill-rule='evenodd' fill-opacity='0'><g transform='translate(-249.000000, -126.000000)' fill='%23FFFFFF'><rect x='249' y='126' width='1' height='1'></rect></g></g></svg>)</p>
+<h2 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a>补充说明</h2><p>通过frida调用Apk中的Java类有时候会出现找不到类的情况，原因可能是classloader没有正确加载。可以在js代码前的最前面加上下面的代码，指定正确的classloader，即可解决该问题</p>
+<pre class="line-numbers language-none"><code class="language-none">Java.perform(function () &#123;
+    &#x2F;&#x2F;get real classloader
+    &#x2F;&#x2F;from http:&#x2F;&#x2F;www.lixiaopeng.top&#x2F;article&#x2F;63.html
+    var application &#x3D; Java.use(&quot;android.app.Application&quot;);
+    var classloader;
+    application.attach.overload(&#39;android.content.Context&#39;)
+        .implementation &#x3D; function (context) &#123;
+            var result &#x3D; this.attach(context); &#x2F;&#x2F; run attach as it is
+            classloader &#x3D; context.getClassLoader(); &#x2F;&#x2F; get real classloader
+            Java.classFactory.loader &#x3D; classloader;
+            return result;
+        &#125;
+&#125;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="frida-hook-的强大功能"><a href="#frida-hook-的强大功能" class="headerlink" title="frida hook 的强大功能"></a>frida hook 的强大功能</h2><p>通过frida操纵Java类的功能实在过于强大，安全人员可以执行以下操作：</p>
+<ol>
+<li><em>打印函数输入输出</em>。通过hook函数，以实现打印函数的输入输出结果。<br>操作代码可以在jadx右键菜单可以很方便的生成。</li>
+</ol>
+<p><img src="/Android%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91APK%E6%8A%A2%E7%A5%A8%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%AF%86%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90.assets/640.png" alt="图片"></p>
+<pre class="line-numbers language-none"><code class="language-none">let LocalInnerSignImpl &#x3D; Java.use(&quot;mtopsdk.security.LocalInnerSignImpl&quot;);
+LocalInnerSignImpl[&quot;$init&quot;].implementation &#x3D; function (str, str2) &#123;
+  console.log(&#96;LocalInnerSignImpl.$init is called: str&#x3D;$&#123;str&#125;, str2&#x3D;$&#123;str2&#125;&#96;);
+  this[&quot;$init&quot;](str, str2);
+&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol>
+<li><em>修改已有的类和函数</em>。</li>
+<li><em>定义新类和新函数</em>。</li>
+<li><em>主动生成类的实例或调用函数</em>。</li>
+<li><em>RPC调用</em>。通过RPC调用提供python编程接口。</li>
+</ol>
+<h1 id="0x07-通过rpc调用"><a href="#0x07-通过rpc调用" class="headerlink" title="0x07 通过rpc调用"></a>0x07 通过rpc调用</h1><p>前文提到frida的一个特性是可以通过rpc调用提供python编程接口。</p>
+<p>一个简单的示例：</p>
+<pre class="line-numbers language-none"><code class="language-none">import frida
+
+def on_message(message, data):
+    if message[&quot;type&quot;] &#x3D;&#x3D; &quot;send&quot;:
+        print(&quot;[*] &#123;0&#125;&quot;.format(message[&quot;payload&quot;]))
+    else:
+        print(message)
+
+# hook代码
+jscode &#x3D; &quot;&quot;&quot;
+rpc.exports &#x3D; &#123;
+    testrpc: function (a, b) &#123; return a + b; &#125;,
+&#125;;  &quot;&quot;&quot;
+
+def start_hook():
+# 开始hook
+    process &#x3D; frida.get_usb_device().attach(&quot;大麦&quot;)
+    script &#x3D; process.create_script(jscode)
+    script.on(&quot;message&quot;, on_message)
+    script.load()
+    return script
+
+script &#x3D; start_hook()
+# 调用hook代码
+print(script.exports.testrpc(1, 2))
+
+# &gt;&gt;&gt; 输出
+# 3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>frida使用rpc的方法也很简单，仅需使用rpc.exports，将对应的函数暴露出来，就能被python调用。</p>
+<p>完整的代码就是将上一章的代码封装为函数，并通过rpc对外提供接口，就可以了。为避免侵权，本文不贴出完整利用代码。</p>
+<p>代码封装完成后测了一下，平均一次调用的时间为0.024秒，完全可以达到抢票的要求。</p>
+<h1 id="0x08-踩坑经历花絮"><a href="#0x08-踩坑经历花絮" class="headerlink" title="0x08 踩坑经历花絮"></a>0x08 踩坑经历花絮</h1><h2 id="关于wiresharkhelper"><a href="#关于wiresharkhelper" class="headerlink" title="关于wiresharkhelper"></a>关于wiresharkhelper</h2><p>txthinking放出了一个抓包辅助工具wiresharkhelper，看视频介绍很诱人很方便，但是实测是要收费的。本人穷，所以就没用他的方法。然而也是因为这个才开始尝试用frida工具得到https的密钥，发现了frida这个神器。</p>
+<h2 id="关于Cookie"><a href="#关于Cookie" class="headerlink" title="关于Cookie"></a>关于Cookie</h2><p>细心的朋友可能发现发送的请求头里是包含cookie的，但是本文没有介绍。其实笔者本来是再继续找cookie的，但是发现把<code>InnerProtocolParamBuilderImpl.buildParams</code>函数的参数填进去之后，就已经能正常获取服务器的返回值了，所以就没继续搞cookie</p>
+<h2 id="关于MtopStatistics"><a href="#关于MtopStatistics" class="headerlink" title="关于MtopStatistics"></a>关于MtopStatistics</h2><p>MtopStatistics是mtopsdk里比较重要的一个类，用来跟踪用户的操作记录状态，可能有助于判断用户是否是机器人。但笔者尝试自己构建MtopStatistics失败，所以直接生成了一个空的MtopStatistics类，好在也没对服务器的正常返回造成影响。</p>
+<h2 id="如何获取票价信息"><a href="#如何获取票价信息" class="headerlink" title="如何获取票价信息"></a>如何获取票价信息</h2><p>这里笔者是直接用的某麦网Web端PC版，网页中有一段json，包含静态的描述信息和动态的场次、余票信息。</p>
+<h2 id="如何脱离模拟器运行"><a href="#如何脱离模拟器运行" class="headerlink" title="如何脱离模拟器运行"></a>如何脱离模拟器运行</h2><p>目前是需要模拟器一直运行着的，而且仅能用一个人的账户。这对于个人使用是完全够用的。如何能脱离模拟器，而且增加并发用户数量还需要继续研究。目前时间不允许，暂时不再继续此问题的研究。</p>
+<h2 id="还是抢不到票"><a href="#还是抢不到票" class="headerlink" title="还是抢不到票"></a>还是抢不到票</h2><p>虽然流程全都搞定，而且对于非热门场次抢票完全没有问题。但对于热门场次，官方可能还是增加了或明或暗的检测机制。比如有些是淘票票限定渠道，在对特权用户开放抢票一段时间后才会对其他人，但开放状态仅从网页端无法判断，导致脚本会提前开抢，被系统提前拦截。或者有的场次明明第一时间开抢，却还是一直提示请求失败。这个还需要进一步踩坑理解某麦网的机制。</p>
+<h2 id="BP链接"><a href="#BP链接" class="headerlink" title="BP链接"></a>BP链接</h2><p>这篇公众号文章( <a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4MDEzMTg0OQ==&amp;action=getalbum&amp;album_id=2885498232984993792#wechat_redirect">https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4MDEzMTg0OQ==&amp;action=getalbum&amp;album_id=2885498232984993792#wechat_redirect</a> ) 介绍了某麦网的bp链接及使用方式，可以跳过票档选择直接进入订单确认页面。后续可以尝试用于自动抢票。</p>
+<p>如：</p>
+<pre class="line-numbers language-none"><code class="language-none">-毛不易 -  5月27日 上海站1、五层480 x 1张https:&#x2F;&#x2F;m.damai.cn&#x2F;app&#x2F;dmfe&#x2F;h5-ultron-buy&#x2F;index.html?buyParam&#x3D;718707599799_1_5008768308765&amp;buyNow&#x3D;true&amp;exParams&#x3D;%257B%2522channel%2522%253A%2522damai_app%2522%252C%2522damai%2522%253A%25221%2522%252C%2522umpChannel%2522%253A%2522100031004%2522%252C%2522subChannel%2522%253A%2522damai%2540damaih5_h5%2522%252C%2522atomSplit%2522%253A1%257D&amp;spm&#x3D;a2o71.project.sku.dbuy&amp;sqm&#x3D;dianying.h5.unknown.value
+2、五层480 x 2张https:&#x2F;&#x2F;m.damai.cn&#x2F;app&#x2F;dmfe&#x2F;h5-ultron-buy&#x2F;index.html?buyParam&#x3D;718707599799_2_5008768308765&amp;buyNow&#x3D;true&amp;exParams&#x3D;%257B%2522channel%2522%253A%2522damai_app%2522%252C%2522damai%2522%253A%25221%2522%252C%2522umpChannel%2522%253A%2522100031004%2522%252C%2522subChannel%2522%253A%2522damai%2540damaih5_h5%2522%252C%2522atomSplit%2522%253A1%257D&amp;spm&#x3D;a2o71.project.sku.dbuy&amp;sqm&#x3D;dianying.h5.unknown.value<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h1 id="0x09-总结"><a href="#0x09-总结" class="headerlink" title="0x09 总结"></a>0x09 总结</h1><p>本文完整的记录了笔者对于Apk与服务器交互API的解析过程，包括环境搭建、抓包、trace分析、hook、rpc调用。本文对于淘系Apk的分析可以提供较多参考。本文算是笔者第一次深入且成功的用动态+静态分析结合的方式，借助神器frida+jadx，成功破解Apk，因此本文的记录也较为细致的记录了作者的思考过程，可以给新手提供参考。</p>
+<p>本文也有一些不足之处，如无法脱离模拟器运行、仅能单用户、抢票成功率仍不高等。对于这些问题，如果未来作者有时间，会再回来填坑。</p>
 <p>原文链接：<a href="https://github.com/m2kar/m2kar.github.io/issues/21">https://github.com/m2kar/m2kar.github.io/issues/21</a></p>
 ]]></content>
       

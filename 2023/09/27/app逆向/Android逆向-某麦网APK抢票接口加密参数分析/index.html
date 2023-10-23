@@ -54,8 +54,9 @@
 <meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695711068918-218.png">
 <meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695711086636-221.png">
 <meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/img/640-1695711110159-224.png">
+<meta property="og:image" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/Android%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91APK%E6%8A%A2%E7%A5%A8%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%AF%86%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90.assets/640.png">
 <meta property="article:published_time" content="2023-09-27T00:33:49.000Z">
-<meta property="article:modified_time" content="2023-10-07T08:01:00.716Z">
+<meta property="article:modified_time" content="2023-10-18T01:03:44.702Z">
 <meta property="article:author" content="John DD">
 <meta property="article:tag" content="逆向">
 <meta property="article:tag" content="APP逆向">
@@ -200,7 +201,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~19.75K
+                            ~24.05K
                         
                         字
                     </li>
@@ -212,7 +213,7 @@
             
             <div id="expire-alert" class="alert alert-warning hidden" role="alert">
                 <div class="icon"><i class="fa fa-warning"></i></div>
-                <div class="text"><p>本文最后编辑于 <time datetime="1696665660716"></time> 前，其中的内容可能需要更新。</p></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1697591024702"></time> 前，其中的内容可能需要更新。</p></div>
             </div>
             
             
@@ -594,7 +595,85 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
 <p>再次执行<code>frida -U -l .\reverse\new_request.js 大麦</code>，输出结果如下图，此时已能根据笔者任意构建的请求data输出其他加密参数：</p>
 <p><img src="/./../../img/640-1695711110159-224.png" alt="图片"></p>
 <p>对于order.create的原理类似，此处不再赘述。</p>
-<p>![图片](data:image&#x2F;svg+xml,&lt;%3Fxml version&#x3D;’1.0’ encoding&#x3D;’UTF-8’%3F&gt;<svg width='1px' height='1px' viewBox='0 0 1 1' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><title></title><g stroke='none' stroke-width='1' fill='none' fill-rule='evenodd' fill-opacity='0'><g transform='translate(-249.000000, -126.000000)' fill='%23FFFFFF'><rect x='249' y='126' width='1' height='1'></rect></g></g></svg>)</p>
+<h2 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a>补充说明</h2><p>通过frida调用Apk中的Java类有时候会出现找不到类的情况，原因可能是classloader没有正确加载。可以在js代码前的最前面加上下面的代码，指定正确的classloader，即可解决该问题</p>
+<pre class="line-numbers language-none"><code class="language-none">Java.perform(function () &#123;
+    &#x2F;&#x2F;get real classloader
+    &#x2F;&#x2F;from http:&#x2F;&#x2F;www.lixiaopeng.top&#x2F;article&#x2F;63.html
+    var application &#x3D; Java.use(&quot;android.app.Application&quot;);
+    var classloader;
+    application.attach.overload(&#39;android.content.Context&#39;)
+        .implementation &#x3D; function (context) &#123;
+            var result &#x3D; this.attach(context); &#x2F;&#x2F; run attach as it is
+            classloader &#x3D; context.getClassLoader(); &#x2F;&#x2F; get real classloader
+            Java.classFactory.loader &#x3D; classloader;
+            return result;
+        &#125;
+&#125;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="frida-hook-的强大功能"><a href="#frida-hook-的强大功能" class="headerlink" title="frida hook 的强大功能"></a>frida hook 的强大功能</h2><p>通过frida操纵Java类的功能实在过于强大，安全人员可以执行以下操作：</p>
+<ol>
+<li><em>打印函数输入输出</em>。通过hook函数，以实现打印函数的输入输出结果。<br>操作代码可以在jadx右键菜单可以很方便的生成。</li>
+</ol>
+<p><img src="/Android%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91APK%E6%8A%A2%E7%A5%A8%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%AF%86%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90.assets/640.png" alt="图片"></p>
+<pre class="line-numbers language-none"><code class="language-none">let LocalInnerSignImpl &#x3D; Java.use(&quot;mtopsdk.security.LocalInnerSignImpl&quot;);
+LocalInnerSignImpl[&quot;$init&quot;].implementation &#x3D; function (str, str2) &#123;
+  console.log(&#96;LocalInnerSignImpl.$init is called: str&#x3D;$&#123;str&#125;, str2&#x3D;$&#123;str2&#125;&#96;);
+  this[&quot;$init&quot;](str, str2);
+&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol>
+<li><em>修改已有的类和函数</em>。</li>
+<li><em>定义新类和新函数</em>。</li>
+<li><em>主动生成类的实例或调用函数</em>。</li>
+<li><em>RPC调用</em>。通过RPC调用提供python编程接口。</li>
+</ol>
+<h1 id="0x07-通过rpc调用"><a href="#0x07-通过rpc调用" class="headerlink" title="0x07 通过rpc调用"></a>0x07 通过rpc调用</h1><p>前文提到frida的一个特性是可以通过rpc调用提供python编程接口。</p>
+<p>一个简单的示例：</p>
+<pre class="line-numbers language-none"><code class="language-none">import frida
+
+def on_message(message, data):
+    if message[&quot;type&quot;] &#x3D;&#x3D; &quot;send&quot;:
+        print(&quot;[*] &#123;0&#125;&quot;.format(message[&quot;payload&quot;]))
+    else:
+        print(message)
+
+# hook代码
+jscode &#x3D; &quot;&quot;&quot;
+rpc.exports &#x3D; &#123;
+    testrpc: function (a, b) &#123; return a + b; &#125;,
+&#125;;  &quot;&quot;&quot;
+
+def start_hook():
+# 开始hook
+    process &#x3D; frida.get_usb_device().attach(&quot;大麦&quot;)
+    script &#x3D; process.create_script(jscode)
+    script.on(&quot;message&quot;, on_message)
+    script.load()
+    return script
+
+script &#x3D; start_hook()
+# 调用hook代码
+print(script.exports.testrpc(1, 2))
+
+# &gt;&gt;&gt; 输出
+# 3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>frida使用rpc的方法也很简单，仅需使用rpc.exports，将对应的函数暴露出来，就能被python调用。</p>
+<p>完整的代码就是将上一章的代码封装为函数，并通过rpc对外提供接口，就可以了。为避免侵权，本文不贴出完整利用代码。</p>
+<p>代码封装完成后测了一下，平均一次调用的时间为0.024秒，完全可以达到抢票的要求。</p>
+<h1 id="0x08-踩坑经历花絮"><a href="#0x08-踩坑经历花絮" class="headerlink" title="0x08 踩坑经历花絮"></a>0x08 踩坑经历花絮</h1><h2 id="关于wiresharkhelper"><a href="#关于wiresharkhelper" class="headerlink" title="关于wiresharkhelper"></a>关于wiresharkhelper</h2><p>txthinking放出了一个抓包辅助工具wiresharkhelper，看视频介绍很诱人很方便，但是实测是要收费的。本人穷，所以就没用他的方法。然而也是因为这个才开始尝试用frida工具得到https的密钥，发现了frida这个神器。</p>
+<h2 id="关于Cookie"><a href="#关于Cookie" class="headerlink" title="关于Cookie"></a>关于Cookie</h2><p>细心的朋友可能发现发送的请求头里是包含cookie的，但是本文没有介绍。其实笔者本来是再继续找cookie的，但是发现把<code>InnerProtocolParamBuilderImpl.buildParams</code>函数的参数填进去之后，就已经能正常获取服务器的返回值了，所以就没继续搞cookie</p>
+<h2 id="关于MtopStatistics"><a href="#关于MtopStatistics" class="headerlink" title="关于MtopStatistics"></a>关于MtopStatistics</h2><p>MtopStatistics是mtopsdk里比较重要的一个类，用来跟踪用户的操作记录状态，可能有助于判断用户是否是机器人。但笔者尝试自己构建MtopStatistics失败，所以直接生成了一个空的MtopStatistics类，好在也没对服务器的正常返回造成影响。</p>
+<h2 id="如何获取票价信息"><a href="#如何获取票价信息" class="headerlink" title="如何获取票价信息"></a>如何获取票价信息</h2><p>这里笔者是直接用的某麦网Web端PC版，网页中有一段json，包含静态的描述信息和动态的场次、余票信息。</p>
+<h2 id="如何脱离模拟器运行"><a href="#如何脱离模拟器运行" class="headerlink" title="如何脱离模拟器运行"></a>如何脱离模拟器运行</h2><p>目前是需要模拟器一直运行着的，而且仅能用一个人的账户。这对于个人使用是完全够用的。如何能脱离模拟器，而且增加并发用户数量还需要继续研究。目前时间不允许，暂时不再继续此问题的研究。</p>
+<h2 id="还是抢不到票"><a href="#还是抢不到票" class="headerlink" title="还是抢不到票"></a>还是抢不到票</h2><p>虽然流程全都搞定，而且对于非热门场次抢票完全没有问题。但对于热门场次，官方可能还是增加了或明或暗的检测机制。比如有些是淘票票限定渠道，在对特权用户开放抢票一段时间后才会对其他人，但开放状态仅从网页端无法判断，导致脚本会提前开抢，被系统提前拦截。或者有的场次明明第一时间开抢，却还是一直提示请求失败。这个还需要进一步踩坑理解某麦网的机制。</p>
+<h2 id="BP链接"><a href="#BP链接" class="headerlink" title="BP链接"></a>BP链接</h2><p>这篇公众号文章( <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4MDEzMTg0OQ==&amp;action=getalbum&amp;album_id=2885498232984993792#wechat_redirect">https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4MDEzMTg0OQ==&amp;action=getalbum&amp;album_id=2885498232984993792#wechat_redirect</a> ) 介绍了某麦网的bp链接及使用方式，可以跳过票档选择直接进入订单确认页面。后续可以尝试用于自动抢票。</p>
+<p>如：</p>
+<pre class="line-numbers language-none"><code class="language-none">-毛不易 -  5月27日 上海站1、五层480 x 1张https:&#x2F;&#x2F;m.damai.cn&#x2F;app&#x2F;dmfe&#x2F;h5-ultron-buy&#x2F;index.html?buyParam&#x3D;718707599799_1_5008768308765&amp;buyNow&#x3D;true&amp;exParams&#x3D;%257B%2522channel%2522%253A%2522damai_app%2522%252C%2522damai%2522%253A%25221%2522%252C%2522umpChannel%2522%253A%2522100031004%2522%252C%2522subChannel%2522%253A%2522damai%2540damaih5_h5%2522%252C%2522atomSplit%2522%253A1%257D&amp;spm&#x3D;a2o71.project.sku.dbuy&amp;sqm&#x3D;dianying.h5.unknown.value
+2、五层480 x 2张https:&#x2F;&#x2F;m.damai.cn&#x2F;app&#x2F;dmfe&#x2F;h5-ultron-buy&#x2F;index.html?buyParam&#x3D;718707599799_2_5008768308765&amp;buyNow&#x3D;true&amp;exParams&#x3D;%257B%2522channel%2522%253A%2522damai_app%2522%252C%2522damai%2522%253A%25221%2522%252C%2522umpChannel%2522%253A%2522100031004%2522%252C%2522subChannel%2522%253A%2522damai%2540damaih5_h5%2522%252C%2522atomSplit%2522%253A1%257D&amp;spm&#x3D;a2o71.project.sku.dbuy&amp;sqm&#x3D;dianying.h5.unknown.value<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h1 id="0x09-总结"><a href="#0x09-总结" class="headerlink" title="0x09 总结"></a>0x09 总结</h1><p>本文完整的记录了笔者对于Apk与服务器交互API的解析过程，包括环境搭建、抓包、trace分析、hook、rpc调用。本文对于淘系Apk的分析可以提供较多参考。本文算是笔者第一次深入且成功的用动态+静态分析结合的方式，借助神器frida+jadx，成功破解Apk，因此本文的记录也较为细致的记录了作者的思考过程，可以给新手提供参考。</p>
+<p>本文也有一些不足之处，如无法脱离模拟器运行、仅能单用户、抢票成功率仍不高等。对于这些问题，如果未来作者有时间，会再回来填坑。</p>
 <p>原文链接：<a target="_blank" rel="noopener" href="https://github.com/m2kar/m2kar.github.io/issues/21">https://github.com/m2kar/m2kar.github.io/issues/21</a></p>
 </div>
         </div>
@@ -685,7 +764,7 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
                     <a class="tag-none-link" href="/tags/APP%E9%80%86%E5%90%91/" rel="tag">APP逆向</a>, <a class="tag-none-link" href="/tags/android%E9%80%86%E5%90%91/" rel="tag">android逆向</a>, <a class="tag-none-link" href="/tags/%E5%A4%A7%E9%BA%A6%E7%BD%91%E6%8A%A2%E7%A5%A8/" rel="tag">大麦网抢票</a>, <a class="tag-none-link" href="/tags/%E9%80%86%E5%90%91/" rel="tag">逆向</a>
                 </div>
                 <div class="pull-date">
-                    <time datetime="2023-10-07T08:01:00.716Z" itemprop="dateModified">最后编辑：2023-10-07</time>
+                    <time datetime="2023-10-18T01:03:44.702Z" itemprop="dateModified">最后编辑：2023-10-18</time>
                 </div>
             </div>
         </footer>
@@ -736,7 +815,7 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
                 文章
             </span>
             <span class="count">
-                78
+                79
             </span>
         </a>
         <a class="meta-item" href="/categories/">
@@ -752,7 +831,7 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
                 标签
             </span>
             <span class="count">
-                41
+                44
             </span>
         </a>
     </div>
@@ -772,7 +851,7 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
   <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
     <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
       <div class="tag-clouds">
-        <a href="/tags/APP%E9%80%86%E5%90%91/" style="font-size: 0.73em;">APP逆向</a> <a href="/tags/ChatGPT/" style="font-size: 0.63em;">ChatGPT</a> <a href="/tags/access/" style="font-size: 0.77em;">access</a> <a href="/tags/android%E9%80%86%E5%90%91/" style="font-size: 0.7em;">android逆向</a> <a href="/tags/chrom/" style="font-size: 0.6em;">chrom</a> <a href="/tags/dootask/" style="font-size: 0.6em;">dootask</a> <a href="/tags/excel/" style="font-size: 0.8em;">excel</a> <a href="/tags/excel-access-vba/" style="font-size: 0.6em;">excel - access - vba</a> <a href="/tags/github/" style="font-size: 0.63em;">github</a> <a href="/tags/hexo/" style="font-size: 0.6em;">hexo</a> <a href="/tags/ideas/" style="font-size: 0.63em;">ideas</a> <a href="/tags/mariadb/" style="font-size: 0.6em;">mariadb</a> <a href="/tags/markdown/" style="font-size: 0.6em;">markdown</a> <a href="/tags/pandas/" style="font-size: 0.6em;">pandas</a> <a href="/tags/vba/" style="font-size: 0.8em;">vba</a> <a href="/tags/vercel/" style="font-size: 0.6em;">vercel</a> <a href="/tags/vervel/" style="font-size: 0.6em;">vervel</a> <a href="/tags/%E5%88%97%E8%A1%A8%E6%A1%86/" style="font-size: 0.67em;">列表框</a>
+        <a href="/tags/APP%E9%80%86%E5%90%91/" style="font-size: 0.72em;">APP逆向</a> <a href="/tags/ChatGPT/" style="font-size: 0.64em;">ChatGPT</a> <a href="/tags/Postern/" style="font-size: 0.6em;">Postern</a> <a href="/tags/access/" style="font-size: 0.76em;">access</a> <a href="/tags/android%E9%80%86%E5%90%91/" style="font-size: 0.68em;">android逆向</a> <a href="/tags/app%E6%8A%93%E5%8C%85/" style="font-size: 0.6em;">app抓包</a> <a href="/tags/charles/" style="font-size: 0.6em;">charles</a> <a href="/tags/chrom/" style="font-size: 0.6em;">chrom</a> <a href="/tags/dootask/" style="font-size: 0.6em;">dootask</a> <a href="/tags/excel/" style="font-size: 0.8em;">excel</a> <a href="/tags/excel-access-vba/" style="font-size: 0.6em;">excel - access - vba</a> <a href="/tags/github/" style="font-size: 0.64em;">github</a> <a href="/tags/hexo/" style="font-size: 0.6em;">hexo</a> <a href="/tags/ideas/" style="font-size: 0.64em;">ideas</a> <a href="/tags/mariadb/" style="font-size: 0.6em;">mariadb</a> <a href="/tags/markdown/" style="font-size: 0.6em;">markdown</a> <a href="/tags/pandas/" style="font-size: 0.6em;">pandas</a> <a href="/tags/vba/" style="font-size: 0.8em;">vba</a>
       </div>
   </aside>
 
@@ -783,6 +862,12 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
   <div class="tab-content">
       <ul class="list-group">
         
+        
+          
+          
+            <a class="list-group-item" href="/2023/10/17/%E5%A4%A7%E9%BA%A6%E7%BD%91APP%E9%80%86%E5%90%91%E9%A1%B9%E7%9B%AE/charles%E5%92%8CPostern%E6%8A%93%E5%8C%85/"><i class="fa  fa-book"></i> charles和Postern抓包</a>
+            
+          
         
           
           
@@ -809,11 +894,7 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
           
         
           
-          
-            <a class="list-group-item" href="/2023/10/07/app%E9%80%86%E5%90%91/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91-Frida-Hook%EF%BC%88%E6%8A%93%E5%8C%85%E5%AE%9E%E8%B7%B5%EF%BC%89/"><i class="fa  fa-book"></i> 安卓逆向 - Frida Hook（抓包实践）</a>
             
-          
-        
           
             
           
