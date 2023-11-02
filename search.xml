@@ -5,8 +5,99 @@
     <entry>
       <title><![CDATA[ipv6内网穿透]]></title>
       <url>/2023/11/02/ipv6%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</url>
-      <content type="html"></content>
+      <content type="html"><![CDATA[<h2 id="基于ipv6实现几乎零成本的内网穿透方案，小白的踩坑历程与经验分享"><a href="#基于ipv6实现几乎零成本的内网穿透方案，小白的踩坑历程与经验分享" class="headerlink" title="基于ipv6实现几乎零成本的内网穿透方案，小白的踩坑历程与经验分享"></a><strong>基于ipv6实现几乎零成本的内网穿透方案，小白的踩坑历程与经验分享</strong></h2><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>最近想远程访问家里nas的想法老在脑海中浮现，原因大概是本人二开了一个管理系统，并在上面跑了些定时任务做自动化，就有了远程访问系统的需求。同时又想到，如果真能实现内网穿透，那么家里的nas真实的成为一个服务器，且配置不低，带宽也凑活，最重要的是与云服务器相比，可以省下一大笔钱。</p>
+<p>那说干就干，接着就分析下内网穿透的几个思路：</p>
+<ul>
+<li><code>frp</code>形式的，首先需要一台具有公网ip的服务器，并在服务器上跑内网穿透的服务端，自家nas上跑客户端；或者可以购买内网穿透的服务，但可能有安全隐患。我寻思这种方式都需要有公网服务器了，总之就是<strong>费钱</strong>，那本人省钱的想法就泡汤了，故只能pass。</li>
+<li>宽带的<code>公网ip加上ddns</code>，<code>ipv4</code>地址现在是不指望了，就算是电信宽带也很难申请到，而且今天我登录光猫上看了<code>wan</code>口的ip地址，是100打头的，好家伙果然是内网地址。但俺发现<code>ipv6</code>地址目前已基本普及，所以打算试试<code>ipv6与ddns</code>结合来进行内网穿透</li>
+</ul>
+<h2 id="可行性分析"><a href="#可行性分析" class="headerlink" title="可行性分析"></a><strong>可行性分析</strong></h2><p>如果我们要访问的是<code>ipv6</code>的地址，前提是目前的网络必须是支持<code>ipv6</code>的，所以这个可行性俺一定要先测清楚，要保证手机和家里的宽带都得支持。</p>
+<p>我简单测试了下，无论是联通还是电信的手机都已经默认支持<code>ipv6</code>了，然后家里的路由器在开启<code>ipv6</code>后也支持了。</p>
+<p><img src="/../img/img/v2-2759985be0bca267f0787b00621d1230_720w.webp" alt="img"></p>
+<p><img src="/../img/img/v2-80c4080f0dcfde2cbeba03e326b43dde_720w.webp" alt="img"></p>
+<p>可以通过以下两个地址测试：</p>
+<ul>
+<li><a href="https://link.zhihu.com/?target=https://test-ipv6.com/">https://test-ipv6.com/</a></li>
+<li><a href="https://link.zhihu.com/?target=https://ipv6.ddnspod.com/">https://ipv6.ddnspod.com/</a></li>
+</ul>
+<p>其中第二个如果是<code>ipv6</code>地址访问会返回你的<code>ipv6</code>地址</p>
+<h2 id="光猫改桥接，通过路由拨号"><a href="#光猫改桥接，通过路由拨号" class="headerlink" title="光猫改桥接，通过路由拨号"></a><strong>光猫改桥接，通过路由拨号</strong></h2><p>现在的宽带默认是通过光猫进行拨号的，这就有几个问题，首先是光猫的性能较差，通过光猫拨号可能会影响速度，但最重要的还是光猫会设置防火墙，可能莫名奇妙的拦截了<code>ipv6</code>的进站请求，奇奇怪怪的，所以首先一定要把光猫改桥接，拨号交给路由器。</p>
+<h3 id="1修改光猫：开启桥接和-IPv6-设置"><a href="#1修改光猫：开启桥接和-IPv6-设置" class="headerlink" title="1修改光猫：开启桥接和 IPv6 设置"></a><strong>1修改光猫：开启桥接和 IPv6 设置</strong></h3><p>不同运营商的配置方式不同，以下是俺的光猫</p>
+<p><img src="/../img/img/v2-4767b949b87fb5d6e248d89665f8d053_720w.webp" alt="img"></p>
+<p><img src="/../img/img/v2-0432f1a10171e2a0e34d6ab8076af87d_720w.webp" alt="img"></p>
+<p>进入光猫的后台管理系统，使用超级管理员用户登录：</p>
+<blockquote>
+<p>4大运营商<a href="https://link.zhihu.com/?target=https://so.csdn.net/so/search?q=%25E5%2585%2589%25E7%258C%25AB&spm=1001.2101.3001.7020">光猫</a>默认初始超级密码：<br>1、电信超级密码 telecomadmin nE7jA%5m<br>2、移动超级密码 CMCCAdmin aDm8H%MdA<br>3、联通超级密码 CUAdmin CUAdmin<br>4、广电超级密码 admin aDm8H%MdA</p>
+</blockquote>
+<p><strong>连接名称</strong> 选择 <code>3_INTERNET_R_VID_41</code>，<strong>连接模式</strong> 选择 <code>桥接</code>，<strong>IP模式</strong>为 <code>IPv4&amp;IPv6</code>。点击 <code>保存/应用</code>，大约等待 10s 会生效。</p>
+<p><img src="/../img/img/v2-a997a916ce4720a7b53f28e0fa365d15_720w.webp" alt="img"></p>
+<p>在状态菜单中，可以看到 <code>IPv4</code> 和 <code>IPv6</code> 已经开启成功。</p>
+<p><img src="/../img/img/v2-9e7446d0dcb18f4c35dfec8f0e9f1a80_720w.webp" alt="img"></p>
+<h3 id="2设置路由器PPPoE拨号和开启-IPv6设置"><a href="#2设置路由器PPPoE拨号和开启-IPv6设置" class="headerlink" title="2设置路由器PPPoE拨号和开启 IPv6设置"></a><strong>2设置路由器PPPoE拨号和开启 IPv6设置</strong></h3><p>这是本人的路由器，办理电信宽带的时候送的，相当丑..</p>
+<p><img src="/../img/img/v2-2c28d071694fc4fba413426823e4d850_720w.webp" alt="img"></p>
+<p>查看路由器背后的管理地址，登录路由器的后台</p>
+<p>默认用户名和密码都是<code>admin</code></p>
+<p><img src="/../img/img/v2-904f4e8c80a96d45387abdccc9076e91_720w.webp" alt="img"></p>
+<p>进入网络配置菜单，上网方式选择拨号上网（PPPoE），输入宽带的账号和密码，一定要勾选<code>IPV6</code>，获取方式选择自动就行了，拨号生效需要几分钟。</p>
+<p><img src="/../img/img/v2-c209c4ce3a61a40bc5b181313a830dd9_720w.webp" alt="img"></p>
+<p>拨号成功后查看状态信息，可以看到<code>ipv4和ipv6</code>地址都有了，其中<code>GUA</code>指的其实就是<code>ipv6</code>地址</p>
+<p><img src="/../img/img/v2-bed7be42d99591233dd60813a4a251f5_720w.webp" alt="img"></p>
+<p>至此，光猫改桥接，路由拨号完成。</p>
+<h2 id="ipv6地址测试"><a href="#ipv6地址测试" class="headerlink" title="ipv6地址测试"></a><strong>ipv6地址测试</strong></h2><p>首先我们拿着路由器上的<code>ipv6</code>地址先试试到底是不是公网的，毕竟电信太坑了保不齐又是内网…</p>
+<p>嗯，没问题！！</p>
+<p><img src="/../img/img/v2-279ad1ce7b13e41d376174fa0ab9a57e_720w.webp" alt="img"></p>
+<p>我们再通过命令行ping下看通不通</p>
+<p>可以看到也是没有问题的</p>
+<p><strong>有问题的小伙伴请记得将路由器的防火墙关闭！！！</strong></p>
+<p><img src="/../img/img/v2-5c10f5b7cb9061d2b81fda34b85bf7ce_720w.webp" alt="img"></p>
+<p>那么我们再试试通过<code>ipv6</code>地址直接访问路由器的管理台是否可行呢？果然，成功了！！！这也太惊喜了！！</p>
+<p><img src="/../img/img/v2-4eed1ad6bef30c9740a09e7ab2829eaf_720w.webp" alt="img"></p>
+<p>路由器没问题了就试试我的nas吧！！嘿嘿！</p>
+<p>本人使用的是<code>unas</code>，，这个特别坑的nas系统..</p>
+<p>可以看到也正确获取了<code>ipv6</code>的地址</p>
+<p><img src="/../img/img/v2-13c24d7c4160be16e10e3e9d23570ec1_720w.webp" alt="img"></p>
+<p>因为<code>ipv6</code>的地址是公网的，所以不能写成静态ip，推荐使用自动的。</p>
+<p>那么这个地址的公网的吗，答案是的！</p>
+<p>那么通过这个<code>ipv6</code>地址进行访问可行么？<strong>可行！太惊喜了！</strong></p>
+<p><img src="/../img/img/v2-0f9ffbca5c34a4f16fef90f640656f52_720w.webp" alt="img"></p>
+<p>接下来就只剩下一个<code>ipv6</code>地址是动态的这个问题了，但是有解决方案，通过<code>ddns</code>的方式动态解析域名地址就行了。</p>
+<h2 id="ddns方案"><a href="#ddns方案" class="headerlink" title="ddns方案"></a><strong>ddns方案</strong></h2><p>提供<code>ddns</code>方案的厂家有很多，比如阿里云，腾讯云，dnsPod等，但俺认为最靠谱的还是<code>cloudflare</code>这个老牌的厂商。</p>
+<p><code>ddns</code>的原理简单理解就是，通过给一个域名添加<code>AAAA</code>记录解析到一个<code>ipv6</code>地址。同时在自家的<code>nas</code>上运行定时检测<code>ip</code>变化的任务，如果域名发生变化就发送<code>api</code>请求，将域名解析到最新的<code>ipv6</code>地址。</p>
+<h3 id="获取一个域名"><a href="#获取一个域名" class="headerlink" title="获取一个域名"></a><strong>获取一个域名</strong></h3><p>购买域名的方式就不赘述了，网上太多文章有介绍，俺在很早前买了一个10年期限的数字域名，不到100，至今还没过期，嘿嘿，相当于免费了，以前不知道有啥用，没想到现在排上用场了</p>
+<p><img src="/../img/img/v2-905daf1c1967c7acd45530eda7344cab_720w.webp" alt="img"></p>
+<h3 id="cloudflare添加dns解析记录"><a href="#cloudflare添加dns解析记录" class="headerlink" title="cloudflare添加dns解析记录"></a><strong>cloudflare添加dns解析记录</strong></h3><p>在<code>cloudflare</code>添加<code>dns</code>解析，记住不能选择<code>代理</code></p>
+<p><img src="/../img/img/v2-dc5c25ee69193544435c1522d226a193_720w.webp" alt="img"></p>
+<p>解析需要一定时间生效，等几分钟就可以试试使用域名访问了</p>
+<h3 id="ddns-go"><a href="#ddns-go" class="headerlink" title="ddns-go"></a><strong>ddns-go</strong></h3><p>定时更新最新ip这种程序必然是有大佬造过轮子了，目前最火的应该是<code>ddns-go</code>,我们对大佬致以最真诚的敬意！！并随了个赞！！</p>
+<p><img src="/../img/img/v2-dde9aea14ac8f8a4ee2a99908ac4be83_720w.webp" alt="img"></p>
+<p>因为<code>nas</code>基本都支持docker了，所有俺通过docker方式安装，安装过程是傻瓜式的，ddns-go的说明也很清楚了。</p>
+<p>安装好后就是这个界面，我们选择<code>cloudflare</code></p>
+<p><img src="/../img/img/v2-b65b38a34b0cb85da77c54528e1cda04_720w.webp" alt="img"></p>
+<p>token通过在<code>cloudflare</code>中创建令牌获取</p>
+<p><img src="/../img/img/v2-bb36ad806968011e1769072660a5e356_720w.webp" alt="img"></p>
+<h3 id="查看效果"><a href="#查看效果" class="headerlink" title="查看效果"></a><strong>查看效果</strong></h3><p>好了所有工作都完毕了，我们可以愉快的在外网通过域名访问我们在内网中的服务了</p>
+<p><img src="/../img/img/v2-0eee3bc065cc402c238ea3674bd18746_720w.webp" alt="img"></p>
+<h2 id="ipv6理论"><a href="#ipv6理论" class="headerlink" title="ipv6理论"></a><strong>ipv6理论</strong></h2><p>ipv6比ipv4复杂很多，我觉得知其然也得知其所以然，所以一些理论的东西也得了解，但在本文就不介绍了，贴点大佬的分享吧</p>
+<blockquote>
+<p>链接：红茶三杯<a href="https://link.zhihu.com/?target=http://www.ccietea.com/">http://www.ccietea.com/</a>大佬的视频<br>【IPv6 01】IPv6概述 <a href="https://link.zhihu.com/?target=https://www.youtube.com/watch?v=scyzX3Zd5JU">https://www.youtube.com/watch?v=scyzX3Zd5JU</a> 【IPv6 02】IPv6基础配置 <a href="https://link.zhihu.com/?target=https://www.youtube.com/watch?v=Vr-UvtwA3kA">https://www.youtube.com/watch?v=Vr-UvtwA3kA</a> 【IPv6 03】ICMPv6详解（上） <a href="https://link.zhihu.com/?target=https://www.youtube.com/watch?v=MYBcNPUx9YU">https://www.youtube.com/watch?v=MYBcNPUx9YU</a> 【IPv6 04】ICMPv6详解（中）无状态自动配置 <a href="https://link.zhihu.com/?target=https://www.youtube.com/watch?v=s_yASxcjMl0">https://www.youtube.com/watch?v=s_yASxcjMl0</a> 【IPv6 05】ICMPv6详解（下）以及DHCPv6 <a href="https://link.zhihu.com/?target=https://www.youtube.com/watch?v=pw46Qu6Shsc">https://www.youtube.com/watch?v=pw46Qu6Shsc</a> 链接：openwrt官方文档<br>Network Interfaces <a href="https://link.zhihu.com/?target=https://oldwiki.archive.openwrt.org/zh-cn/doc/networking/network.interfaces">https://oldwiki.archive.openwrt.org/zh-cn/doc/networking/network.interfaces</a> Switch Documentation <a href="https://link.zhihu.com/?target=https://oldwiki.archive.openwrt.org/zh-cn/doc/uci/network/switch">https://oldwiki.archive.openwrt.org/zh-cn/doc/uci/network/switch</a> 链接：他人整理文档<br>闲谈IPv6-典型特征的一些技术细节 <a href="https://link.zhihu.com/?target=https://blog.csdn.net/dog250/article/details/8169984">https://blog.csdn.net/dog250/article/details/8169984</a> 闲谈IPv6-一起玩转IPv6地址自动配置 <a href="https://link.zhihu.com/?target=https://blog.csdn.net/dog250/article/details/88176596">https://blog.csdn.net/dog250/article/details/88176596</a></p>
+</blockquote>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a><strong>参考文章</strong></h2><ul>
+<li><a href="https://link.zhihu.com/?target=https://blog.csdn.net/dengkangming/article/details/129909376">4大运营商光猫默认初始超级密码</a></li>
+<li><a href="https://link.zhihu.com/?target=https://ipw.cn/doc/">IPv6 工具箱使用文档</a></li>
+<li><a href="https://link.zhihu.com/?target=https://ipw.cn/doc/ipv6/user/enable_ipv6.html">个人宽带如何开启IPv6网络访问</a></li>
+<li><a href="https://link.zhihu.com/?target=https://www.veidc.com/37858.html">如何利用CloudFlare设置Dynamic DNS(DDNS)获取动态IP教程</a>](<a href="https://link.zhihu.com/?target=https://www.veidc.com/37858.html">https://www.veidc.com/37858.html</a>)</li>
+</ul>
+<h2 id="欢迎交流"><a href="#欢迎交流" class="headerlink" title="欢迎交流"></a><strong>欢迎交流</strong></h2><p>以上是本人作为小白的一些踩坑与分享总结，写的比较粗糙很多东西也没讲清楚，欢迎大家评论补充意见。如果有什么不懂的可以评论区留言或者私信或者加技术交流群讨论都行。这是本人的博客地址：<a href="https://link.zhihu.com/?target=https://huanglusong.github.io/">https://huanglusong.github.io/</a>，时不时会分享些技术内容，有兴趣的小伙伴可以收藏。本人主业是java程序员，业余时间喜欢钻研这些东西，目前正在往独立开发的方向上走，目前前后端的需求都能在做，如果有这方面需求的小伙伴可以一起探讨。</p>
+]]></content>
       
+        
+        <tags>
+            
+            <tag> 内网穿透 </tag>
+            
+            <tag> 网络服务 </tag>
+            
+        </tags>
         
     </entry>
     
