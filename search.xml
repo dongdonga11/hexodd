@@ -3,6 +3,36 @@
   
     
     <entry>
+      <title><![CDATA[ipv6内网穿透]]></title>
+      <url>/2023/11/02/ipv6%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</url>
+      <content type="html"></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[某麦网回流票监控，sing参数分析]]></title>
+      <url>/2023/10/30/%E6%9F%90%E9%BA%A6%E7%BD%91%E5%9B%9E%E6%B5%81%E7%A5%A8%E7%9B%91%E6%8E%A7%EF%BC%8Csing%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90/</url>
+      <content type="html"><![CDATA[<p>最近演唱会增多，总是抢不到票，所以想从回流票入手，做一个某麦网的演唱会回流票的监控。<br>最简单的方向就是从网页端入手。<br>在演唱会页面看到<strong>网页端不支持购买</strong>，不慌，咱只是看看有没有票不购买，直接抓包随便一个音乐节的票量接口。<br>经过抓包得到以下两个链接，分别是<br>场次接口：</p>
+<pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;mtop.damai.cn&#x2F;h5&#x2F;mtop.alibaba.damai.detail.getdetail&#x2F;1.2&#x2F;?jsv&#x3D;2.7.2&amp;appKey&#x3D;12574478&amp;t&#x3D;1696836862157&amp;sign&#x3D;8f6f6d430ae53782832c28c208c9c246&amp;api&#x3D;mtop.alibaba.damai.detail.getdetail&amp;v&#x3D;1.2&amp;H5Request&#x3D;true&amp;type&#x3D;originaljson&amp;timeout&#x3D;10000&amp;dataType&#x3D;json&amp;valueType&#x3D;original&amp;forceAntiCreep&#x3D;true&amp;AntiCreep&#x3D;true&amp;useH5&#x3D;true&amp;data&#x3D;%7B%22itemId%22%3A739853478245%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>座次接口：</p>
+<pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;mtop.damai.cn&#x2F;h5&#x2F;mtop.alibaba.detail.subpage.getdetail&#x2F;2.0&#x2F;?jsv&#x3D;2.7.2&amp;appKey&#x3D;12574478&amp;t&#x3D;1696837077937&amp;sign&#x3D;2000a8d025a2b8ff407be20a671b5e48&amp;api&#x3D;mtop.alibaba.detail.subpage.getdetail&amp;v&#x3D;2.0&amp;H5Request&#x3D;true&amp;type&#x3D;originaljson&amp;timeout&#x3D;10000&amp;dataType&#x3D;json&amp;valueType&#x3D;original&amp;forceAntiCreep&#x3D;true&amp;AntiCreep&#x3D;true&amp;useH5&#x3D;true&amp;data&#x3D;%7B%22itemId%22%3A%22739853478245%22%2C%22bizCode%22%3A%22ali.china.damai%22%2C%22scenario%22%3A%22itemsku%22%2C%22exParams%22%3A%22%7B%5C%22dataType%5C%22%3A2%2C%5C%22dataId%5C%22%3A%5C%22211839138%5C%22%2C%5C%22privilegeActId%5C%22%3A%5C%22%5C%22%7D%22%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>经过验证headers是统一的不会变也没有加密参数，cookie也是一致的但有未知参数**_m_h5_tk<strong>、</strong>_m_h5_tk_enc**<br><img src="/../img/img/959049_8J3SVXC9U2AP4NQ-1698632733858.webp" alt="img"><br>而这两个接口里的参数大同小异，分别如下<br>场次接口：<br><img src="/../img/img/959049_2KUFYKB9KARYCBY-1698632733821.webp" alt="img"><br>座次接口：<br><img src="/../img/img/959049_EA7QYENH9QC6EJM-1698632733816.webp" alt="img"><br>可以看到其中关键参数就是<strong>t</strong>、<strong>sign</strong>、<strong>data，其他参数都是固定的。其中data显而易见，场次接口的itemId就是这个演出的id，其他参数固定；座次接口的itemId是演出id，dataId就是当前场次的id（例如10.21场），其他参数固定。接着我们可以打断点看一下这个t和sign是如何生成的。F12调出控制台，下一个xhr断点，可以直接打到”sign”上，也可以打到对应链接上。<img src="/../img/img/959049_KNYEXWQQRVGP5RY-1698632733825.webp" alt="img">刷新一下页面触发断点，找到对应的请求发起js文件。<img src="/../img/img/959049_MJTPASS7XD7WPP8-1698632733824.webp" alt="img">在这个文件里简单调试下很容易就能找到加密函数<img src="/../img/img/959049_9YE8ANP26826NCR-1698632733881.webp" alt="img">可以看到这个函数就是将token</strong>、<strong>c</strong>、<strong>s</strong>、<strong>data</strong>，以&amp;进行分隔拼接，然后再进行加密得到sign。<br>其中token暂时未知，c就是url参数中的t时间戳，s就是url参数中的appKey固定值，data就是url参数中的data的json字符串，简单拼接就行。<br>所以现在就剩token未知，在函数上打个断点看看：<br><img src="/../img/img/959049_8F7SV4AHX53BH8C-1698632733854.webp" alt="img"><br>发现这个token很眼熟，回头看看我们请求所需的cookie，这个<strong>token</strong>就是cookie中**_m_h5_tk<strong>的前半部分，直接拿过来用就可以。我们拿相同的参数去网上的在线md5加密一下，发现加密结果一致，即这个加密函数就是简单的md5加密。现在所需要知道的就是</strong>_m_h5_tk<strong>是如何产生的，直接回到首页，删除cookie缓存重新抓包，找到set-cookie的那一条请求就行。<img src="/../img/img/959049_86SQ86U46GMWRDV-1698632733867.webp" alt="img">可以发现只要在token失效之后，随便发起一条请求携带过期的sign，就会返回新的</strong>_m_h5_tk**，这下大功告成了。<br>最后再加上VX推送提示，或者其他通知app接口，就完成了回流监控。<br><img src="/../img/img/959049_PPJSKHHGWS2YNS4-1698632733874.webp" alt="img"></p>
+<p>2023.10.22更新：<br>GitHub地址：<a href="https://github.com/Raptor-wxw/TIcketMonitoring">https://github.com/Raptor-wxw/TIcketMonitoring</a></p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> 大麦 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[charles和Postern抓包]]></title>
       <url>/2023/10/17/%E5%A4%A7%E9%BA%A6%E7%BD%91APP%E9%80%86%E5%90%91%E9%A1%B9%E7%9B%AE/charles%E5%92%8CPostern%E6%8A%93%E5%8C%85/</url>
       <content type="html"><![CDATA[<h4 id="为什么要说使用Charles-Postern"><a href="#为什么要说使用Charles-Postern" class="headerlink" title="为什么要说使用Charles+Postern"></a>为什么要说使用Charles+Postern</h4><p>在实际抓手机App包场景中，有很多种方案，经典的就是Fiddler，但是Fiddler会有一个问题，如果App设置了不走代理这个选项，那Fiddler就不行了。</p>
@@ -1182,14 +1212,6 @@ disk_name<span aria-hidden="true" class="line-numbers-rows"><span></span><span><
     </entry>
     
     <entry>
-      <title><![CDATA[某麦网数据参数逆向分析]]></title>
-      <url>/2023/09/30/%E6%9F%90%E9%BA%A6%E7%BD%91%E6%95%B0%E6%8D%AE%E5%8F%82%E6%95%B0%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/</url>
-      <content type="html"></content>
-      
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[某麦演出app分析(三)---无视重试返回上一页]]></title>
       <url>/2023/09/28/app%E9%80%86%E5%90%91/%E6%9F%90%E9%BA%A6%E6%BC%94%E5%87%BAapp%E5%88%86%E6%9E%90-%E4%B8%89-%E6%97%A0%E8%A7%86%E9%87%8D%E8%AF%95%E8%BF%94%E5%9B%9E%E4%B8%8A%E4%B8%80%E9%A1%B5/</url>
       <content type="html"><![CDATA[<h1 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h1><p>在上一篇文章写到可以提前选好票档,等待到开售时间直接提交进入订单确认页面.<br>然而这仅仅是”快人一步”,在非常热门的演出情况下,一次提交购票成功的几率还是很低的.<br>在订单确认页面第一次提交往往会弹出”前方拥挤”的提示,这情况下点击确认有可能会被返回上一页.<br>现在就想办法在可以重复提交的情况下,停留在订单确认页面,直接提交.</p>
@@ -1846,90 +1868,90 @@ ApiID apiId &#x3D; builder.addListener(new MyListener).asyncRequest();<span aria
 <p>现在业务代码和mtopsdk的交互就很清晰了，红色的部分是业务代码的函数，绿色的部分是mtopsdk的函数。</p>
 <h1 id="0x06-hook得到接口参数"><a href="#0x06-hook得到接口参数" class="headerlink" title="0x06 hook得到接口参数"></a>0x06 hook得到接口参数</h1><p>通过以上对trace的分析，已经知道了具体执行的操作，因此我们可以使用frida编写js代码，直接调用APK中的类，实现功能调用。</p>
 <p>先展示一个简单的示例，用于构建一个自定义的MtopRequest 类:</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// new_request.js</span>
-<span class="token class-name">Java</span><span class="token punctuation">.</span><span class="token function">perform</span><span class="token punctuation">(</span>function <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">const</span> <span class="token class-name">MtopRequest</span> <span class="token operator">=</span> <span class="token class-name">Java</span><span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"mtopsdk.mtop.domain.MtopRequest"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    let myMtopRequest <span class="token operator">=</span> <span class="token class-name">MtopRequest</span><span class="token punctuation">.</span>$<span class="token keyword">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// new_request.js</span>
+Java<span class="token punctuation">.</span><span class="token function">perform</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">const</span> MtopRequest <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"mtopsdk.mtop.domain.MtopRequest"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">let</span> myMtopRequest <span class="token operator">=</span> MtopRequest<span class="token punctuation">.</span>$<span class="token keyword">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     myMtopRequest<span class="token punctuation">.</span><span class="token function">setApiName</span><span class="token punctuation">(</span><span class="token string">"mtop.trade.order.build"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token comment">//item_id + count + ski_id  716435462268_1_5005943905715</span>
     myMtopRequest<span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token string">"&#123;\"buyNow\":\"true\",\"buyParam\":\"716435462268_1_5005943905715\",\"exParams\":\"&#123;\\\"atomSplit\\\":\\\"1\\\",\\\"channel\\\":\\\"damai_app\\\",\\\"coVersion\\\":\\\"2.0\\\",\\\"coupon\\\":\\\"true\\\",\\\"seatInfo\\\":\\\"\\\",\\\"umpChannel\\\":\\\"10001\\\",\\\"websiteLanguage\\\":\\\"zh_CN_#Hans\\\"&#125;\"&#125;"</span><span class="token punctuation">)</span>
     myMtopRequest<span class="token punctuation">.</span><span class="token function">setNeedEcode</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     myMtopRequest<span class="token punctuation">.</span><span class="token function">setNeedSession</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     myMtopRequest<span class="token punctuation">.</span><span class="token function">setVersion</span><span class="token punctuation">(</span><span class="token string">"4.0"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>`$<span class="token punctuation">&#123;</span>myMtopRequest<span class="token punctuation">&#125;</span>`<span class="token punctuation">)</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>myMtopRequest<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>再使用运行命令 <code>frida -U -l .\reverse\new_request.js 大麦</code>，以在某麦Apk中执行js hook代码。运行之后即可输出笔者自己构建的MtopRequest实例。（frida真的很奇妙！）</p>
 <p><img src="/./../../img/640-1695711086636-221.png" alt="图片"></p>
 <p>有了上面的结果，下面继续完善这个示例，添加MtopBussiness的构建过程和输出过程</p>
-<pre class="line-numbers language-none"><code class="language-none">       &#x2F;&#x2F;引入Java中的类
-const MtopBusiness &#x3D; Java.use(&quot;com.taobao.tao.remotebusiness.MtopBusiness&quot;);
-const MtopBuilder &#x3D; Java.use(&quot;mtopsdk.mtop.intf.MtopBuilder&quot;);
-&#x2F;&#x2F; let RemoteBusiness &#x3D; Java.use(&quot;com.taobao.tao.remotebusiness.RemoteBusiness&quot;);
-const MethodEnum &#x3D; Java.use(&quot;mtopsdk.mtop.domain.MethodEnum&quot;);
-const MtopListenerProxyFactory &#x3D; Java.use(&quot;com.taobao.tao.remotebusiness.listener.MtopListenerProxyFactory&quot;);
-const System &#x3D; Java.use(&#39;java.lang.System&#39;);
-const ApiID &#x3D; Java.use(&quot;mtopsdk.mtop.common.ApiID&quot;);
-const MtopStatistics &#x3D; Java.use(&quot;mtopsdk.mtop.util.MtopStatistics&quot;);
-const InnerProtocolParamBuilderImpl &#x3D; Java.use(&#39;mtopsdk.mtop.protocol.builder.impl.InnerProtocolParamBuilderImpl&#39;);
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">       <span class="token comment">//引入Java中的类</span>
+<span class="token keyword">const</span> MtopBusiness <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"com.taobao.tao.remotebusiness.MtopBusiness"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> MtopBuilder <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"mtopsdk.mtop.intf.MtopBuilder"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// let RemoteBusiness = Java.use("com.taobao.tao.remotebusiness.RemoteBusiness");</span>
+<span class="token keyword">const</span> MethodEnum <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"mtopsdk.mtop.domain.MethodEnum"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> MtopListenerProxyFactory <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"com.taobao.tao.remotebusiness.listener.MtopListenerProxyFactory"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> System <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">'java.lang.System'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> ApiID <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"mtopsdk.mtop.common.ApiID"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> MtopStatistics <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"mtopsdk.mtop.util.MtopStatistics"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> InnerProtocolParamBuilderImpl <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">'mtopsdk.mtop.protocol.builder.impl.InnerProtocolParamBuilderImpl'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-&#x2F;&#x2F; create MtopBusiness
-let myMtopBusiness &#x3D; MtopBusiness.build(myMtopRequest);
-myMtopBusiness.useWua();
-myMtopBusiness.reqMethod(MethodEnum.POST.value);
-myMtopBusiness.setCustomDomain(&quot;mtop.damai.cn&quot;);
-myMtopBusiness.setBizId(24);
-myMtopBusiness.setErrorNotifyAfterCache(true);
-myMtopBusiness.reqStartTime &#x3D; System.currentTimeMillis();
-myMtopBusiness.isCancelled &#x3D; false;
-myMtopBusiness.isCached &#x3D; false;
-myMtopBusiness.clazz &#x3D; null;
-myMtopBusiness.requestType &#x3D; 0;
-myMtopBusiness.requestContext &#x3D; null;
-myMtopBusiness.mtopCommitStatData(false);
-myMtopBusiness.sendStartTime &#x3D; System.currentTimeMillis();
+<span class="token comment">// create MtopBusiness</span>
+<span class="token keyword">let</span> myMtopBusiness <span class="token operator">=</span> MtopBusiness<span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span>myMtopRequest<span class="token punctuation">)</span><span class="token punctuation">;</span>
+myMtopBusiness<span class="token punctuation">.</span><span class="token function">useWua</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+myMtopBusiness<span class="token punctuation">.</span><span class="token function">reqMethod</span><span class="token punctuation">(</span>MethodEnum<span class="token punctuation">.</span><span class="token constant">POST</span><span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+myMtopBusiness<span class="token punctuation">.</span><span class="token function">setCustomDomain</span><span class="token punctuation">(</span><span class="token string">"mtop.damai.cn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+myMtopBusiness<span class="token punctuation">.</span><span class="token function">setBizId</span><span class="token punctuation">(</span><span class="token number">24</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+myMtopBusiness<span class="token punctuation">.</span><span class="token function">setErrorNotifyAfterCache</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+myMtopBusiness<span class="token punctuation">.</span>reqStartTime <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+myMtopBusiness<span class="token punctuation">.</span>isCancelled <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+myMtopBusiness<span class="token punctuation">.</span>isCached <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+myMtopBusiness<span class="token punctuation">.</span>clazz <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+myMtopBusiness<span class="token punctuation">.</span>requestType <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+myMtopBusiness<span class="token punctuation">.</span>requestContext <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+myMtopBusiness<span class="token punctuation">.</span><span class="token function">mtopCommitStatData</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+myMtopBusiness<span class="token punctuation">.</span>sendStartTime <span class="token operator">=</span> System<span class="token punctuation">.</span><span class="token function">currentTimeMillis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-let createListenerProxy &#x3D; myMtopBusiness.$super.createListenerProxy(myMtopBusiness.$super.listener.value);
-let createMtopContext &#x3D; myMtopBusiness.createMtopContext(createListenerProxy);
-let myMtopStatistics &#x3D; MtopStatistics.$new(null, null); &#x2F;&#x2F;创建一个空的统计类
-createMtopContext.stats.value &#x3D; myMtopStatistics;
-myMtopBusiness.$super.mtopContext.value &#x3D; createMtopContext;
-createMtopContext.apiId.value &#x3D; ApiID.$new(null, createMtopContext);
+<span class="token keyword">let</span> createListenerProxy <span class="token operator">=</span> myMtopBusiness<span class="token punctuation">.</span>$<span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">createListenerProxy</span><span class="token punctuation">(</span>myMtopBusiness<span class="token punctuation">.</span>$<span class="token keyword">super</span><span class="token punctuation">.</span>listener<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> createMtopContext <span class="token operator">=</span> myMtopBusiness<span class="token punctuation">.</span><span class="token function">createMtopContext</span><span class="token punctuation">(</span>createListenerProxy<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> myMtopStatistics <span class="token operator">=</span> MtopStatistics<span class="token punctuation">.</span>$<span class="token keyword">new</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//创建一个空的统计类</span>
+createMtopContext<span class="token punctuation">.</span>stats<span class="token punctuation">.</span>value <span class="token operator">=</span> myMtopStatistics<span class="token punctuation">;</span>
+myMtopBusiness<span class="token punctuation">.</span>$<span class="token keyword">super</span><span class="token punctuation">.</span>mtopContext<span class="token punctuation">.</span>value <span class="token operator">=</span> createMtopContext<span class="token punctuation">;</span>
+createMtopContext<span class="token punctuation">.</span>apiId<span class="token punctuation">.</span>value <span class="token operator">=</span> ApiID<span class="token punctuation">.</span>$<span class="token keyword">new</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> createMtopContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-let myMtopContext &#x3D; createMtopContext;
-myMtopContext.mtopRequest.value &#x3D; myMtopRequest;
-let myInnerProtocolParamBuilderImpl &#x3D; InnerProtocolParamBuilderImpl.$new();
-let res &#x3D; myInnerProtocolParamBuilderImpl.buildParams(myMtopContext);
-console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;HashMap2Str(res)&#125;&#96;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token keyword">let</span> myMtopContext <span class="token operator">=</span> createMtopContext<span class="token punctuation">;</span>
+myMtopContext<span class="token punctuation">.</span>mtopRequest<span class="token punctuation">.</span>value <span class="token operator">=</span> myMtopRequest<span class="token punctuation">;</span>
+<span class="token keyword">let</span> myInnerProtocolParamBuilderImpl <span class="token operator">=</span> InnerProtocolParamBuilderImpl<span class="token punctuation">.</span>$<span class="token keyword">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> res <span class="token operator">=</span> myInnerProtocolParamBuilderImpl<span class="token punctuation">.</span><span class="token function">buildParams</span><span class="token punctuation">(</span>myMtopContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">myInnerProtocolParamBuilderImpl.buildParams => </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span><span class="token function">HashMap2Str</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>再次执行<code>frida -U -l .\reverse\new_request.js 大麦</code>，输出结果如下图，此时已能根据笔者任意构建的请求data输出其他加密参数：</p>
 <p><img src="/./../../img/640-1695711110159-224.png" alt="图片"></p>
 <p>对于order.create的原理类似，此处不再赘述。</p>
 <h2 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a>补充说明</h2><p>通过frida调用Apk中的Java类有时候会出现找不到类的情况，原因可能是classloader没有正确加载。可以在js代码前的最前面加上下面的代码，指定正确的classloader，即可解决该问题</p>
-<pre class="line-numbers language-none"><code class="language-none">Java.perform(function () &#123;
-    &#x2F;&#x2F;get real classloader
-    &#x2F;&#x2F;from http:&#x2F;&#x2F;www.lixiaopeng.top&#x2F;article&#x2F;63.html
-    var application &#x3D; Java.use(&quot;android.app.Application&quot;);
-    var classloader;
-    application.attach.overload(&#39;android.content.Context&#39;)
-        .implementation &#x3D; function (context) &#123;
-            var result &#x3D; this.attach(context); &#x2F;&#x2F; run attach as it is
-            classloader &#x3D; context.getClassLoader(); &#x2F;&#x2F; get real classloader
-            Java.classFactory.loader &#x3D; classloader;
-            return result;
-        &#125;
-&#125;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">Java<span class="token punctuation">.</span><span class="token function">perform</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">//get real classloader</span>
+    <span class="token comment">//from http://www.lixiaopeng.top/article/63.html</span>
+    <span class="token keyword">var</span> application <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"android.app.Application"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> classloader<span class="token punctuation">;</span>
+    application<span class="token punctuation">.</span>attach<span class="token punctuation">.</span><span class="token function">overload</span><span class="token punctuation">(</span><span class="token string">'android.content.Context'</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function-variable function">implementation</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">context</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">var</span> result <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">attach</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// run attach as it is</span>
+            classloader <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">getClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// get real classloader</span>
+            Java<span class="token punctuation">.</span>classFactory<span class="token punctuation">.</span>loader <span class="token operator">=</span> classloader<span class="token punctuation">;</span>
+            <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h2 id="frida-hook-的强大功能"><a href="#frida-hook-的强大功能" class="headerlink" title="frida hook 的强大功能"></a>frida hook 的强大功能</h2><p>通过frida操纵Java类的功能实在过于强大，安全人员可以执行以下操作：</p>
 <ol>
 <li><em>打印函数输入输出</em>。通过hook函数，以实现打印函数的输入输出结果。<br>操作代码可以在jadx右键菜单可以很方便的生成。</li>
 </ol>
 <p><img src="/Android%E9%80%86%E5%90%91-%E6%9F%90%E9%BA%A6%E7%BD%91APK%E6%8A%A2%E7%A5%A8%E6%8E%A5%E5%8F%A3%E5%8A%A0%E5%AF%86%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90.assets/640.png" alt="图片"></p>
-<pre class="line-numbers language-none"><code class="language-none">let LocalInnerSignImpl &#x3D; Java.use(&quot;mtopsdk.security.LocalInnerSignImpl&quot;);
-LocalInnerSignImpl[&quot;$init&quot;].implementation &#x3D; function (str, str2) &#123;
-  console.log(&#96;LocalInnerSignImpl.$init is called: str&#x3D;$&#123;str&#125;, str2&#x3D;$&#123;str2&#125;&#96;);
-  this[&quot;$init&quot;](str, str2);
-&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">let</span> LocalInnerSignImpl <span class="token operator">=</span> Java<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token string">"mtopsdk.security.LocalInnerSignImpl"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+LocalInnerSignImpl<span class="token punctuation">[</span><span class="token string">"$init"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function-variable function">implementation</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">str<span class="token punctuation">,</span> str2</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">LocalInnerSignImpl.$init is called: str=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>str<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">, str2=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>str2<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">[</span><span class="token string">"$init"</span><span class="token punctuation">]</span><span class="token punctuation">(</span>str<span class="token punctuation">,</span> str2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <ol>
 <li><em>修改已有的类和函数</em>。</li>
@@ -1939,34 +1961,34 @@ LocalInnerSignImpl[&quot;$init&quot;].implementation &#x3D; function (str, str2)
 </ol>
 <h1 id="0x07-通过rpc调用"><a href="#0x07-通过rpc调用" class="headerlink" title="0x07 通过rpc调用"></a>0x07 通过rpc调用</h1><p>前文提到frida的一个特性是可以通过rpc调用提供python编程接口。</p>
 <p>一个简单的示例：</p>
-<pre class="line-numbers language-none"><code class="language-none">import frida
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> frida
 
-def on_message(message, data):
-    if message[&quot;type&quot;] &#x3D;&#x3D; &quot;send&quot;:
-        print(&quot;[*] &#123;0&#125;&quot;.format(message[&quot;payload&quot;]))
-    else:
-        print(message)
+<span class="token keyword">def</span> <span class="token function">on_message</span><span class="token punctuation">(</span>message<span class="token punctuation">,</span> data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> message<span class="token punctuation">[</span><span class="token string">"type"</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"send"</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"[*] &#123;0&#125;"</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>message<span class="token punctuation">[</span><span class="token string">"payload"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span>
 
-# hook代码
-jscode &#x3D; &quot;&quot;&quot;
-rpc.exports &#x3D; &#123;
+<span class="token comment"># hook代码</span>
+jscode <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+rpc.exports = &#123;
     testrpc: function (a, b) &#123; return a + b; &#125;,
-&#125;;  &quot;&quot;&quot;
+&#125;;  """</span>
 
-def start_hook():
-# 开始hook
-    process &#x3D; frida.get_usb_device().attach(&quot;大麦&quot;)
-    script &#x3D; process.create_script(jscode)
-    script.on(&quot;message&quot;, on_message)
-    script.load()
-    return script
+<span class="token keyword">def</span> <span class="token function">start_hook</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+<span class="token comment"># 开始hook</span>
+    process <span class="token operator">=</span> frida<span class="token punctuation">.</span>get_usb_device<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>attach<span class="token punctuation">(</span><span class="token string">"大麦"</span><span class="token punctuation">)</span>
+    script <span class="token operator">=</span> process<span class="token punctuation">.</span>create_script<span class="token punctuation">(</span>jscode<span class="token punctuation">)</span>
+    script<span class="token punctuation">.</span>on<span class="token punctuation">(</span><span class="token string">"message"</span><span class="token punctuation">,</span> on_message<span class="token punctuation">)</span>
+    script<span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> script
 
-script &#x3D; start_hook()
-# 调用hook代码
-print(script.exports.testrpc(1, 2))
+script <span class="token operator">=</span> start_hook<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment"># 调用hook代码</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>script<span class="token punctuation">.</span>exports<span class="token punctuation">.</span>testrpc<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 
-# &gt;&gt;&gt; 输出
-# 3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token comment"># >>> 输出</span>
+<span class="token comment"># 3</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>frida使用rpc的方法也很简单，仅需使用rpc.exports，将对应的函数暴露出来，就能被python调用。</p>
 <p>完整的代码就是将上一章的代码封装为函数，并通过rpc对外提供接口，就可以了。为避免侵权，本文不贴出完整利用代码。</p>
@@ -1979,9 +2001,10 @@ print(script.exports.testrpc(1, 2))
 <h2 id="还是抢不到票"><a href="#还是抢不到票" class="headerlink" title="还是抢不到票"></a>还是抢不到票</h2><p>虽然流程全都搞定，而且对于非热门场次抢票完全没有问题。但对于热门场次，官方可能还是增加了或明或暗的检测机制。比如有些是淘票票限定渠道，在对特权用户开放抢票一段时间后才会对其他人，但开放状态仅从网页端无法判断，导致脚本会提前开抢，被系统提前拦截。或者有的场次明明第一时间开抢，却还是一直提示请求失败。这个还需要进一步踩坑理解某麦网的机制。</p>
 <h2 id="BP链接"><a href="#BP链接" class="headerlink" title="BP链接"></a>BP链接</h2><p>这篇公众号文章( <a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4MDEzMTg0OQ==&amp;action=getalbum&amp;album_id=2885498232984993792#wechat_redirect">https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4MDEzMTg0OQ==&amp;action=getalbum&amp;album_id=2885498232984993792#wechat_redirect</a> ) 介绍了某麦网的bp链接及使用方式，可以跳过票档选择直接进入订单确认页面。后续可以尝试用于自动抢票。</p>
 <p>如：</p>
-<pre class="line-numbers language-none"><code class="language-none">-毛不易 -  5月27日 上海站1、五层480 x 1张https:&#x2F;&#x2F;m.damai.cn&#x2F;app&#x2F;dmfe&#x2F;h5-ultron-buy&#x2F;index.html?buyParam&#x3D;718707599799_1_5008768308765&amp;buyNow&#x3D;true&amp;exParams&#x3D;%257B%2522channel%2522%253A%2522damai_app%2522%252C%2522damai%2522%253A%25221%2522%252C%2522umpChannel%2522%253A%2522100031004%2522%252C%2522subChannel%2522%253A%2522damai%2540damaih5_h5%2522%252C%2522atomSplit%2522%253A1%257D&amp;spm&#x3D;a2o71.project.sku.dbuy&amp;sqm&#x3D;dianying.h5.unknown.value
-2、五层480 x 2张https:&#x2F;&#x2F;m.damai.cn&#x2F;app&#x2F;dmfe&#x2F;h5-ultron-buy&#x2F;index.html?buyParam&#x3D;718707599799_2_5008768308765&amp;buyNow&#x3D;true&amp;exParams&#x3D;%257B%2522channel%2522%253A%2522damai_app%2522%252C%2522damai%2522%253A%25221%2522%252C%2522umpChannel%2522%253A%2522100031004%2522%252C%2522subChannel%2522%253A%2522damai%2540damaih5_h5%2522%252C%2522atomSplit%2522%253A1%257D&amp;spm&#x3D;a2o71.project.sku.dbuy&amp;sqm&#x3D;dianying.h5.unknown.value<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
+<blockquote>
+<p>-毛不易 -  5月27日 上海站1、五层480 x 1张<a href="https://m.damai.cn/app/dmfe/h5-ultron-buy/index.html?buyParam=718707599799_1_5008768308765&buyNow=true&exParams=%257B%2522channel%2522%253A%2522damai_app%2522%252C%2522damai%2522%253A%25221%2522%252C%2522umpChannel%2522%253A%2522100031004%2522%252C%2522subChannel%2522%253A%2522damai%2540damaih5_h5%2522%252C%2522atomSplit%2522%253A1%257D&spm=a2o71.project.sku.dbuy&sqm=dianying.h5.unknown.value">https://m.damai.cn/app/dmfe/h5-ultron-buy/index.html?buyParam=718707599799_1_5008768308765&amp;buyNow=true&amp;exParams=%257B%2522channel%2522%253A%2522damai_app%2522%252C%2522damai%2522%253A%25221%2522%252C%2522umpChannel%2522%253A%2522100031004%2522%252C%2522subChannel%2522%253A%2522damai%2540damaih5_h5%2522%252C%2522atomSplit%2522%253A1%257D&amp;spm=a2o71.project.sku.dbuy&amp;sqm=dianying.h5.unknown.value</a></p>
+<p>2、五层480 x 2张<a href="https://m.damai.cn/app/dmfe/h5-ultron-buy/index.html?buyParam=718707599799_2_5008768308765&buyNow=true&exParams=%257B%2522channel%2522%253A%2522damai_app%2522%252C%2522damai%2522%253A%25221%2522%252C%2522umpChannel%2522%253A%2522100031004%2522%252C%2522subChannel%2522%253A%2522damai%2540damaih5_h5%2522%252C%2522atomSplit%2522%253A1%257D&spm=a2o71.project.sku.dbuy&sqm=dianying.h5.unknown.value">https://m.damai.cn/app/dmfe/h5-ultron-buy/index.html?buyParam=718707599799_2_5008768308765&amp;buyNow=true&amp;exParams=%257B%2522channel%2522%253A%2522damai_app%2522%252C%2522damai%2522%253A%25221%2522%252C%2522umpChannel%2522%253A%2522100031004%2522%252C%2522subChannel%2522%253A%2522damai%2540damaih5_h5%2522%252C%2522atomSplit%2522%253A1%257D&amp;spm=a2o71.project.sku.dbuy&amp;sqm=dianying.h5.unknown.value</a></p>
+</blockquote>
 <h1 id="0x09-总结"><a href="#0x09-总结" class="headerlink" title="0x09 总结"></a>0x09 总结</h1><p>本文完整的记录了笔者对于Apk与服务器交互API的解析过程，包括环境搭建、抓包、trace分析、hook、rpc调用。本文对于淘系Apk的分析可以提供较多参考。本文算是笔者第一次深入且成功的用动态+静态分析结合的方式，借助神器frida+jadx，成功破解Apk，因此本文的记录也较为细致的记录了作者的思考过程，可以给新手提供参考。</p>
 <p>本文也有一些不足之处，如无法脱离模拟器运行、仅能单用户、抢票成功率仍不高等。对于这些问题，如果未来作者有时间，会再回来填坑。</p>
 <p>原文链接：<a href="https://github.com/m2kar/m2kar.github.io/issues/21">https://github.com/m2kar/m2kar.github.io/issues/21</a></p>
