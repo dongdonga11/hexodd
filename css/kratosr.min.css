@@ -1484,7 +1484,8 @@ ul.kratos-post-meta:not(:last-child) {
 }
 
 .kratos-hentry.kratos-post-inner {
-    margin-bottom: 0
+    margin-bottom: 0;
+    box-shadow: 1px 2px 10px rgba(0,0,0,0.5)
 }
 
 .container article:last-of-type {
@@ -1698,7 +1699,9 @@ ul.kratos-post-meta:not(:last-child) {
 }
 
 .kratos-entry-border-new {
-    position: relative
+    position: relative;
+    box-shadow: 1px 3px 10px rgba(67, 56, 56, 0.5);
+    border-radius: 20px;
 }
 
 .kratos-entry-border-new .kratos-post-meta-new {
@@ -2132,7 +2135,7 @@ ul.kratos-post-meta:not(:last-child) {
     background-color: #fff;
     border-radius: 0;
     -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
+    box-shadow: 1px 4px 6px rgba(0, 0, 0, .5);
     margin-bottom: 15px;
     padding: 20px 25px
 }
@@ -2209,18 +2212,11 @@ ul.kratos-post-meta:not(:last-child) {
     width: 100%
 }
 
-#kratos-widget-area .widget.widget-kratos-about .photo-wrapper img {
-    border: 4px solid hsla(0, 0%, 100%, .4);
-    border-radius: 50%;
-    height: 90px;
-    margin: -50px 0 0;
-    -o-object-fit: cover;
-    object-fit: cover;
-    width: 90px
-}
+
 
 #kratos-widget-area .widget.widget-kratos-about .photo-background {
-    height: 120px
+    height: 156px;
+    border-radius: 20px;
 }
 
 #kratos-widget-area .widget.widget-kratos-about .textwidget {
@@ -2869,7 +2865,8 @@ body.scroll-down .kr-tool .box.gotop-box {
     .kratos-hentry,
     .navigation div,
     .pagination>li>a {
-        background-color: hsla(0, 0%, 100%, .8)
+        background-color: hsla(190, 8%, 86%, 0.8);
+        border-radius: 20px;
     }
 }
 
@@ -3014,7 +3011,7 @@ td.code {
 
 .post-comments {
     -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
+    box-shadow: 0 3px 2px rgba(0, 0, 0, .5);
     margin-top: 16px;
     padding: 10px;
     word-break: break-all
@@ -3241,8 +3238,9 @@ table th {
 }
 
 .kratos-entry-border-new .kratos-post-meta-new {
-    background: hsla(0, 0%, 100%, .867);
-    border-top: 1px solid rgba(60, 73, 91, .227)
+    background: hsla(0, 0%, 93%, 1);
+    border-top: 1px solid rgba(60, 73, 91, .227);
+    box-shadow: 1px 4px 5px rgba(67, 56, 56, 0.2)
 }
 
 .kratos-entry-border-new .kratos-status i {
@@ -3386,7 +3384,7 @@ a:hover {
 }
 
 #kratos-desktop-topnav {
-    background: rgba(40, 42, 44, .6)
+    background: rgba(40, 42, 44, .2)
 }
 
 #kratos-mobile-topnav {
