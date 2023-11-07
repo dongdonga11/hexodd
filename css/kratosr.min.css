@@ -1355,7 +1355,8 @@ body.scroll-down.nav-up #kratos-desktop-topnav {
 }
 
 #kratos-blog-post .row article {
-    margin-bottom: 15px
+    margin-bottom: 15px;
+    border-radius: 20px
 }
 
 .pagination {
@@ -1685,7 +1686,8 @@ ul.kratos-post-meta:not(:last-child) {
     overflow: hidden;
     padding: 0;
     position: relative;
-    width: 240px
+    width: 200px;
+    border-radius: 20px 20px 0px 0px;
 }
 
 .kratos-entry-thumb-new img {
@@ -1712,7 +1714,8 @@ ul.kratos-post-meta:not(:last-child) {
     font-size: 12px;
     line-height: 27px;
     overflow: hidden;
-    padding: 3px 20px
+    padding: 3px 20px;
+    border-radius: 0 0 20px 20px;
 }
 
 .kratos-entry-border-new .kratos-post-meta-new a i {
