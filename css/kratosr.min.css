@@ -2196,6 +2196,7 @@ ul.kratos-post-meta:not(:last-child) {
 }
 
 #kratos-widget-area .widget.widget-kratos-about {
+    border-radius: 20px;
     padding-left: 0;
     padding-right: 0;
     padding-top: 0
@@ -2209,7 +2210,7 @@ ul.kratos-post-meta:not(:last-child) {
     width: 100%
 }
 
-#kratos-widget-area .widget.widget-kratos-about .photo-wrapper img {
+/* #kratos-widget-area .widget.widget-kratos-about .photo-wrapper img {
     border: 4px solid hsla(0, 0%, 100%, .4);
     border-radius: 50%;
     height: 90px;
@@ -2217,9 +2218,10 @@ ul.kratos-post-meta:not(:last-child) {
     -o-object-fit: cover;
     object-fit: cover;
     width: 90px
-}
+} */
 
 #kratos-widget-area .widget.widget-kratos-about .photo-background {
+    border-radius: 20px;
     height: 120px
 }
 
@@ -2869,7 +2871,8 @@ body.scroll-down .kr-tool .box.gotop-box {
     .kratos-hentry,
     .navigation div,
     .pagination>li>a {
-        background-color: hsla(0, 0%, 100%, .8)
+        background-color: hsla(0, 0%, 100%, .8);
+        box-shadow: rgba(0,0,0,0.5) 1px 4px 6px
     }
 }
 
@@ -3241,7 +3244,8 @@ table th {
 }
 
 .kratos-entry-border-new .kratos-post-meta-new {
-    background: hsla(0, 0%, 100%, .867);
+    border-radius: 0 0 20px 20px;
+    background: hsl(0deg 0% 91.49% / 96.7%);
     border-top: 1px solid rgba(60, 73, 91, .227)
 }
 
@@ -3329,6 +3333,7 @@ ul.kratos-post-meta span {
 .kratos-hentry,
 .navigation div,
 .pagination>li>a {
+    border-radius: 20px;
     background-color: hsla(0, 0%, 100%, .8)
 }
 
@@ -3475,7 +3480,7 @@ span.mjx-chtml.MJXc-display {
 }
 
 .widget-kratos-about .photo-background {
-    background-image: url(../images/about.webp)
+    background-image: url(../images/about.jpg)
 }
 
 .kratos-cover.kratos-cover-2 {
