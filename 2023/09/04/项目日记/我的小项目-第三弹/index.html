@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  
+  
+  <title>我的小项目-第三弹 | 栋栋的个人博客</title>
+  
+  <meta name="author" content="John DD" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="APP逆向, ideas, 小爬虫, 抢票软件, 项目集锦" />
+  
+  <meta name="description" content="一、项目起因：  停滞挺久了，最近这段时间感觉各处不顺，工作没思路，干什么都提不起精神，这2年都没什么成长，有时候想自己不能这样下去，但是也不知道该做什么，怎么做，感觉很焦虑。 最近思考了很多，但是一下子又想不起来自己想了些什么，就是人马上要到35岁了，一想到自己未来30-35岁的样子，就莫名的有点害怕； 以前的时候吧，想着电视上的哪些人，科学家，律师，教师，一个成功的Leader穿西服挂领带，商">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我的小项目-第三弹">
+<meta property="og:url" content="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/04/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E5%BC%B9/index.html">
+<meta property="og:site_name" content="栋栋的个人博客">
+<meta property="og:description" content="一、项目起因：  停滞挺久了，最近这段时间感觉各处不顺，工作没思路，干什么都提不起精神，这2年都没什么成长，有时候想自己不能这样下去，但是也不知道该做什么，怎么做，感觉很焦虑。 最近思考了很多，但是一下子又想不起来自己想了些什么，就是人马上要到35岁了，一想到自己未来30-35岁的样子，就莫名的有点害怕； 以前的时候吧，想着电视上的哪些人，科学家，律师，教师，一个成功的Leader穿西服挂领带，商">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-04T09:30:29.000Z">
+<meta property="article:modified_time" content="2023-09-11T01:08:02.722Z">
+<meta property="article:author" content="John DD">
+<meta property="article:tag" content="项目集锦">
+<meta property="article:tag" content="ideas">
+<meta property="article:tag" content="小爬虫">
+<meta property="article:tag" content="APP逆向">
+<meta property="article:tag" content="抢票软件">
+<meta name="twitter:card" content="summary">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" media="all"></script>
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-color-dark.min.css" media="(prefers-color-scheme: dark)"></script>
+    <script src="/js/kr-dark.min.js"></script>
+  
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" media="all"></script>
+  
+  <link rel="stylesheet" id="fontawe-css" href="/vendors/font-awesome@4.7.0/css/font-awesome.min.css" media="all"></script>
+  <link rel="stylesheet" id="nprogress-css" href="/vendors/nprogress@0.2.0/nprogress.css" media="all"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/aplayer@1.10.1/dist/APlayer.min.css"></script>
+  
+  
+    <link rel="stylesheet" href="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"></script>
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="/vendors/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="/vendors/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+  
+  <style>
+    
+      .kratos-cover.kratos-cover-2 {
+        background-image: url('/images/banner.png');
+      }
+    
+    
+  </style>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                    
+                                        
+                                            <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                        
+                                    
+                                        
+                                            <li><a href="/friends/"><i class="fa fa-paw"></i>好伙伴</a></li>
+                                        
+                                    
+                                        
+                                            <li>
+                                                <a><i class="fa fa-link"></i>链接</a>
+                                                <ul class="sub-menu">
+                                                    
+                                                        
+                                                    
+                                                </ul>
+                                            </li>
+                                        
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">栋栋的个人博客</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>栋栋的个人博客</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        
+
+            <section class="col-md-8">
+
+        
+
+            <article itemscope itemtype="https://schema.org/Article">
+    
+    <link itemprop="mainEntityOfPage" href="https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/04/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E5%BC%B9/">
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <header class="kratos-entry-header">
+            
+                <h1 class="kratos-entry-title text-center" itemprop="name headline">我的小项目-第三弹</h1>
+            
+            
+            <ul class="kratos-post-meta text-center">
+                <li><time datetime="2023-09-04T09:30:29.000Z" itemprop="datePublished"><i class="fa fa-calendar"></i> 2023-09-04</time></li>
+                <li itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <i class="fa fa-user"></i> 作者 <span itemprop="name">John DD</span>
+                </li>
+                
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            975
+                        
+                        字
+                    </li>
+                
+                
+            </ul>
+        </header>
+        <div class="kratos-post-content">
+            
+            <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                <div class="icon"><i class="fa fa-warning"></i></div>
+                <div class="text"><p>本文最后编辑于 <time datetime="1694394482722"></time> 前，其中的内容可能需要更新。</p></div>
+            </div>
+            
+            
+            
+            <hr />
+            <div itemprop="articleBody"><p>一、项目起因：</p>
+<blockquote>
+<p>停滞挺久了，最近这段时间感觉各处不顺，工作没思路，干什么都提不起精神，这2年都没什么成长，有时候想自己不能这样下去，但是也不知道该做什么，怎么做，感觉很焦虑。</p>
+<p>最近思考了很多，但是一下子又想不起来自己想了些什么，就是人马上要到35岁了，一想到自己未来30-35岁的样子，就莫名的有点害怕；</p>
+<p>以前的时候吧，想着电视上的哪些人，科学家，律师，教师，一个成功的Leader穿西服挂领带，商人，企业家，包工头….以为将来会像这样，但是最近想的更多的吧，自己将来更多的其实是芸芸众生，就像自己的父母那样，平淡，为几毛几块钱也要争个面红耳赤，未来40岁，也许像许哥，也许像赵哥，人到中年，力不从心，却不想认命，却无能为力。也许现在找一份工作，到干不动了，被辞退了，然后为生计发愁。</p>
+<p>还想了，人到底要一条路走到黑，还是要兴趣广泛一些，想了一个比较好的比喻，就好比一颗树，是只在一边长还是要多生枝叶。破土而出的时候，总归要多长枝叶，只有这样才能吸取更多养分，要专注自己的主干，才能长高高。</p>
+</blockquote>
+<blockquote>
+<p>感触就这么多吧，说说项目。</p>
+<p>最近缺钱，最近花钱没有数，存款几乎全部花掉了，然后还想着要买车，大概3、5万，还有新家还没装修，乱七八糟的花销还有很多，另外，支付宝欠款还有1万多，想想压力就很大，所以准备一个能赚快钱的项目，另外需要准备一个能在未来持续走下去的项目。</p>
+<p>抢票软件最近聊的人比较多，这种演唱会门票感觉有搞头，有钱赚，可以先试试，之前曾试过环球影城的，难度是挺高的。这次试一下大麦的，如果能搞定，后续的赚钱路径等于多了一条。</p>
+</blockquote>
+<p>二、使用工具：</p>
+<pre><code> 1. 观看教学视频
+  1. 抓包工具及代理教程：charles
+  2. 安卓root工具：
+  3. 反编译工具
+  4. 模拟器：网易MUMU
+</code></pre>
+<p>待定：未开始</p>
+<p>三、项目思考：</p>
+<ol>
+<li>难题：</li>
+</ol>
+<p>   代理抓包难题：大麦和环球影城有点像，没有网页端，只有小程序和app，环球影城开代理会被屏蔽掉，直接抓包并能抓到包，不过我记得模拟器的小程序好像可以。但是大麦网的小程序也一样抢不到票，比较麻烦。</p>
+<p>   app 脱壳和反编译难题：这种app只能通过反编译来处理</p>
+<p>   逆向难题：这两个大公司，里面的加密包应该都是自己设计的，反编译起来，没有十足的把握。</p>
+<p>   法律风险：可能涉及法律风险。</p>
+<p>四、项目规划：</p>
+</div>
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <h5 itemprop="copyrightNotice">本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+                <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                
+                
+                    <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                    <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/04/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E5%BC%B9/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "https://hexodd-9go6c0x4h-dongdonga11.vercel.app/2023/09/04/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E5%BC%B9/";
+            const title         = "「我的小项目-第三弹」";
+            const excerpt       = `一、项目起因：
+
+停滞挺久了，最近这段时间感觉各处不顺，工作没思路，干什么都提不起精神，这2年都没什么成长，有时候想自己不能这样下去，但是也不知道该做什么，怎么做，感觉很焦虑。
+最近思考了很多，但是一下子又想不起来自己想了些什么，就是...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    <a class="tag-none-link" href="/tags/APP%E9%80%86%E5%90%91/" rel="tag">APP逆向</a>, <a class="tag-none-link" href="/tags/ideas/" rel="tag">ideas</a>, <a class="tag-none-link" href="/tags/%E5%B0%8F%E7%88%AC%E8%99%AB/" rel="tag">小爬虫</a>, <a class="tag-none-link" href="/tags/%E6%8A%A2%E7%A5%A8%E8%BD%AF%E4%BB%B6/" rel="tag">抢票软件</a>, <a class="tag-none-link" href="/tags/%E9%A1%B9%E7%9B%AE%E9%9B%86%E9%94%A6/" rel="tag">项目集锦</a>
+                </div>
+                <div class="pull-date">
+                    <time datetime="2023-09-11T01:08:02.722Z" itemprop="dateModified">最后编辑：2023-09-11</time>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" 销售系统搭建（二）" href="/2023/08/31/excel中台系统/销售系统搭建（二）/">&lt; 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" 项目部署踩坑记录" href="/2023/09/11/excel中台系统/项目部署踩坑记录/">下一篇 &gt;</a>
+            </div>
+            
+        </nav>
+    
+    
+</article>
+
+        
+
+            </section>
+
+        
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="" loading="lazy" decoding="auto" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">分享学习的文章分享基地</p>
+    </div>
+    <div class="site-meta">
+        <a class="meta-item" href="/archives/">
+            <span class="title">
+                文章
+            </span>
+            <span class="count">
+                85
+            </span>
+        </a>
+        <a class="meta-item" href="/categories/">
+            <span class="title">
+                分类
+            </span>
+            <span class="count">
+                11
+            </span>
+        </a>
+        <a class="meta-item" href="/tags/">
+            <span class="title">
+                标签
+            </span>
+            <span class="count">
+                50
+            </span>
+        </a>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/chatgpt/">chatgpt</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/excel/">excel</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mariadb/">mariadb</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tao%E7%B3%BB/">tao系</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/vba-access/">vba-access</a><span class="category-list-count">29</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E6%95%99%E7%A8%8B/">安卓逆向教程</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%88%AC%E8%99%AB%E9%80%86%E5%90%91/">爬虫逆向</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/">项目日记</a><span class="category-list-count">4</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/AI/" style="font-size: 0.6em;">-AI</a> <a href="/tags/AI/" style="font-size: 0.6em;">AI</a> <a href="/tags/APP%E9%80%86%E5%90%91/" style="font-size: 0.73em;">APP逆向</a> <a href="/tags/ChatGPT/" style="font-size: 0.67em;">ChatGPT</a> <a href="/tags/NAS/" style="font-size: 0.6em;">NAS</a> <a href="/tags/access/" style="font-size: 0.77em;">access</a> <a href="/tags/android%E9%80%86%E5%90%91/" style="font-size: 0.7em;">android逆向</a> <a href="/tags/chrom/" style="font-size: 0.6em;">chrom</a> <a href="/tags/css/" style="font-size: 0.63em;">css</a> <a href="/tags/dootask/" style="font-size: 0.6em;">dootask</a> <a href="/tags/excel/" style="font-size: 0.8em;">excel</a> <a href="/tags/excel-access-vba/" style="font-size: 0.6em;">excel - access - vba</a> <a href="/tags/github/" style="font-size: 0.63em;">github</a> <a href="/tags/hexo/" style="font-size: 0.6em;">hexo</a> <a href="/tags/ideas/" style="font-size: 0.63em;">ideas</a> <a href="/tags/mariadb/" style="font-size: 0.6em;">mariadb</a> <a href="/tags/markdown/" style="font-size: 0.6em;">markdown</a> <a href="/tags/pandas/" style="font-size: 0.6em;">pandas</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2024/07/22/github%E5%AE%9E%E7%94%A8%E9%A1%B9%E7%9B%AE/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/"><i class="fa  fa-book"></i> 搭建一个Hexo博客并用vercel部署</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2024/07/22/%E5%B7%A5%E5%85%B7%E7%BD%91%E7%AB%99/ipv6-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E6%96%B9%E6%A1%88/"><i class="fa  fa-book"></i> ipv6 内网穿透方案</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2024/07/04/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/%E9%AB%98%E8%80%83%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/"><i class="fa  fa-book"></i> 高考项目复盘</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2024/04/14/AI%E5%B7%A5%E5%85%B7/%E5%BC%80%E6%BA%90%E7%89%88GPTs%E5%AE%8C%E5%85%A8%E5%85%8D%E8%B4%B9%EF%BC%81%E8%BD%BB%E6%9D%BE%E7%82%B92%E4%B8%8B%E5%B0%B1%E5%8F%AF%E4%BB%A5%E5%88%9B%E5%BB%BA/"><i class="fa  fa-book"></i> 开源版GPTs完全免费！轻松点2下就可以创建</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2024/04/14/AI%E5%B7%A5%E5%85%B7/Langchain-Chatchat-%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B%EF%BC%81%E5%BC%80%E6%BA%90%E5%8F%AF%E5%85%8D%E8%B4%B9%E5%95%86%E7%94%A8%EF%BC%8C%E5%AE%8C%E5%85%A8%E6%9C%AC%E5%9C%B0%E5%8C%96%E6%8E%A8%E7%90%86%E7%9A%84%E7%9F%A5%E8%AF%86%E5%BA%93%E5%A2%9E%E5%BC%BA%E6%96%B9%E6%A1%88%EF%BC%81%EF%BC%81/"><i class="fa  fa-book"></i> Langchain-Chatchat 部署教程！开源可免费商用，完全本地化推理的知识库增强方案！！</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        <!-- Keep for compatibility -->
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <!-- New links -->
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2024 栋栋的个人博客 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by John DD.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="/vendors/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="/vendors/nprogress@0.2.0/nprogress.js"></script>
+<script>
+    if (!window.kr) {
+        window.kr = {};
+    }
+    window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
+    window.kr.siteRoot = "/";
+</script>
+
+
+
+
+    <script defer src="/vendors/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="/vendors/meting@2.0.1/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="3204190542"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="/vendors/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    </body>
+</html>

@@ -3,15 +3,253 @@
   
     
     <entry>
+      <title><![CDATA[搭建一个Hexo博客并用vercel部署]]></title>
+      <url>/2024/07/22/github%E5%AE%9E%E7%94%A8%E9%A1%B9%E7%9B%AE/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/</url>
+      <content type="html"><![CDATA[<p>Hexo 是一款基于Node.js的静态博客生成器，具有简单易用、快速高效、丰富主题、插件支持等特点，适合用于个人博客、技术文档、个人网站等场景。而且基于 markdown 编写起来非常顺畅，个人非常喜欢这个博客。这次下定决心搭建一个 Hexo 博客来实现我日常分享的一个小博客网站。</p>
+<h5 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h5><ol>
+<li>一台 windows 笔记本电脑，当然 mac 电脑也是没问题的，即使 Linux 电脑也是可以的。</li>
+<li>Git工具: Git (git-scm.com)</li>
+<li>Node+ Npm工具：Node.js (nodejs.org)</li>
+<li>准备好 Hexo 博客程序： <a href="https://hexo.io/">https://hexo.io/</a></li>
+<li>创建一个 Git 仓库</li>
+<li>注册一个 vercel 账号(如果有自己的服务器或者不适用 vercel 可以不用管这一步)：<a href="https://vercel.com/">https://vercel.com/</a></li>
+<li>准备一个域名(如果不需要独立域名可以略过这一步)</li>
+<li>hexo 本地图片部署</li>
+</ol>
+<h5 id="正式开始"><a href="#正式开始" class="headerlink" title="正式开始"></a>正式开始</h5><h6 id="安装-Hexo-工具"><a href="#安装-Hexo-工具" class="headerlink" title="安装 Hexo 工具"></a>安装 Hexo 工具</h6><p>上面的 GIT和 Node在百度或者谷歌上已经有很多相关专业的教程，这里就不详细讲解这块的知识了。一般来说到官网上下载完毕直接下一步下一步即可。我们先来全局安装一个 Hexo 工具</p>
+<pre class="line-numbers language-none"><code class="language-none">npm install hexo-cli -g<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+<h6 id="创建-hexo-本地博客程序"><a href="#创建-hexo-本地博客程序" class="headerlink" title="创建 hexo 本地博客程序"></a>创建 hexo 本地博客程序</h6><p>安装完成之后我们就可以使用 hexo 的工具来创建博客了。在电脑上创建一个目录并进入该目录，我起名叫做 javier-blog，刚才我们安装过 Git 工具这时候就派上用场了。在该目录内右键找到 Git Bash Here 点击打开一个 Git的命令行窗口或者你可以使用其他的命令行工具。执行以下命令</p>
+<pre class="line-numbers language-none"><code class="language-none">hexo init 
+
+# 下面是在执行上面的命令之后的结果
+
+INFO  Cloning hexo-starter https:&#x2F;&#x2F;github.com&#x2F;hexojs&#x2F;hexo-starter.git
+INFO  Install dependencies
+INFO  Start blogging with Hexo!<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h6 id="启动-hexo-本地服务"><a href="#启动-hexo-本地服务" class="headerlink" title="启动 hexo 本地服务"></a>启动 hexo 本地服务</h6><p>安装完成 hexo程序直接执行 hexo s 命令就可以打开 hexo 的本地服务。在命令行上会显示启动后的服务地址。</p>
+<pre class="line-numbers language-none"><code class="language-none">INFO  Validating config
+INFO  Start processing
+INFO  Hexo is running at http:&#x2F;&#x2F;localhost:4000&#x2F; . Press Ctrl+C to stop.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+
+<p><img src="/./../../img/image-20230530180853849.png" alt="image-20230530180853849"></p>
+<p>以上就正式搭建完成 hexo 的博客程序了。</p>
+<h5 id="修改博客的基本信息"><a href="#修改博客的基本信息" class="headerlink" title="修改博客的基本信息"></a>修改博客的基本信息</h5><p>修改 博客的标题，副标题，描述，语言时区等信息</p>
+<p><img src="/../../img/cf60858892fa440482540f548322cbfc.png" alt="../../img/"></p>
+<p>修改博客地址</p>
+<p><img src="/../../img/5dce8878e1fd42228974ee532b328a31.png" alt="5dce8878e1fd42228974ee532b328a31"></p>
+<p>创建 github 仓库<br>打开 <a href="https://github.com/">https://github.com/</a> 创建一个仓库用来存储我们的部署程序,创建后是这个样子的。</p>
+<p><img src="/../../img/87e34403497b4e8092b8e234b7d154aa.png" alt="../../img/"></p>
+<p><img src="/../../img/2dce5d421d4a45ae8b2628b405f00c85.png" alt="../../img/"></p>
+<h5 id="同步本地-Hexo-部署页面到-github-中"><a href="#同步本地-Hexo-部署页面到-github-中" class="headerlink" title="同步本地 Hexo 部署页面到 github 中"></a>同步本地 Hexo 部署页面到 github 中</h5><h5 id="初始化-git-项目"><a href="#初始化-git-项目" class="headerlink" title="初始化 git 项目"></a>初始化 git 项目</h5><pre class="line-numbers language-none"><code class="language-none">git init
+git remote add origin https:&#x2F;&#x2F;github.com&#x2F;runbrick&#x2F;javier-blog.git<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+<p>打开本地 **hexo **项目目录并执行下面的命令,用来安装 git 的部署组件</p>
+<pre class="line-numbers language-none"><code class="language-none">npm install hexo-deployer-git --save<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>安装之后在项目目录中找到<code>**_config.yml **</code>修改 deploy 参数</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json">deploy<span class="token operator">:</span>
+  type<span class="token operator">:</span> 'git'
+  repo<span class="token operator">:</span> 'https<span class="token operator">:</span><span class="token comment">//github.com/runbrick/javier-blog.git'</span>
+  branch<span class="token operator">:</span> 'master'<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<p>执行 <code>hexo g</code> 然后执行 <code>hexo d </code>将静态页面部署到 <strong>github</strong> 上，是这个样子的。</p>
+<p><img src="/../../img/1ee6f73b701249a483c8022e90aa6d6d-1685510451300-24.png" alt="../../img/"></p>
+<h5 id="将项目部署到-vercel-上"><a href="#将项目部署到-vercel-上" class="headerlink" title="将项目部署到 vercel 上"></a>将项目部署到 vercel 上</h5><p>如果不需要部署到 vercel 上此步可以略过</p>
+<p>在 **dashboard **上 选择 <strong>Create a New Project</strong></p>
+<p><img src="/../../img/54ae8c862963400ea1c2b86c0bec2e79.png" alt="../../img/"></p>
+<p>在关联的 **github **账户中，找到刚才的博客仓库，选择 import</p>
+<p><img src="/../../img/6a5b756f46bb4e3fb46a5d93bb32c5ca.png" alt="../../img/"></p>
+<p>进入部署页面选择 deploy</p>
+<p><img src="/../../img/d3f01706b7e84ac19d017b12b45cf23b.png" alt="../../img/"></p>
+<p>生成之后点击 Continue to Dashboard</p>
+<p><img src="/../../img/83a40d63337d4c02a6ac9d7d8a336ca6.png" alt="../../img/"></p>
+<p>点击 Visit 就可以看到刚刚生成的博客程序了</p>
+<p><img src="/../../img/73fea79fe1634cf897df435520360cc0.png" alt="../../img/"></p>
+<p>将项目资源文件放入同一个仓库中<br>在命令行创建一个新的分支并切换过去</p>
+<pre class="line-numbers language-none"><code class="language-none">git checkout -b source<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+<p>提交代码</p>
+<pre class="line-numbers language-none"><code class="language-none">git add .
+git commit -m &quot;first commit&quot;
+git push origin source<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>常用命令</p>
+<pre class="line-numbers language-none"><code class="language-none">hexo new &quot;name&quot;       # 新建文章
+hexo new page &quot;name&quot;  # 新建页面
+hexo g                # 生成页面
+hexo d                # 部署
+hexo g -d             # 生成页面并部署
+hexo s                # 本地预览
+hexo clean            # 清除缓存和已生成的静态文件
+hexo help             # 帮助<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+]]></content>
+      
+        <categories>
+            
+            <category> github </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> vervel </tag>
+            
+            <tag> hexo </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[ipv6 内网穿透方案]]></title>
+      <url>/2024/07/22/%E5%B7%A5%E5%85%B7%E7%BD%91%E7%AB%99/ipv6-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E6%96%B9%E6%A1%88/</url>
+      <content type="html"><![CDATA[<h2 id="基于ipv6实现几乎零成本的内网穿透方案，小白的踩坑历程与经验分享"><a href="#基于ipv6实现几乎零成本的内网穿透方案，小白的踩坑历程与经验分享" class="headerlink" title="基于ipv6实现几乎零成本的内网穿透方案，小白的踩坑历程与经验分享"></a><strong>基于ipv6实现几乎零成本的内网穿透方案，小白的踩坑历程与经验分享</strong></h2><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>最近想远程访问家里nas的想法老在脑海中浮现，原因大概是本人二开了一个管理系统，并在上面跑了些定时任务做自动化，就有了远程访问系统的需求。同时又想到，如果真能实现内网穿透，那么家里的nas真实的成为一个服务器，且配置不低，带宽也凑活，最重要的是与云服务器相比，可以省下一大笔钱。</p>
+<p>那说干就干，接着就分析下内网穿透的几个思路：</p>
+<ul>
+<li><code>frp</code>形式的，首先需要一台具有公网ip的服务器，并在服务器上跑内网穿透的服务端，自家nas上跑客户端；或者可以购买内网穿透的服务，但可能有安全隐患。我寻思这种方式都需要有公网服务器了，总之就是<strong>费钱</strong>，那本人省钱的想法就泡汤了，故只能pass。</li>
+<li>宽带的<code>公网ip加上ddns</code>，<code>ipv4</code>地址现在是不指望了，就算是电信宽带也很难申请到，而且今天我登录光猫上看了<code>wan</code>口的ip地址，是100打头的，好家伙果然是内网地址。但俺发现<code>ipv6</code>地址目前已基本普及，所以打算试试<code>ipv6与ddns</code>结合来进行内网穿透</li>
+</ul>
+<h2 id="可行性分析"><a href="#可行性分析" class="headerlink" title="可行性分析"></a><strong>可行性分析</strong></h2><p>如果我们要访问的是<code>ipv6</code>的地址，前提是目前的网络必须是支持<code>ipv6</code>的，所以这个可行性俺一定要先测清楚，要保证手机和家里的宽带都得支持。</p>
+<p>我简单测试了下，无论是联通还是电信的手机都已经默认支持<code>ipv6</code>了，然后家里的路由器在开启<code>ipv6</code>后也支持了。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-2759985be0bca267f0787b00621d1230_1440w.webp" alt="img"></p>
+<p><img src="https://pic3.zhimg.com/80/v2-80c4080f0dcfde2cbeba03e326b43dde_1440w.webp" alt="img"></p>
+<p>可以通过以下两个地址测试：</p>
+<ul>
+<li><a href="https://link.zhihu.com/?target=https://test-ipv6.com/">https://test-ipv6.com/</a></li>
+<li><a href="https://link.zhihu.com/?target=https://ipv6.ddnspod.com/">https://ipv6.ddnspod.com/</a></li>
+</ul>
+<p>其中第二个如果是<code>ipv6</code>地址访问会返回你的<code>ipv6</code>地址</p>
+<h2 id="光猫改桥接，通过路由拨号"><a href="#光猫改桥接，通过路由拨号" class="headerlink" title="光猫改桥接，通过路由拨号"></a><strong>光猫改桥接，通过路由拨号</strong></h2><p>现在的宽带默认是通过光猫进行拨号的，这就有几个问题，首先是光猫的性能较差，通过光猫拨号可能会影响速度，但最重要的还是光猫会设置防火墙，可能莫名奇妙的拦截了<code>ipv6</code>的进站请求，奇奇怪怪的，所以首先一定要把光猫改桥接，拨号交给路由器。</p>
+<h3 id="1修改光猫：开启桥接和-IPv6-设置"><a href="#1修改光猫：开启桥接和-IPv6-设置" class="headerlink" title="1修改光猫：开启桥接和 IPv6 设置"></a><strong>1修改光猫：开启桥接和 IPv6 设置</strong></h3><p>不同运营商的配置方式不同，以下是俺的光猫</p>
+<p><img src="https://pic4.zhimg.com/80/v2-4767b949b87fb5d6e248d89665f8d053_1440w.webp" alt="img"></p>
+<p><img src="https://pic2.zhimg.com/80/v2-0432f1a10171e2a0e34d6ab8076af87d_1440w.webp" alt="img"></p>
+<p>进入光猫的后台管理系统，使用超级管理员用户登录：</p>
+<blockquote>
+<p>4大运营商<a href="https://link.zhihu.com/?target=https://so.csdn.net/so/search?q=%25E5%2585%2589%25E7%258C%25AB&spm=1001.2101.3001.7020">光猫</a>默认初始超级密码：<br>1、电信超级密码 telecomadmin nE7jA%5m<br>2、移动超级密码 CMCCAdmin aDm8H%MdA<br>3、联通超级密码 CUAdmin CUAdmin<br>4、广电超级密码 admin aDm8H%MdA</p>
+</blockquote>
+<p><strong>连接名称</strong> 选择 <code>3_INTERNET_R_VID_41</code>，<strong>连接模式</strong> 选择 <code>桥接</code>，<strong>IP模式</strong>为 <code>IPv4&amp;IPv6</code>。点击 <code>保存/应用</code>，大约等待 10s 会生效。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-a997a916ce4720a7b53f28e0fa365d15_1440w.webp" alt="img"></p>
+<p>在状态菜单中，可以看到 <code>IPv4</code> 和 <code>IPv6</code> 已经开启成功。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-9e7446d0dcb18f4c35dfec8f0e9f1a80_1440w.webp" alt="img"></p>
+<h3 id="2设置路由器PPPoE拨号和开启-IPv6设置"><a href="#2设置路由器PPPoE拨号和开启-IPv6设置" class="headerlink" title="2设置路由器PPPoE拨号和开启 IPv6设置"></a><strong>2设置路由器PPPoE拨号和开启 IPv6设置</strong></h3><p>这是本人的路由器，办理电信宽带的时候送的，相当丑..</p>
+<p><img src="https://pic1.zhimg.com/80/v2-2c28d071694fc4fba413426823e4d850_1440w.webp" alt="img"></p>
+<p>查看路由器背后的管理地址，登录路由器的后台</p>
+<p>默认用户名和密码都是<code>admin</code></p>
+<p><img src="https://pic2.zhimg.com/80/v2-904f4e8c80a96d45387abdccc9076e91_1440w.webp" alt="img"></p>
+<p>进入网络配置菜单，上网方式选择拨号上网（PPPoE），输入宽带的账号和密码，一定要勾选<code>IPV6</code>，获取方式选择自动就行了，拨号生效需要几分钟。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-c209c4ce3a61a40bc5b181313a830dd9_1440w.webp" alt="img"></p>
+<p>拨号成功后查看状态信息，可以看到<code>ipv4和ipv6</code>地址都有了，其中<code>GUA</code>指的其实就是<code>ipv6</code>地址</p>
+<p><img src="https://pic2.zhimg.com/80/v2-bed7be42d99591233dd60813a4a251f5_1440w.webp" alt="img"></p>
+<p>至此，光猫改桥接，路由拨号完成。</p>
+<h2 id="ipv6地址测试"><a href="#ipv6地址测试" class="headerlink" title="ipv6地址测试"></a><strong>ipv6地址测试</strong></h2><p>首先我们拿着路由器上的<code>ipv6</code>地址先试试到底是不是公网的，毕竟电信太坑了保不齐又是内网…</p>
+<p>嗯，没问题！！</p>
+<p><img src="https://pic3.zhimg.com/80/v2-279ad1ce7b13e41d376174fa0ab9a57e_1440w.webp" alt="img"></p>
+<p>我们再通过命令行ping下看通不通</p>
+<p>可以看到也是没有问题的</p>
+<p><strong>有问题的小伙伴请记得将路由器的防火墙关闭！！！</strong></p>
+<p><img src="https://pic3.zhimg.com/80/v2-5c10f5b7cb9061d2b81fda34b85bf7ce_1440w.webp" alt="img"></p>
+<p>那么我们再试试通过<code>ipv6</code>地址直接访问路由器的管理台是否可行呢？果然，成功了！！！这也太惊喜了！！</p>
+<p><img src="https://pic4.zhimg.com/80/v2-4eed1ad6bef30c9740a09e7ab2829eaf_1440w.webp" alt="img"></p>
+<p>路由器没问题了就试试我的nas吧！！嘿嘿！</p>
+<p>本人使用的是<code>unas</code>，，这个特别坑的nas系统..</p>
+<p>可以看到也正确获取了<code>ipv6</code>的地址</p>
+<p><img src="https://pic2.zhimg.com/80/v2-13c24d7c4160be16e10e3e9d23570ec1_1440w.webp" alt="img"></p>
+<p>因为<code>ipv6</code>的地址是公网的，所以不能写成静态ip，推荐使用自动的。</p>
+<p>那么这个地址的公网的吗，答案是的！</p>
+<p>那么通过这个<code>ipv6</code>地址进行访问可行么？<strong>可行！太惊喜了！</strong></p>
+<p><img src="https://pic3.zhimg.com/80/v2-0f9ffbca5c34a4f16fef90f640656f52_1440w.webp" alt="img"></p>
+<p>接下来就只剩下一个<code>ipv6</code>地址是动态的这个问题了，但是有解决方案，通过<code>ddns</code>的方式动态解析域名地址就行了。</p>
+<h2 id="ddns方案"><a href="#ddns方案" class="headerlink" title="ddns方案"></a><strong>ddns方案</strong></h2><p>提供<code>ddns</code>方案的厂家有很多，比如阿里云，腾讯云，dnsPod等，但俺认为最靠谱的还是<code>cloudflare</code>这个老牌的厂商。</p>
+<p><code>ddns</code>的原理简单理解就是，通过给一个域名添加<code>AAAA</code>记录解析到一个<code>ipv6</code>地址。同时在自家的<code>nas</code>上运行定时检测<code>ip</code>变化的任务，如果域名发生变化就发送<code>api</code>请求，将域名解析到最新的<code>ipv6</code>地址。</p>
+<h3 id="获取一个域名"><a href="#获取一个域名" class="headerlink" title="获取一个域名"></a><strong>获取一个域名</strong></h3><p>购买域名的方式就不赘述了，网上太多文章有介绍，俺在很早前买了一个10年期限的数字域名，不到100，至今还没过期，嘿嘿，相当于免费了，以前不知道有啥用，没想到现在排上用场了</p>
+<p><img src="https://pic4.zhimg.com/80/v2-905daf1c1967c7acd45530eda7344cab_1440w.webp" alt="img"></p>
+<h3 id="cloudflare添加dns解析记录"><a href="#cloudflare添加dns解析记录" class="headerlink" title="cloudflare添加dns解析记录"></a><strong>cloudflare添加dns解析记录</strong></h3><p>在<code>cloudflare</code>添加<code>dns</code>解析，记住不能选择<code>代理</code></p>
+<p><img src="https://pic4.zhimg.com/80/v2-dc5c25ee69193544435c1522d226a193_1440w.webp" alt="img"></p>
+<p>解析需要一定时间生效，等几分钟就可以试试使用域名访问了</p>
+<h3 id="ddns-go"><a href="#ddns-go" class="headerlink" title="ddns-go"></a><strong>ddns-go</strong></h3><p>定时更新最新ip这种程序必然是有大佬造过轮子了，目前最火的应该是<code>ddns-go</code>,我们对大佬致以最真诚的敬意！！并随了个赞！！</p>
+<p><img src="https://pic4.zhimg.com/80/v2-dde9aea14ac8f8a4ee2a99908ac4be83_1440w.webp" alt="img"></p>
+<p>因为<code>nas</code>基本都支持docker了，所有俺通过docker方式安装，安装过程是傻瓜式的，ddns-go的说明也很清楚了。</p>
+<p>安装好后就是这个界面，我们选择<code>cloudflare</code></p>
+<p><img src="https://pic1.zhimg.com/80/v2-b65b38a34b0cb85da77c54528e1cda04_1440w.webp" alt="img"></p>
+<p>token通过在<code>cloudflare</code>中创建令牌获取</p>
+<p><img src="https://pic3.zhimg.com/80/v2-bb36ad806968011e1769072660a5e356_1440w.webp" alt="img"></p>
+<h3 id="查看效果"><a href="#查看效果" class="headerlink" title="查看效果"></a><strong>查看效果</strong></h3><p>好了所有工作都完毕了，我们可以愉快的在外网通过域名访问我们在内网中的服务了</p>
+<p><img src="https://pic3.zhimg.com/80/v2-0eee3bc065cc402c238ea3674bd18746_1440w.webp" alt="img"></p>
+<h2 id="ipv6理论"><a href="#ipv6理论" class="headerlink" title="ipv6理论"></a><strong>ipv6理论</strong></h2><p>ipv6比ipv4复杂很多，我觉得知其然也得知其所以然，所以一些理论的东西也得了解，但在本文就不介绍了，贴点大佬的分享吧</p>
+<blockquote>
+<p>链接：红茶三杯<a href="https://link.zhihu.com/?target=http://www.ccietea.com/">http://www.ccietea.com/</a>大佬的视频<br>【IPv6 01】IPv6概述 <a href="https://link.zhihu.com/?target=https://www.youtube.com/watch?v=scyzX3Zd5JU">https://www.youtube.com/watch?v=scyzX3Zd5JU</a> 【IPv6 02】IPv6基础配置 <a href="https://link.zhihu.com/?target=https://www.youtube.com/watch?v=Vr-UvtwA3kA">https://www.youtube.com/watch?v=Vr-UvtwA3kA</a> 【IPv6 03】ICMPv6详解（上） <a href="https://link.zhihu.com/?target=https://www.youtube.com/watch?v=MYBcNPUx9YU">https://www.youtube.com/watch?v=MYBcNPUx9YU</a> 【IPv6 04】ICMPv6详解（中）无状态自动配置 <a href="https://link.zhihu.com/?target=https://www.youtube.com/watch?v=s_yASxcjMl0">https://www.youtube.com/watch?v=s_yASxcjMl0</a> 【IPv6 05】ICMPv6详解（下）以及DHCPv6 <a href="https://link.zhihu.com/?target=https://www.youtube.com/watch?v=pw46Qu6Shsc">https://www.youtube.com/watch?v=pw46Qu6Shsc</a> 链接：openwrt官方文档<br>Network Interfaces <a href="https://link.zhihu.com/?target=https://oldwiki.archive.openwrt.org/zh-cn/doc/networking/network.interfaces">https://oldwiki.archive.openwrt.org/zh-cn/doc/networking/network.interfaces</a> Switch Documentation <a href="https://link.zhihu.com/?target=https://oldwiki.archive.openwrt.org/zh-cn/doc/uci/network/switch">https://oldwiki.archive.openwrt.org/zh-cn/doc/uci/network/switch</a> 链接：他人整理文档<br>闲谈IPv6-典型特征的一些技术细节 <a href="https://link.zhihu.com/?target=https://blog.csdn.net/dog250/article/details/8169984">https://blog.csdn.net/dog250/article/details/8169984</a> 闲谈IPv6-一起玩转IPv6地址自动配置 <a href="https://link.zhihu.com/?target=https://blog.csdn.net/dog250/article/details/88176596">https://blog.csdn.net/dog250/article/details/88176596</a></p>
+</blockquote>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a><strong>参考文章</strong></h2><ul>
+<li><a href="https://link.zhihu.com/?target=https://blog.csdn.net/dengkangming/article/details/129909376">4大运营商光猫默认初始超级密码</a></li>
+<li><a href="https://link.zhihu.com/?target=https://ipw.cn/doc/">IPv6 工具箱使用文档</a></li>
+<li><a href="https://link.zhihu.com/?target=https://ipw.cn/doc/ipv6/user/enable_ipv6.html">个人宽带如何开启IPv6网络访问</a></li>
+<li><a href="https://link.zhihu.com/?target=https://www.veidc.com/37858.html">如何利用CloudFlare设置Dynamic DNS(DDNS)获取动态IP教程</a>](<a href="https://link.zhihu.com/?target=https://www.veidc.com/37858.html">https://www.veidc.com/37858.html</a>)</li>
+</ul>
+<h2 id="欢迎交流"><a href="#欢迎交流" class="headerlink" title="欢迎交流"></a><strong>欢迎交流</strong></h2><p>以上是本人作为小白的一些踩坑与分享总结，写的比较粗糙很多东西也没讲清楚，欢迎大家评论补充意见。如果有什么不懂的可以评论区留言或者私信或者加技术交流群讨论都行。这是本人的博客地址：<a href="https://link.zhihu.com/?target=https://huanglusong.github.io/">https://huanglusong.github.io/</a>，时不时会分享些技术内容，有兴趣的小伙伴可以收藏。本人主业是java程序员，业余时间喜欢钻研这些东西，目前正在往独立开发的方向上走，目前前后端的需求都能在做，如果有这方面需求的小伙伴可以一起探讨。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 工具 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 工具 </tag>
+            
+            <tag> 内网穿透 </tag>
+            
+            <tag> NAS </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[高考项目复盘]]></title>
+      <url>/2024/07/04/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/%E9%AB%98%E8%80%83%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/</url>
+      <content type="html"></content>
+      
+        <categories>
+            
+            <category> 项目日记 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 高考网站 </tag>
+            
+            <tag> 志愿填报 </tag>
+            
+            <tag> 项目复盘 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[开源版GPTs完全免费！轻松点2下就可以创建]]></title>
-      <url>/2024/04/14/%E5%BC%80%E6%BA%90%E7%89%88GPTs%E5%AE%8C%E5%85%A8%E5%85%8D%E8%B4%B9%EF%BC%81%E8%BD%BB%E6%9D%BE%E7%82%B92%E4%B8%8B%E5%B0%B1%E5%8F%AF%E4%BB%A5%E5%88%9B%E5%BB%BA/</url>
-      <content type="html"><![CDATA[<p><img src="/./../img/%E5%B7%A5%E5%85%B7/2024-02-07-160830.webp" alt="2024-02-07-160830"></p>
+      <url>/2024/04/14/AI%E5%B7%A5%E5%85%B7/%E5%BC%80%E6%BA%90%E7%89%88GPTs%E5%AE%8C%E5%85%A8%E5%85%8D%E8%B4%B9%EF%BC%81%E8%BD%BB%E6%9D%BE%E7%82%B92%E4%B8%8B%E5%B0%B1%E5%8F%AF%E4%BB%A5%E5%88%9B%E5%BB%BA/</url>
+      <content type="html"><![CDATA[<p><img src="/./../../img/%E5%B7%A5%E5%85%B7/2024-02-07-160830.webp" alt="2024-02-07-160830"></p>
 <p>最近，世界最大的开源社区Hugging Face推出了开源、可定制的AI 助手：Hugging Chat Assistants！完全免费，人人都可以创建自己的GPTs</p>
 <p>最良心的是，它目前支持Mixtral-8×7B、Llama 2、Code Llama-70B、Mistral-7B等6个开源模型，可以随意切换使用</p>
-<p><img src="/./../img/%E5%B7%A5%E5%85%B7/2024-02-07-161133.webp" alt="2024-02-07-161133"></p>
+<p><img src="/./../../img/%E5%B7%A5%E5%85%B7/2024-02-07-161133.webp" alt="2024-02-07-161133"></p>
 <p><strong>开源链接：</strong>【<a href="https://huggingface.co/chat/assistants"><strong>点击前往</strong></a>】</p>
 <p>一起创建属于你自己的GPTs吧…. 你只需要动动手指头就能轻松搞定！</p>
-<p><img src="/./../img/%E5%B7%A5%E5%85%B7/2024-02-07-160459.webp" alt="2024-02-07-160459"></p>
+<p><img src="/./../../img/%E5%B7%A5%E5%85%B7/2024-02-07-160459.webp" alt="2024-02-07-160459"></p>
 <p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
 <p><strong>6个不同的开源模型对比：</strong></p>
 <h2 id="1-Mistralai-x2F-Mixtral-8x7B-Instruct-v0-1"><a href="#1-Mistralai-x2F-Mixtral-8x7B-Instruct-v0-1" class="headerlink" title="1.Mistralai&#x2F;Mixtral-8x7B-Instruct-v0.1"></a>1.Mistralai&#x2F;Mixtral-8x7B-Instruct-v0.1</h2><p>Mistral AI 的最新 MoE 模型！8x7B，并且在大多数基准测试中优于 Llama 2 70B。</p>
@@ -38,12 +276,12 @@
     
     <entry>
       <title><![CDATA[Langchain-Chatchat 部署教程！开源可免费商用，完全本地化推理的知识库增强方案！！]]></title>
-      <url>/2024/04/14/Langchain-Chatchat-%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B%EF%BC%81%E5%BC%80%E6%BA%90%E5%8F%AF%E5%85%8D%E8%B4%B9%E5%95%86%E7%94%A8%EF%BC%8C%E5%AE%8C%E5%85%A8%E6%9C%AC%E5%9C%B0%E5%8C%96%E6%8E%A8%E7%90%86%E7%9A%84%E7%9F%A5%E8%AF%86%E5%BA%93%E5%A2%9E%E5%BC%BA%E6%96%B9%E6%A1%88%EF%BC%81%EF%BC%81/</url>
-      <content type="html"><![CDATA[<h1 id="Langchain-Chatchat-部署教程！开源可免费商用，完全本地化推理的知识库增强方案！！"><a href="#Langchain-Chatchat-部署教程！开源可免费商用，完全本地化推理的知识库增强方案！！" class="headerlink" title="Langchain-Chatchat 部署教程！开源可免费商用，完全本地化推理的知识库增强方案！！"></a>Langchain-Chatchat 部署教程！开源可免费商用，完全本地化推理的知识库增强方案！！</h1><p><img src="/./../img/%E5%B7%A5%E5%85%B7/v2-ce3ad5fb5a60a6f4870e7c967781756b_1440w.webp" alt="img"></p>
+      <url>/2024/04/14/AI%E5%B7%A5%E5%85%B7/Langchain-Chatchat-%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B%EF%BC%81%E5%BC%80%E6%BA%90%E5%8F%AF%E5%85%8D%E8%B4%B9%E5%95%86%E7%94%A8%EF%BC%8C%E5%AE%8C%E5%85%A8%E6%9C%AC%E5%9C%B0%E5%8C%96%E6%8E%A8%E7%90%86%E7%9A%84%E7%9F%A5%E8%AF%86%E5%BA%93%E5%A2%9E%E5%BC%BA%E6%96%B9%E6%A1%88%EF%BC%81%EF%BC%81/</url>
+      <content type="html"><![CDATA[<h1 id="Langchain-Chatchat-部署教程！开源可免费商用，完全本地化推理的知识库增强方案！！"><a href="#Langchain-Chatchat-部署教程！开源可免费商用，完全本地化推理的知识库增强方案！！" class="headerlink" title="Langchain-Chatchat 部署教程！开源可免费商用，完全本地化推理的知识库增强方案！！"></a>Langchain-Chatchat 部署教程！开源可免费商用，完全本地化推理的知识库增强方案！！</h1><p><img src="/./../../img/%E5%B7%A5%E5%85%B7/v2-ce3ad5fb5a60a6f4870e7c967781756b_1440w.webp" alt="img"></p>
 <p>Langchain-Chatchat 是一个可以实现：完全本地化推理的知识库增强方案, 重点解决数据安全保护，私域化部署的企业痛点。 开源方案采用<code>Apache License</code>，可以免费商用，无需付费。</p>
 <p>支持市面上主流的本地大语言模型和Embedding 嵌入式模型，支持开源的本地向量数据库。</p>
-<p><img src="/./../img/%E5%B7%A5%E5%85%B7/LLM_success.webp" alt="img"></p>
-<p><img src="/./../img/%E5%B7%A5%E5%85%B7/init_knowledge_base.webp" alt="img"></p>
+<p><img src="/./../../img/%E5%B7%A5%E5%85%B7/LLM_success.webp" alt="img"></p>
+<p><img src="/./../../img/%E5%B7%A5%E5%85%B7/init_knowledge_base.webp" alt="img"></p>
 <h3 id="1-环境配置"><a href="#1-环境配置" class="headerlink" title="1. 环境配置"></a>1. 环境配置</h3><ul>
 <li><p>首先，确保你的机器安装了 Python 3.8 – 3.11 (强烈推荐使用 Python3.11)。不要使用最新版！【**<a href="https://www.python.org/">官网下载</a>**】</p>
 </li>
@@ -136,10 +374,20 @@ python init_database<span class="token punctuation">.</span>py <span class="toke
 <p>安装后再重新安装依赖环境</p>
 ]]></content>
       
+        <categories>
+            
+            <category> chatgpt </category>
+            
+        </categories>
+        
         
         <tags>
             
-            <tag> -AI </tag>
+            <tag> vercel </tag>
+            
+            <tag> ChatGPT </tag>
+            
+            <tag> AI </tag>
             
         </tags>
         
@@ -147,38 +395,38 @@ python init_database<span class="token punctuation">.</span>py <span class="toke
     
     <entry>
       <title><![CDATA[通过CE修改器来跑满百度网盘和迅雷的下载速度！ Cheat Engine 7.5]]></title>
-      <url>/2024/04/13/%E9%80%9A%E8%BF%87CE%E4%BF%AE%E6%94%B9%E5%99%A8%E6%9D%A5%E8%B7%91%E6%BB%A1%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98%E5%92%8C%E8%BF%85%E9%9B%B7%E7%9A%84%E4%B8%8B%E8%BD%BD%E9%80%9F%E5%BA%A6%EF%BC%81-Cheat-Engine-7-5/</url>
+      <url>/2024/04/13/%E5%B7%A5%E5%85%B7%E7%BD%91%E7%AB%99/%E9%80%9A%E8%BF%87CE%E4%BF%AE%E6%94%B9%E5%99%A8%E6%9D%A5%E8%B7%91%E6%BB%A1%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98%E5%92%8C%E8%BF%85%E9%9B%B7%E7%9A%84%E4%B8%8B%E8%BD%BD%E9%80%9F%E5%BA%A6%EF%BC%81-Cheat-Engine-7-5/</url>
       <content type="html"><![CDATA[<p><strong>1.Cheat Engine</strong> 是一款内存修改编辑工具 ，它允许你修改你的游戏或软件内存数据，以得到一些其他功能。它包括16进制编辑，反汇编程序，内存查找工具。与同类修改工具相比，它具有强大的反汇编功能，且自身附带了外挂制作工具，可以用它直接生成外挂。</p>
 <p>1.Cheat Engine 7.5 修改器下载：</p>
 <p>Windows版：【<a href="https://mega.nz/file/qd9HHCiZ#YPW459tb4NjLFfVVTS5_aSw2tdiZ8cpXc7kbTWtXkVY">Mega网盘</a>】、【<a href="https://www.mediafire.com/file/8voatwwcjfohksz/Cheat_Engine_7.5.rar/file">MediaFire</a>】</p>
 <p>MacOS版：【<a href="https://mega.nz/file/aMU3lDAD#r11QqedQym1heFKXk-rj21wBoe-80mj9n4noyckwhCE">Mega网盘</a>】、【<a href="https://www.mediafire.com/file/8a10pzowlpq6iyt/CheatEngine743.app.zip/file">MediaFire</a>】</p>
 <p><strong>通过简单的修改可以轻轻松松免费拉满百度网盘的下载速度！</strong></p>
 <h3 id="2-迅雷开心版"><a href="#2-迅雷开心版" class="headerlink" title="2.迅雷开心版"></a><strong>2.迅雷开心版</strong></h3><p>【<a href="https://mega.nz/file/Ccl3DCya#qW1w_LaxJunedmHOTVQeRHkzLrPWc1GeMoGhT7kXiJM">Mega网盘下载</a>】、【<a href="https://www.mediafire.com/file/fe2iwswdv9wv04l/%E8%BF%85%E9%9B%B7X_10.1.38.890_%E5%8E%BB%E5%B9%BF%E5%91%8A%E6%9C%AC%E5%9C%B0SVIP%E7%BB%BF%E8%89%B2%E7%89%88.rar/file">MediaFire网盘</a>】</p>
-<p>[<img src="/..%5Cimg%5C%E5%B7%A5%E5%85%B7%5C2023-03-26-22-51-00.00_09_01_02.Still003.bmp" alt="img"></p>
+<p>[<img src="/./../../img%5C%E5%B7%A5%E5%85%B7%5C2023-03-26-22-51-00.00_09_01_02.Still003.bmp" alt="img"></p>
 <h1 id="只需一步！彻底解决百度网盘、迅雷下载限速的问题，提升效果狠明显！！"><a href="#只需一步！彻底解决百度网盘、迅雷下载限速的问题，提升效果狠明显！！" class="headerlink" title="只需一步！彻底解决百度网盘、迅雷下载限速的问题，提升效果狠明显！！"></a>只需一步！彻底解决百度网盘、迅雷下载限速的问题，提升效果狠明显！！</h1><p>注意事项：不要放在桌面，可以放在其他目录下，否则会报错</p>
 <p>第一步：解压目录：</p>
 <p>第二步：打开软件：</p>
-<p><img src="/..%5Cimg%5C%E5%B7%A5%E5%85%B7%5Cimage-20240413235629415.png" alt="image-20240413235629415"></p>
+<p><img src="/./../../img%5C%E5%B7%A5%E5%85%B7%5Cimage-20240413235629415.png" alt="image-20240413235629415"></p>
 <p>第三步：打开百度云，下载内容，查看任务管理器：</p>
-<p><img src="/..%5Cimg%5C%E5%B7%A5%E5%85%B7%5Cimage-20240413235758829.png" alt="image-20240413235758829"></p>
+<p><img src="/./../../img%5C%E5%B7%A5%E5%85%B7%5Cimage-20240413235758829.png" alt="image-20240413235758829"></p>
 <p>在状态栏打开PID选项</p>
-<p><img src="/..%5Cimg%5C%E5%B7%A5%E5%85%B7%5Cimage-20240413235922911.png" alt="image-20240413235922911"></p>
+<p><img src="/./../../img%5C%E5%B7%A5%E5%85%B7%5Cimage-20240413235922911.png" alt="image-20240413235922911"></p>
 <p>找到百度进程：</p>
-<p><img src="/..%5Cimg%5C%E5%B7%A5%E5%85%B7%5Cimage-20240414000049721.png" alt="image-20240414000049721"></p>
+<p><img src="/./../../img%5C%E5%B7%A5%E5%85%B7%5Cimage-20240414000049721.png" alt="image-20240414000049721"></p>
 <p>找到进程PID</p>
-<p><img src="/..%5Cimg%5C%E5%B7%A5%E5%85%B7%5Cimage-20240414000237218.png" alt="image-20240414000237218"></p>
+<p><img src="/./../../img%5C%E5%B7%A5%E5%85%B7%5Cimage-20240414000237218.png" alt="image-20240414000237218"></p>
 <p>打开CE</p>
-<p><img src="/./../img/%E5%B7%A5%E5%85%B7/image-20240414000452388.png" alt="image-20240414000452388"></p>
-<p><img src="/./../img/%E5%B7%A5%E5%85%B7/image-20240414000524144.png" alt="image-20240414000524144"></p>
-<p><img src="/./../img/%E5%B7%A5%E5%85%B7/image-20240414000545110.png" alt="image-20240414000545110"></p>
-<p><img src="/./../img/%E5%B7%A5%E5%85%B7/image-20240414000609339.png" alt="image-20240414000609339"></p>
-<p><img src="/./../img/%E5%B7%A5%E5%85%B7/image-20240414000708014.png" alt="image-20240414000708014"></p>
-<p><img src="/./../img/%E5%B7%A5%E5%85%B7/image-20240414000731463.png" alt="image-20240414000731463"></p>
-<p><img src="/./../img/%E5%B7%A5%E5%85%B7/image-20240414000755495.png" alt="image-20240414000755495"></p>
+<p><img src="/./../../img/%E5%B7%A5%E5%85%B7/image-20240414000452388.png" alt="image-20240414000452388"></p>
+<p><img src="/./../../img/%E5%B7%A5%E5%85%B7/image-20240414000524144.png" alt="image-20240414000524144"></p>
+<p><img src="/./../../img/%E5%B7%A5%E5%85%B7/image-20240414000545110.png" alt="image-20240414000545110"></p>
+<p><img src="/./../../img/%E5%B7%A5%E5%85%B7/image-20240414000609339.png" alt="image-20240414000609339"></p>
+<p><img src="/./../../img/%E5%B7%A5%E5%85%B7/image-20240414000708014.png" alt="image-20240414000708014"></p>
+<p><img src="/./../../img/%E5%B7%A5%E5%85%B7/image-20240414000731463.png" alt="image-20240414000731463"></p>
+<p><img src="/./../../img/%E5%B7%A5%E5%85%B7/image-20240414000755495.png" alt="image-20240414000755495"></p>
 <p>然后就可以了。</p>
 <p>如果想再提速：</p>
 <p>打开百度云优化速率功能效果更好。</p>
-<p><img src="/./../img/%E5%B7%A5%E5%85%B7/image-20240414000909763.png" alt="image-20240414000909763"></p>
+<p><img src="/./../../img/%E5%B7%A5%E5%85%B7/image-20240414000909763.png" alt="image-20240414000909763"></p>
 <p>迅雷模式是一样的</p>
 ]]></content>
       
@@ -193,8 +441,8 @@ python init_database<span class="token punctuation">.</span>py <span class="toke
     
     <entry>
       <title><![CDATA[纯Css翻书效果详解]]></title>
-      <url>/2024/03/17/%E7%BA%AFCss%E7%BF%BB%E4%B9%A6%E6%95%88%E6%9E%9C%E8%AF%A6%E8%A7%A3/</url>
-      <content type="html"><![CDATA[<h3 id="翻书效果："><a href="#翻书效果：" class="headerlink" title="翻书效果："></a>翻书效果：</h3><p><img src="/./../img/f1dd5b4c0ecb498096d2a7f4e1be6024.gif" alt="在这里插入图片描述"></p>
+      <url>/2024/03/17/%E4%BB%A3%E7%A0%81%E7%89%B9%E6%95%88%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/%E7%BA%AFCss%E7%BF%BB%E4%B9%A6%E6%95%88%E6%9E%9C%E8%AF%A6%E8%A7%A3/</url>
+      <content type="html"><![CDATA[<h3 id="翻书效果："><a href="#翻书效果：" class="headerlink" title="翻书效果："></a>翻书效果：</h3><p><img src="/./../../img/f1dd5b4c0ecb498096d2a7f4e1be6024.gif" alt="在这里插入图片描述"></p>
 <h5 id="书籍封面、背面、内容页都可自由更改。点击即实现高流畅度的翻页效果"><a href="#书籍封面、背面、内容页都可自由更改。点击即实现高流畅度的翻页效果" class="headerlink" title="书籍封面、背面、内容页都可自由更改。点击即实现高流畅度的翻页效果"></a>书籍封面、背面、内容页都可自由更改。点击即实现高流畅度的翻页效果</h5><p>代码如下：<br>小程序html代码：</p>
 <pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>boxbook<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>cover-page<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
@@ -377,9 +625,9 @@ python init_database<span class="token punctuation">.</span>py <span class="toke
     
     <entry>
       <title><![CDATA[CSS3翻书效果]]></title>
-      <url>/2024/03/17/CSS3%E7%BF%BB%E4%B9%A6%E6%95%88%E6%9E%9C/</url>
+      <url>/2024/03/17/%E4%BB%A3%E7%A0%81%E7%89%B9%E6%95%88%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/CSS3%E7%BF%BB%E4%B9%A6%E6%95%88%E6%9E%9C/</url>
       <content type="html"><![CDATA[<p>效果图：</p>
-<p><img src="/./../img/1009957-20170210171601151-1537065149.png" alt="img"><img src="/./../img/1009957-20170210171618213-1918398454.png" alt="img"></p>
+<p><img src="/./../../img/1009957-20170210171601151-1537065149.png" alt="img"><img src="/./../../img/1009957-20170210171618213-1918398454.png" alt="img"></p>
 <pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>align<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
 					<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span>
 						<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>figure</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">'</span>book<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>
@@ -7782,7 +8030,7 @@ console.log(&#96;myInnerProtocolParamBuilderImpl.buildParams &#x3D;&gt; $&#123;H
     
     <entry>
       <title><![CDATA[我的小项目-第三弹]]></title>
-      <url>/2023/09/04/%E5%A4%A7%E9%BA%A6%E7%BD%91APP%E9%80%86%E5%90%91%E9%A1%B9%E7%9B%AE/%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E5%BC%B9/</url>
+      <url>/2023/09/04/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E5%BC%B9/</url>
       <content type="html"><![CDATA[<p>一、项目起因：</p>
 <blockquote>
 <p>停滞挺久了，最近这段时间感觉各处不顺，工作没思路，干什么都提不起精神，这2年都没什么成长，有时候想自己不能这样下去，但是也不知道该做什么，怎么做，感觉很焦虑。</p>
@@ -10719,10 +10967,10 @@ End Sub<span aria-hidden="true" class="line-numbers-rows"><span></span><span></s
     
     <entry>
       <title><![CDATA[Excel-Excel-入门（Excel作为界面端，Excel作为数据库）]]></title>
-      <url>/2023/08/01/Excel-Excel-%E5%85%A5%E9%97%A8%EF%BC%88Excel%E4%BD%9C%E4%B8%BA%E7%95%8C%E9%9D%A2%E7%AB%AF%EF%BC%8CExcel%E4%BD%9C%E4%B8%BA%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%89/</url>
+      <url>/2023/08/01/excel%E9%A1%B9%E7%9B%AE/Excel-Excel-%E5%85%A5%E9%97%A8%EF%BC%88Excel%E4%BD%9C%E4%B8%BA%E7%95%8C%E9%9D%A2%E7%AB%AF%EF%BC%8CExcel%E4%BD%9C%E4%B8%BA%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%89/</url>
       <content type="html"><![CDATA[<p><strong>示例</strong>：<strong><em>Excel*<strong>作为数据库，从</strong></em>Excel</strong><em>中获取来自于<strong>交通院</strong>，语文和数学成绩都是*</em>&gt;80**分的信息</p>
-<p><img src="/./../img/640-1690871561199-13.png" alt="图片"></p>
-<p><strong>实现结果</strong><br><img src="/./../img/640-1690871561200-14.png" alt="图片"></p>
+<p><img src="/./../../img/640-1690871561199-13.png" alt="图片"></p>
+<p><strong>实现结果</strong><br><img src="/./../../img/640-1690871561200-14.png" alt="图片"></p>
 <h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><ol>
 <li><p>传统方法：对数据表进行循环判断，找到满足条件的行</p>
 </li>
@@ -10737,17 +10985,52 @@ End Sub<span aria-hidden="true" class="line-numbers-rows"><span></span><span></s
 </ul>
 </li>
 </ol>
-<p><strong>SQL</strong><br><img src="/./../img/640-1690871561201-15.png" alt="图片"></p>
+<p><strong>SQL</strong><br><img src="/./../../img/640-1690871561201-15.png" alt="图片"></p>
 <h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p><strong>过程</strong><code>main</code></p>
-<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> main()        <span class="keyword">Dim</span> dbAddr</span><br><span class="line">    dbAddr = ThisWorkbook.Path &amp; <span class="string">&quot;\数据源.xlsx&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">Dim</span> adConn As ADODB.Connection  <span class="comment">&#x27;连接</span></span><br><span class="line">    <span class="keyword">Set</span> adConn = <span class="keyword">New</span> ADODB.Connection        <span class="keyword">Dim</span> rs As ADODB.Recordset        <span class="keyword">Set</span> rs = <span class="keyword">New</span> ADODB.Recordset            <span class="keyword">Dim</span> SQL As String</span><br><span class="line">    <span class="keyword">Dim</span> filds        <span class="keyword">Dim</span> tbl_name        <span class="keyword">Dim</span> searchC</span><br><span class="line"></span><br><span class="line">    adConn.Open <span class="string">&quot;provider=Microsoft.ACE.OLEDB.12.0;&quot;</span> _</span><br><span class="line">                            &amp; <span class="string">&quot;extended properties=excel 12.0;&quot;</span> _</span><br><span class="line">                            &amp; <span class="string">&quot;data source=&quot;</span> &amp; dbAddr</span><br><span class="line"></span><br><span class="line">    filds = <span class="string">&quot;姓名,学院,语文,数学&quot;</span></span><br><span class="line">    tbl_name = <span class="string">&quot;[data$]&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">Dim</span> searchC1        <span class="keyword">Dim</span> searchC2        <span class="keyword">Dim</span> searchC3        <span class="keyword">Dim</span> sht_name        <span class="keyword">Dim</span> sht        <span class="keyword">Dim</span> i</span><br><span class="line"></span><br><span class="line">    searchC1 = <span class="string">&quot;学院=&#x27;交通院&#x27;&quot;</span></span><br><span class="line">    searchC2 = <span class="string">&quot;语文&gt;80&quot;</span></span><br><span class="line">    searchC3 = <span class="string">&quot;数学&gt;80&quot;</span></span><br><span class="line">    searchC = searchC1 &amp; <span class="string">&quot; and &quot;</span> &amp; searchC2 &amp; <span class="string">&quot; and &quot;</span> &amp; searchC3</span><br><span class="line"></span><br><span class="line">    SQL = <span class="string">&quot;Select &quot;</span> &amp; filds &amp; <span class="string">&quot; From &quot;</span> &amp; tbl_name &amp; <span class="string">&quot; Where (&quot;</span> &amp; searchC &amp; <span class="string">&quot;)&quot;</span></span><br><span class="line">    <span class="keyword">Set</span> rs = adConn.<span class="keyword">Execute</span>(SQL)</span><br><span class="line"></span><br><span class="line">    sht_name = <span class="string">&quot;示例&quot;</span></span><br><span class="line">    <span class="keyword">Set</span> sht = ThisWorkbook.Worksheets(sht_name)            <span class="keyword">For</span> i = <span class="number">1</span> <span class="keyword">To</span> rs.Fields.Count <span class="keyword">Step</span> <span class="number">1</span></span><br><span class="line">        sht.Range(<span class="string">&quot;A1&quot;</span>).Offset(<span class="number">0</span>, i - <span class="number">1</span>) = rs.Fields(i - <span class="number">1</span>).Name <span class="comment">&#x27;字段序号从0开始</span></span><br><span class="line">    <span class="keyword">Next</span> i</span><br><span class="line"></span><br><span class="line">    sht.Range(<span class="string">&quot;A2&quot;</span>).CopyFromRecordset rs</span><br><span class="line">    sht.Cells.EntireColumn.AutoFit        <span class="comment">&#x27;关闭数据库</span></span><br><span class="line">    adConn.Close        <span class="keyword">Set</span> adConn = NothingEnd <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-vbscript" data-language="vbscript"><code class="language-vbscript">Sub main()        Dim dbAddr
+    dbAddr &#x3D; ThisWorkbook.Path &amp; &quot;\数据源.xlsx&quot;
 
-<p><strong>代码截图</strong><br><img src="/./../img/640-1690871561201-16.jpeg" alt="图片"></p>
+    Dim adConn As ADODB.Connection  &#39;连接
+    Set adConn &#x3D; New ADODB.Connection        Dim rs As ADODB.Recordset        Set rs &#x3D; New ADODB.Recordset            Dim SQL As String
+    Dim filds        Dim tbl_name        Dim searchC
+
+    adConn.Open &quot;provider&#x3D;Microsoft.ACE.OLEDB.12.0;&quot; _
+                            &amp; &quot;extended properties&#x3D;excel 12.0;&quot; _
+                            &amp; &quot;data source&#x3D;&quot; &amp; dbAddr
+
+    filds &#x3D; &quot;姓名,学院,语文,数学&quot;
+    tbl_name &#x3D; &quot;[data$]&quot;
+
+    Dim searchC1        Dim searchC2        Dim searchC3        Dim sht_name        Dim sht        Dim i
+
+    searchC1 &#x3D; &quot;学院&#x3D;&#39;交通院&#39;&quot;
+    searchC2 &#x3D; &quot;语文&gt;80&quot;
+    searchC3 &#x3D; &quot;数学&gt;80&quot;
+    searchC &#x3D; searchC1 &amp; &quot; and &quot; &amp; searchC2 &amp; &quot; and &quot; &amp; searchC3
+
+    SQL &#x3D; &quot;Select &quot; &amp; filds &amp; &quot; From &quot; &amp; tbl_name &amp; &quot; Where (&quot; &amp; searchC &amp; &quot;)&quot;
+    Set rs &#x3D; adConn.Execute(SQL)
+
+    sht_name &#x3D; &quot;示例&quot;
+    Set sht &#x3D; ThisWorkbook.Worksheets(sht_name)            For i &#x3D; 1 To rs.Fields.Count Step 1
+        sht.Range(&quot;A1&quot;).Offset(0, i - 1) &#x3D; rs.Fields(i - 1).Name &#39;字段序号从0开始
+    Next i
+
+    sht.Range(&quot;A2&quot;).CopyFromRecordset rs
+    sht.Cells.EntireColumn.AutoFit        &#39;关闭数据库
+    adConn.Close        Set adConn &#x3D; NothingEnd Sub<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>代码截图</strong><br><img src="/./../../img/640-1690871561201-16.jpeg" alt="图片"></p>
 <h2 id="部分代码解读"><a href="#部分代码解读" class="headerlink" title="部分代码解读"></a>部分代码解读</h2><ol>
 <li><p>数据库连接<br>***Excel***<strong>连接</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adConn.Open &quot;provider=Microsoft.ACE.OLEDB.12.0;&quot; _</span><br><span class="line">             &amp; &quot;extended properties=excel 12.0;&quot; _</span><br><span class="line">             &amp; &quot;data source=&quot; &amp; dbAddr</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">adConn.Open &quot;provider&#x3D;Microsoft.ACE.OLEDB.12.0;&quot; _
+             &amp; &quot;extended properties&#x3D;excel 12.0;&quot; _
+             &amp; &quot;data source&#x3D;&quot; &amp; dbAddr<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <p><strong>Access连接</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">With adConn</span><br><span class="line">     .Provider = &quot;Microsoft.ACE.OLEDB.12.0;&quot;</span><br><span class="line">     .Open &quot;Data Source=&quot; &amp; dbAddrEnd With</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">With adConn
+     .Provider &#x3D; &quot;Microsoft.ACE.OLEDB.12.0;&quot;
+     .Open &quot;Data Source&#x3D;&quot; &amp; dbAddrEnd With<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 </li>
 <li><p>工作表的表示方法<code>tbl_name = &quot;[data$]&quot;</code>，使用<code>[$]</code></p>
 </li>
@@ -10755,7 +11038,7 @@ End Sub<span aria-hidden="true" class="line-numbers-rows"><span></span><span></s
 </li>
 </ol>
 <p>**<br>**</p>
-<p><strong>Ps</strong>：<br>1）采用<em><strong>ADO</strong></em>的方式连接的数据库，需要人为先在*<strong>VBE*<strong>中打开这个引用，菜单</strong>工具</strong>-<strong>引用</strong><br><img src="/./../img/640-1690871561202-17.png" alt="图片"><br>2)当数据量越大，本文中采用的方式，效率越明显，是不错的方法幺</p>
+<p><strong>Ps</strong>：<br>1）采用<em><strong>ADO</strong></em>的方式连接的数据库，需要人为先在*<strong>VBE*<strong>中打开这个引用，菜单</strong>工具</strong>-<strong>引用</strong><br><img src="/./../../img/640-1690871561202-17.png" alt="图片"><br>2)当数据量越大，本文中采用的方式，效率越明显，是不错的方法幺</p>
 ]]></content>
       
         <categories>
@@ -11130,11 +11413,11 @@ End Sub<span aria-hidden="true" class="line-numbers-rows"><span></span><span></s
     
     <entry>
       <title><![CDATA[微信图文编辑器-Markdown]]></title>
-      <url>/2023/08/01/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E6%96%87%E7%BC%96%E8%BE%91%E5%99%A8-Markdown/</url>
+      <url>/2023/08/01/github%E5%AE%9E%E7%94%A8%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E6%96%87%E7%BC%96%E8%BE%91%E5%99%A8-Markdown/</url>
       <content type="html"><![CDATA[<p>今天推荐的开源项目可以将 Markdown 文档自动即时渲染为微信图文，还可以自动排版，支持自定义 CSS 样式，最终什么样式你可以自己定义。</p>
 <p>也就是说你只需要在 Markdown 编辑器上写文章，就能一键生成一篇样式简洁而又美观大方的微信图文，这就大大提高了你的效率，不用每天去排版了。</p>
 <p>图片怎么办？别担心，这个开源项目还支持 GitHub、阿里云、腾讯云、七牛云 等图床。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">开源地址：https://github.com/doocs/md</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">开源地址：https:&#x2F;&#x2F;github.com&#x2F;doocs&#x2F;md<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <h2 id="功能特性"><a href="#功能特性" class="headerlink" title="功能特性"></a><strong>功能特性</strong></h2><ul>
 <li>支持 Markdown 所有基础语法</li>
@@ -11146,7 +11429,7 @@ End Sub<span aria-hidden="true" class="line-numbers-rows"><span></span><span></s
 <li>支持在编辑框右键弹出功能选项卡</li>
 <li>支持批量转换本地图片为线上图片</li>
 </ul>
-<p><img src="/./../img/740.gif" alt="图片"><img src="/./../img/640-1690869329948-4.gif" alt="图片"><img src="/./../img/640-1690869352746-8.gif" alt="图片"></p>
+<p><img src="/./../../img/740.gif" alt="图片"><img src="/./../../img/640-1690869329948-4.gif" alt="图片"><img src="/./../../img/640-1690869352746-8.gif" alt="图片"></p>
 ]]></content>
       
         <categories>
@@ -11168,8 +11451,8 @@ End Sub<span aria-hidden="true" class="line-numbers-rows"><span></span><span></s
     
     <entry>
       <title><![CDATA[excel-vba 数据库操作方式]]></title>
-      <url>/2023/07/28/excel-vba-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C%E6%96%B9%E5%BC%8F/</url>
-      <content type="html"><![CDATA[<h4 id="一、卡点："><a href="#一、卡点：" class="headerlink" title="一、卡点："></a>一、卡点：</h4><p><img src="/./../img/image-20230728134957123.png" alt="image-20230728134957123"></p>
+      <url>/2023/07/28/excel%E9%A1%B9%E7%9B%AE/excel-vba-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C%E6%96%B9%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<h4 id="一、卡点："><a href="#一、卡点：" class="headerlink" title="一、卡点："></a>一、卡点：</h4><p><img src="/./../../img/image-20230728134957123.png" alt="image-20230728134957123"></p>
 <p>这个问题是用wps连接的OLEDB（access数据库）, 用excel打开就没有问题，如果用wps就需要用其他方式</p>
 <p><strong>excel：</strong></p>
 <pre class="line-numbers language-visual-basic" data-language="visual-basic"><code class="language-visual-basic"><span class="token keyword">Dim</span> con <span class="token keyword">As</span> ADODB<span class="token punctuation">.</span>Connection
@@ -11236,10 +11519,12 @@ conn<span class="token punctuation">.</span>Open<span aria-hidden="true" class="
 <span class="token keyword">End</span> <span class="token keyword">Sub</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h4 id="二、access-数据库操作指南"><a href="#二、access-数据库操作指南" class="headerlink" title="二、access 数据库操作指南"></a>二、access 数据库操作指南</h4><ul>
-<li><strong>第一步：</strong>告诉电脑我要用ADO了，</li>
+<li><p><strong>第一步：</strong>告诉电脑我要用ADO了，</p>
+<pre><code>  ___这个操作在【工具】--&gt; 【引用】--&gt; 【Microsoft ActiveX Data Objects 6.1 	Libray】___
+</code></pre>
+</li>
 </ul>
-<p>​	<em><strong>这个操作在【工具】–&gt; 【引用】–&gt; 【Microsoft ActiveX Data Objects 6.1 	Libray】</strong></em></p>
-<p><img src="/./../img/image-20230728143220859.png" alt="image-20230728143220859"></p>
+<p><img src="/./../../img/image-20230728143220859.png" alt="image-20230728143220859"></p>
 <ul>
 <li><strong>第二步：</strong>创建连接对对象</li>
 </ul>
@@ -11404,9 +11689,11 @@ con<span class="token punctuation">.</span>Close<span class="token punctuation">
 <p>基本格式： from 左表 连接类型  右表 on 连接条件</p>
 </blockquote>
 <ul>
-<li><strong>案例1：</strong>查询所有导师的院系信息，包含姓名，性别，职称，系号、系名</li>
+<li><p><strong>案例1：</strong>查询所有导师的院系信息，包含姓名，性别，职称，系号、系名</p>
+<pre><code>  `左连接：左边连接字段有的，而右表没有的，左表全部显示，右表留空`
+</code></pre>
+</li>
 </ul>
-<p>​	<code>左连接：左边连接字段有的，而右表没有的，左表全部显示，右表留空</code></p>
 <p><code>(根据左表查右表)</code></p>
 <pre class="line-numbers language-visual-basic" data-language="visual-basic"><code class="language-visual-basic">sql <span class="token operator">=</span> <span class="token string">"select 姓名，性别，职称，系号，系名 "</span> <span class="token operator">_</span>
 <span class="token operator">&amp;</span> <span class="token string">" from 导师 left join 院系 on 导师.院系编号=院系.系号"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
@@ -11465,7 +11752,7 @@ con<span class="token punctuation">.</span>Close<span class="token punctuation">
     
     <entry>
       <title><![CDATA[记录我的小项目-第二弹]]></title>
-      <url>/2023/07/28/%E8%AE%B0%E5%BD%95%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%BA%8C%E5%BC%B9/</url>
+      <url>/2023/07/28/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/%E8%AE%B0%E5%BD%95%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%BA%8C%E5%BC%B9/</url>
       <content type="html"><![CDATA[<h4 id="一、项目起因："><a href="#一、项目起因：" class="headerlink" title="一、项目起因："></a>一、项目起因：</h4><blockquote>
 <p>前段时间开会，跟公司快递营销组两位同事闹了点不愉快，这个原因是两方面的：第一是因为也是对工作项确实不太清楚（说实话，官僚主义太严重，全是形式主义，扣字眼一个比一个厉害，整一些形式主义的东西，什么三大标准化，要必须产出，也没明白什么是三大标准，不清楚怎么定义，也不清楚什么算什么标准，怎么提交怎么弄）第二是对这项工作的不认可（业务本身是千变万化的，标准是在工作中形成的，不清楚这件事对项目有什么帮助，在产品还在定义中，出标准化有什么意义。花大量的时间做了一些纸面文档【说多了，算是吐槽吧】）后来被批了，想想也没什么，思想本身也无法统一也无法调和，只能低头默认（得吃饭呀），后来挨批了一顿，然后想想怎么缓和下关系（写到这里，突然觉得自己活成自己讨厌的样子了，社会发展，个人成长，环境适应）</p>
 <p>针对这件事，自己也有问题，对事情的不认可可以向上提出，可以无法接收文化离开，可以沉默隐忍接受，但是不应该对项目里执行的人出言刁难，（本意并非如此，只是提出了疑问，没想到点了炸药包，确实不知三大标准化是什么）尤其不应该对一个小专员，然她下不来台。现在也没到权力斗争的地步，搞掉别人对自己也没什么好处，自己的思维和工作方式的问题，也需要检讨。</p>
@@ -11477,10 +11764,13 @@ con<span class="token punctuation">.</span>Close<span class="token punctuation">
 <p>​	密码：1234 提取码：yypd</p>
 <p>​	<strong>access数据库：</strong></p>
 <ul>
-<li>​	office_ tool  <a href="https://www.uy5.net/office-tool-plus/">Office_Tool_with_runtime_v10.1.3.4.zip</a></li>
-<li>​     破解工具 <a href="https://www.uy5.net/r1nrebirth/"> ReBirth Activator 1.4.zip</a></li>
+<li><p>​	office_ tool  <a href="https://www.uy5.net/office-tool-plus/">Office_Tool_with_runtime_v10.1.3.4.zip</a></p>
+</li>
+<li><p>​     破解工具 <a href="https://www.uy5.net/r1nrebirth/"> ReBirth Activator 1.4.zip</a></p>
+<pre><code>  **sqlServer数据库：**[SQLserver 安装教程](https://www.zhihu.com/tardis/bd/art/59017254?source_id=1001)
+</code></pre>
+</li>
 </ul>
-<p>​	<strong>sqlServer数据库：</strong><a href="https://www.zhihu.com/tardis/bd/art/59017254?source_id=1001">SQLserver 安装教程</a></p>
 <h4 id="三、项目需求："><a href="#三、项目需求：" class="headerlink" title="三、项目需求："></a>三、项目需求：</h4><ol>
 <li>可以分发数据，让销售自己的数据看自己</li>
 <li>可以有一个数据对照，因为用“vlookup”有时候会出错（销售填写的表格有时候会加一个空格）</li>
@@ -11557,68 +11847,159 @@ con<span class="token punctuation">.</span>Close<span class="token punctuation">
     
     <entry>
       <title><![CDATA[使用免费国外服务器搭建ChatGPT接口服务[附注册教程/源码]]]></title>
-      <url>/2023/06/26/%E4%BD%BF%E7%94%A8%E5%85%8D%E8%B4%B9%E5%9B%BD%E5%A4%96%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BAChatGPT%E6%8E%A5%E5%8F%A3%E6%9C%8D%E5%8A%A1-%E9%99%84%E6%B3%A8%E5%86%8C%E6%95%99%E7%A8%8B-%E6%BA%90%E7%A0%81/</url>
+      <url>/2023/06/26/%E5%B7%A5%E5%85%B7%E7%BD%91%E7%AB%99/%E4%BD%BF%E7%94%A8%E5%85%8D%E8%B4%B9%E5%9B%BD%E5%A4%96%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BAChatGPT%E6%8E%A5%E5%8F%A3%E6%9C%8D%E5%8A%A1-%E9%99%84%E6%B3%A8%E5%86%8C%E6%95%99%E7%A8%8B-%E6%BA%90%E7%A0%81/</url>
       <content type="html"><![CDATA[<p>最近这段时间，ChatGPT火的一塌糊涂，到处都是介绍ChatGPT的文章，但自从前段时间开始，很多人可能都发现了ChatGPT接口国内调用不了了，而很多人可能是抱着玩玩的心态，并不愿意去花钱另外购买国外的服务器，当然这其中也包括我，由于没有预算去购买一台国外的服务器，所以我公众号的ChatGPT功能也被迫停止运行了一段时间，但是今天我想告诉大家，<strong>本站公众号ChatGPT服务重启了</strong>，还是之前的使用方式，但是速度快了很多，有兴趣的朋友可以去关注公众号去体验，不知道怎么用的可以看公众号的“使用帮助”。</p>
 <p>回到正题，虽然我重启了公众号的ChatGPT功能，但是我并没有额外花钱，因为我找到了免费的国外服务器，它不香吗？？？市面上提供服务器免费试用的厂商不少，比如阿里云、亚马逊等等，但是注册比较麻烦，需要信用卡，国外手机号、国外身份信息等等之类的信息，我最先也是准备注册阿里云，后来卡在了手机号这块儿，免费的手机号根本注册不了，而我又不想花钱去买验证码，直到最后我找到了hostbuddy这个网站，全程只需要一个邮箱即可，下面介绍一下注册流程。</p>
 <p><strong>一、hostbuddy注册</strong></p>
 <p><strong>1、注册账号</strong></p>
 <p>首先我们访问hostbuddy官网，地址：<a href="https://www.hostbuddy.com/%EF%BC%8C%E5%B9%B6%E7%82%B9%E5%87%BB%E2%80%9CGET">https://www.hostbuddy.com/，并点击“GET</a> STARTED”按钮，</p>
-<p><img src="/./../img/vcbxe-1688378723958-18.png" alt="图片"></p>
+<p><img src="/./../../img/vcbxe-1688378723958-18.png" alt="图片"></p>
 <p>填写注册信息，并点击注册</p>
-<p><img src="/./../img/dbxcvb-1688378731501-21.png" alt="图片"></p>
+<p><img src="/./../../img/dbxcvb-1688378731501-21.png" alt="图片"></p>
 <p>不出意外的话，我们会进入以下界面</p>
-<p><img src="/./../img/fdvv-1688378734880-24.png" alt="图片"></p>
+<p><img src="/./../../img/fdvv-1688378734880-24.png" alt="图片"></p>
 <p><strong>2、验证账号</strong></p>
 <p>进入注册账号时填写的邮箱，找到激活邮件，并点击激活链接</p>
-<p><img src="/./../img/fghdf-1688378738393-27.png" alt="图片"></p>
+<p><img src="/./../../img/fghdf-1688378738393-27.png" alt="图片"></p>
 <p><strong>3、登录账号</strong></p>
 <p>账号成功激活后会转向到登录页，填写我们注册的账号并登录</p>
-<p><img src="/./../img/fghdfg-1688378742077-30.png" alt="图片"></p>
+<p><img src="/./../../img/fghdfg-1688378742077-30.png" alt="图片"></p>
 <p><strong>4、激活试用计划</strong></p>
 <p>首次登录完毕之后我们需要激活我们的试用计划，点击“Try Now”</p>
-<p><img src="/./../img/asfahcv-1688378745049-33.png" alt="图片"></p>
+<p><img src="/./../../img/asfahcv-1688378745049-33.png" alt="图片"></p>
 <p>可以看到默认的地区是美国，刚好可以用于我们访问ChatGPT服务，然后我们填入密码和网站名，这里的密码就是后面我们登录FTP的密码，网站名就是网站的目录名称，然后点击“Next”</p>
-<p><img src="/./../img/fgdfg-1688378747991-36.png" alt="图片"></p>
+<p><img src="/./../../img/fgdfg-1688378747991-36.png" alt="图片"></p>
 <p>确认信息并点击“提交”</p>
-<p><img src="/./../img/agdg-1688378750426-39.png" alt="图片"></p>
+<p><img src="/./../../img/agdg-1688378750426-39.png" alt="图片"></p>
 <p>此时不要关闭窗口，需要等待激活完成，一般1-3分钟</p>
-<p><img src="/./../img/bsfb-1688378753182-42.png" alt="图片"></p>
+<p><img src="/./../../img/bsfb-1688378753182-42.png" alt="图片"></p>
 <p><strong>5、创建node应用</strong></p>
 <p>在激活完成后，我们登录主机面板并创建node应用，</p>
-<p><img src="/./../img/gweg-1688378756006-45.png" alt="图片"></p>
-<p><img src="/./../img/567356-1688378759503-48.png" alt="图片"></p>
+<p><img src="/./../../img/gweg-1688378756006-45.png" alt="图片"></p>
+<p><img src="/./../../img/567356-1688378759503-48.png" alt="图片"></p>
 <p>这里显示了我们的FTP登录信息和对外域名，我们点击“管理网站”并点击“NodeJs“进入node应用创建界面</p>
-<p><img src="/./../img/34567-1688378762811-51.png" alt="图片"></p>
+<p><img src="/./../../img/34567-1688378762811-51.png" alt="图片"></p>
 <p>按序号依次点击完成node应用的创建，需要注意的是当激活NodeJS后，所有的javascript将会被当作NodeJS运行。</p>
 <p><strong>6、登录FTP</strong></p>
 <p>在node应用创建完成后，我们用步骤5截图中显示的FTP信息和步骤4设置的密码登录FTP，登录后目录结构如下：</p>
-<p><img src="/./../img/246246-1688378766105-54.png" alt="图片"></p>
+<p><img src="/./../../img/246246-1688378766105-54.png" alt="图片"></p>
 <p>“www”即为存放网站源码的目录，我们进入目录</p>
-<p><img src="/./../img/352345-1688378768975-57.png" alt="图片"></p>
+<p><img src="/./../../img/352345-1688378768975-57.png" alt="图片"></p>
 <p>目录中有2个文件，default.asp是网站的默认页，我们需要删除掉，web.config是网站的配置文件。</p>
 <p><strong>7、测试node应用</strong></p>
 <p>在node应用创建完毕后我们就可以开始测试了，创建app.js， 并编写如下代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>);</span><br><span class="line">http.<span class="title function_">createServer</span>(<span class="keyword">function</span>(<span class="params">req, res</span>) &#123;</span><br><span class="line">    res.<span class="title function_">writeHead</span>(<span class="number">200</span>, &#123;</span><br><span class="line">        <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;text/plain&#x27;</span></span><br><span class="line">    &#125;);</span><br><span class="line">    res.<span class="title function_">end</span>(<span class="string">&#x27;Hello, world!&#x27;</span>);</span><br><span class="line">&#125;).<span class="title function_">listen</span>(process.<span class="property">env</span>.<span class="property">PORT</span>);</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> http <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+http<span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    res<span class="token punctuation">.</span><span class="token function">writeHead</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span>
+        <span class="token string-property property">'Content-Type'</span><span class="token operator">:</span> <span class="token string">'text/plain'</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token string">'Hello, world!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">PORT</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>注意这里不能自定义端口，必须使用process.env.PORT。将app.js文件传到www目录下，并更改配置文件如下：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span> ?&gt;</span><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">system.webServer</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">handlers</span>&gt;</span>            </span><br><span class="line">            <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">&quot;iisnode&quot;</span> <span class="attr">path</span>=<span class="string">&quot;*.js&quot;</span> <span class="attr">verb</span>=<span class="string">&quot;*&quot;</span> <span class="attr">modules</span>=<span class="string">&quot;iisnode&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">handlers</span>&gt;</span>        </span><br><span class="line">        <span class="tag">&lt;<span class="name">rewrite</span>&gt;</span>            </span><br><span class="line">            <span class="tag">&lt;<span class="name">rules</span>&gt;</span>                </span><br><span class="line">                <span class="tag">&lt;<span class="name">rule</span> <span class="attr">name</span>=<span class="string">&quot;mysite&quot;</span>&gt;</span>                    </span><br><span class="line">                    <span class="tag">&lt;<span class="name">match</span> <span class="attr">url</span>=<span class="string">&quot;/*&quot;</span> /&gt;</span>                    </span><br><span class="line">                    <span class="tag">&lt;<span class="name">action</span> <span class="attr">type</span>=<span class="string">&quot;Rewrite&quot;</span> <span class="attr">url</span>=<span class="string">&quot;app.js&quot;</span> /&gt;</span>                </span><br><span class="line">                <span class="tag">&lt;/<span class="name">rule</span>&gt;</span>            </span><br><span class="line">            <span class="tag">&lt;/<span class="name">rules</span>&gt;</span>        </span><br><span class="line">        <span class="tag">&lt;/<span class="name">rewrite</span>&gt;</span>    </span><br><span class="line">    <span class="tag">&lt;/<span class="name">system.webServer</span>&gt;</span><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8" ?></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>configuration</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>system.webServer</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>handlers</span><span class="token punctuation">></span></span>            
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>add</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>iisnode<span class="token punctuation">"</span></span> <span class="token attr-name">path</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>*.js<span class="token punctuation">"</span></span> <span class="token attr-name">verb</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>*<span class="token punctuation">"</span></span> <span class="token attr-name">modules</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>iisnode<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>handlers</span><span class="token punctuation">></span></span>        
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>rewrite</span><span class="token punctuation">></span></span>            
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>rules</span><span class="token punctuation">></span></span>                
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>rule</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>mysite<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>                    
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>match</span> <span class="token attr-name">url</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/*<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>                    
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>action</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Rewrite<span class="token punctuation">"</span></span> <span class="token attr-name">url</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>app.js<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>                
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>rule</span><span class="token punctuation">></span></span>            
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>rules</span><span class="token punctuation">></span></span>        
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>rewrite</span><span class="token punctuation">></span></span>    
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>system.webServer</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>configuration</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>访问步骤5中获取的对外域名，如果页面显示”Hello, world!“则测试通过。</p>
 <p><strong>二、部署ChatGPT接口服务</strong></p>
 <p>通过步骤一，我们注册了免费的国外服务器，并创建了node应用环境，接下来我们需要开始部署ChatGPT的接口服务，这里我们使用koa搭建一个简单的服务，首先创建基础项目结构，</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">├── app.js  </span><br><span class="line">	├── node_modules  </span><br><span class="line">	├── package-lock.json  </span><br><span class="line">	├── package.json  </span><br><span class="line">	├── public  </span><br><span class="line">	├── routes  </span><br><span class="line">	│   └── gpt.js  </span><br><span class="line">	├── utils  </span><br><span class="line">	│   └── ai.js  </span><br><span class="line">	└── views</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">├── app.js  
+	├── node_modules  
+	├── package-lock.json  
+	├── package.json  
+	├── public  
+	├── routes  
+	│   └── gpt.js  
+	├── utils  
+	│   └── ai.js  
+	└── views<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>app.js的代码如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">Koa</span> = <span class="built_in">require</span>(<span class="string">&#x27;koa&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> <span class="title class_">Koa</span>();</span><br><span class="line"><span class="keyword">const</span> json = <span class="built_in">require</span>(<span class="string">&#x27;koa-json&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> onerror = <span class="built_in">require</span>(<span class="string">&#x27;koa-onerror&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> bodyparser = <span class="built_in">require</span>(<span class="string">&#x27;koa-bodyparser&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> koaBody = <span class="built_in">require</span>(<span class="string">&#x27;koa-body&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> gpt = <span class="built_in">require</span>(<span class="string">&#x27;./routes/gpt&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">onerror</span>(app);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(<span class="keyword">async</span> (ctx, next)=&gt; &#123;  </span><br><span class="line">    ctx.<span class="title function_">set</span>(<span class="string">&#x27;Access-Control-Allow-Origin&#x27;</span>, <span class="string">&#x27;*&#x27;</span>);</span><br><span class="line">    ctx.<span class="title function_">set</span>(<span class="string">&#x27;Access-Control-Allow-Headers&#x27;</span>, <span class="string">&#x27;Content-Type&#x27;</span>);</span><br><span class="line">    <span class="keyword">await</span> <span class="title function_">next</span>();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(<span class="title function_">koaBody</span>(&#123;  </span><br><span class="line">    <span class="attr">multipart</span>: <span class="literal">true</span>,  </span><br><span class="line">    <span class="attr">formidable</span>: &#123;</span><br><span class="line">        <span class="attr">maxFieldsSize</span>: <span class="number">2</span> * <span class="number">1024</span> * <span class="number">1024</span>,</span><br><span class="line">        <span class="attr">multipart</span>: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;));</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(<span class="title function_">bodyparser</span>());</span><br><span class="line">app.<span class="title function_">use</span>(<span class="title function_">json</span>());</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(gpt.<span class="title function_">routes</span>(), gpt.<span class="title function_">allowedMethods</span>());</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> server = http.<span class="title function_">createServer</span>(app.<span class="title function_">callback</span>());</span><br><span class="line">server.<span class="title function_">listen</span>(process.<span class="property">env</span>.<span class="property">PORT</span>);</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> http <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> Koa <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'koa'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Koa</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> json <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'koa-json'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> onerror <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'koa-onerror'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> bodyparser <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'koa-bodyparser'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> koaBody <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'koa-body'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> gpt <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./routes/gpt'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">onerror</span><span class="token punctuation">(</span>app<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">ctx<span class="token punctuation">,</span> next</span><span class="token punctuation">)</span><span class="token operator">=></span> <span class="token punctuation">&#123;</span>  
+    ctx<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'Access-Control-Allow-Origin'</span><span class="token punctuation">,</span> <span class="token string">'*'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'Access-Control-Allow-Headers'</span><span class="token punctuation">,</span> <span class="token string">'Content-Type'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">await</span> <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token function">koaBody</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>  
+    <span class="token literal-property property">multipart</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>  
+    <span class="token literal-property property">formidable</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token literal-property property">maxFieldsSize</span><span class="token operator">:</span> <span class="token number">2</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">multipart</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token function">bodyparser</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>gpt<span class="token punctuation">.</span><span class="token function">routes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> gpt<span class="token punctuation">.</span><span class="token function">allowedMethods</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> server <span class="token operator">=</span> http<span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span>app<span class="token punctuation">.</span><span class="token function">callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+server<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">PORT</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>gpt.js代码如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> router = <span class="built_in">require</span>(<span class="string">&#x27;koa-router&#x27;</span>)();</span><br><span class="line"><span class="keyword">const</span> &#123; getData &#125; = <span class="built_in">require</span>(<span class="string">&#x27;../utils/ai&#x27;</span>);</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">prefix</span>(<span class="string">&#x27;/gpt&#x27;</span>);</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">all</span>(<span class="string">&#x27;/chat&#x27;</span>, <span class="keyword">async</span> (ctx, next) =&gt; &#123;  </span><br><span class="line">    <span class="keyword">const</span> &#123; q = <span class="string">&#x27;&#x27;</span> &#125; = ctx.<span class="property">query</span>;  </span><br><span class="line">    <span class="keyword">if</span> (!q.<span class="title function_">trim</span>()) &#123;     </span><br><span class="line">        <span class="keyword">return</span> ctx.<span class="property">body</span> = <span class="string">&#x27;您想问啥呢？&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ctx.<span class="property">body</span> = <span class="title function_">getData</span>(q);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = router;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> router <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'koa-router'</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token punctuation">&#123;</span> getData <span class="token punctuation">&#125;</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../utils/ai'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+router<span class="token punctuation">.</span><span class="token function">prefix</span><span class="token punctuation">(</span><span class="token string">'/gpt'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+router<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span><span class="token string">'/chat'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter">ctx<span class="token punctuation">,</span> next</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>  
+    <span class="token keyword">const</span> <span class="token punctuation">&#123;</span> q <span class="token operator">=</span> <span class="token string">''</span> <span class="token punctuation">&#125;</span> <span class="token operator">=</span> ctx<span class="token punctuation">.</span>query<span class="token punctuation">;</span>  
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>q<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>     
+        <span class="token keyword">return</span> ctx<span class="token punctuation">.</span>body <span class="token operator">=</span> <span class="token string">'您想问啥呢？'</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    ctx<span class="token punctuation">.</span>body <span class="token operator">=</span> <span class="token function">getData</span><span class="token punctuation">(</span>q<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> router<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>对于getData方法的实现，这里图方便使用request库（目前已废弃）来发起请求，大家可以根据自己的习惯更改，代码如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> request = <span class="built_in">require</span>(<span class="string">&#x27;request&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getData</span>(<span class="params">prompt</span>) &#123;    </span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">request</span>(&#123;        </span><br><span class="line">        <span class="attr">url</span>: <span class="string">&#x27;https://api.openai.com/v1/completions&#x27;</span>,</span><br><span class="line">        <span class="attr">method</span>: <span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">        <span class="attr">body</span>: &#123;</span><br><span class="line">            prompt,</span><br><span class="line">            <span class="attr">max_tokens</span>: <span class="number">2048</span>,</span><br><span class="line">            <span class="attr">model</span>: <span class="string">&#x27;text-davinci-003&#x27;</span>        &#125;,</span><br><span class="line">        <span class="attr">json</span>: <span class="literal">true</span>, </span><br><span class="line">        <span class="attr">headers</span>: &#123;</span><br><span class="line">            <span class="title class_">Authorization</span>: <span class="string">&#x27;OPENAI_TOKEN&#x27;</span>       </span><br><span class="line">        &#125;    </span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    getData,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> request <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'request'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">getData</span><span class="token punctuation">(</span><span class="token parameter">prompt</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>    
+    <span class="token keyword">return</span> <span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>        
+        <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'https://api.openai.com/v1/completions'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">method</span><span class="token operator">:</span> <span class="token string">'POST'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">body</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+            prompt<span class="token punctuation">,</span>
+            <span class="token literal-property property">max_tokens</span><span class="token operator">:</span> <span class="token number">2048</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">model</span><span class="token operator">:</span> <span class="token string">'text-davinci-003'</span>        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">json</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> 
+        <span class="token literal-property property">headers</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+            <span class="token literal-property property">Authorization</span><span class="token operator">:</span> <span class="token string">'OPENAI_TOKEN'</span>       
+        <span class="token punctuation">&#125;</span>    
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    getData<span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>将所有的源码连同node_modules一起上传到www目录下，这里稍微有点慢，可以尝试压缩后再上传，然后在线解压，</p>
-<p><img src="/./../img/640134123-1688378776316-60.png" alt="图片"></p>
+<p><img src="/./../../img/640134123-1688378776316-60.png" alt="图片"></p>
 <p>等待所有文件上传完毕后，通过“对外地址&#x2F;gpt&#x2F;chat?q&#x3D;你的问题”即可访问我们部署的ChatGPT服务。</p>
 <p><strong>三、问题总结</strong></p>
 <p>1、hostbuddy服务器的免费试用时长目前是60天即2个月，这个门槛比较低，到期前找个邮箱重新注册即可继续使用，当然也可以选择其他的厂商，比如LAF，免费时长是一个月，需要手机号注册，具体可参考：<a href="https://mp.weixin.qq.com/s?__biz=Mzg5NTczMjAxMg==&mid=2247484797&idx=1&sn=de3d62aa80284e08f658a1421c490991&scene=21#wechat_redirect">用Laf云平台，两步将ChatGPT接入微信公众号(含代码)</a></p>
@@ -11650,11 +12031,11 @@ con<span class="token punctuation">.</span>Close<span class="token punctuation">
     
     <entry>
       <title><![CDATA[有趣的chrom插件]]></title>
-      <url>/2023/06/20/%E6%9C%89%E8%B6%A3%E7%9A%84chrom%E6%8F%92%E4%BB%B6/</url>
+      <url>/2023/06/20/%E5%B7%A5%E5%85%B7%E7%BD%91%E7%AB%99/%E6%9C%89%E8%B6%A3%E7%9A%84chrom%E6%8F%92%E4%BB%B6/</url>
       <content type="html"><![CDATA[<p>推荐一位国外全栈开发者大神：Alyssa，在 Github 上有 5.34K 的关注者。她是一名全栈开发者、Sonuum 公司的创始人。</p>
 <p>被 Maker Mag 评为 2018 最佳女性 Maker，并两次入围 Product Hunt Maker of the Year 决赛。</p>
 <p>注：Product Hunt 是国外的一个寻找好产品的网站，开发者或者开发团队可以把自己开发的产品发布到网站，与社区的用户一起讨论。本文中推荐 4 个有趣的开源项目，都是由开发者 Alyssa 完成。</p>
-<p><img src="/./../img/651" alt="图片"></p>
+<p><img src="/./../../img/651" alt="图片"></p>
 <p>本期推荐开源项目目录：</p>
 <p>\1. 适用于 Chrome 的屏幕录制工具</p>
 <p>\2. 强大的浏览器插件</p>
@@ -11668,31 +12049,37 @@ con<span class="token punctuation">.</span>Close<span class="token punctuation">
 <p>开源地址：<a href="https://github.com/alyssaxuu/screenity">https://github.com/alyssaxuu/screenity</a></p>
 <p>相关开源组件地址：</p>
 <p>用于交互式文本和箭头：<a href="https://github.com/fabricjs/fabric.js">https://github.com/fabricjs/fabric.js</a><br>下拉菜单的开源组件：<a href="https://github.com/hernansartorio/jquery-nice-select">https://github.com/hernansartorio/jquery-nice-select</a><br>用于修剪&#x2F;删除录音部分的范围组件：<a href="https://github.com/leongersen/noUiSlider">https://github.com/leongersen/noUiSlider</a><br>颜色选择块：<a href="https://github.com/Simonwep/pickr">https://github.com/Simonwep/pickr</a><br>用于在录制时异步保存视频：<a href="https://github.com/jimmywarting/StreamSaver.js">https://github.com/jimmywarting/StreamSaver.js</a><br>使下载的视频可搜索的开源组件：<a href="https://github.com/yusitnikov/fix-webm-duration">https://github.com/yusitnikov/fix-webm-duration</a></p>
-<p><img src="/./../img/652" alt="图片"></p>
+<p><img src="/./../../img/652" alt="图片"></p>
 <h1 id="02"><a href="#02" class="headerlink" title="02"></a>02</h1><p><strong>强大的浏览器插件</strong></p>
 <p>使用开源项目 Omni 可以帮助你更专业的管理你的浏览器， Omni 提供了一个简单界面，在界面中你只需要使用简单的命令就能管理选项卡、书签、浏览器历史记录、执行各种操作等等。</p>
 <p>你可以方便的搜索、浏览管理标签、快速搜索浏览历史记录、与 Notion、Figma、稳定集成，同时好包含更多高级设置。</p>
 <p>编程语言：JavaScript</p>
 <p>开源地址：<a href="https://github.com/alyssaxuu/omni">https://github.com/alyssaxuu/omni</a></p>
-<p><img src="/./../img/653" alt="图片"></p>
-<p><img src="/./../img/654" alt="图片"></p>
-<p><img src="/./../img/655" alt="图片"></p>
+<p><img src="/./../../img/653" alt="图片"></p>
+<p><img src="/./../../img/654" alt="图片"></p>
+<p><img src="/./../../img/655" alt="图片"></p>
 <h1 id="03"><a href="#03" class="headerlink" title="03"></a>03</h1><p><strong>实时协作的地图工具</strong></p>
 <p>Mapus 是一种在地图上协作探索和注释的工具，开源一年获得了近 3K 的 Star。使用该开源项目你可以在地图上绘制、标记、画出区域等等，想当于在普通的地图上增加了实时协作的功能。</p>
 <p>通过实时协作，你可以与其他用户同步计划和行程；你能使用画笔或者箭头在地图上标记和注释；还可以创建一些标记，方便快速定位标注地图上的位置，同样可以把地图数据导出。</p>
 <p>编程语言：JavaScript、CSS、HTML</p>
 <p>开源地址：<a href="https://github.com/alyssaxuu/mapus">https://github.com/alyssaxuu/mapus</a></p>
-<p><img src="/./../img/656" alt="图片"></p>
+<p><img src="/./../../img/656" alt="图片"></p>
 <p><img src="https://mmbiz.qpic.cn/mmbiz_png/ePw3ZeGRruyZm3e5tzWtkJfR1EqvtZGmtyaSdznmJHgJDqiclRG4AN4CicTOicwLcPKxTX8vOiam49ribuqHUnLVfaA/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
-<p><img src="/./../img/657" alt="图片"></p>
+<p><img src="/./../../img/657" alt="图片"></p>
 <h1 id="04"><a href="#04" class="headerlink" title="04"></a>04</h1><p><strong>创建漂亮的流程图</strong></p>
 <p>这是一个轻量级的 JavaScript 库 近1W人 Star，通过该 Flowy 你能在你的应用中创建漂亮的流程图，使用步骤如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/* 在你的 Web 项目引入 flowy.min.js 和 flow.min.css  */</span><br><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/alyssaxuu/flowy/flowy.min.css&quot;&gt; </span><br><span class="line">&lt;script src=&quot;https://cdn.jsdelivr.net/gh/alyssaxuu/flowy/flowy.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">/* 引入 create-flowy 类就能创建可拖动的 block   */</span><br><span class="line">&lt;div class=&quot;create-flowy&quot;&gt;The block to be dragged&lt;/div&gt;</span><br><span class="line">&lt;div id=&quot;canvas&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;* 在你的 Web 项目引入 flowy.min.js 和 flow.min.css  *&#x2F;
+&lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;alyssaxuu&#x2F;flowy&#x2F;flowy.min.css&quot;&gt; 
+&lt;script src&#x3D;&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;alyssaxuu&#x2F;flowy&#x2F;flowy.min.js&quot;&gt;&lt;&#x2F;script&gt;
+
+&#x2F;* 引入 create-flowy 类就能创建可拖动的 block   *&#x2F;
+&lt;div class&#x3D;&quot;create-flowy&quot;&gt;The block to be dragged&lt;&#x2F;div&gt;
+&lt;div id&#x3D;&quot;canvas&quot;&gt;&lt;&#x2F;div&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>更详细的教程可以参考该项目的 Readme 文件：</p>
-<p><img src="/./../img/658" alt="图片"></p>
+<p><img src="/./../../img/658" alt="图片"></p>
 <p>开源地址：<a href="https://github.com/alyssaxuu/flowy">https://github.com/alyssaxuu/flowy</a></p>
-<p><img src="/./../img/659" alt="图片"></p>
+<p><img src="/./../../img/659" alt="图片"></p>
 ]]></content>
       
         
@@ -11710,15 +12097,15 @@ con<span class="token punctuation">.</span>Close<span class="token punctuation">
     
     <entry>
       <title><![CDATA[申请永久免费域名并绑定到个人网站]]></title>
-      <url>/2023/06/20/%E7%94%B3%E8%AF%B7%E6%B0%B8%E4%B9%85%E5%85%8D%E8%B4%B9%E5%9F%9F%E5%90%8D%E5%B9%B6%E7%BB%91%E5%AE%9A%E5%88%B0%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/</url>
+      <url>/2023/06/20/%E5%B7%A5%E5%85%B7%E7%BD%91%E7%AB%99/%E7%94%B3%E8%AF%B7%E6%B0%B8%E4%B9%85%E5%85%8D%E8%B4%B9%E5%9F%9F%E5%90%8D%E5%B9%B6%E7%BB%91%E5%AE%9A%E5%88%B0%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99/</url>
       <content type="html"><![CDATA[<p><code>eu.org</code>一个从1996开始提供免费域名的组织, 其官网地址是 <a href="https://nic.eu.org/">https://nic.eu.org/</a> ，他帮助学生、爱好者或者非营利组织不用花费购买域名就可能拥有自己的免费域名，虽然 eu.org 网域切确来说这是一个子域名（Subdomain）或者二级域名，但是根据一些网站的资讯，有许多大型互联网公司，像是 Google, Cloudflare, Bing 等厂商都已经将eu.org域名当成是一个顶级网域了。</p>
 <p><code>eu.org</code>对个人和组织是免费注册的。</p>
 <h1 id="域名申请"><a href="#域名申请" class="headerlink" title="域名申请"></a>域名申请</h1><h3 id="申请地址"><a href="#申请地址" class="headerlink" title="申请地址"></a>申请地址</h3><p>申请地址：<a href="https://nic.eu.org/">https://nic.eu.org/</a></p>
 <p>第一次打开你可能会怀疑进错了页面，不用怀疑，他们就是这么简洁的页面。</p>
-<p><img src="/./../img/640" alt="图片"></p>
+<p><img src="/./../../img/640" alt="图片"></p>
 <p>点击 <code>Sign-in or sign-up here!</code> 进入登录页面。</p>
 <h3 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h3><p>然后点击Register进入注册页面。输入你的基本信息，比如Name，Email等等基本信息，这里不建议填国内的地址信息，你可以进入 <a href="https://www.haoweichi.com/">https://www.haoweichi.com/</a> 网站随机生成一个虚拟英国或者美国地址，会提高通过的概率。</p>
-<p><img src="/./../img/641" alt="图片"></p>
+<p><img src="/./../../img/641" alt="图片"></p>
 <p>注册成功之后点击<code>New Domain</code>申请新的域名，</p>
 <p>设置你的域名，eu.org后缀，比如我申请一个新的域名：techxiaofei.eu.org</p>
 <p>![图片](data:image&#x2F;svg+xml,%3C%3Fxml version&#x3D;’1.0’ encoding&#x3D;’UTF-8’%3F%3E%3Csvg width&#x3D;’1px’ height&#x3D;’1px’ viewBox&#x3D;’0 0 1 1’ version&#x3D;’1.1’ xmlns&#x3D;’<a href="http://www.w3.org/2000/svg">http://www.w3.org/2000/svg</a>‘ xmlns:xlink&#x3D;’<a href="http://www.w3.org/1999/xlink'%3E%3Ctitle%3E%3C/title%3E%3Cg">http://www.w3.org/1999/xlink&#39;%3E%3Ctitle%3E%3C/title%3E%3Cg</a> stroke&#x3D;’none’ stroke-width&#x3D;’1’ fill&#x3D;’none’ fill-rule&#x3D;’evenodd’ fill-opacity&#x3D;’0’%3E%3Cg transform&#x3D;’translate(-249.000000, -126.000000)’ fill&#x3D;’%23FFFFFF’%3E%3Crect x&#x3D;’249’ y&#x3D;’126’ width&#x3D;’1’ height&#x3D;’1’%3E%3C&#x2F;rect%3E%3C&#x2F;g%3E%3C&#x2F;g%3E%3C&#x2F;svg%3E)</p>
@@ -11727,33 +12114,37 @@ con<span class="token punctuation">.</span>Close<span class="token punctuation">
 <h3 id="DNSPod"><a href="#DNSPod" class="headerlink" title="DNSPod"></a>DNSPod</h3><p>这里填DNSPod的地址，也就是腾讯云的域名解析商，使用微信扫码登录就可以。<a href="https://www.dnspod.cn/">https://www.dnspod.cn/</a></p>
 <p>扫码之后点击右上角<code>管理控制台</code>-&gt;<code>我的域名</code>-&gt;<code>添加域名</code>，添加刚才你申请的域名，也就是<code>techxiaofei.eu.org</code></p>
 <p>点击确认，会提示<code>未使用DNSPod</code>，鼠标放上去会显示具体的DNS服务器地址：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">barlow.dnspod.nethammer.dnspod.net</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">barlow.dnspod.nethammer.dnspod.net<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<p><img src="/./../img/642" alt="图片"></p>
+<p><img src="/./../../img/642" alt="图片"></p>
 <p>这个DNS服务器就是我们需要在eu.org填写的Name Servers</p>
 <h3 id="Name-Servers"><a href="#Name-Servers" class="headerlink" title="Name Servers"></a>Name Servers</h3><p>选择<code>server names</code>，然后填写刚才DNSPod上的两个DNS服务器地址：</p>
-<p><img src="/./../img/643" alt="图片"></p>
+<p><img src="/./../../img/643" alt="图片"></p>
 <p>然后点击Submit后跳转页面显示：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---- Servers and domain names check</span><br><span class="line">Getting IP for BARLOW.DNSPOD.NET: 112.80.181.45 1.12.0.4 61.151.180.44 129.211.176.187 120.241.130.98Getting IP for BARLOW.DNSPOD.NET: 2402:4e00:1430:1102:0:9136:2b30:e554Getting IP for HAMMER.DNSPOD.NET: 112.80.181.111 1.12.0.1 117.89.178.184 129.211.176.224 36.155.149.176Getting IP for HAMMER.DNSPOD.NET: 2402:4e00:1020:1264:0:9136:29bc:87f9</span><br><span class="line"></span><br><span class="line">No error, storing for validation...Saved as request 20230326043206-arf-59848</span><br><span class="line">Done</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">---- Servers and domain names check
+Getting IP for BARLOW.DNSPOD.NET: 112.80.181.45 1.12.0.4 61.151.180.44 129.211.176.187 120.241.130.98Getting IP for BARLOW.DNSPOD.NET: 2402:4e00:1430:1102:0:9136:2b30:e554Getting IP for HAMMER.DNSPOD.NET: 112.80.181.111 1.12.0.1 117.89.178.184 129.211.176.224 36.155.149.176Getting IP for HAMMER.DNSPOD.NET: 2402:4e00:1020:1264:0:9136:29bc:87f9
+
+No error, storing for validation...Saved as request 20230326043206-arf-59848
+Done<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>说明你申请成功了，需要等待1到30天，通过会给邮件通知。</p>
 <h3 id="申请通过"><a href="#申请通过" class="headerlink" title="申请通过"></a>申请通过</h3><p>我这里等待了大半个月收到邮件通知，这个时候说明你的免费域名已经申请通过了。</p>
-<p><img src="/./../img/644" alt="图片"></p>
+<p><img src="/./../../img/644" alt="图片"></p>
 <p>收到通知之后就可以去DNSPod上添加具体的解析记录绑定到你的个人网站了：</p>
 <h1 id="绑定个人网站"><a href="#绑定个人网站" class="headerlink" title="绑定个人网站"></a>绑定个人网站</h1><h3 id="DNSPod记录"><a href="#DNSPod记录" class="headerlink" title="DNSPod记录"></a>DNSPod记录</h3><p>申请通过之后DNSPod记录会从<code>未使用DNSPod</code>变为无记录，就说明域名已经授权使用DNSPod来解析了。只是还没有添加解析记录。</p>
-<p><img src="/./../img/645" alt="图片"></p>
+<p><img src="/./../../img/645" alt="图片"></p>
 <h3 id="绑定域名到Vercel托管平台"><a href="#绑定域名到Vercel托管平台" class="headerlink" title="绑定域名到Vercel托管平台"></a>绑定域名到Vercel托管平台</h3><p>由于我的网站是部署在Vercel托管平台，所以我们需要先回到Vercel来添加域名：</p>
 <p>回到你的vercel，点击你的项目-&gt;<code>Settings</code>-&gt;<code>Domains</code></p>
 <p>添加你刚申请的域名</p>
-<p><img src="/./../img/646" alt="图片"></p>
+<p><img src="/./../../img/646" alt="图片"></p>
 <p>添加之后会提示你需要域名解析商添加一条A记录。</p>
-<p><img src="/./../img/647" alt="图片"></p>
+<p><img src="/./../../img/647" alt="图片"></p>
 <h3 id="添加一条A记录"><a href="#添加一条A记录" class="headerlink" title="添加一条A记录"></a>添加一条A记录</h3><p>回到DNSPod域名解析商那里添加一条A记录，记录值就是Vercel平台提示的IP地址。</p>
-<p><img src="/./../img/648" alt="图片"></p>
+<p><img src="/./../../img/648" alt="图片"></p>
 <h3 id="添加成功"><a href="#添加成功" class="headerlink" title="添加成功"></a>添加成功</h3><p>回到Verel托管平台，会自动刷新，显示合法配置。</p>
-<p><img src="/./../img/649" alt="图片"></p>
+<p><img src="/./../../img/649" alt="图片"></p>
 <p>然后点击域名后面的跳转链接，直接打开个人网站。</p>
-<p><img src="/./../img/650" alt="图片"></p>
+<p><img src="/./../../img/650" alt="图片"></p>
 <h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>希望大家都能早日成功申请到自己的免费域名。</p>
 ]]></content>
       
@@ -11770,73 +12161,72 @@ con<span class="token punctuation">.</span>Close<span class="token punctuation">
     
     <entry>
       <title><![CDATA[一键部署你的ChatGPT Web网站]]></title>
-      <url>/2023/06/20/%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84ChatGPT-Web%E7%BD%91%E7%AB%99/</url>
+      <url>/2023/06/20/AI%E5%B7%A5%E5%85%B7/%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84ChatGPT-Web%E7%BD%91%E7%AB%99/</url>
       <content type="html"><![CDATA[<p>想要搭建自己的ChatGPT Web网站，我们只需要两个账号：</p>
 <p>1.Github账号 -<a href="https://github.com/2.Vercel%E8%B4%A6%E5%8F%B7">https://github.com/2.Vercel账号</a> -<a href="https://vercel.com/login">https://vercel.com/login</a></p>
 <p>其实<code>Vercel</code>账号可以使用Github账号直接登录：</p>
-<p><img src="/./../img/image-20230620135811094.png" alt="image-20230620135811094"></p>
 <p>所以我们只需要注册一个Github账号即可。</p>
 <h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><h3 id="1-Github"><a href="#1-Github" class="headerlink" title="1. Github"></a>1. Github</h3><p>我们首先先在<strong>Github</strong>上访问这个地址：<a href="https://github.com/Yidadaa/ChatGPT-Next-Web">https://github.com/Yidadaa/ChatGPT-Next-Web</a></p>
 <p>然后点击右上角的<code>Fork</code>也就是克隆，然后点击<code>Create Fork</code>把这个仓库克隆到你的账号下</p>
-<p><img src="/./../img/202307031758362.png" alt="图片"></p>
+<p><img src="/./../../img/202307031758362.png" alt="图片"></p>
 <p>这个时候就会把这个github 仓库克隆到你的个人账号下面。</p>
 <h3 id="Vercel"><a href="#Vercel" class="headerlink" title="Vercel"></a>Vercel</h3><p>克隆之后我们去到Vercel平台。<strong>Vercel</strong> 使用刚才的Github账号登录并授权。</p>
 <p>我们直接点击<code>Add New-&gt;Project</code>，然后找到我们的<code>ChatGPT-next-web</code>这个Github仓库，点击<code>Import</code>导入</p>
-<p><img src="/./../img/640asga" alt="图片"></p>
+<p><img src="/./../../img/640asga" alt="图片"></p>
 <p>这个<strong>project name</strong>我们可以随便选，使用默认的即可。</p>
 <p>我们唯一要注意的就是这个环境变量，我们需要把ChatGPT的<code>API Key</code>添加进来，然后部署。</p>
 <p>这个API Key是为了验证你的身份，需要你有<strong>OpenAI</strong>账号。</p>
 <p>![图片](data:image&#x2F;svg+xml,%3C%3Fxml version&#x3D;’1.0’ encoding&#x3D;’UTF-8’%3F%3E%3Csvg width&#x3D;’1px’ height&#x3D;’1px’ viewBox&#x3D;’0 0 1 1’ version&#x3D;’1.1’ xmlns&#x3D;’<a href="http://www.w3.org/2000/svg">http://www.w3.org/2000/svg</a>‘ xmlns:xlink&#x3D;’<a href="http://www.w3.org/1999/xlink'%3E%3Ctitle%3E%3C/title%3E%3Cg">http://www.w3.org/1999/xlink&#39;%3E%3Ctitle%3E%3C/title%3E%3Cg</a> stroke&#x3D;’none’ stroke-width&#x3D;’1’ fill&#x3D;’none’ fill-rule&#x3D;’evenodd’ fill-opacity&#x3D;’0’%3E%3Cg transform&#x3D;’translate(-249.000000, -126.000000)’ fill&#x3D;’%23FFFFFF’%3E%3Crect x&#x3D;’249’ y&#x3D;’126’ width&#x3D;’1’ height&#x3D;’1’%3E%3C&#x2F;rect%3E%3C&#x2F;g%3E%3C&#x2F;g%3E%3C&#x2F;svg%3E)</p>
 <h3 id="API-key"><a href="#API-key" class="headerlink" title="API key"></a>API key</h3><p>如果你不知道上面的API Key怎么获得，这个非常简单，我们打开openai的平台地址：<a href="https://platform.openai.com/">https://platform.openai.com/</a></p>
 <p>登录之后点击右上角的头像，点击<code>Manage Account</code>-&gt;<code>API Keys</code>-&gt;<code>Create New Secret Key</code>, 然后复制下来保存备用。</p>
-<p><img src="/./../img/agsdgas" alt="图片"></p>
+<p><img src="/./../../img/agsdgas" alt="图片"></p>
 <h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><p>然后回到刚才的部署界面，在刚才的环境变量在<strong>Name</strong>里面输入 <code>OEPNAI_API_KEY</code>，然后<code>Value</code>就输入我们刚才复制的API Key</p>
 <p>点击<code>Add</code>添加，然后我们点击<code>Deploy</code>部署。</p>
 <p>当然如果你需要你的ChatGPT支持密码访问，可以添加一个新的环境变量，</p>
-<h2 id=""><a href="#" class="headerlink" title="- "></a>- </h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Name: CODEValue: 你想要设置的密码</span><br></pre></td></tr></table></figure>
+<h2 id=""><a href="#" class="headerlink" title="- "></a>- </h2><pre class="line-numbers language-none"><code class="language-none">Name: CODEValue: 你想要设置的密码<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>这个时候，我们的网站就会需要密码访问</p>
 <p>我们点击<strong>Deploy</strong>，可以看到它就开始部署了 我们稍等一会就可以看到我们的网站就能部署成功了。</p>
-<p><img src="/./../img/asdga" alt="图片"></p>
+<p><img src="/./../../img/asdga" alt="图片"></p>
 <h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>我们可以点击就可以进入到我们的ChatGPT 个人网站了。</p>
-<p><img src="/./../img/gdfh" alt="图片"></p>
+<p><img src="/./../../img/gdfh" alt="图片"></p>
 <p>此时Vercel 给我们自动分配了域名，当然这个域名由于某些原因，在国内可能无法访问，你可能需要使用自己的域名。</p>
 <p>我们在刚才的部署成功的页面点击右边的<code>Add Domain</code>添加域名，</p>
-<p><img src="/./../img/sgdfgv" alt="图片"></p>
+<p><img src="/./../../img/sgdfgv" alt="图片"></p>
 <p>然后输入我们的域名，点击添加。我们选择默认的选项， 然后点击添加</p>
-<p><img src="/./../img/asdfcx" alt="图片"></p>
+<p><img src="/./../../img/asdfcx" alt="图片"></p>
 <p>添加之后Vercel会提示我们需要添加两条记录，一条是<code>A记录</code>，一条是<code>CNAME记录</code>。</p>
-<p><img src="/./../img/vzxcv" alt="图片"></p>
+<p><img src="/./../../img/vzxcv" alt="图片"></p>
 <p>我们进入到我们的域名解析商，这里我使用<code>cloudflare</code>来解析我的域名。</p>
 <p>我们在这里点击添加记录：</p>
 <p>•首先我们添加A记录，记录类型是<code>A</code>，名称是<code>@</code>，然后ipv4地址就是刚才的ip地址•然后我们再添加一条 CNAME 记录，记录类型是<code>CNAME</code>，名称是<code>www</code>，值是刚才的值</p>
-<p><img src="/./../img/xcvz" alt="图片"></p>
+<p><img src="/./../../img/xcvz" alt="图片"></p>
 <p>现在我们这两条记录，就已经添加成功了</p>
 <p>我们再回到我们的 Vercel 托管平台，可以看到，我们的DNS记录已经设置成功了</p>
-<p><img src="/./../img/adcxzx" alt="图片"></p>
+<p><img src="/./../../img/adcxzx" alt="图片"></p>
 <p>我们添加成功之后直接点击跳转，用我们自己的域名就可以访问ChatGPT Web网站了。</p>
 <p>那我们可以开始在这里和ChatGPT进行聊天了。</p>
 <h3 id="角色扮演"><a href="#角色扮演" class="headerlink" title="角色扮演"></a>角色扮演</h3><p>我们也可以让ChatGPT来扮演各种角色，此时ChatGPT的回答会更具有专业性。</p>
 <p>我们可以看到这里有非常多的角色，我们来让他帮我们扮演一个职业顾问，点击左下角<code>新的聊天</code>，找到<code>职业顾问</code>点击跳转新的聊天。</p>
-<p><img src="/./../img/vzxcvdfh" alt="图片"></p>
+<p><img src="/./../../img/vzxcvdfh" alt="图片"></p>
 <p>然后我们问他问题：<strong>作为一个程序员，我以后的职业生涯应该怎么规划？</strong></p>
 <p>点击发送，可以看到作为一个职业顾问，他给我们详细列明了我们有很多职业道路可以选择，然后还给我们的职业生活也做了一些规划。</p>
-<p><img src="/./../img/drter" alt="图片"></p>
+<p><img src="/./../../img/drter" alt="图片"></p>
 <p>如果不让它扮演职业顾问，它给的回答是怎么样的呢？</p>
-<p><img src="/./../img/rstnner" alt="图片"></p>
+<p><img src="/./../../img/rstnner" alt="图片"></p>
 <p>可以看到，同样的问题，当我们不让他扮演任何角色的时候，他给我们的答案就相对专业性就没有那么强。</p>
 <p>所以角色扮演在专业的问题上，ChatGPT能给到更好的回答，我们可以使用这个来获得更优秀的答案。</p>
 <h3 id="密码访问"><a href="#密码访问" class="headerlink" title="密码访问"></a>密码访问</h3><p>同时这个ChatGPT网站也是支持密码访问的，想要支持密码访问非常简单，上面已经告诉你如何添加环境变量。</p>
 <p>如果你之前没有添加，这里教你如何再次添加。</p>
 <p>点击你的当前项目，找到<code>settings</code>设置项，然后找到左边的<code>Environment Variables</code>也就是环境变量。</p>
-<p><img src="/./../img/ascasv" alt="图片"></p>
+<p><img src="/./../../img/ascasv" alt="图片"></p>
 <p>密码的环境变量的key是<code>CODE</code>，这个值你可以填写你的密码，比如说我填写<strong>techxiaofei</strong>，然后点击保存</p>
 <p>现在我们环境已经添加成功了，添加成功之后我们重新编译一下，我们点击redeploy就是重编译。</p>
-<p><img src="/./../img/gser4" alt="图片"></p>
+<p><img src="/./../../img/gser4" alt="图片"></p>
 <p>重新访问我们的ChatGPT网站，可以看到上面提示：<strong>现在是未授权状态，请点击左下角设置按钮输入访问密码。</strong></p>
-<p><img src="/./../img/sgraweg" alt="图片"></p>
+<p><img src="/./../../img/sgraweg" alt="图片"></p>
 <p>我们点击左下角的设置，然后找到访问密码，输入我们的访问密码，就可以正常和ChatGPT对话了。</p>
-<p><img src="/./../img/vdagew" alt="图片"></p>
+<p><img src="/./../../img/vdagew" alt="图片"></p>
 <h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>这个ChatGPT Web网站可以解决在国内无法正常访问ChatGPT的问题</p>
 <p>而且它也不需要云服务器，不需要你购买任何东西，完全免费，任何人都可以轻松一键部署，所以赶紧尝试一下吧。</p>
 ]]></content>
@@ -11949,7 +12339,7 @@ con<span class="token punctuation">.</span>Close<span class="token punctuation">
     
     <entry>
       <title><![CDATA[记录我的小项目-第一弹]]></title>
-      <url>/2023/06/19/%E8%AE%B0%E5%BD%95%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%80%E5%BC%B9/</url>
+      <url>/2023/06/19/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/%E8%AE%B0%E5%BD%95%E6%88%91%E7%9A%84%E5%B0%8F%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%80%E5%BC%B9/</url>
       <content type="html"><![CDATA[<p>记录我的小项目-第一弹</p>
 <h5 id="一、项目起因："><a href="#一、项目起因：" class="headerlink" title="一、项目起因："></a>一、项目起因：</h5><blockquote>
 <p>最近一致在琢磨一个有趣的项目，可以涵盖自己的所学知识，运营、技术、产品、销售。最初规划是希望通过chatgpt的Vercel项目免费开发给美术生，Midjourney出一些美图在小红书、抖音上发进行引流，chatGPT做钩子引导公众号，通过公众号做文章软文做转化，小程序做chatgpt活跃,。最后完成产品的售卖。</p>
@@ -12010,21 +12400,51 @@ con<span class="token punctuation">.</span>Close<span class="token punctuation">
     
     <entry>
       <title><![CDATA[pandas 使用方法]]></title>
-      <url>/2023/06/14/pandas-%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</url>
+      <url>/2023/06/14/%E4%BB%A3%E7%A0%81%E7%89%B9%E6%95%88%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/pandas-%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</url>
       <content type="html"><![CDATA[<p>好的，我可以帮你介绍如何使用 Pandas 来读取 Excel 数据并实现追加数据或追加 Sheet。</p>
 <p>首先需要安装 Pandas 库，可以使用以下命令进行安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pandas</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">pip install pandas<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>有了 Pandas 库，就可以通过 <code>read_excel()</code> 方法读取 Excel 文件了。假设我们有一个名为 <code>data.xlsx</code> 的 Excel 文件，可以使用以下代码读取其中的 Sheet1 中的数据：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.read_excel(<span class="string">&#x27;data.xlsx&#x27;</span>, sheet_name=<span class="string">&#x27;Sheet1&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(df)</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
+
+df <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_excel<span class="token punctuation">(</span><span class="token string">'data.xlsx'</span><span class="token punctuation">,</span> sheet_name<span class="token operator">=</span><span class="token string">'Sheet1'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>df<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>其中 <code>sheet_name</code> 参数可以用来指定要读取的 Sheet 名称或 Sheet 的下标。</p>
 <p>接下来可以使用 Pandas 提供的方法往 Excel 中追加数据。假设我们有一个名为 <code>new_data.xlsx</code> 的 Excel 文件，要将数据追加到其中的 Sheet1，可以使用以下代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取原有数据</span></span><br><span class="line">df1 = pd.read_excel(<span class="string">&#x27;new_data.xlsx&#x27;</span>, sheet_name=<span class="string">&#x27;Sheet1&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 待追加的新数据</span></span><br><span class="line">data_to_append = &#123;<span class="string">&#x27;Column1&#x27;</span>: [<span class="string">&#x27;New value 1&#x27;</span>, <span class="string">&#x27;New value 2&#x27;</span>],</span><br><span class="line">                  <span class="string">&#x27;Column2&#x27;</span>: [<span class="string">&#x27;New value 3&#x27;</span>, <span class="string">&#x27;New value 4&#x27;</span>]&#125;</span><br><span class="line">df2 = pd.DataFrame(data=data_to_append)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将新数据追加到原有数据后面</span></span><br><span class="line">df = pd.concat([df1, df2], axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将新数据写入 Excel</span></span><br><span class="line"><span class="keyword">with</span> pd.ExcelWriter(<span class="string">&#x27;new_data.xlsx&#x27;</span>) <span class="keyword">as</span> writer:</span><br><span class="line">    df.to_excel(writer, sheet_name=<span class="string">&#x27;Sheet1&#x27;</span>, index=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
+
+<span class="token comment"># 读取原有数据</span>
+df1 <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_excel<span class="token punctuation">(</span><span class="token string">'new_data.xlsx'</span><span class="token punctuation">,</span> sheet_name<span class="token operator">=</span><span class="token string">'Sheet1'</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 待追加的新数据</span>
+data_to_append <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">'Column1'</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'New value 1'</span><span class="token punctuation">,</span> <span class="token string">'New value 2'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                  <span class="token string">'Column2'</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'New value 3'</span><span class="token punctuation">,</span> <span class="token string">'New value 4'</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span>
+df2 <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span>data<span class="token operator">=</span>data_to_append<span class="token punctuation">)</span>
+
+<span class="token comment"># 将新数据追加到原有数据后面</span>
+df <span class="token operator">=</span> pd<span class="token punctuation">.</span>concat<span class="token punctuation">(</span><span class="token punctuation">[</span>df1<span class="token punctuation">,</span> df2<span class="token punctuation">]</span><span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 将新数据写入 Excel</span>
+<span class="token keyword">with</span> pd<span class="token punctuation">.</span>ExcelWriter<span class="token punctuation">(</span><span class="token string">'new_data.xlsx'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> writer<span class="token punctuation">:</span>
+    df<span class="token punctuation">.</span>to_excel<span class="token punctuation">(</span>writer<span class="token punctuation">,</span> sheet_name<span class="token operator">=</span><span class="token string">'Sheet1'</span><span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>以上代码中，我们首先使用 <code>read_excel()</code> 方法读取名为 <code>new_data.xlsx</code> 的 Excel 文件中的 Sheet1 数据，然后创建一个包含新数据的数据帧 <code>df2</code>，接着使用 <code>concat()</code> 方法将新数据追加到原有数据后面，最后使用 <code>ExcelWriter()</code> 创建一个 ExcelWriter 对象，并使用 <code>to_excel()</code> 方法将数据写入 Excel 文件中的 Sheet1。</p>
 <p>如果要新增一个 Sheet，可以使用以下代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取 Excel 文件</span></span><br><span class="line">df1 = pd.read_excel(<span class="string">&#x27;new_data.xlsx&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 待追加的新数据</span></span><br><span class="line">data_to_append = &#123;<span class="string">&#x27;Column1&#x27;</span>: [<span class="string">&#x27;New value 1&#x27;</span>, <span class="string">&#x27;New value 2&#x27;</span>],</span><br><span class="line">                  <span class="string">&#x27;Column2&#x27;</span>: [<span class="string">&#x27;New value 3&#x27;</span>, <span class="string">&#x27;New value 4&#x27;</span>]&#125;</span><br><span class="line">df2 = pd.DataFrame(data=data_to_append)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将新数据写入 Excel 中的新 Sheet 中</span></span><br><span class="line"><span class="keyword">with</span> pd.ExcelWriter(<span class="string">&#x27;new_data.xlsx&#x27;</span>, engine=<span class="string">&#x27;openpyxl&#x27;</span>, mode=<span class="string">&#x27;a&#x27;</span>) <span class="keyword">as</span> writer:</span><br><span class="line">    df2.to_excel(writer, sheet_name=<span class="string">&#x27;New Sheet&#x27;</span>, index=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
+
+<span class="token comment"># 读取 Excel 文件</span>
+df1 <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_excel<span class="token punctuation">(</span><span class="token string">'new_data.xlsx'</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 待追加的新数据</span>
+data_to_append <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">'Column1'</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'New value 1'</span><span class="token punctuation">,</span> <span class="token string">'New value 2'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                  <span class="token string">'Column2'</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'New value 3'</span><span class="token punctuation">,</span> <span class="token string">'New value 4'</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span>
+df2 <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span>data<span class="token operator">=</span>data_to_append<span class="token punctuation">)</span>
+
+<span class="token comment"># 将新数据写入 Excel 中的新 Sheet 中</span>
+<span class="token keyword">with</span> pd<span class="token punctuation">.</span>ExcelWriter<span class="token punctuation">(</span><span class="token string">'new_data.xlsx'</span><span class="token punctuation">,</span> engine<span class="token operator">=</span><span class="token string">'openpyxl'</span><span class="token punctuation">,</span> mode<span class="token operator">=</span><span class="token string">'a'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> writer<span class="token punctuation">:</span>
+    df2<span class="token punctuation">.</span>to_excel<span class="token punctuation">(</span>writer<span class="token punctuation">,</span> sheet_name<span class="token operator">=</span><span class="token string">'New Sheet'</span><span class="token punctuation">,</span> index<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>以上代码中，我们使用 <code>read_excel()</code> 方法读取名为 <code>new_data.xlsx</code> 的 Excel 文件中的所有数据，接着创建一个包含新数据的数据帧 <code>df2</code>，最后使用 <code>ExcelWriter()</code> 创建一个 ExcelWriter 对象，并使用 <code>to_excel()</code> 方法将新数据写入 Excel 文件中的新 Sheet 中。请注意，我们在 <code>ExcelWriter()</code> 中指定了 <code>engine</code> 为 <code>openpyxl</code>，并将 <code>mode</code> 参数设置为 <code>a</code>，这样可以以追加模式打开 Excel 文件。</p>
 ]]></content>
@@ -12040,27 +12460,135 @@ con<span class="token punctuation">.</span>Close<span class="token punctuation">
     
     <entry>
       <title><![CDATA[高考志愿网JS逆向]]></title>
-      <url>/2023/06/14/%E9%AB%98%E8%80%83%E5%BF%97%E6%84%BF%E7%BD%91JS%E9%80%86%E5%90%91/</url>
+      <url>/2023/06/14/%E9%A1%B9%E7%9B%AE%E6%97%A5%E8%AE%B0/%E9%AB%98%E8%80%83%E5%BF%97%E6%84%BF%E7%BD%91JS%E9%80%86%E5%90%91/</url>
       <content type="html"><![CDATA[<blockquote>
 <p>起因：最近想出一个高考志愿填报的excel系统，想先从网上拿一些资源，最开始的设计是希望从网站上找到近5年的报考指南PDF，然后写代码OCR扫描PDF，摘取关键数据，后发现网站没有PDF,于是告吹。后来就找寻网站，看看有没有我想要的数据，于是找到了”掌上高考“，发现有一些数据是想要的。（其实公司内有一个高考志愿网站，草率了）</p>
 </blockquote>
 <p>处理数据：</p>
 <h4 id="第一步：打开开发者工具"><a href="#第一步：打开开发者工具" class="headerlink" title="第一步：打开开发者工具"></a>第一步：打开开发者工具</h4><p>找到对应的数据文件</p>
-<p><img src="/./../img/image-202306191342401592.png" alt="image-20230619134240159"></p>
+<p><img src="/./../../img/image-202306191342401592.png" alt="image-20230619134240159"></p>
 <h4 id="第二步：分析payload"><a href="#第二步：分析payload" class="headerlink" title="第二步：分析payload"></a>第二步：分析payload</h4><p>发现是一个POST请求，需要给他的服务器发送数据，再分析payload，发现里面有要发送的数据，里面有个signsafe（估计是个加密数据）看来必须要逆向才行了</p>
 <p>后来发现这个网站做逆向纯属脱裤子放屁了。（既然可以用GET请求得到数据，signsafe就是个摆设）不过正好可以学习一下如何逆向。</p>
-<p><img src="/./../img/image-20230619134459860.png" alt="image-20230619134459860"></p>
-<p><img src="/./../img/image-20230619134408130.png" alt="image-20230619134408130"></p>
+<p><img src="/./../../img/image-20230619134459860.png" alt="image-20230619134459860"></p>
+<p><img src="/./../../img/image-20230619134408130.png" alt="image-20230619134408130"></p>
 <h4 id="第三步：用search搜索一下signsafe（这个需要用H5模式）"><a href="#第三步：用search搜索一下signsafe（这个需要用H5模式）" class="headerlink" title="第三步：用search搜索一下signsafe（这个需要用H5模式）"></a>第三步：用search搜索一下signsafe（这个需要用H5模式）</h4><p>发现了一堆数据，但是能用的就是第一个</p>
-<p><img src="/./../img/image-20230620084226083.png" alt="image-20230620084226083"></p>
+<p><img src="/./../../img/image-20230620084226083.png" alt="image-20230620084226083"></p>
 <h4 id="第四步：分析数据"><a href="#第四步：分析数据" class="headerlink" title="第四步：分析数据"></a>第四步：分析数据</h4><p>通过上下文判断是用的Hmac sha1加密，找到了signsafe</p>
-<p><img src="/./../img/image-20230620084326175.png" alt="image-20230620084326175"></p>
-<h4 id="第五步：找到文件，用source打断点试试"><a href="#第五步：找到文件，用source打断点试试" class="headerlink" title="第五步：找到文件，用source打断点试试"></a>第五步：找到文件，用source打断点试试</h4><p>根据文件夹的headers找到数据文件夹<img src="/./../img/image-20230619141030125.png" alt="image-20230619141030125"></p>
-<p><img src="/./../img/image-20230620084943417.png" alt="image-20230620084943417"></p>
+<p><img src="/./../../img/image-20230620084326175.png" alt="image-20230620084326175"></p>
+<h4 id="第五步：找到文件，用source打断点试试"><a href="#第五步：找到文件，用source打断点试试" class="headerlink" title="第五步：找到文件，用source打断点试试"></a>第五步：找到文件，用source打断点试试</h4><p>根据文件夹的headers找到数据文件夹<img src="/./../../img/image-20230619141030125.png" alt="image-20230619141030125"></p>
+<p><img src="/./../../img/image-20230620084943417.png" alt="image-20230620084943417"></p>
 <p>经过断点运行，多试了几次，发现就是这个代码。</p>
 <p>这是一个加密的方法，所有的singsafe都走这一个方法，断点可以走第二遍，就能出现我们想要的safe</p>
 <p>具体的加密逻辑是这样的：首先获取url（包括传递的数据），然后去掉<code>https:\\</code>,进行sha1加密，密钥是D23ABC@#56,加密后再进行Base64加密，再将加密的数据用MD5进行加密。最后进行拼接。</p>
-<h4 id="代码实现："><a href="#代码实现：" class="headerlink" title="代码实现："></a>代码实现：</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> common</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> fake_useragent <span class="keyword">import</span> UserAgent</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将已知信息汇总</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">StringConcatenation</span>(<span class="params">url: <span class="built_in">str</span>, p: <span class="built_in">int</span>, n=<span class="literal">None</span></span>) -&gt;<span class="built_in">str</span>:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(p):</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;signsafe&#x27;</span> <span class="keyword">in</span> common.data:</span><br><span class="line">            common.data.pop(<span class="string">&#x27;signsafe&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> n == <span class="literal">None</span>:</span><br><span class="line">            common.data[<span class="string">&#x27;page&#x27;</span>] = i + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            common.data[<span class="string">&#x27;page&#x27;</span>] = i + n</span><br><span class="line">        <span class="comment"># 将对象作为参数构建URL</span></span><br><span class="line">        <span class="comment"># print(common.data[&#x27;page&#x27;])</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;已完成：&#x27;</span>, i, <span class="string">&#x27;当前页数:&#x27;</span>, common.data[<span class="string">&#x27;page&#x27;</span>])</span><br><span class="line">        params = urllib.parse.urlencode(common.data)</span><br><span class="line">        params = urllib.parse.unquote(params)</span><br><span class="line">        url_new = url + <span class="string">&#x27;?&#x27;</span> + params</span><br><span class="line">        <span class="comment"># 构建加密信息</span></span><br><span class="line">        msg = url_new.replace(<span class="string">&#x27;https://&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">        Encrypt(msg)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 将信息加密</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Encrypt</span>(<span class="params">msg</span>):</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 基础信息</span></span><br><span class="line">    key = <span class="string">&#x27;D23ABC@#56&#x27;</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    msg = msg</span><br><span class="line">    <span class="comment"># print(msg)</span></span><br><span class="line">    <span class="comment"># hmac SHA1加密</span></span><br><span class="line">    h = hmac.new(key, msg.encode(<span class="string">&#x27;utf-8&#x27;</span>), hashlib.sha1).digest()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># base64 加密</span></span><br><span class="line">    b = base64.b64encode(h)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># md5 加密</span></span><br><span class="line">    m = hashlib.md5(b)</span><br><span class="line">    m = m.hexdigest()</span><br><span class="line">    <span class="built_in">print</span>(m)</span><br><span class="line">    common.data[<span class="string">&#x27;signsafe&#x27;</span>] = m</span><br><span class="line">    <span class="comment"># RequestsHttp()</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 做请求</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">RequestsHttp</span>(<span class="params">medth</span>):</span><br><span class="line">    ua = UserAgent()</span><br><span class="line">    useragent = ua.random</span><br><span class="line">    common.headers[<span class="string">&#x27;User-Agent&#x27;</span>] = useragent</span><br><span class="line">    ips = proxies_ip()</span><br><span class="line">    proxies = &#123;</span><br><span class="line">    <span class="string">&#x27;HTTP&#x27;</span>: ips,</span><br><span class="line">    <span class="string">&#x27;HTTPS&#x27;</span>: ips</span><br><span class="line">&#125;</span><br><span class="line">    <span class="built_in">print</span>(ips)</span><br><span class="line">    <span class="keyword">if</span> medth == <span class="string">&#x27;post&#x27;</span>:</span><br><span class="line">        <span class="comment"># 构建URL</span></span><br><span class="line">        res = requests.post(url=common.urls[<span class="string">&#x27;url&#x27;</span>], headers=common.headers,data=common.data)</span><br><span class="line"></span><br><span class="line">        res = res.content.decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        json_str = json.loads(res)</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;school_all2.json3&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span> ) <span class="keyword">as</span> f:</span><br><span class="line">            json.dump(json_str, f, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line">        time.sleep(<span class="number">3</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        </span><br><span class="line">        res = requests.get(url=common.urls[<span class="string">&#x27;url&#x27;</span>],headers=common.headers, proxies=proxies, verify=<span class="literal">False</span>)</span><br><span class="line">        res = res.content.decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">        json_str = json.loads(res)</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;spictial_school4.json&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)<span class="keyword">as</span> f:</span><br><span class="line">            json.dump(json_str, f, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line">            </span><br><span class="line"></span><br><span class="line">    <span class="comment"># StringConcatenation(common.urls[&#x27;url&#x27;])</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">proxies_ip</span>():</span><br><span class="line"></span><br><span class="line">    res = requests.get(url=url).text</span><br><span class="line"><span class="comment"># 判断高匿代理</span></span><br><span class="line">    url2 = <span class="string">&#x27;http://example.com&#x27;</span></span><br><span class="line">    ips = res</span><br><span class="line">    <span class="built_in">print</span>(ips)</span><br><span class="line">    proxies = &#123;</span><br><span class="line">        <span class="string">&#x27;http&#x27;</span>: <span class="string">f&#x27;http://<span class="subst">&#123;ips&#125;</span>&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;https&#x27;</span>: <span class="string">f&#x27;https://<span class="subst">&#123;ips&#125;</span>&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        response = requests.get(url2, proxies=proxies, timeout=<span class="number">10</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span> <span class="keyword">in</span> response.headers:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&#x27;Proxy <span class="subst">&#123;ips&#125;</span> 是高匿代理!&#x27;</span>)</span><br><span class="line">            <span class="built_in">print</span>(ips)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&#x27;Proxy <span class="subst">&#123;ips&#125;</span> is not high anonymity.&#x27;</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;出现异常&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">        <span class="comment"># common.urls[&#x27;url&#x27;] = &#x27;https://api.eol.cn/gh5/api&#x27;</span></span><br><span class="line">    <span class="comment"># StringConcatenation(common.urls[&#x27;url&#x27;], 10, 230)</span></span><br></pre></td></tr></table></figure>
+<h4 id="代码实现："><a href="#代码实现：" class="headerlink" title="代码实现："></a>代码实现：</h4><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> requests
+<span class="token keyword">import</span> hmac
+<span class="token keyword">import</span> hashlib
+<span class="token keyword">import</span> struct
+<span class="token keyword">import</span> base64
+<span class="token keyword">import</span> urllib
+<span class="token keyword">import</span> common
+<span class="token keyword">import</span> json
+<span class="token keyword">import</span> time
+<span class="token keyword">from</span> fake_useragent <span class="token keyword">import</span> UserAgent
+
+<span class="token comment"># 将已知信息汇总</span>
+<span class="token keyword">def</span> <span class="token function">StringConcatenation</span><span class="token punctuation">(</span>url<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span> p<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">,</span> n<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span><span class="token builtin">str</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> <span class="token string">'signsafe'</span> <span class="token keyword">in</span> common<span class="token punctuation">.</span>data<span class="token punctuation">:</span>
+            common<span class="token punctuation">.</span>data<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token string">'signsafe'</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> n <span class="token operator">==</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+            common<span class="token punctuation">.</span>data<span class="token punctuation">[</span><span class="token string">'page'</span><span class="token punctuation">]</span> <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            common<span class="token punctuation">.</span>data<span class="token punctuation">[</span><span class="token string">'page'</span><span class="token punctuation">]</span> <span class="token operator">=</span> i <span class="token operator">+</span> n
+        <span class="token comment"># 将对象作为参数构建URL</span>
+        <span class="token comment"># print(common.data['page'])</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'已完成：'</span><span class="token punctuation">,</span> i<span class="token punctuation">,</span> <span class="token string">'当前页数:'</span><span class="token punctuation">,</span> common<span class="token punctuation">.</span>data<span class="token punctuation">[</span><span class="token string">'page'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        params <span class="token operator">=</span> urllib<span class="token punctuation">.</span>parse<span class="token punctuation">.</span>urlencode<span class="token punctuation">(</span>common<span class="token punctuation">.</span>data<span class="token punctuation">)</span>
+        params <span class="token operator">=</span> urllib<span class="token punctuation">.</span>parse<span class="token punctuation">.</span>unquote<span class="token punctuation">(</span>params<span class="token punctuation">)</span>
+        url_new <span class="token operator">=</span> url <span class="token operator">+</span> <span class="token string">'?'</span> <span class="token operator">+</span> params
+        <span class="token comment"># 构建加密信息</span>
+        msg <span class="token operator">=</span> url_new<span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">'https://'</span><span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span>
+        Encrypt<span class="token punctuation">(</span>msg<span class="token punctuation">)</span>
+
+        <span class="token comment"># 将信息加密</span>
+<span class="token keyword">def</span> <span class="token function">Encrypt</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token comment"># 基础信息</span>
+    key <span class="token operator">=</span> <span class="token string">'D23ABC@#56'</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span>
+    msg <span class="token operator">=</span> msg
+    <span class="token comment"># print(msg)</span>
+    <span class="token comment"># hmac SHA1加密</span>
+    h <span class="token operator">=</span> hmac<span class="token punctuation">.</span>new<span class="token punctuation">(</span>key<span class="token punctuation">,</span> msg<span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> hashlib<span class="token punctuation">.</span>sha1<span class="token punctuation">)</span><span class="token punctuation">.</span>digest<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token comment"># base64 加密</span>
+    b <span class="token operator">=</span> base64<span class="token punctuation">.</span>b64encode<span class="token punctuation">(</span>h<span class="token punctuation">)</span>
+
+    <span class="token comment"># md5 加密</span>
+    m <span class="token operator">=</span> hashlib<span class="token punctuation">.</span>md5<span class="token punctuation">(</span>b<span class="token punctuation">)</span>
+    m <span class="token operator">=</span> m<span class="token punctuation">.</span>hexdigest<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span>
+    common<span class="token punctuation">.</span>data<span class="token punctuation">[</span><span class="token string">'signsafe'</span><span class="token punctuation">]</span> <span class="token operator">=</span> m
+    <span class="token comment"># RequestsHttp()</span>
+
+
+
+<span class="token comment"># 做请求</span>
+<span class="token keyword">def</span> <span class="token function">RequestsHttp</span><span class="token punctuation">(</span>medth<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    ua <span class="token operator">=</span> UserAgent<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    useragent <span class="token operator">=</span> ua<span class="token punctuation">.</span>random
+    common<span class="token punctuation">.</span>headers<span class="token punctuation">[</span><span class="token string">'User-Agent'</span><span class="token punctuation">]</span> <span class="token operator">=</span> useragent
+    ips <span class="token operator">=</span> proxies_ip<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    proxies <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">'HTTP'</span><span class="token punctuation">:</span> ips<span class="token punctuation">,</span>
+    <span class="token string">'HTTPS'</span><span class="token punctuation">:</span> ips
+<span class="token punctuation">&#125;</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>ips<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> medth <span class="token operator">==</span> <span class="token string">'post'</span><span class="token punctuation">:</span>
+        <span class="token comment"># 构建URL</span>
+        res <span class="token operator">=</span> requests<span class="token punctuation">.</span>post<span class="token punctuation">(</span>url<span class="token operator">=</span>common<span class="token punctuation">.</span>urls<span class="token punctuation">[</span><span class="token string">'url'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> headers<span class="token operator">=</span>common<span class="token punctuation">.</span>headers<span class="token punctuation">,</span>data<span class="token operator">=</span>common<span class="token punctuation">.</span>data<span class="token punctuation">)</span>
+
+        res <span class="token operator">=</span> res<span class="token punctuation">.</span>content<span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span>
+
+        json_str <span class="token operator">=</span> json<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>res<span class="token punctuation">)</span>
+        <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">'school_all2.json3'</span><span class="token punctuation">,</span> <span class="token string">'a'</span><span class="token punctuation">,</span> encoding<span class="token operator">=</span><span class="token string">'utf-8'</span> <span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+            json<span class="token punctuation">.</span>dump<span class="token punctuation">(</span>json_str<span class="token punctuation">,</span> f<span class="token punctuation">,</span> ensure_ascii<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+        time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        
+        res <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>url<span class="token operator">=</span>common<span class="token punctuation">.</span>urls<span class="token punctuation">[</span><span class="token string">'url'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>headers<span class="token operator">=</span>common<span class="token punctuation">.</span>headers<span class="token punctuation">,</span> proxies<span class="token operator">=</span>proxies<span class="token punctuation">,</span> verify<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+        res <span class="token operator">=</span> res<span class="token punctuation">.</span>content<span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span>
+        json_str <span class="token operator">=</span> json<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>res<span class="token punctuation">)</span>
+        <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">'spictial_school4.json'</span><span class="token punctuation">,</span> <span class="token string">'a'</span><span class="token punctuation">,</span> encoding<span class="token operator">=</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span><span class="token keyword">as</span> f<span class="token punctuation">:</span>
+            json<span class="token punctuation">.</span>dump<span class="token punctuation">(</span>json_str<span class="token punctuation">,</span> f<span class="token punctuation">,</span> ensure_ascii<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+            
+
+    <span class="token comment"># StringConcatenation(common.urls['url'])</span>
+
+<span class="token keyword">def</span> <span class="token function">proxies_ip</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    res <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>url<span class="token operator">=</span>url<span class="token punctuation">)</span><span class="token punctuation">.</span>text
+<span class="token comment"># 判断高匿代理</span>
+    url2 <span class="token operator">=</span> <span class="token string">'http://example.com'</span>
+    ips <span class="token operator">=</span> res
+    <span class="token keyword">print</span><span class="token punctuation">(</span>ips<span class="token punctuation">)</span>
+    proxies <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">'http'</span><span class="token punctuation">:</span> <span class="token string-interpolation"><span class="token string">f'http://</span><span class="token interpolation"><span class="token punctuation">&#123;</span>ips<span class="token punctuation">&#125;</span></span><span class="token string">'</span></span><span class="token punctuation">,</span>
+        <span class="token string">'https'</span><span class="token punctuation">:</span> <span class="token string-interpolation"><span class="token string">f'https://</span><span class="token interpolation"><span class="token punctuation">&#123;</span>ips<span class="token punctuation">&#125;</span></span><span class="token string">'</span></span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        response <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>url2<span class="token punctuation">,</span> proxies<span class="token operator">=</span>proxies<span class="token punctuation">,</span> timeout<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token string">'HTTP_X_FORWARDED_FOR'</span> <span class="token keyword">in</span> response<span class="token punctuation">.</span>headers<span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f'Proxy </span><span class="token interpolation"><span class="token punctuation">&#123;</span>ips<span class="token punctuation">&#125;</span></span><span class="token string"> 是高匿代理!'</span></span><span class="token punctuation">)</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span>ips<span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f'Proxy </span><span class="token interpolation"><span class="token punctuation">&#123;</span>ips<span class="token punctuation">&#125;</span></span><span class="token string"> is not high anonymity.'</span></span><span class="token punctuation">)</span>
+    <span class="token keyword">except</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'出现异常'</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> res
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+        <span class="token comment"># common.urls['url'] = 'https://api.eol.cn/gh5/api'</span>
+    <span class="token comment"># StringConcatenation(common.urls['url'], 10, 230)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 ]]></content>
       
@@ -12076,92 +12604,6 @@ con<span class="token punctuation">.</span>Close<span class="token punctuation">
             <tag> 高考网站 </tag>
             
             <tag> 逆向 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[搭建一个Hexo博客并用vercel部署]]></title>
-      <url>/2023/05/31/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AAHexo%E5%8D%9A%E5%AE%A2%E5%B9%B6%E7%94%A8vercel%E9%83%A8%E7%BD%B2%20(2)/</url>
-      <content type="html"><![CDATA[<p>Hexo 是一款基于Node.js的静态博客生成器，具有简单易用、快速高效、丰富主题、插件支持等特点，适合用于个人博客、技术文档、个人网站等场景。而且基于 markdown 编写起来非常顺畅，个人非常喜欢这个博客。这次下定决心搭建一个 Hexo 博客来实现我日常分享的一个小博客网站。</p>
-<h5 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h5><ol>
-<li>一台 windows 笔记本电脑，当然 mac 电脑也是没问题的，即使 Linux 电脑也是可以的。</li>
-<li>Git工具: Git (git-scm.com)</li>
-<li>Node+ Npm工具：Node.js (nodejs.org)</li>
-<li>准备好 Hexo 博客程序： <a href="https://hexo.io/">https://hexo.io/</a></li>
-<li>创建一个 Git 仓库</li>
-<li>注册一个 vercel 账号(如果有自己的服务器或者不适用 vercel 可以不用管这一步)：<a href="https://vercel.com/">https://vercel.com/</a></li>
-<li>准备一个域名(如果不需要独立域名可以略过这一步)</li>
-<li>hexo 本地图片部署</li>
-</ol>
-<h5 id="正式开始"><a href="#正式开始" class="headerlink" title="正式开始"></a>正式开始</h5><h6 id="安装-Hexo-工具"><a href="#安装-Hexo-工具" class="headerlink" title="安装 Hexo 工具"></a>安装 Hexo 工具</h6><p>上面的 GIT和 Node在百度或者谷歌上已经有很多相关专业的教程，这里就不详细讲解这块的知识了。一般来说到官网上下载完毕直接下一步下一步即可。我们先来全局安装一个 Hexo 工具</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
-
-
-<h6 id="创建-hexo-本地博客程序"><a href="#创建-hexo-本地博客程序" class="headerlink" title="创建 hexo 本地博客程序"></a>创建 hexo 本地博客程序</h6><p>安装完成之后我们就可以使用 hexo 的工具来创建博客了。在电脑上创建一个目录并进入该目录，我起名叫做 javier-blog，刚才我们安装过 Git 工具这时候就派上用场了。在该目录内右键找到 Git Bash Here 点击打开一个 Git的命令行窗口或者你可以使用其他的命令行工具。执行以下命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hexo init </span><br><span class="line"></span><br><span class="line"># 下面是在执行上面的命令之后的结果</span><br><span class="line"></span><br><span class="line">INFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.git</span><br><span class="line">INFO  Install dependencies</span><br><span class="line">INFO  Start blogging with Hexo!</span><br></pre></td></tr></table></figure>
-
-
-<h6 id="启动-hexo-本地服务"><a href="#启动-hexo-本地服务" class="headerlink" title="启动 hexo 本地服务"></a>启动 hexo 本地服务</h6><p>安装完成 hexo程序直接执行 hexo s 命令就可以打开 hexo 的本地服务。在命令行上会显示启动后的服务地址。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">INFO  Validating config</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000/ . Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
-
-
-<p><img src="/./../img/image-20230530180853849.png" alt="image-20230530180853849"></p>
-<p>以上就正式搭建完成 hexo 的博客程序了。</p>
-<h5 id="修改博客的基本信息"><a href="#修改博客的基本信息" class="headerlink" title="修改博客的基本信息"></a>修改博客的基本信息</h5><p>修改 博客的标题，副标题，描述，语言时区等信息</p>
-<p><img src="/../img/cf60858892fa440482540f548322cbfc.png" alt="../img/"></p>
-<p>修改博客地址</p>
-<p><img src="/../img/5dce8878e1fd42228974ee532b328a31.png" alt="5dce8878e1fd42228974ee532b328a31"></p>
-<p>创建 github 仓库<br>打开 <a href="https://github.com/">https://github.com/</a> 创建一个仓库用来存储我们的部署程序,创建后是这个样子的。</p>
-<p><img src="/../img/87e34403497b4e8092b8e234b7d154aa.png" alt="../img/"></p>
-<p><img src="/../img/2dce5d421d4a45ae8b2628b405f00c85.png" alt="../img/"></p>
-<h5 id="同步本地-Hexo-部署页面到-github-中"><a href="#同步本地-Hexo-部署页面到-github-中" class="headerlink" title="同步本地 Hexo 部署页面到 github 中"></a>同步本地 Hexo 部署页面到 github 中</h5><h5 id="初始化-git-项目"><a href="#初始化-git-项目" class="headerlink" title="初始化 git 项目"></a>初始化 git 项目</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git remote add origin https://github.com/runbrick/javier-blog.git</span><br></pre></td></tr></table></figure>
-
-
-<p>打开本地 **hexo **项目目录并执行下面的命令,用来安装 git 的部署组件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-
-<p>安装之后在项目目录中找到<code>**_config.yml **</code>修改 deploy 参数</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy<span class="punctuation">:</span></span><br><span class="line">  type<span class="punctuation">:</span> &#x27;git&#x27;</span><br><span class="line">  repo<span class="punctuation">:</span> &#x27;https<span class="punctuation">:</span><span class="comment">//github.com/runbrick/javier-blog.git&#x27;</span></span><br><span class="line">  branch<span class="punctuation">:</span> &#x27;master&#x27;</span><br></pre></td></tr></table></figure>
-
-
-<p>执行 <code>hexo g</code> 然后执行 <code>hexo d </code>将静态页面部署到 <strong>github</strong> 上，是这个样子的。</p>
-<p><img src="/../img/1ee6f73b701249a483c8022e90aa6d6d-1685510451300-24.png" alt="../img/"></p>
-<h5 id="将项目部署到-vercel-上"><a href="#将项目部署到-vercel-上" class="headerlink" title="将项目部署到 vercel 上"></a>将项目部署到 vercel 上</h5><p>如果不需要部署到 vercel 上此步可以略过</p>
-<p>在 **dashboard **上 选择 <strong>Create a New Project</strong></p>
-<p><img src="/../img/54ae8c862963400ea1c2b86c0bec2e79.png" alt="../img/"></p>
-<p>在关联的 **github **账户中，找到刚才的博客仓库，选择 import</p>
-<p><img src="/../img/6a5b756f46bb4e3fb46a5d93bb32c5ca.png" alt="../img/"></p>
-<p>进入部署页面选择 deploy</p>
-<p><img src="/../img/d3f01706b7e84ac19d017b12b45cf23b.png" alt="../img/"></p>
-<p>生成之后点击 Continue to Dashboard</p>
-<p><img src="/../img/83a40d63337d4c02a6ac9d7d8a336ca6.png" alt="../img/"></p>
-<p>点击 Visit 就可以看到刚刚生成的博客程序了</p>
-<p><img src="/../img/73fea79fe1634cf897df435520360cc0.png" alt="../img/"></p>
-<p>将项目资源文件放入同一个仓库中<br>在命令行创建一个新的分支并切换过去</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b source</span><br></pre></td></tr></table></figure>
-
-
-<p>提交代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;first commit&quot;</span><br><span class="line">git push origin source</span><br></pre></td></tr></table></figure>
-
-<p>常用命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;name&quot;       # 新建文章</span><br><span class="line">hexo new page &quot;name&quot;  # 新建页面</span><br><span class="line">hexo g                # 生成页面</span><br><span class="line">hexo d                # 部署</span><br><span class="line">hexo g -d             # 生成页面并部署</span><br><span class="line">hexo s                # 本地预览</span><br><span class="line">hexo clean            # 清除缓存和已生成的静态文件</span><br><span class="line">hexo help             # 帮助</span><br></pre></td></tr></table></figure>
-]]></content>
-      
-        <categories>
-            
-            <category> github </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> vervel </tag>
-            
-            <tag> hexo </tag>
             
         </tags>
         
